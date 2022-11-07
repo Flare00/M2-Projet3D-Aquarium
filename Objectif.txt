@@ -1,0 +1,74 @@
+Réalisation d'un aquarium simplifié réaliste
+- Pas de simulation de fluide poussé
+(Si nous le voulons nous pouvons utilisé un système de grille de voxel, mais peut être très complexe)
+
+
+Etape 1 - Réalisé un environnement aquatique simple :
+- faire une surface réagissant avec sont environnement / collision
+- faire une sphere capable d'interragir avec l'eau et flotté / subir la gravité
+
+Etape 2 - Effet lumineux :
+- faire un système de lampe projeter (soleil / spot)
+- Caustics et God Rays
+- Ombre projeté
+- Utilisation du RayCast GPU ? (Refraction/Réflection)
+
+Etape 3 - Ajout de vie :
+- Ajouter des poissons avec système de boids suivant une trajectoire / courrant
+- Ajouter des particules de bulles / planctons / autres
+- Ajout de plante bougeant avec l'eau et les poissons.
+- Ajout de beateau controllable ? 
+
+Etape 4 - Ajout de sable :
+- Rajouter des particules de sable réagissant à l'environnement / creant des particules.
+
+Etape 5 - Ajout de décor : 
+- Ajout des décors extérieur à l'environnement, pour plus de réalisme.
+
+
+
+
+
+ --- Moteur de WaterGraph - Piste d'implémentation ---
+
+Réalisation d'un système ECS / semi-ECS ou chaque module lis des objet et change les informations.
+
+Module IA :
+
+	- Poisson Boids (utilisé un nuage de points pour limité le nombre de mesh 3D ? / utilisation d'un géometry shader pour appliquer le mesh3D)
+	- Déplacement par suivi de courbe / courrant / aléatoire 
+	- Autre IA
+
+Module physique :
+
+	- Simulation de surface aquatique
+	- Collision surface / objet
+	- Application de force autre sur la surface
+	- Collision entre deux objets
+	- différents types d'objet
+	- déplacement d'une algue
+	- déplacement du sable / particules
+
+Module Graphique : 
+
+	- Lecture de fichier OBJ / STL
+	- Lecture D'animation ?
+	- Lecture de texture 2D
+	- Systeme de particules.
+	- Système de FrameBuffer
+	- Calcul d'ombre portée / shadowMapping (via Raytracing GPU ?)
+	- Calcul de Caustics et God Rays (via Raytracing GPU ?)
+	- Affichage d'objet 3D
+	- Tesselation Shader
+	- Géometry Shader pour le particules system.
+
+Module Sons : 
+
+	- Faire des sons pour les poissons / eau / environnement
+
+ --- Préparation à la réalisation du TP - Pour permettre la compréhension et eviter de tombé sur un cul de sac lors du dev ---
+
+- Faire un mini moteur prenant en compte un objet 3D et une animation (fait sur blender ?) 
+- Faire un mini moteur qui gère du raytracing GPU ?
+- Faire un mini moteur (ou upgrade) pour gerer le système de boids en nuage de points et appliqué un mesh 3D sur un point
+- Faire un mini moteur (ou upgrade) pour gerer un système d'algue ?

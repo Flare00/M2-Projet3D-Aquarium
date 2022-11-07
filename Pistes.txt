@@ -1,0 +1,75 @@
+Objectifs : 
+Réalisé un aquarium virtuel avec intéraction en temps réel, comme http://madebyevan.com/webgl-water/
+
+- Environnement lumineux et varié : aquarium sur une table, avec un background
+- Reflexion et réfraction (Raytracing on GPU for it ?)
+- Simulation de sable et d'eau
+- Présence de poissons et corail / déco
+- éclairage artificielle avec ombre portée
+- poissons anulés avec particules de bulle et algues et physique
+- système de scattering
+
+
+Fluide : 
+
+- Utilisation d'une structure d'accèlération
+
+- Système de particules ?
+- différence de masse entre Sable et eau (sable peut être considéré comme un fluide très visqueux et qui se sépare facilement ?)
+- Séparation et fusion du fluide ? 
+
+Fluid Implicit Particle ? (FLIP) (Gère mal la viscosité, beaucoup de bruit) 
+Particle in Cell ? (PIC) (problème avec l'interpolation)
+
+Navier-Stokes :
+
+(deltaU/deltaT) + (u . DELTA) = -((1/rho) Deltap) + micro * delta² * u + f
+--------------    -----------   -----------------   ------------------	 ^ forces externe
+^ 		    ^			^		^
+change of velocity   Advection	 	 Pression	 Viscosity
+Contrainte d'incompréssibilité : u * Delta = 0
+
+u : vélocité du fluide
+rho : densité du fluide
+p : pressure
+micro : vélocité kinématique
+
+-> Sans doute trop gourmand, il va sans doute falloir se limité à l'application de la physique sur un plan (utilisation de tesselation ?)
+Utilisation de la fast fourier transform ?
+https://www.keithlantz.net/2011/11/ocean-simulation-part-two-using-the-fast-fourier-transform/
+ou 
+https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=586018
+https://dl.acm.org/doi/abs/10.1145/1507149.1507165
+
+
+Raytracing GPU : (Réflection & réfraction | ombre portée ? | scattering de l'eau) (Sans doute trop gourmand)
+
+https://ieeexplore.ieee.org/abstract/document/5728799
+https://link.springer.com/article/10.1007/s00371-014-0968-8
+https://www.researchgate.net/profile/Laszlo-Szirmay-Kalos/publication/220506766_Approximate_Ray-Tracing_on_the_GPU_with_Distance_Impostors/links/5aec4903458515f59981fff5/Approximate-Ray-Tracing-on-the-GPU-with-Distance-Impostors.pdf
+
+
+
+Poissons :
+
+- IA de navigation
+- Parcours prédéfini
+
+
+Caustics et GodRays : 
+
+- utilisation du GPU pour rendre les directions des caustics
+- utilisation des choses faite pour les oraux sur les Godrays et Caustics
+
+
+Techno : 
+
+OpenGL
+C++
+
+Nous pourrions utilisé QT pour l'interface, mais il risque d'y avoir des problèmes de compatibilité entre le travail windows/linux
+Fac : qt5.15.3 et qmake 3.1
+Windows Maison : qt6.4 et qmake ?
+différence de niveau entre Qt5.15.3 sur linux et windows, Difficile d'implémenté LibQtOpenGL sur windows
+
+Boids
