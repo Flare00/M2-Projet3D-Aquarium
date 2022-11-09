@@ -1,0 +1,31 @@
+Le Projet aura l'architecture de dossier suivante :
+
+Racine :
+
+CMakeFile.txt
+shaders/ 	(dossier des programmes GLSL)
+assets/		(dossier des Assets)
+aquarium/	(dossier des sources du projet)
+
+
+assets/ :
+
+Model/		(dossier des modèles 3D)
+Animation/	(dossier des animations 3D)
+Texture/	(dossier des textures)
+Sound/		(dossier des fichier sons)
+
+Aquarium/ :
+
+main.cpp	(fichier main du programme)
+libs/		(Librairies du projet (glm, etc...)
+sources/	(fichiers headers et sources du projet)
+
+
+sources/ :
+
+IA/		(dossier du module IA)
+Physics/	(dossier du module Physique)
+Graphics/	(dossier du module Graphique)
+Sounds/		(dossier du module de Son)
+Engine/		(dossier du module Moteur/Global)
