@@ -62,7 +62,7 @@ Réalisation d'un Moteur ECS / Semi-ECS afin de permettre une meilleure fléxibi
 #### Module Sons : 
 - Faire des sons pour les poissons / eau / environnement
 
-## Technologie et librairies qui seront utilisées
+## Technologies et librairies qui seront utilisées
 
 - C++
 - OpenGL
