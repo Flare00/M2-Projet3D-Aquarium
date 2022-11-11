@@ -1,7 +1,7 @@
-build/
-out/
-.vscode/
-.vs/
+/build/
+/out/
+/.vscode/
+/.vs/
 /*.ilk
 /*.dll
 /*.exe
