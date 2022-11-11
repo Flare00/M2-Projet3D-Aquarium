@@ -28,7 +28,7 @@ Réalisation d'un aquarium simplifié avec graphisme poussé
 
 	--- Moteur de l'Aquarium - Pistes d'implémentation des modules ---
 
-Réalisation d'un système ECS / semi-ECS ou chaque module lis des objets et change les informations.
+Réalisation d'un système ECS
 
 Module IA :
 
