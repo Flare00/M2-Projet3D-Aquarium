@@ -23,10 +23,12 @@ target_compile_features(Aquarium PRIVATE cxx_std_17)
 
 target_link_libraries(Aquarium
         ${OPENGL_LIBRARY}
-        GL
         libs
 )
 
 target_include_directories(Aquarium PUBLIC
         "${CMAKE_SOURCE_DIR}/aquarium/sources"
+        $<TARGET_PROPERTY:libs,INTERFACE_INCLUDE_DIRECTORIES>
 )
+
+message("INFO : ${CMAKE_BINARY_DIR}")

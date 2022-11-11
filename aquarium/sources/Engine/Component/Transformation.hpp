@@ -4,9 +4,9 @@
 #include <glm/glm.hpp>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
+#include <Engine/Component/Component.hpp>
 
-#include <Component/Component.hpp>
-class Transformation : public Component<Transformation>
+class Transformation : public Component
 {
 private :
     glm::vec3 position;
@@ -16,7 +16,7 @@ private :
     glm::mat4 matrix;
 
 public :
-    Transformation(glm::vec3 position, glm::vec3 rotation, glm::vec3 scale){
+    Transformation(glm::vec3 position, glm::vec3 rotation, glm::vec3 scale) {
         this->position = position;
         this->rotation = rotation;
         this->scale = scale;
@@ -70,9 +70,9 @@ public :
         //scale la matrice;
         this->matrix = glm::scale(this->matrix, this->scale);
         //tourner la matrice selon les 3 axes
-        this->matrix = glm::rotate(this->matrix, this->rotation[1], vec3(0,1,0));
-        this->matrix = glm::rotate(this->matrix, this->rotation[0], vec3(1,0,0));
-        this->matrix = glm::rotate(this->matrix, this->rotation[2], vec3(0,0,1));
+        this->matrix = glm::rotate(this->matrix, this->rotation[1], glm::vec3(0,1,0));
+        this->matrix = glm::rotate(this->matrix, this->rotation[0], glm::vec3(1,0,0));
+        this->matrix = glm::rotate(this->matrix, this->rotation[2], glm::vec3(0,0,1));
         //deplacer la matrice
         this->matrix = glm::translate(this->matrix, this->position);
     }
@@ -81,7 +81,7 @@ public :
         if(dirty){
             computeMatrix();
         }
-        return this->matrix();
+        return this->matrix;
     }
 
 

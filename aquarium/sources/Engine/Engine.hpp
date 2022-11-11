@@ -11,7 +11,7 @@ protected:
     size_t nbScene = 0;
 public:
     Engine(){
-        scenes.push_back(Scene("lol"));
+        scenes.push_back(SceneAquarium("lol"));
         activeScene = 0;
         
         nbScene = scenes.size();

@@ -3,12 +3,13 @@
 
 #include <Engine/GameObject.hpp>
 #include <Engine/Component/Component.hpp>
-class Script : public Component<Script>
+
+class Script : public Component
 {
 protected:
-    Gameobject attachment;
+    GameObject * attachment;
 public : 
-    Script(Gameobject attachment){
+    Script(GameObject * attachment){
         this->attachment = attachment;
     }
 };

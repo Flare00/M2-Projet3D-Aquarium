@@ -7,53 +7,60 @@
 #include <Engine/EngineBehavior.hpp>
 #include <Engine/GameObject.hpp>
 #include <Script/ColorScript.hpp>
-class Scene : public GameBehavior
+class Scene : public EngineBehavior
 {
-protected :
-    GameObject * root;
+protected:
+	GameObject* root = NULL;
 
-public : 
-    std::string id;
+public:
+	std::string id;
 
-    Scene(std::string id){ 
-        this->id = id;
-    }
-    ~Scene(){}
+	Scene(std::string id) {
+		this->id = id;
+	}
+	~Scene() {}
 
-    //GameBehavior
-    virtual void start(){
-        //start all scripts
-        if(root != NULL){
-            std::vector<Script*> scripts = root->getComponentsByTypeRecursive();
-            for(size_t i = 0, max = scripts.size(); i < max ; i++){
-                if(!scripts[i]->started){
-                    scripts[i]->start();
-                }
-            }
-        }
+	//EngineBehavior
+	virtual void start() {
+		//start all scripts
+		if (root != NULL) {
+			std::vector<EngineBehavior*> gameBehaviors = root->getComponentsByTypeRecursive<EngineBehavior>();
 
-    }
-    
-    virtual void loop(double deltaT){
-        //Loop all scripts and start the non started one.
-        std::vector<Script*> scripts = root->getComponentsByTypeRecursive();
-        for(size_t i = 0, max = scripts.size(); i < max ; i++){
-            if(!scripts[i]->started){
-                scripts[i]->start();
-            }
-            scripts[i]->loop(deltaT);
-        }
-    }
+			for (size_t i = 0, max = gameBehaviors.size(); i < max; i++) {
+				if (!gameBehaviors[i]->started) {
+					gameBehaviors[i]->start();
+				}
+			}
+		}
+	}
 
-    virtual void stop(){
-        //stop all the started scripts
-        std::vector<Script*> scripts = root->getComponentsByTypeRecursive();
-        for(size_t i = 0, max = scripts.size(); i < max ; i++){
-            if(scripts[i]->started){
-                scripts[i]->stop();
-            }
-        }
-    }
+	virtual void loop(double deltaT) {
+		if (root != NULL) {
+			//Loop all scripts and start the non started one.
+
+			std::vector<ColorScript*> gameBehaviors = root->getComponentsByTypeRecursive<ColorScript>();
+			
+			for (size_t i = 0, max = gameBehaviors.size(); i < max; i++) {
+				if (!gameBehaviors[i]->started) {
+					gameBehaviors[i]->start();
+				}
+				gameBehaviors[i]->loop(deltaT);
+			}
+		}
+
+	}
+
+	virtual void stop() {
+		if (root != NULL) {
+			//stop all the started scripts
+			std::vector<EngineBehavior*> gameBehaviors = root->getComponentsByTypeRecursive<EngineBehavior>();
+			for (size_t i = 0, max = gameBehaviors.size(); i < max; i++) {
+				if (gameBehaviors[i]->started) {
+					gameBehaviors[i]->stop();
+				}
+			}
+		}
+	}
 };
 
 #endif

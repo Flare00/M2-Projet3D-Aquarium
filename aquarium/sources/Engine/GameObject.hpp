@@ -1,29 +1,31 @@
 #ifndef __GAMEOBJECT_HPP__
 #define __GAMEOBJECT_HPP__
 
+#include <type_traits>
 #include <string>
-#include <Engine/Component/Component.hpp>
-class GameObject{
- 
-protected:
-    std::string identifier;
-	GameObject *parent;
-	std::vector<GameObject *> childs;
-	std::vector<IComponent *> components;
+#include <any>
 
-public :
-	GameObject(std::string id, GameObject *parent = NULL, bool addToParent = false){
+#include <Engine/Component/Transformation.hpp>
+class GameObject {
+
+protected:
+	std::string identifier;
+	GameObject* parent;
+	std::vector<GameObject*> childs;
+	std::vector<Component *> components;
+
+public:
+	GameObject(std::string id, GameObject* parent = NULL, bool addToParent = false) {
 		this->identifier = id;
 		this->parent = parent;
-		if(addToParent && parent != NULL){
+		if (addToParent && parent != NULL) {
 			this->parent->addChild(this);
 		}
 		this->components.push_back(new Transformation());
 	}
 
-	GameObject(std::string id, GameObject *parent, std::vector<GameObject *> childs, bool addToParent = false)
+	GameObject(std::string id, GameObject* parent, std::vector<GameObject*> childs, bool addToParent = false) : GameObject(id, parent, addToParent)
 	{
-		this->GameObject(id, parent, addToParent);
 		this->childs = childs;
 	}
 
@@ -40,13 +42,13 @@ public :
 		return this->identifier;
 	}
 
-	bool isId(std::string id){
+	bool isId(std::string id) {
 		return this->identifier.compare(id) == 0;
 	}
 
-	GameObject *findDirectChild(std::string identifier)
+	GameObject* findDirectChild(std::string identifier)
 	{
-		GameObject *res = NULL;
+		GameObject* res = NULL;
 		for (size_t i = 0, max = this->childs.size(); i < max && res == NULL; i++)
 		{
 			if (this->childs[i]->isId(identifier))
@@ -57,9 +59,9 @@ public :
 		return res;
 	}
 
-	GameObject *findChild(std::string identifier)
+	GameObject* findChild(std::string identifier)
 	{
-		GameObject *res = NULL;
+		GameObject* res = NULL;
 		for (size_t i = 0, max = this->childs.size(); i < max && res == NULL; i++)
 		{
 			if (this->childs[i]->isId(identifier))
@@ -74,17 +76,17 @@ public :
 		return res;
 	}
 
-	GameObject *getChild(int i)
+	GameObject* getChild(int i)
 	{
 		return this->childs[i];
 	}
 
-	std::vector<GameObject *> getChilds()
+	std::vector<GameObject*> getChilds()
 	{
 		return this->childs;
 	}
 
-	void addChild(GameObject *child)
+	void addChild(GameObject* child)
 	{
 		child->setParent(this);
 		this->childs.push_back(child);
@@ -96,7 +98,7 @@ public :
 		this->childs.erase(this->childs.begin() + index);
 	}
 
-	void removeChild(GameObject *obj)
+	void removeChild(GameObject* obj)
 	{
 		size_t found = -1;
 		for (size_t i = 0, max = this->childs.size(); i < max && found == -1; i++)
@@ -113,79 +115,73 @@ public :
 		}
 	}
 
-	GameObject *getParent()
+	void setParent(GameObject* parent) {
+		this->parent = parent;
+	}
+	GameObject* getParent()
 	{
 		return this->parent;
 	}
 
-	void addComponent(Component *component)
+	void addComponent(Component* component)
 	{
 		this->components.push_back(component);
 	}
 
-	std::vector<Component *> getAllComponents()
+	/*
+
+	   return (std::is_same<T, U>::value);
+	   */
+	template <typename T>
+	std::vector<T*> getComponentsByType()
 	{
-		return this->components;
+		std::vector<T*> res;
+		for (size_t i = 0, max = this->components.size(); i < max; i++) {
+			T* comp = dynamic_cast<T*>(this->components[i]);
+			if (comp != nullptr) {
+				res.push_back(comp);
+			}
+		}
+		return res;
+	}
+
+	template<class T>
+	std::vector<T*> getComponentsByTypeRecursive()
+	{
+		std::vector<T*> res = getComponentsByType<T>();
+		for (size_t i = 0, max = this->childs.size(); i < max; i++) {
+			std::vector<T*> tmp = this->childs[i]->getComponentsByTypeRecursive<T>();
+			res.insert(res.end(), tmp.begin(), tmp.end());
+		}
+		return res;
+	}
+
+
+	template<typename T>
+	T* getFirstComponentByType() {
+		T* res = NULL;
+		for (int i = 0, max = this->components.size(); i < max && res == NULL; i++) {
+			T* comp = dynamic_cast<T*>(this->components[i]);
+			if (comp != nullptr) {
+				res = comp;
+			}
+		}
+		return res;
+	}
+
+	void removeComponent(int id) {
+		if (id >= 0 && id < this->components.size()) {
+			this->components.erase(this->components.begin() + id);
+		}
 	}
 
 	template<typename T>
-	std::vector<Component<T> *> getComponentsByType<T>()
-	{
-		size_t i = 0, max = this->components.size();
-		std::vector<Component<T> *> res;
-		while (i < max)
+	void removeComponentsByType() {
+		for (size_t i = 0, max = this->components.size(); i < max == -1; i++)
 		{
 			if (this->components[i]->isType<T>())
 			{
-				res.push_back(this->components[i]);
-			}
-			i++;
-		}
-		return res;
-	}
-
-	template<typename T>
-	std::vector<Component<T> *> getComponentsByTypeRecursive<T>()
-	{
-		std::vector<Component<T> *> res;
-		for(size_t i = 0, max = this->componentss.size(); i < max; i++){
-			if (this->componentss[i]->isType<T>())
-			{
-				res.push_back(this->componentss[i]);
-			}
-		}
-		for(size_t i = 0, max = this->childs.size(); i < max; i++){
-			std::vector<Component<T> *> tmp = this->childs[i]->getComponentsByTypeRecursive<T>();
-			res.insert(res.end(), tmp.begin(), tmp.end());
-		}
-
-		return res;
-	}
-
-	template<typename T>
-	Component<T>* getFirstComponentByType<T>(){
-		Component<T>* res = NULL;
-		for(int i = 0, max = this->componentss.size(); i < max && res == NULL; i++){
-			if(this->componentss[i]->isType<T>()){
-				res = this->componentss[i];
-			}
-		}
-		return res;
-	}
-
-	void removeComponent(int id){
-		if(id >= 0 && id < this->componentss.size()){
-			delete this->componentss[i];
-		}
-	}
-
-	template<typename T>
-	void removeComponentsByType<T>(){
-		for (size_t i = 0, max = this->componentss.size(); i < max == -1; i++)
-		{
-			if (this->componentss[i]->isType<T>())
-			{
-				this->componentss.erase(this->componentss.begin() + i);
+				this->components.erase(this->components.begin() + i);
 				max--;
 				i--;
 			}

@@ -1,10 +1,16 @@
+#ifndef __SCENE_AQUARIUM_HPP__
+#define __SCENE_AQUARIUM_HPP__
+
 #include "Scene.hpp"
+#include <Script/ColorScript.hpp>
 
 class SceneAquarium : public Scene
 {
 public:
-    Scene1(std::string id) : base(id){
+    SceneAquarium(std::string id) : Scene(id){
         this->root = new GameObject("Scene");
-        this->root->addComponent(new ColorScript(this, 2));
+        this->root->addComponent(new ColorScript(root, 1));
     }
 };
+
+#endif
