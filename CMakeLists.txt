@@ -30,5 +30,3 @@ target_include_directories(Aquarium PUBLIC
         "${CMAKE_SOURCE_DIR}/aquarium/sources"
         $<TARGET_PROPERTY:libs,INTERFACE_INCLUDE_DIRECTORIES>
 )
-
-message("INFO : ${CMAKE_BINARY_DIR}")

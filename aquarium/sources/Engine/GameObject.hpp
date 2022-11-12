@@ -4,8 +4,10 @@
 #include <type_traits>
 #include <string>
 #include <any>
+#include <vector>
 
 #include <Engine/Component/Transformation.hpp>
+
 class GameObject {
 
 protected:
@@ -15,7 +17,7 @@ protected:
 	std::vector<Component *> components;
 
 public:
-	GameObject(std::string id, GameObject* parent = NULL, bool addToParent = false) {
+	GameObject(std::string id, GameObject* parent = NULL, bool addToParent = true) {
 		this->identifier = id;
 		this->parent = parent;
 		if (addToParent && parent != NULL) {
@@ -26,7 +28,13 @@ public:
 
 	GameObject(std::string id, GameObject* parent, std::vector<GameObject*> childs, bool addToParent = false) : GameObject(id, parent, addToParent)
 	{
+		this->identifier = id;
+		this->parent = parent;
+		if (addToParent && parent != NULL) {
+			this->parent->addChild(this);
+		}
 		this->childs = childs;
+		this->components.push_back(new Transformation());
 	}
 
 	~GameObject()
@@ -128,10 +136,7 @@ public:
 		this->components.push_back(component);
 	}
 
-	/*
 
-	   return (std::is_same<T, U>::value);
-	   */
 	template <typename T>
 	std::vector<T*> getComponentsByType()
 	{

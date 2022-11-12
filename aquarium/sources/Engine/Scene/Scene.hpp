@@ -38,13 +38,13 @@ public:
 		if (root != NULL) {
 			//Loop all scripts and start the non started one.
 
-			std::vector<ColorScript*> gameBehaviors = root->getComponentsByTypeRecursive<ColorScript>();
+			std::vector<EngineBehavior*> engineBehavior = root->getComponentsByTypeRecursive<EngineBehavior>();
 			
-			for (size_t i = 0, max = gameBehaviors.size(); i < max; i++) {
-				if (!gameBehaviors[i]->started) {
-					gameBehaviors[i]->start();
+			for (size_t i = 0, max = engineBehavior.size(); i < max; i++) {
+				if (!engineBehavior[i]->started) {
+					engineBehavior[i]->start();
 				}
-				gameBehaviors[i]->loop(deltaT);
+				engineBehavior[i]->loop(deltaT);
 			}
 		}
 
@@ -60,6 +60,10 @@ public:
 				}
 			}
 		}
+	}
+
+	GameObject* GetRoot() {
+		return this->root;
 	}
 };
 

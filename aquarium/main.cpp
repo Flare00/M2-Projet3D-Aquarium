@@ -24,8 +24,8 @@ void mainLoop(){
     double sumDelta=  0.0;
 
     do{
-        if(glfwGetKey(global_window, GLFW_KEY_ESCAPE) == GLFW_PRESS){
-            close_asked = true;
+        if(glfwGetKey(global.global_window, GLFW_KEY_ESCAPE) == GLFW_PRESS){
+			global.close_asked = true;
         }
 
         double currentFrame = glfwGetTime();
@@ -33,27 +33,27 @@ void mainLoop(){
 		lastFrame = currentFrame;
         sumDelta += deltaTime;
 
-        if(sumDelta >= 1.0 / (fps_limit) ){
+        if(sumDelta >= 1.0 / (global.fps_limit) ){
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
             std::string titre = "Moteur - ";
             titre += std::to_string((int)((1.0/sumDelta) +0.1));
-            glfwSetWindowTitle(global_window, titre.c_str());
+            glfwSetWindowTitle(global.global_window, titre.c_str());
 
 			engine.loop(sumDelta);
 
-            glfwSwapBuffers(global_window);
+            glfwSwapBuffers(global.global_window);
 			glfwPollEvents();
             sumDelta = 0.0f;
         }
 
-    } while(!close_asked && glfwWindowShouldClose(global_window) == 0);
+    } while(!global.close_asked && glfwWindowShouldClose(global.global_window) == 0);
 }
 
 void framebuffer_size_callback(GLFWwindow *window, int width, int height)
 {
-	screen_width = width;
-	screen_height = height;
+	global.screen_width = width;
+	global.screen_height = height;
 	// make sure the viewport matches the new window dimensions; note that width and
 	// height will be significantly larger than specified on retina displays.
 	glViewport(0, 0, width, height);
@@ -77,19 +77,19 @@ int main(int argc, char* argv[]){
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 	glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GL_TRUE);
 
-    // Open a global_window and create its OpenGL context
-    global_window = glfwCreateWindow(screen_width, screen_height, "Moteur", NULL, NULL);
+    // Open a global.global_window and create its OpenGL context
+    global.global_window = glfwCreateWindow(global.screen_width, global.screen_height, "Moteur", NULL, NULL);
 
-	if (global_window == NULL)
+	if (global.global_window == NULL)
 	{
-		fprintf(stderr, "Failed to open GLFW global_window.\n");
+		fprintf(stderr, "Failed to open GLFW global.global_window.\n");
 		getchar();
 		glfwTerminate();
 		return -1;
 	}
 	
-	glfwMakeContextCurrent(global_window);
-	glfwSetFramebufferSizeCallback(global_window, framebuffer_size_callback);
+	glfwMakeContextCurrent(global.global_window);
+	glfwSetFramebufferSizeCallback(global.global_window, framebuffer_size_callback);
 
 
 	printf("OpenGL version supported by this platform : %s\n", glGetString(GL_VERSION));
@@ -104,14 +104,14 @@ int main(int argc, char* argv[]){
 		return -1;
 	}
     // Ensure we can capture the escape key being pressed below
-	glfwSetInputMode(global_window, GLFW_STICKY_KEYS, GL_TRUE);
+	glfwSetInputMode(global.global_window, GLFW_STICKY_KEYS, GL_TRUE);
 
 	// Hide the mouse and enable unlimited mouvement
-	glfwSetInputMode(global_window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+	glfwSetInputMode(global.global_window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
 	// Set the mouse at the center of the screen
 	glfwPollEvents();
-	glfwSetCursorPos(global_window, screen_width / 2, screen_height / 2);
+	glfwSetCursorPos(global.global_window, global.screen_width / 2, global.screen_height / 2);
 
     //Clear background to clear grey
 	glClearColor(0.8f, 0.8f, 0.8f, 0.0f);

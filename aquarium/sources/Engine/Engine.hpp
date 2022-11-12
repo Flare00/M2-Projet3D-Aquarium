@@ -2,13 +2,19 @@
 #define __ENGINE_HPP__
 
 #include <vector>
+#include <string>
+#include <GLFW/glfw3.h>
+
 #include "Scene/SceneAquarium.hpp"
+#include <Engine/GameObject.hpp>
+#include <Graphics/Graphics.hpp>
 
 class Engine{
 protected:
     size_t activeScene = -1;
     std::vector<Scene> scenes;
     size_t nbScene = 0;
+    Graphics graphics;
 public:
     Engine(){
         scenes.push_back(SceneAquarium("lol"));
@@ -21,8 +27,14 @@ public:
     }
 
     void loop(double deltaT){
+        if (glfwGetKey(global.global_window, GLFW_KEY_R) == GLFW_PRESS) {
+            graphics.ReloadShader();
+        }
         if(activeScene >= 0 && activeScene < nbScene){
+            GameObject* root = scenes[activeScene].GetRoot();
             scenes[activeScene].loop(deltaT);
+
+            graphics.Compute(root->getComponentsByTypeRecursive<Camera>(), root->getComponentsByTypeRecursive<Displayable>());
         }
     }
 
