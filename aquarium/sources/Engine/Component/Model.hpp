@@ -217,7 +217,7 @@ public:
 		faces.push_back(Face(4, 5, 1, 0));
 		faces.push_back(Face(6, 7, 3, 2));
 		// Left & Right
-		faces.push_back(Face(1, 2, 6, 5));
+		faces.push_back(Face(5,6, 2, 1));
 		faces.push_back(Face(0, 3, 7, 4));
 
 		std::vector<glm::vec2> uv;

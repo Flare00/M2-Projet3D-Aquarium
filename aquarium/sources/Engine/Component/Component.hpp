@@ -3,7 +3,11 @@
 
 class Component {
 public:
+	bool active = true;
 	virtual ~Component(){}
+	void SetActive(bool active) {
+		this->active = active;
+	}
 };
 
 #endif // !__COMPONENT_HPP__

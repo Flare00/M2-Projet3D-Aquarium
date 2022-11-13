@@ -81,7 +81,7 @@ public:
             this->transformation->Rotate(glm::vec3(0, 0, rSpeed * deltaTime));
         }
 
-        this->transformation->getMatrix();
+        this->transformation->Update();
     }
 };
 

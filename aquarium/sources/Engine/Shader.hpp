@@ -8,10 +8,31 @@
 #include <Engine/Global.hpp>
 class Shader
 {
+public:
+	enum Type {
+		VERTEX,
+		FRAGMENT,
+		TESS_CONTROL,
+		TESS_EVAL,
+		GEOMETRY
+	};
+
+	struct DataOverride {
+		Type type;
+		std::string define;
+		std::string value;
+		DataOverride(Type type, std::string define, std::string value) {
+			this->type = type;
+			this->define = define;
+			this->value = value;
+		}
+	};
 protected:
 	std::string shaderFolder = "assets/Shaders/";
 	std::string vertexFilename, fragmentFilename, tesselationControlFilename, tesselationEvalFilename, geometryFilename; // Name of all shader files, even if it does not exist, to permit the reload in case of change / add / remove
 	std::string vertexData, fragmentData, tesselationControlData, tesselationEvalData, geometryData; // data of each shaders
+
+	std::vector<DataOverride> previousDataOverride;
 
 	GLuint vertexShader, fragmentShader, tesselationControlShader, tesselationEvalShader, geometryShader; //Shaders
 	GLuint program;
@@ -55,14 +76,87 @@ public:
 	void Reload()
 	{
 		glDeleteProgram(program);
+		this->previousDataOverride.clear();
 		LoadFiles();
 		Compile();
+	}
+
+	bool DefineOverride(DataOverride data) {
+		std::vector<DataOverride> datas;
+		datas.push_back(data);
+		return DefineOverride(datas) > 0;
+
+	}
+
+	int DefineOverride(std::vector<DataOverride> datas) {
+		int changes = 0;
+		for (DataOverride d : datas) {
+			bool change = false;
+			bool found = false;
+			for (int i = 0, max = this->previousDataOverride.size(); i < max && !found; i++) {
+				if (this->previousDataOverride[i].type == d.type) {
+					if (this->previousDataOverride[i].define.compare(d.define) == 0) {
+						found = true;
+						if (this->previousDataOverride[i].value.compare(d.value) != 0) {
+							change = true;
+							previousDataOverride[i].value = d.value;
+						} 
+					}
+				}
+			}
+			if (!found) {
+				this->previousDataOverride.push_back(d);
+			}
+			if (change || !found) {
+				changes++;
+				switch (d.type) {
+				case VERTEX:
+					this->vertexData = ReplaceDefine(this->vertexData, d.define, d.value);
+					break;
+				case FRAGMENT:
+					this->fragmentData = ReplaceDefine(this->fragmentData, d.define, d.value);
+					break;
+				case TESS_CONTROL:
+					this->tesselationControlData = ReplaceDefine(this->tesselationControlData, d.define, d.value);
+					break;
+				case TESS_EVAL:
+					this->tesselationEvalData = ReplaceDefine(this->tesselationEvalData, d.define, d.value);
+					break;
+				case GEOMETRY:
+					this->geometryData = ReplaceDefine(this->geometryData, d.define, d.value);
+					break;
+				}
+			}
+		}
+		if (changes > 0) {
+			glDeleteProgram(program);
+			Compile();
+		}
+		return changes;
 	}
 
 	GLuint GetProgram() {
 		return program;
 	}
 protected:
+	std::string ReplaceDefine(std::string data, std::string define, std::string value) {
+		std::string search = "#define " + define;
+		size_t found = data.find(search);
+		if (found >= 0) {
+			found += search.size();
+			int cursorStart = found + 1;
+			int cursorEnd = cursorStart;
+			char c = data[cursorStart];
+			bool end = false;
+			while (c != '\n' && c != ' ' && !end) {
+				cursorEnd++;
+				c = data[cursorEnd];
+			}
+			data = data.replace(cursorStart, cursorEnd - cursorStart, value).c_str();
+		}
+		//printf("DATA : %s\n", data.c_str());
+		return data;
+	}
 	void LoadFiles()
 	{
 		this->vertexData = Tools::GetFileContent(this->shaderFolder + this->vertexFilename);
@@ -199,9 +293,9 @@ protected:
 	void CleanAfterLink() {
 		GLsizei maxCount = 10;
 		GLsizei count;
-		GLuint * shaders = new GLuint[maxCount];
+		GLuint* shaders = new GLuint[maxCount];
 
-		glGetAttachedShaders(this->program, maxCount, &count,shaders);
+		glGetAttachedShaders(this->program, maxCount, &count, shaders);
 
 		for (int i = 0; i < count; i++) {
 			glDetachShader(this->program, shaders[i]);

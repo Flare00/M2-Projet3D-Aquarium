@@ -15,6 +15,7 @@ protected:
 	GameObject* parent;
 	std::vector<GameObject*> childs;
 	std::vector<Component *> components;
+	bool active = true;
 
 public:
 	GameObject(std::string id, GameObject* parent = NULL, bool addToParent = true) {
@@ -138,28 +139,36 @@ public:
 
 
 	template <typename T>
-	std::vector<T*> getComponentsByType()
+	std::vector<T*> getComponentsByType(bool activeOnly = false)
 	{
 		std::vector<T*> res;
 		for (size_t i = 0, max = this->components.size(); i < max; i++) {
-			T* comp = dynamic_cast<T*>(this->components[i]);
-			if (comp != nullptr) {
-				res.push_back(comp);
+			if (!activeOnly || (activeOnly && this->components[i]->active)) {
+				T* comp = dynamic_cast<T*>(this->components[i]);
+				if (comp != nullptr) {
+
+					res.push_back(comp);
+				}
 			}
 		}
 		return res;
 	}
 
 	template<class T>
-	std::vector<T*> getComponentsByTypeRecursive()
+	std::vector<T*> getComponentsByTypeRecursive(bool activeOnly = false)
 	{
-		std::vector<T*> res = getComponentsByType<T>();
-		for (size_t i = 0, max = this->childs.size(); i < max; i++) {
-			std::vector<T*> tmp = this->childs[i]->getComponentsByTypeRecursive<T>();
-			res.insert(res.end(), tmp.begin(), tmp.end());
+		if (this->active) {
+			std::vector<T*> res = getComponentsByType<T>(activeOnly);
+		
+			for (size_t i = 0, max = this->childs.size(); i < max; i++) {
+				std::vector<T*> tmp = this->childs[i]->getComponentsByTypeRecursive<T>(activeOnly);
+				res.insert(res.end(), tmp.begin(), tmp.end());
+			}
+			return res;
 		}
-		return res;
+		return std::vector<T*>();
 	}
+
 
 
 	template<typename T>
@@ -193,7 +202,9 @@ public:
 		}
 	}
 
-
+	void SetActive(bool active) {
+		this->active = active;
+	}
 };
 
 #endif

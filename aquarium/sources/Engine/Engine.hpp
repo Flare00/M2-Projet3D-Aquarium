@@ -36,7 +36,7 @@ public:
             scenes[activeScene].loop(deltaT);
 
             GameObject* root = scenes[activeScene].GetRoot();
-            graphics.Compute(root->getComponentsByTypeRecursive<Camera>(), root->getComponentsByTypeRecursive<Displayable>());
+            graphics.Compute(root);
         }
     }
 

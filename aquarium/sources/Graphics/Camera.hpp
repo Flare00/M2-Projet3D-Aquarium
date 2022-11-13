@@ -149,14 +149,9 @@ public:
 		glGenRenderbuffers(1, &this->framebuffer.renderbuffer);
 		glBindRenderbuffer(GL_RENDERBUFFER, this->framebuffer.renderbuffer);
 
-		if (type == RENDER){
-			glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, global.screen_width, global.screen_height);
-			glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, this->framebuffer.renderbuffer);
-		}
-		else if (type == DEPTH_STENCIL) {
-			glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, global.screen_width, global.screen_height);
-			glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, this->framebuffer.renderbuffer);
-		}
+		glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, global.screen_width, global.screen_height);
+		glBindRenderbuffer(GL_RENDERBUFFER, 0);
+		glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, this->framebuffer.renderbuffer);
 
 		if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
 			printf("ERROR::FRAMEBUFFER:: Framebuffer is not complete!\n");
@@ -168,9 +163,10 @@ public:
 	}
 
 	glm::mat4 GetView() {
-		if (this->transform != nullptr)
-
-			return glm::inverse(this->transform->getMatrix());
+		if (this->transform != nullptr) {
+			this->transform->Update();
+			return glm::lookAt(transform->getPosition(), transform->getFrontPoint(), transform->getUpVector());
+		}
 		return glm::mat4(1.0);
 	}
 
@@ -221,7 +217,7 @@ public:
 		}
 		else
 		{
-			frustumDataPerspective = FrustumDataPerpective(this->projection * this->GetView());
+			frustumDataPerspective = FrustumDataPerpective( this->projection* this->GetView());
 		}
 	}
 
@@ -242,7 +238,7 @@ public:
 				-v.z >= frustumDataOrtho.min.z && v.z <= frustumDataOrtho.max.z;
 		}
 		else {
-			glm::vec4 v = glm::vec4(transform->getPosition(), 1);
+			glm::vec4 v = glm::vec4(transform->getPosition(), 1.0);
 			glm::vec4 calc = glm::vec4(0);
 
 			for (int i = 0; i < 4; i++) {
@@ -251,7 +247,7 @@ public:
 
 			return (-calc.w < calc.x) && (calc.x < calc.w) &&
 				(-calc.w < calc.y) && (calc.y < calc.w) &&
-				(0 < calc.z) && (calc.z < calc.w);
+				(-calc.w < calc.z) && (calc.z < calc.w);
 		}
 		return false;
 	}

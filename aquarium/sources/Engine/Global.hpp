@@ -11,7 +11,7 @@ struct Global {
 	bool wireframe = false;
 	bool debug = true;
 	bool debug_shader = false;
-	bool debug_file_load = true;
+	bool debug_file_load = false;
 	double fps_limit = 60.0;
 
 	double ScreenAspectRatio() {

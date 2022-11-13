@@ -13,6 +13,8 @@ private :
     glm::vec3 position;
     glm::vec3 rotation;
     glm::vec3 scale;
+    glm::vec3 frontVector;
+    glm::vec3 upVector;
     bool dirty = true;
     glm::mat4 matrix = glm::mat4(1.0);
 
@@ -26,13 +28,13 @@ public :
     Transformation(glm::vec3 position){
         this->position = position;
         this->rotation = glm::vec3(0.0);
-        this->scale = glm::vec3(1);
+        this->scale = glm::vec3(1,1,1);
     }
 
     Transformation(){
         this->position = glm::vec3(0);
         this->rotation = glm::vec3(0);
-        this->scale = glm::vec3(1);
+        this->scale = glm::vec3(1, 1, 1);
     }
 
     void setPosition(glm::vec3 position){
@@ -83,22 +85,33 @@ public :
 
     void computeMatrix(){
         //faire la matrice identitée
-        
+        this->matrix = glm::mat4(1.0f);
 
-        glm::mat4 scaleM(1.0f);
-        glm::mat4 rotationM(1.0f);
-        glm::mat4 translation(1.0f);
-        scaleM = glm::scale(scaleM, this->scale);
+
+        //scale la matrice;
+        matrix = glm::scale(matrix, this->scale);
 
         //tourner la matrice selon les 3 axes
-        rotationM = glm::rotate(rotationM, this->rotation[1], glm::vec3(0, 1, 0));
-        rotationM = glm::rotate(rotationM, this->rotation[0], glm::vec3(1, 0, 0));
-        rotationM = glm::rotate(rotationM, this->rotation[2], glm::vec3(0, 0, 1));
-        //scale la matrice;
-        //deplacer la matrice
-        translation = glm::translate(translation, this->position);
+        matrix = glm::rotate(matrix, this->rotation[1], glm::vec3(0, 1, 0));
+        matrix = glm::rotate(matrix, this->rotation[0], glm::vec3(1, 0, 0));
+        matrix = glm::rotate(matrix, this->rotation[2], glm::vec3(0, 0, 1));
 
-        this->matrix = translation * (rotationM * scaleM);
+
+        //deplacer la matrice
+        matrix = glm::translate(matrix, this->position);
+
+        this->dirty = false;
+
+        glm::vec4 tmp = this->matrix * glm::vec4(0,0,1,0);
+        this->frontVector = glm::vec3(tmp.x, tmp.y, tmp.z);
+        tmp = this->matrix * glm::vec4(0, 1, 0, 0);
+        this->upVector = glm::vec3(tmp.x, tmp.y, tmp.z);
+    }
+
+    void Update() {
+        if (dirty) {
+            computeMatrix();
+        }
     }
 
     glm::mat4 getMatrix(){
@@ -106,6 +119,14 @@ public :
             computeMatrix();
         }
         return this->matrix;
+    }
+
+    glm::vec3 getFrontPoint() {
+        return this->position + this->frontVector;
+    }
+
+    glm::vec3 getUpVector() {
+        return this->upVector;
     }
 
 
