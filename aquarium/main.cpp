@@ -34,7 +34,6 @@ void mainLoop(){
         sumDelta += deltaTime;
 
         if(sumDelta >= 1.0 / (global.fps_limit) ){
-            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
             std::string titre = "Moteur - ";
             titre += std::to_string((int)((1.0/sumDelta) +0.1));
@@ -111,7 +110,7 @@ int main(int argc, char* argv[]){
 
 	// Set the mouse at the center of the screen
 	glfwPollEvents();
-	glfwSetCursorPos(global.global_window, global.screen_width / 2, global.screen_height / 2);
+	glfwSetCursorPos(global.global_window, global.screen_width / 2.0, global.screen_height / 2.0);
 
     //Clear background to clear grey
 	glClearColor(0.8f, 0.8f, 0.8f, 0.0f);

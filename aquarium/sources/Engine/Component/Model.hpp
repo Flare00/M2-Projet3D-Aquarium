@@ -5,14 +5,14 @@
 #include <glm/glm.hpp>
 #include <string>
 #include <GLFW/glfw3.h>
-
+#include <Engine/Shader.hpp>
 #include <Engine/Component/Component.hpp>
 
 class Model : public Component {
-public :
+public:
 	struct Face {
 		bool quad;
-		unsigned int * linkedPoints;
+		unsigned int* linkedPoints;
 		Face(unsigned int p1, unsigned int p2, unsigned int p3) {
 			quad = false;
 			linkedPoints = new unsigned int[3]();
@@ -52,7 +52,7 @@ public :
 		size_t sizeEBO = 0;
 	};
 
-protected :
+protected:
 	Data data;
 
 	std::vector<glm::vec3> points;
@@ -60,21 +60,22 @@ protected :
 	std::vector<Face> faces;
 	std::vector<glm::vec2> uv;
 
-	
+	Shader* shader;
 
 	bool generated = false;
 
-public :
-	Model(std::string filename) {
+public:
+	Model(Shader* shader, std::string filename) {
+		this->shader = shader;
 
 	}
 
-	Model(std::vector<glm::vec3> pts, std::vector<glm::vec3> normals = std::vector<glm::vec3>(), std::vector<Face> faces = std::vector<Face>(), std::vector<glm::vec2> uv = std::vector<glm::vec2>()) {
+	Model(Shader* shader, std::vector<glm::vec3> pts, std::vector<glm::vec3> normals = std::vector<glm::vec3>(), std::vector<Face> faces = std::vector<Face>(), std::vector<glm::vec2> uv = std::vector<glm::vec2>()) {
 		this->points = pts;
 		this->normals = normals;
 		this->faces = faces;
 		this->uv = uv;
-
+		this->shader = shader;
 		GenerateBuffer();
 	}
 
@@ -108,7 +109,7 @@ public :
 			glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
 		}
 
-		if (uv.size() > 0) {
+		if (this->uv.size() > 0) {
 			glEnableVertexAttribArray(2);
 			glBindBuffer(GL_ARRAY_BUFFER, this->data.VBO[2]);
 			glBufferData(GL_ARRAY_BUFFER, this->uv.size() * sizeof(glm::vec2), &this->uv[0], GL_STATIC_DRAW);
@@ -136,7 +137,11 @@ public :
 		return this->data;
 	}
 
-	static Model * Triangle() {
+	Shader* GetShader() {
+		return this->shader;
+	}
+
+	static Model* Triangle(Shader* shader) {
 		std::vector<glm::vec3> pts;
 		pts.push_back(glm::vec3(-0.5, -0.5, 0.0f));
 		pts.push_back(glm::vec3(0.5, -0.5, 0.0f));
@@ -154,15 +159,15 @@ public :
 		uv.push_back(glm::vec2(0, 0));
 		uv.push_back(glm::vec2(1, 0));
 		uv.push_back(glm::vec2(0.5, 1));
-		return new Model(pts, normals, faces, uv);
+		return new Model(shader, pts, normals, faces, uv);
 	}
 
-	static Model* Quad() {
+	static Model* Quad(Shader* shader) {
 		std::vector<glm::vec3> pts;
-		pts.push_back(glm::vec3(-0.5, -0.5, 0.0f));
-		pts.push_back(glm::vec3(0.5, -0.5, 0.0f));
-		pts.push_back(glm::vec3(0.5, 0.5, 0.0f));
-		pts.push_back(glm::vec3(-0.5, 0.5, 0.0f));
+		pts.push_back(glm::vec3(-1.0, -1.0, 0.0f));
+		pts.push_back(glm::vec3(1.0, -1.0, 0.0f));
+		pts.push_back(glm::vec3(1.0, 1.0, 0.0f));
+		pts.push_back(glm::vec3(-1.0, 1.0, 0.0f));
 
 		std::vector<glm::vec3> normals;
 		normals.push_back(glm::vec3(0, 0, 1));
@@ -179,10 +184,10 @@ public :
 		uv.push_back(glm::vec2(1, 1));
 		uv.push_back(glm::vec2(0, 1));
 
-		return new Model(pts, normals, faces, uv);
+		return new Model(shader, pts, normals, faces, uv);
 	}
 
-	static Model* Cube() {
+	static Model* Cube(Shader* shader) {
 		std::vector<glm::vec3> pts;
 		pts.push_back(glm::vec3(-0.5, -0.5, 0.0f));
 		pts.push_back(glm::vec3(0.5, -0.5, 0.0f));
@@ -212,7 +217,7 @@ public :
 		faces.push_back(Face(4, 5, 1, 0));
 		faces.push_back(Face(6, 7, 3, 2));
 		// Left & Right
-		faces.push_back(Face(1,2, 6, 5));
+		faces.push_back(Face(1, 2, 6, 5));
 		faces.push_back(Face(0, 3, 7, 4));
 
 		std::vector<glm::vec2> uv;
@@ -225,7 +230,7 @@ public :
 		uv.push_back(glm::vec2(1, 1));
 		uv.push_back(glm::vec2(0, 1));
 
-		return new Model(pts, normals, faces, uv);
+		return new Model(shader, pts, normals, faces, uv);
 	}
 };
 

@@ -17,9 +17,9 @@ add_subdirectory(${CMAKE_SOURCE_DIR}/aquarium/libs)
 
 add_executable(Aquarium)
 
-target_sources(Aquarium PRIVATE aquarium/main.cpp)
+target_sources(Aquarium PUBLIC aquarium/main.cpp)
 
-target_compile_features(Aquarium PRIVATE cxx_std_17)
+target_compile_features(Aquarium PUBLIC cxx_std_17)
 
 target_link_libraries(Aquarium
         ${OPENGL_LIBRARY}

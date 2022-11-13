@@ -18,12 +18,15 @@ public:
         camera->addComponent(new Camera(camera, Camera::Settings::perspective(global.ScreenAspectRatio())));
         camera->addComponent(new MovementScript(camera));
 
+        //GameObject* depthCam = new GameObject("depthCam", this->root);
+        //depthCam->addComponent(new Camera(depthCam, Camera::Settings::perspective(global.ScreenAspectRatio()), Camera::TEXTURE, this->AddShader(new Shader("depth"))));
+
         GameObject* obj1 = new GameObject("Obj", this->root);
         obj1->addComponent(new Displayable(obj1));
-        obj1->addComponent(Model::Cube());
+        obj1->addComponent(Model::Cube(this->AddShader(new Shader("std"))));
         //obj1->addComponent(new MovementScript(obj1));
         Transformation* t = obj1->getFirstComponentByType<Transformation>();
-        t->setPosition(glm::vec3(2, 0, -5 ));
+        t->setPosition(glm::vec3(1, 0, -5 ));
     }
 
 };

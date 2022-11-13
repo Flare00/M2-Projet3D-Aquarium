@@ -27,13 +27,15 @@ public:
     }
 
     void loop(double deltaT){
-        if (glfwGetKey(global.global_window, GLFW_KEY_R) == GLFW_PRESS) {
-            graphics.ReloadShader();
-        }
+
         if(activeScene >= 0 && activeScene < nbScene){
-            GameObject* root = scenes[activeScene].GetRoot();
+            if (glfwGetKey(global.global_window, GLFW_KEY_R) == GLFW_PRESS) {
+                scenes[activeScene].ReloadShaders();
+            }
+
             scenes[activeScene].loop(deltaT);
 
+            GameObject* root = scenes[activeScene].GetRoot();
             graphics.Compute(root->getComponentsByTypeRecursive<Camera>(), root->getComponentsByTypeRecursive<Displayable>());
         }
     }

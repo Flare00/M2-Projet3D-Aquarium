@@ -9,7 +9,7 @@
 class Shader
 {
 protected:
-	std::string shaderFolder = "shaders/";
+	std::string shaderFolder = "assets/Shaders/";
 	std::string vertexFilename, fragmentFilename, tesselationControlFilename, tesselationEvalFilename, geometryFilename; // Name of all shader files, even if it does not exist, to permit the reload in case of change / add / remove
 	std::string vertexData, fragmentData, tesselationControlData, tesselationEvalData, geometryData; // data of each shaders
 

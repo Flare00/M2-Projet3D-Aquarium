@@ -3,13 +3,13 @@ Le Projet aura l'architecture de dossier suivante :
 Racine :
 
 CMakeFile.txt
-shaders/ 	(dossier des programmes GLSL)
 assets/		(dossier des Assets)
 aquarium/	(dossier des sources du projet)
 
 
 assets/ :
 
+Shaders/ 	(dossier des programmes GLSL)
 Model/		(dossier des modèles 3D)
 Animation/	(dossier des animations 3D)
 Texture/	(dossier des textures)

@@ -6,12 +6,18 @@
 
 #include <Engine/EngineBehavior.hpp>
 #include <Engine/GameObject.hpp>
+#include <Engine/Shader.hpp>
 #include <Script/ColorScript.hpp>
 class Scene : public EngineBehavior
 {
 protected:
 	GameObject* root = NULL;
+	std::vector<Shader*> shadersForReload;
 
+	Shader* AddShader(Shader* s) {
+		this->shadersForReload.push_back(s);
+		return s;
+	}
 public:
 	std::string id;
 
@@ -65,6 +71,14 @@ public:
 	GameObject* GetRoot() {
 		return this->root;
 	}
+
+	void ReloadShaders() {
+		for (Shader* s : shadersForReload) {
+			s->Reload();
+		}
+	}
+
+
 };
 
 #endif
