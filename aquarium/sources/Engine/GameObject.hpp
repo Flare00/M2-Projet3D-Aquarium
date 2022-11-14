@@ -146,7 +146,6 @@ public:
 			if (!activeOnly || (activeOnly && this->components[i]->active)) {
 				T* comp = dynamic_cast<T*>(this->components[i]);
 				if (comp != nullptr) {
-
 					res.push_back(comp);
 				}
 			}
@@ -193,7 +192,8 @@ public:
 	void removeComponentsByType() {
 		for (size_t i = 0, max = this->components.size(); i < max == -1; i++)
 		{
-			if (this->components[i]->isType<T>())
+			T* comp = dynamic_cast<T*>(this->components[i]);
+			if (comp != nullptr)
 			{
 				this->components.erase(this->components.begin() + i);
 				max--;
