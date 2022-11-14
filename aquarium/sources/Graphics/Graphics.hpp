@@ -71,7 +71,6 @@ public:
 					Draw(cameras[indexCam], elements[indexElem], lights);
 				}
 				else if (cameras[indexCam]->IsInView(elements[indexElem]->GetTransformation())) {
-					printf("InView\n");
 					Draw(cameras[indexCam], elements[indexElem], lights);
 				}
 			}

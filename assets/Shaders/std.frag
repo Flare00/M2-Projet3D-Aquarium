@@ -1,4 +1,4 @@
-#version 450 core
+#version 430
 #define MAX_LIGHTS 1
 
 out vec4 color;

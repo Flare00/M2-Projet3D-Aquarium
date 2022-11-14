@@ -68,10 +68,10 @@ public:
         }
 
         if (glfwGetKey(global.global_window, keyRYneg) == GLFW_PRESS) {
-            this->transformation->Rotate(glm::vec3(0, -rSpeed * deltaTime, 0));
+            this->transformation->Rotate(glm::vec3(0, rSpeed * deltaTime, 0));
         }
         if (glfwGetKey(global.global_window, keyRYpos) == GLFW_PRESS) {
-            this->transformation->Rotate(glm::vec3(0, rSpeed * deltaTime, 0));
+            this->transformation->Rotate(glm::vec3(0, -rSpeed * deltaTime, 0));
         }
 
         if (glfwGetKey(global.global_window, keyRZneg) == GLFW_PRESS) {
