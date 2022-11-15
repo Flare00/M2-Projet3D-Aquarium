@@ -45,7 +45,8 @@ public :
 
     Transformation* Translate(glm::vec3 translation) {
         this->dirty = true;
-        this->position += translation;
+        glm::vec4 t = this->getMatrix() * glm::vec4(translation,0);
+        this->position += glm::vec3(t.x, t.y, t.z);
         return this;
     }
 
@@ -108,7 +109,7 @@ public :
 
         this->dirty = false;
 
-        glm::vec4 tmp = this->matrix * glm::vec4(0,0,1,0);
+        glm::vec4 tmp = this->matrix * glm::vec4(0,0,-1,0);
         this->frontVector = glm::vec3(tmp.x, tmp.y, tmp.z);
         tmp = this->matrix * glm::vec4(0, 1, 0, 0);
         this->upVector = glm::vec3(tmp.x, tmp.y, tmp.z);
@@ -127,8 +128,8 @@ public :
         return this->matrix;
     }
 
-    glm::vec3 getFrontPoint() {
-        return this->position + this->frontVector;
+    glm::vec3 getFrontVector() {
+        return this->frontVector;
     }
 
     glm::vec3 getUpVector() {

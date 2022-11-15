@@ -13,7 +13,7 @@ class MovementScript : public Script, public EngineBehavior
 private:
     Transformation* transformation;
     float tSpeed = 1.0f;
-    float rSpeed = 10.0f;
+    float rSpeed = 50.0f;
 
     //Movement
     int keyUp = GLFW_KEY_SPACE, keyDown = GLFW_KEY_LEFT_SHIFT;
@@ -23,7 +23,7 @@ private:
     //Rotations
     int keyRXneg = GLFW_KEY_I, keyRXpos = GLFW_KEY_K;
     int keyRYneg = GLFW_KEY_J, keyRYpos = GLFW_KEY_L;
-    int keyRZneg = GLFW_KEY_U, keyRZpos = GLFW_KEY_O;
+    int keyRZneg =  GLFW_KEY_O, keyRZpos =GLFW_KEY_U;
     
 public:
     MovementScript(GameObject* attachment) : Script(attachment) {
@@ -68,10 +68,10 @@ public:
         }
 
         if (glfwGetKey(global.global_window, keyRYneg) == GLFW_PRESS) {
-            this->transformation->Rotate(glm::vec3(0, rSpeed * deltaTime, 0));
+            this->transformation->Rotate(glm::vec3(0, -rSpeed * deltaTime, 0));
         }
         if (glfwGetKey(global.global_window, keyRYpos) == GLFW_PRESS) {
-            this->transformation->Rotate(glm::vec3(0, -rSpeed * deltaTime, 0));
+            this->transformation->Rotate(glm::vec3(0, rSpeed * deltaTime, 0));
         }
 
         if (glfwGetKey(global.global_window, keyRZneg) == GLFW_PRESS) {

@@ -75,7 +75,7 @@ public:
 					Model* model = elements[indexElem]->GetGameObject()->getFirstComponentByType<Model>();
 					Transformation* t = elements[indexElem]->GetTransformation();
 					if (cameras[indexCam]->IsInView(t->getMatrix() * glm::vec4(model->GetMin(), 1), t->getMatrix() * glm::vec4(model->GetMax(), 1))) {
-						printf("In View\n");
+						//printf("In View\n");
 						Draw(cameras[indexCam], elements[indexElem], lights);
 					}
 				}
@@ -139,6 +139,7 @@ public:
 			for (size_t i = 0, max = lights.size(); i < max; i++) {
 				Light::Data data = lights[i]->GetData();
 				std::string prefix = "lights[" + std::to_string(i) + "]";
+				//printf("Infos : %s : [%f, %f, %f]\n", (prefix + ".pos").c_str(), data.pos.x, data.pos.y, data.pos.z);
 				glUniform3f(glGetUniformLocation(program, (prefix + ".pos").c_str()), data.pos.x, data.pos.y, data.pos.z);
 				glUniform3f(glGetUniformLocation(program, (prefix + ".dir").c_str()), data.dir.x, data.dir.y, data.dir.z);
 				glUniform3f(glGetUniformLocation(program, (prefix + ".color").c_str()), data.color.x, data.color.y, data.color.z);

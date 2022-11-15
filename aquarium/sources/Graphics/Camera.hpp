@@ -170,7 +170,7 @@ public:
 	glm::mat4 GetView() {
 		if (this->transform != nullptr) {
 			this->transform->Update();
-			return glm::lookAt(transform->getPosition(), transform->getFrontPoint(), transform->getUpVector());
+			return glm::lookAt(transform->getPosition(), transform->getPosition() + transform->getFrontVector(), transform->getUpVector());
 		}
 		return glm::mat4(1.0);
 	}
@@ -209,7 +209,8 @@ public:
 		}
 		else
 		{
-			this->projection = glm::perspective(glm::radians(this->settings.fov), this->settings.aspect, this->settings.near, this->settings.far);
+			printf("FOV : %f\n", this->settings.fov);
+			this->projection = glm::perspectiveLH(glm::radians(this->settings.fov), this->settings.aspect, this->settings.near, this->settings.far);
 		}
 	}
 
@@ -240,13 +241,13 @@ public:
 
 	bool IsInView(glm::vec3 min, glm::vec3 max)
 	{
-		printf("min : [%f, %f, %f] | max : [%f, %f, %f]\n", min.x, min.y, min.z, max.x, max.y, max.z);
+		//printf("min : [%f, %f, %f] | max : [%f, %f, %f]\n", min.x, min.y, min.z, max.x, max.y, max.z);
 		FrustumPlaneState minState = GetFrustumPlaneState(min);
 		FrustumPlaneState maxState = GetFrustumPlaneState(max);
 
 
-		printf("MIN | L : %d | R : %d | B : %d | T : %d | N : %d | F : %d\n", minState.left, minState.right, minState.bottom, minState.top, minState.near, minState.far);
-		printf("MAX | L : %d | R : %d | B : %d | T : %d | N : %d | F : %d\n", maxState.left, maxState.right, maxState.bottom, maxState.top, maxState.near, maxState.far);
+		//printf("MIN | L : %d | R : %d | B : %d | T : %d | N : %d | F : %d\n", minState.left, minState.right, minState.bottom, minState.top, minState.near, minState.far);
+		//printf("MAX | L : %d | R : %d | B : %d | T : %d | N : %d | F : %d\n", maxState.left, maxState.right, maxState.bottom, maxState.top, maxState.near, maxState.far);
 
 		bool lr = true;
 		bool tb = true;

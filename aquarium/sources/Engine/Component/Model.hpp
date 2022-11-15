@@ -223,10 +223,10 @@ public:
 		pts.push_back(glm::vec3(-1.0, 1.0, 0.0f));
 
 		std::vector<glm::vec3> normals;
-		normals.push_back(glm::vec3(0, 0, 1));
-		normals.push_back(glm::vec3(0, 0, 1));
-		normals.push_back(glm::vec3(0, 0, 1));
-		normals.push_back(glm::vec3(0, 0, 1));
+		normals.push_back(glm::vec3(0, 0, -1));
+		normals.push_back(glm::vec3(0, 0, -1));
+		normals.push_back(glm::vec3(0, 0, -1));
+		normals.push_back(glm::vec3(0, 0, -1));
 
 
 		std::vector<Face> faces;
@@ -267,14 +267,14 @@ public:
 
 		std::vector<Face> faces;
 		//Front & Back
-		faces.push_back(Face(0, 1, 2, 3));
-		faces.push_back(Face(7, 6, 5, 4));
+		faces.push_back(Face(6, 7, 4, 5));
+		faces.push_back(Face(1, 0, 3, 2));
 		// Bottom & Top
-		faces.push_back(Face(4, 5, 1, 0));
-		faces.push_back(Face(6, 7, 3, 2));
+		faces.push_back(Face(5, 4, 0, 1));
+		faces.push_back(Face(7, 6, 2, 3));
 		// Left & Right
-		faces.push_back(Face(5,6, 2, 1));
-		faces.push_back(Face(0, 3, 7, 4));
+		faces.push_back(Face(6,5, 1, 2));
+		faces.push_back(Face(3, 0, 4, 7));
 
 		std::vector<glm::vec2> uv;
 		uv.push_back(glm::vec2(0, 0));
