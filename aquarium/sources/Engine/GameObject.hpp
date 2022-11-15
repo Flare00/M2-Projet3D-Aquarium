@@ -6,6 +6,7 @@
 #include <any>
 #include <vector>
 
+#include <Engine/Component/Component.hpp>
 #include <Engine/Component/Transformation.hpp>
 
 class GameObject {

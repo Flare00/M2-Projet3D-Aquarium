@@ -16,12 +16,17 @@ struct LightInfo
 	bool directional;
 };
 
-uniform LightInfo[MAX_LIGHTS] lights;
+struct Material
+{
+	vec3 color;
+};
 
+uniform LightInfo[MAX_LIGHTS] lights;
+uniform Material material;
 
 void main(){
 	
-	color = vec4(1.0,0,0,1.0);
+	color = vec4(material.color, 1.0);
 	/*if(MAX_LIGHTS-1 > 0){
 		color = vec4(lights[0].color, 1);
 	}*/

@@ -3,10 +3,12 @@
 
 #include <vector>
 #include <glm/glm.hpp>
+#include <float.h>
 #include <string>
 #include <GLFW/glfw3.h>
 #include <Engine/Shader.hpp>
 #include <Engine/Component/Component.hpp>
+#include <Graphics/Material.hpp>
 
 class Model : public Component {
 public:
@@ -55,27 +57,38 @@ public:
 protected:
 	Data data;
 
+	Material* material;
+
 	std::vector<glm::vec3> points;
 	std::vector<glm::vec3> normals;
 	std::vector<Face> faces;
 	std::vector<glm::vec2> uv;
+
+	glm::vec3 min, max;
 
 	Shader* shader;
 
 	bool generated = false;
 
 public:
-	Model(Shader* shader, std::string filename) {
+	Model(Shader* shader, std::string filename, Material * material = new Material()) {
 		this->shader = shader;
+		this->material = material;
 
+		//Load OBJ / STL / FBX
+		
+		//ComputeMinMax();
+		//GenerateBuffer();
 	}
 
-	Model(Shader* shader, std::vector<glm::vec3> pts, std::vector<glm::vec3> normals = std::vector<glm::vec3>(), std::vector<Face> faces = std::vector<Face>(), std::vector<glm::vec2> uv = std::vector<glm::vec2>()) {
+	Model(Shader* shader, std::vector<glm::vec3> pts, std::vector<glm::vec3> normals = std::vector<glm::vec3>(), std::vector<Face> faces = std::vector<Face>(), std::vector<glm::vec2> uv = std::vector<glm::vec2>(), Material* material = new Material()) {
 		this->points = pts;
 		this->normals = normals;
 		this->faces = faces;
 		this->uv = uv;
 		this->shader = shader;
+		this->material = material;
+		ComputeMinMax();
 		GenerateBuffer();
 	}
 
@@ -86,6 +99,21 @@ public:
 		if (this->faces.size() > 0)
 		{
 			glDeleteBuffers(1, &this->data.EBO);
+		}
+	}
+
+	void ComputeMinMax() {
+		this->min = glm::vec3(DBL_MAX);
+		this->max = glm::vec3(-DBL_MAX);
+		for (glm::vec3 p : this->points) {
+			for (int i = 0; i < 3; i++) {
+				if (p[i] < this->min[i]) {
+					this->min[i] = p[i];
+				}
+				if (p[i] > this->max[i]) {
+					this->max[i] = p[i];
+				}
+			}
 		}
 	}
 
@@ -141,7 +169,7 @@ public:
 		return this->shader;
 	}
 
-	static Model* Triangle(Shader* shader) {
+	static Model* Triangle(Shader* shader, Material* material = new Material()) {
 		std::vector<glm::vec3> pts;
 		pts.push_back(glm::vec3(-0.5, -0.5, 0.0f));
 		pts.push_back(glm::vec3(0.5, -0.5, 0.0f));
@@ -159,10 +187,10 @@ public:
 		uv.push_back(glm::vec2(0, 0));
 		uv.push_back(glm::vec2(1, 0));
 		uv.push_back(glm::vec2(0.5, 1));
-		return new Model(shader, pts, normals, faces, uv);
+		return new Model(shader, pts, normals, faces, uv, material);
 	}
 
-	static Model* Quad(Shader* shader) {
+	static Model* Quad(Shader* shader, Material* material = new Material()) {
 		std::vector<glm::vec3> pts;
 		pts.push_back(glm::vec3(-1.0, -1.0, 0.0f));
 		pts.push_back(glm::vec3(1.0, -1.0, 0.0f));
@@ -184,10 +212,38 @@ public:
 		uv.push_back(glm::vec2(1, 1));
 		uv.push_back(glm::vec2(0, 1));
 
-		return new Model(shader, pts, normals, faces, uv);
+		return new Model(shader, pts, normals, faces, uv, material);
 	}
 
-	static Model* Cube(Shader* shader) {
+	static Model* DQuad(Shader* shader, Material * material = new Material()) {
+		std::vector<glm::vec3> pts;
+		pts.push_back(glm::vec3(-1.0, -1.0, 0.0f));
+		pts.push_back(glm::vec3(1.0, -1.0, 0.0f));
+		pts.push_back(glm::vec3(1.0, 1.0, 0.0f));
+		pts.push_back(glm::vec3(-1.0, 1.0, 0.0f));
+
+		std::vector<glm::vec3> normals;
+		normals.push_back(glm::vec3(0, 0, 1));
+		normals.push_back(glm::vec3(0, 0, 1));
+		normals.push_back(glm::vec3(0, 0, 1));
+		normals.push_back(glm::vec3(0, 0, 1));
+
+
+		std::vector<Face> faces;
+		faces.push_back(Face(0, 1, 2, 3));
+		faces.push_back(Face(1, 0, 3, 2));
+
+		std::vector<glm::vec2> uv;
+		uv.push_back(glm::vec2(0, 0));
+		uv.push_back(glm::vec2(1, 0));
+		uv.push_back(glm::vec2(1, 1));
+		uv.push_back(glm::vec2(0, 1));
+
+		return new Model(shader, pts, normals, faces, uv, material);
+	}
+
+
+	static Model* Cube(Shader* shader, Material* material = new Material()) {
 		std::vector<glm::vec3> pts;
 		pts.push_back(glm::vec3(-0.5, -0.5, 0.0f));
 		pts.push_back(glm::vec3(0.5, -0.5, 0.0f));
@@ -230,7 +286,27 @@ public:
 		uv.push_back(glm::vec2(1, 1));
 		uv.push_back(glm::vec2(0, 1));
 
-		return new Model(shader, pts, normals, faces, uv);
+		return new Model(shader, pts, normals, faces, uv, material);
+	}
+
+	void SetMaterial(Material * material) {
+		if (this->material != nullptr) {
+			delete(this->material);
+			this->material = nullptr;
+		}
+		this->material = material;
+	}
+
+	Material* GetMaterial() {
+		return this->material;
+	}
+
+	glm::vec3 GetMin() {
+		return this->min;
+	}
+
+	glm::vec3 GetMax() {
+		return this->max;
 	}
 };
 

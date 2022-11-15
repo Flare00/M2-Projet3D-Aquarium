@@ -13,7 +13,7 @@ class MovementScript : public Script, public EngineBehavior
 private:
     Transformation* transformation;
     float tSpeed = 1.0f;
-    float rSpeed = 1.0f;
+    float rSpeed = 10.0f;
 
     //Movement
     int keyUp = GLFW_KEY_SPACE, keyDown = GLFW_KEY_LEFT_SHIFT;

@@ -6,6 +6,7 @@
 #include <Engine/GameObject.hpp>
 #include <Engine/Component/Component.hpp>
 #include <Engine/Component/Transformation.hpp>
+#include <Engine/Component/Model.hpp>
 #include <Engine/Shader.hpp>
 
 class Camera : public Component
@@ -67,6 +68,10 @@ public:
 
 
 protected:
+
+	struct FrustumPlaneState {
+		bool left = false, right = false, top = false, bottom = false, near = false, far = false;
+	};
 
 	struct FrustumDataPerpective {
 		glm::vec4 cols[4] = { glm::vec4(0.0), glm::vec4(0.0), glm::vec4(0.0),glm::vec4(0.0) };
@@ -222,35 +227,35 @@ public:
 	}
 
 
-	bool IsInView(Transformation* transform)
+	bool IsInView(glm::vec3 point)
 	{
-		if (transform == nullptr)
-			return false;
+		FrustumPlaneState fps = GetFrustumPlaneState(point);
 
-
-
-		if (this->settings.isOrtho) {
-			glm::vec4 v = this->GetView() * glm::vec4(transform->getPosition(), 1.0);
-			v = this->projection * v;
-
-			return v.x >= frustumDataOrtho.min.x && v.x <= frustumDataOrtho.max.x &&
-				v.y >= frustumDataOrtho.min.y && v.y <= frustumDataOrtho.max.y &&
-				-v.z >= frustumDataOrtho.min.z && v.z <= frustumDataOrtho.max.z;
-		}
-		else {
-			glm::vec4 v = glm::vec4(transform->getPosition(), 1.0);
-			glm::vec4 calc = glm::vec4(0);
-
-			for (int i = 0; i < 4; i++) {
-				calc[i] = glm::dot(v, frustumDataPerspective.cols[i]);
-			}
-
-			return (-calc.w < calc.x) && (calc.x < calc.w) &&
-				(-calc.w < calc.y) && (calc.y < calc.w) &&
-				(-calc.w < calc.z) && (calc.z < calc.w);
-		}
-		return false;
+		return fps.left && fps.right && fps.bottom && fps.top && fps.near && fps.far;
 	}
+
+	bool IsInView(glm::vec4 min, glm::vec4 max) {
+		return IsInView(glm::vec3(min.x, min.y, min.z), glm::vec3(max.x, max.y, max.z));
+	}
+
+	bool IsInView(glm::vec3 min, glm::vec3 max)
+	{
+		printf("min : [%f, %f, %f] | max : [%f, %f, %f]\n", min.x, min.y, min.z, max.x, max.y, max.z);
+		FrustumPlaneState minState = GetFrustumPlaneState(min);
+		FrustumPlaneState maxState = GetFrustumPlaneState(max);
+
+
+		printf("MIN | L : %d | R : %d | B : %d | T : %d | N : %d | F : %d\n", minState.left, minState.right, minState.bottom, minState.top, minState.near, minState.far);
+		printf("MAX | L : %d | R : %d | B : %d | T : %d | N : %d | F : %d\n", maxState.left, maxState.right, maxState.bottom, maxState.top, maxState.near, maxState.far);
+
+		bool lr = true;
+		bool tb = true;
+		bool nf = true;
+
+		return lr && tb && nf;
+	}
+
+
 
 	Shader* GetShader() {
 		return this->shader;
@@ -263,6 +268,43 @@ public:
 	GLuint GetColorTexture() {
 		return this->framebuffer.tex_color;
 	}
+
+protected:
+	FrustumPlaneState GetFrustumPlaneState(glm::vec3 point)
+	{
+		FrustumPlaneState res;
+
+		if (this->settings.isOrtho) {
+			glm::vec4 v = this->GetView() * glm::vec4(point, 1.0);
+			v = this->projection * v;
+
+			res.left = v.x >= frustumDataOrtho.min.x;
+			res.right = v.x <= frustumDataOrtho.max.x;
+			res.bottom = v.y >= frustumDataOrtho.min.y;
+			res.top = v.y <= frustumDataOrtho.max.y;
+			res.near = -v.z >= frustumDataOrtho.min.z;
+			res.far = v.z <= frustumDataOrtho.max.z;
+		}
+		else {
+			glm::vec4 v = glm::vec4(point, 1.0);
+			glm::vec4 calc = glm::vec4(0);
+
+			for (int i = 0; i < 4; i++) {
+				calc[i] = glm::dot(v, frustumDataPerspective.cols[i]);
+			}
+
+			res.left =  -calc.w < calc.x ;
+			res.right = calc.x < calc.w;
+			res.bottom = -calc.w < calc.y;
+			res.top = calc.y < calc.w;
+			res.near = -calc.w < calc.z;
+			res.far = calc.z < calc.w;
+		}
+
+
+		return  res;
+	}
+
 };
 
 #endif

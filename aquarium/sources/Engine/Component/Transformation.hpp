@@ -37,40 +37,47 @@ public :
         this->scale = glm::vec3(1, 1, 1);
     }
 
-    void setPosition(glm::vec3 position){
+    Transformation* SetPosition(glm::vec3 position){
         this->dirty = true;
         this->position = position;
+        return this;
     }
 
-    void Translate(glm::vec3 translation) {
+    Transformation* Translate(glm::vec3 translation) {
         this->dirty = true;
         this->position += translation;
+        return this;
     }
 
-    void setRotation(glm::vec3 rotation){
+    Transformation* SetRotation(glm::vec3 rotation){
         this->dirty = true;
         this->rotation = rotation;
+        return this;
     }
 
-    void Rotate(glm::vec3 rotation) {
+    Transformation* Rotate(glm::vec3 rotation) {
         this->dirty = true;
         this->rotation += rotation;
+        return this;
     }
 
-    void setScale(glm::vec3 scale){
+    Transformation* SetScale(glm::vec3 scale){
         this->dirty = true;
         this->scale = scale;
+        return this;
     }
 
-    void setScale(double scale){
+    Transformation* SetScale(double scale){
         this->dirty = true;
         this->scale = glm::vec3(scale);
+        return this;
     }
 
 
-    void Scale(double scale) {
+    Transformation* Scale(double scale) {
         this->dirty = true;
         this->scale += glm::vec3(scale);
+        return this;
     }
 
     glm::vec3 getPosition(){
@@ -88,17 +95,16 @@ public :
         this->matrix = glm::mat4(1.0f);
 
 
-        //scale la matrice;
-        matrix = glm::scale(matrix, this->scale);
+        //deplacer la matrice
+        this->matrix = glm::translate(matrix, this->position);
 
         //tourner la matrice selon les 3 axes
-        matrix = glm::rotate(matrix, this->rotation[1], glm::vec3(0, 1, 0));
-        matrix = glm::rotate(matrix, this->rotation[0], glm::vec3(1, 0, 0));
-        matrix = glm::rotate(matrix, this->rotation[2], glm::vec3(0, 0, 1));
+        this->matrix = glm::rotate(matrix, glm::radians(this->rotation[1]), glm::vec3(0, 1, 0));
+        this->matrix = glm::rotate(matrix, glm::radians(this->rotation[0]), glm::vec3(1, 0, 0));
+        this->matrix = glm::rotate(matrix, glm::radians(this->rotation[2]), glm::vec3(0, 0, 1));
 
-
-        //deplacer la matrice
-        matrix = glm::translate(matrix, this->position);
+        //scale la matrice;
+        this->matrix = glm::scale(matrix, this->scale);
 
         this->dirty = false;
 

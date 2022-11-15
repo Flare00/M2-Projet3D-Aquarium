@@ -70,8 +70,14 @@ public:
 				if (elements[indexElem]->IsAlwaysDraw()) {
 					Draw(cameras[indexCam], elements[indexElem], lights);
 				}
-				else if (cameras[indexCam]->IsInView(elements[indexElem]->GetTransformation())) {
-					Draw(cameras[indexCam], elements[indexElem], lights);
+				else
+				{
+					Model* model = elements[indexElem]->GetGameObject()->getFirstComponentByType<Model>();
+					Transformation* t = elements[indexElem]->GetTransformation();
+					if (cameras[indexCam]->IsInView(t->getMatrix() * glm::vec4(model->GetMin(), 1), t->getMatrix() * glm::vec4(model->GetMax(), 1))) {
+						printf("In View\n");
+						Draw(cameras[indexCam], elements[indexElem], lights);
+					}
 				}
 			}
 
@@ -90,7 +96,7 @@ public:
 				break;
 			}
 
-			
+
 			glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
 		}
@@ -100,11 +106,17 @@ public:
 	}
 
 	void Draw(Camera* cam, Displayable* element, std::vector<Light*> lights) {
-		if (element->GetTransformation() == nullptr) {
+
+		
+		Model* model = element->GetGameObject()->getFirstComponentByType<Model>();
+		Draw(cam, element, model, lights);
+	}
+
+	void Draw(Camera* cam, Displayable * element, Model* model, std::vector<Light*> lights) {
+		Transformation* transformation = element->GetTransformation();
+		if (transformation == nullptr) {
 			return;
 		}
-
-		Model* model = element->GetGameObject()->getFirstComponentByType<Model>();
 
 		if (model == nullptr) {
 			return;
@@ -113,13 +125,13 @@ public:
 		Shader* shader = cam->GetShader();
 		if (shader == nullptr) {
 			shader = model->GetShader();
-			updateLight = shader->DefineOverride(Shader::DataOverride(Shader::FRAGMENT, "MAX_LIGHTS", std::to_string(lights.size()+1)));
+			updateLight = shader->DefineOverride(Shader::DataOverride(Shader::FRAGMENT, "MAX_LIGHTS", std::to_string(lights.size() + 1)));
 		}
 		GLuint program = shader->GetProgram();
 
 		glUseProgram(program);
 
-		glUniformMatrix4fv(glGetUniformLocation(program, "u_model"), 1, GL_FALSE, &element->GetTransformation()->getMatrix()[0][0]);
+		glUniformMatrix4fv(glGetUniformLocation(program, "u_model"), 1, GL_FALSE, &transformation->getMatrix()[0][0]);
 		glUniformMatrix4fv(glGetUniformLocation(program, "u_view"), 1, GL_FALSE, &cam->GetView()[0][0]);
 		glUniformMatrix4fv(glGetUniformLocation(program, "u_projection"), 1, GL_FALSE, &cam->GetProjection()[0][0]);
 
@@ -135,6 +147,10 @@ public:
 				glUniform1i(glGetUniformLocation(program, (prefix + ".directional").c_str()), (lights[i]->POINT ? 0 : 1));
 			}
 		}
+
+		Material::Data material = model->GetMaterial()->GetData();
+		glUniform3f(glGetUniformLocation(program, ("material.color")), material.color.x, material.color.y, material.color.z);
+
 
 		if (global.wireframe)
 			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
