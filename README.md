@@ -3,7 +3,7 @@
 Réalisation d'un aquarium simplifié avec graphisme poussé.
 Nous nous concentrerons ici sur l'aspect graphique avec une simulation simplifié de l'eau.
 
-## Build ans Execution
+## Build and Execution
 ```bash
 cmake -Bbuild .
 cmake --build build #Can add the option : --config Debug or --config Release
