@@ -1,6 +1,7 @@
 #ifndef __SHADER_HPP__
 #define __SHADER_HPP__
 
+#include <iostream>
 #include <string>
 #include <GLFW/glfw3.h>
 #include <GL/glew.h>
@@ -255,6 +256,9 @@ protected:
 			glGetShaderInfoLog(shader, maxLength, &maxLength, &errorLog[0]);
 
 			// Provide the infolog in whatever manor you deem best.
+			for(int i = 0; i < maxLength; i++){
+				printf("%c", errorLog[i]);
+			}
 			// Exit with failure.
 			glDeleteShader(shader); // Don't leak the shader.
 			return false;
