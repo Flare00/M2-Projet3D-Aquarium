@@ -78,11 +78,13 @@ Réalisation d'un Moteur ECS / Semi-ECS afin de permettre une meilleure fléxibi
 
 - C++
 - OpenGL
-- GLUT
-- GLFW
-- GLM
-- STB
 - GLSL
+
+- GLUT (https://www.opengl.org/resources/libraries/glut/)
+- GLFW (https://www.glfw.org/)
+- GLM (https://github.com/g-truc/glm)
+- STB (https://github.com/nothings/stb)
+- OpenFBX (https://github.com/nem0/OpenFBX)
 
 ## Inspirations :
   https://madebyevan.com/webgl-water/

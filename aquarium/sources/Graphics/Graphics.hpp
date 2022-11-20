@@ -17,7 +17,7 @@ private:
 		glm::vec4 cols[4];
 		CameraFrustumData(glm::mat4 proj) {
 			for (int i = 0; i < 4; i++) {
-				glm::vec4 col;
+				glm::vec4 col(0,0,0,0);
 				for (int j = 0; j < 4; j++) {
 					col[j] = proj[j][i];
 				}

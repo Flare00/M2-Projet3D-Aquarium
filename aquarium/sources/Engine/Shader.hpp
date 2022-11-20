@@ -145,8 +145,8 @@ protected:
 		size_t found = data.find(search);
 		if (found >= 0) {
 			found += search.size();
-			int cursorStart = found + 1;
-			int cursorEnd = cursorStart;
+			size_t cursorStart = found + 1;
+			size_t cursorEnd = cursorStart;
 			char c = data[cursorStart];
 			bool end = false;
 			while (c != '\n' && c != ' ' && !end) {

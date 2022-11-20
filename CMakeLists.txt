@@ -30,3 +30,5 @@ target_include_directories(Aquarium PUBLIC
         "${CMAKE_SOURCE_DIR}/aquarium/sources"
         $<TARGET_PROPERTY:libs,INTERFACE_INCLUDE_DIRECTORIES>
 )
+
+set_target_properties(Aquarium PROPERTIES OUTPUT_NAME "Aquarium" SUFFIX ".exe")

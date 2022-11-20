@@ -32,7 +32,7 @@ public:
 
         GameObject* obj0 = new GameObject("Obj", this->root);
         obj0->addComponent(new Displayable(obj0));
-        obj0->addComponent(Model::Cube(shader, cubesMaterial));
+        obj0->addComponent(Model::LoadFromFile(shader, "Dragon/Dragon 2.5_fbx.fbx", cubesMaterial));
         obj0->getFirstComponentByType<Transformation>()->SetPosition(glm::vec3(0, 0, 5));;
 
 

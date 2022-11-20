@@ -10,6 +10,9 @@
 #include <Engine/Component/Component.hpp>
 #include <Graphics/Material.hpp>
 
+#include <ofbx.h>
+
+std::string modelFolder = "assets/Model/";
 class Model : public Component {
 public:
 	struct Face {
@@ -55,6 +58,8 @@ public:
 	};
 
 protected:
+	
+
 	Data data;
 
 	Material* material;
@@ -71,15 +76,6 @@ protected:
 	bool generated = false;
 
 public:
-	Model(Shader* shader, std::string filename, Material * material = new Material()) {
-		this->shader = shader;
-		this->material = material;
-
-		//Load OBJ / STL / FBX
-		
-		//ComputeMinMax();
-		//GenerateBuffer();
-	}
 
 	Model(Shader* shader, std::vector<glm::vec3> pts, std::vector<glm::vec3> normals = std::vector<glm::vec3>(), std::vector<Face> faces = std::vector<Face>(), std::vector<glm::vec2> uv = std::vector<glm::vec2>(), Material* material = new Material()) {
 		this->points = pts;
@@ -169,6 +165,73 @@ public:
 		return this->shader;
 	}
 
+	static Model* LoadFromFile(Shader* shader, std::string filename, Material* material = nullptr) 
+	{
+		bool set = false;
+		std::vector<glm::vec3> pts;
+		std::vector<glm::vec3> normals;
+		std::vector<Face> faces;
+		std::vector<glm::vec2> uv;
+
+		//Load OBJ / STL / FBX
+		std::string ext = Tools::GetExtensionLower(filename);
+		if (ext.compare("fbx") == 0) {
+			set = true;
+
+			std::vector<unsigned char> data = Tools::GetFileContentByte(modelFolder + filename);
+			ofbx::IScene* scene = ofbx::load(&data[0], data.size(), (ofbx::u64)ofbx::LoadFlags::TRIANGULATE);
+			const ofbx::Geometry* g = scene->getGeometry(0);
+			const std::vector<ofbx::Vec3> vert = g->getVerticesVector();
+			const std::vector<ofbx::Vec3> norm = g->getNormalsVector();
+			const std::vector<ofbx::Vec2> uvs = g->getUVsVector();
+			for (int i = 0, max = vert.size(); i < max; i++) {
+				pts.push_back(glm::vec3(vert[i].x * 0.01, vert[i].y * 0.01, vert[i].z * 0.01));
+				normals.push_back(glm::vec3(norm[i].x, norm[i].y, norm[i].z));
+				uv.push_back(glm::vec2(uvs[i].x, uvs[i].y));
+			}
+
+			const std::vector<int> indices = g->getFaceIndicesVector();
+			for (int i = 0, max = indices.size(); i < max; i += 3) {
+				int p0 = indices[i], p1 = indices[i + 1], p2 = indices[i + 2];
+				p0 = p0 < 0 ? (-p0) - 1 : p0;
+				p1 = p1 < 0 ? (-p1) - 1 : p1;
+				p2 = p2 < 0 ? (-p2) - 1 : p2;
+				Face f = Face(p0, p2, p1);
+
+				faces.push_back(f);
+			}
+
+			if (material == nullptr) {
+				//Load Material ? 
+				material = new Material();
+			}
+		}
+		else if (ext.compare("stl") == 0) {
+
+		}
+		else if (ext.compare("obj") == 0) {
+			set = true;
+			std::vector<std::vector<int>> facesIds;
+			Tools::ObjLoader(modelFolder + filename, &pts, &normals, &uv, &facesIds);
+
+			for (int i = 0, max = facesIds.size(); i < max; i ++) {
+  				if (facesIds[i].size() == 3) {
+					faces.push_back(Model::Face(facesIds[i][0], facesIds[i][2], facesIds[i][1]));
+				}
+				else if (facesIds[i].size() >= 4) {
+					faces.push_back(Model::Face(facesIds[i][0], facesIds[i][3], facesIds[i][2], facesIds[i][1]));
+				}
+			}
+		}
+
+		if (set) {
+			return new Model(shader, pts, normals, faces, uv, material);
+		}
+		else {
+			return nullptr;
+		}
+	}
+
 	static Model* Triangle(Shader* shader, Material* material = new Material()) {
 		std::vector<glm::vec3> pts;
 		pts.push_back(glm::vec3(-0.5, -0.5, 0.0f));
@@ -215,7 +278,7 @@ public:
 		return new Model(shader, pts, normals, faces, uv, material);
 	}
 
-	static Model* DQuad(Shader* shader, Material * material = new Material()) {
+	static Model* DQuad(Shader* shader, Material* material = new Material()) {
 		std::vector<glm::vec3> pts;
 		pts.push_back(glm::vec3(-1.0, -1.0, 0.0f));
 		pts.push_back(glm::vec3(1.0, -1.0, 0.0f));
@@ -273,7 +336,7 @@ public:
 		faces.push_back(Face(5, 4, 0, 1));
 		faces.push_back(Face(7, 6, 2, 3));
 		// Left & Right
-		faces.push_back(Face(6,5, 1, 2));
+		faces.push_back(Face(6, 5, 1, 2));
 		faces.push_back(Face(3, 0, 4, 7));
 
 		std::vector<glm::vec2> uv;
@@ -289,7 +352,7 @@ public:
 		return new Model(shader, pts, normals, faces, uv, material);
 	}
 
-	void SetMaterial(Material * material) {
+	void SetMaterial(Material* material) {
 		if (this->material != nullptr) {
 			delete(this->material);
 			this->material = nullptr;
