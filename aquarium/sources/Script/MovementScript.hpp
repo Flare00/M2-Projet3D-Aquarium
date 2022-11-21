@@ -79,8 +79,6 @@ public:
     void mouse(double deltaTime){
         if(!firstMouse){
             double dx = global.mouseX - lastXPos, dy = global.mouseY - lastYPos;
-            printf("%f , %f\n", dx, dy);
-
             //Rotation X
             if(dx != 0){
                 this->transformation->Rotate(glm::vec3( 0 ,rSpeed * dx * deltaTime , 0));

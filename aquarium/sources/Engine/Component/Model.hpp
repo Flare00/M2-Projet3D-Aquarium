@@ -214,9 +214,14 @@ public:
 			std::vector<std::vector<int>> facesIds;
 			Tools::ObjLoader(modelFolder + filename, &pts, &normals, &uv, &facesIds);
 
+			//printf("SIZES | PTS : %d | N : %d | UV : %d | FACE : %d\n", pts.size(), normals.size(), uv.size(), facesIds.size());
+			/*for(int i = 0; i < pts.size();i++){
+				printf("PTS[%d] : [%f, %f, %f]\n", i, pts[i].x, pts[i].y, pts[i].z);
+			}*/
 			for (int i = 0, max = facesIds.size(); i < max; i ++) {
+				
   				if (facesIds[i].size() == 3) {
-					faces.push_back(Model::Face(facesIds[i][0], facesIds[i][2], facesIds[i][1]));
+					faces.push_back(Model::Face(facesIds[i][0], facesIds[i][1], facesIds[i][2]));
 				}
 				else if (facesIds[i].size() >= 4) {
 					faces.push_back(Model::Face(facesIds[i][0], facesIds[i][3], facesIds[i][2], facesIds[i][1]));

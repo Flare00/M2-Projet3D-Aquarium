@@ -38,13 +38,13 @@ public:
 
         /*GameObject* obj1 = new GameObject("Obj1", this->root);
         obj1->addComponent(new Displayable(obj1));
-        obj1->addComponent(Model::Cube(shader, cubesMaterial));
+        obj1->addComponent(Model::LoadFromFile(shader, "cube.obj", cubesMaterial));
         obj1->getFirstComponentByType<Transformation>()->SetPosition(glm::vec3(-5, 0, 5));;*/
         
 
         GameObject* obj2 = new GameObject("Obj2", this->root);
         obj2->addComponent(new Displayable(obj2));
-        obj2->addComponent(Model::Cube(shader, cubesMaterial));
+        obj2->addComponent(Model::LoadFromFile(shader, "cube.obj", cubesMaterial));
         obj2->getFirstComponentByType<Transformation>()->SetPosition(glm::vec3(5, 0, 5));
 
         //obj2->addComponent(new MovementScript(obj2));
