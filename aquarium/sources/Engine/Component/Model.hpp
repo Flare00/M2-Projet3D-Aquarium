@@ -8,7 +8,7 @@
 #include <GLFW/glfw3.h>
 #include <Engine/Shader.hpp>
 #include <Engine/Component/Component.hpp>
-#include <Graphics/Material.hpp>
+#include <Graphics/Material/MaterialPBR.hpp>
 
 #include <ofbx.h>
 
@@ -62,7 +62,7 @@ protected:
 
 	Data data;
 
-	Material* material;
+	MaterialPBR* material;
 
 	std::vector<glm::vec3> points;
 	std::vector<glm::vec3> normals;
@@ -77,7 +77,7 @@ protected:
 
 public:
 
-	Model(Shader* shader, std::vector<glm::vec3> pts, std::vector<glm::vec3> normals = std::vector<glm::vec3>(), std::vector<Face> faces = std::vector<Face>(), std::vector<glm::vec2> uv = std::vector<glm::vec2>(), Material* material = new Material()) {
+	Model(Shader* shader, std::vector<glm::vec3> pts, std::vector<glm::vec3> normals = std::vector<glm::vec3>(), std::vector<Face> faces = std::vector<Face>(), std::vector<glm::vec2> uv = std::vector<glm::vec2>(), MaterialPBR* material = new MaterialPBR()) {
 		this->points = pts;
 		this->normals = normals;
 		this->faces = faces;
@@ -165,7 +165,7 @@ public:
 		return this->shader;
 	}
 
-	static Model* LoadFromFile(Shader* shader, std::string filename, Material* material = nullptr) 
+	static Model* LoadFromFile(Shader* shader, std::string filename, MaterialPBR* material = nullptr) 
 	{
 		bool set = false;
 		std::vector<glm::vec3> pts;
@@ -203,7 +203,7 @@ public:
 
 			if (material == nullptr) {
 				//Load Material ? 
-				material = new Material();
+				material = new MaterialPBR();
 			}
 		}
 		else if (ext.compare("stl") == 0) {
@@ -237,7 +237,7 @@ public:
 		}
 	}
 
-	static Model* Triangle(Shader* shader, Material* material = new Material()) {
+	static Model* Triangle(Shader* shader, MaterialPBR* material = new MaterialPBR()) {
 		std::vector<glm::vec3> pts;
 		pts.push_back(glm::vec3(-0.5, -0.5, 0.0f));
 		pts.push_back(glm::vec3(0.5, -0.5, 0.0f));
@@ -258,7 +258,7 @@ public:
 		return new Model(shader, pts, normals, faces, uv, material);
 	}
 
-	static Model* Quad(Shader* shader, Material* material = new Material()) {
+	static Model* Quad(Shader* shader, MaterialPBR* material = new MaterialPBR()) {
 		std::vector<glm::vec3> pts;
 		pts.push_back(glm::vec3(-1.0, -1.0, 0.0f));
 		pts.push_back(glm::vec3(1.0, -1.0, 0.0f));
@@ -283,7 +283,7 @@ public:
 		return new Model(shader, pts, normals, faces, uv, material);
 	}
 
-	static Model* DQuad(Shader* shader, Material* material = new Material()) {
+	static Model* DQuad(Shader* shader, MaterialPBR* material = new MaterialPBR()) {
 		std::vector<glm::vec3> pts;
 		pts.push_back(glm::vec3(-1.0, -1.0, 0.0f));
 		pts.push_back(glm::vec3(1.0, -1.0, 0.0f));
@@ -311,7 +311,7 @@ public:
 	}
 
 
-	static Model* Cube(Shader* shader, Material* material = new Material()) {
+	static Model* Cube(Shader* shader, MaterialPBR* material = new MaterialPBR()) {
 		std::vector<glm::vec3> pts;
 		pts.push_back(glm::vec3(-0.5, -0.5, 0.0f));
 		pts.push_back(glm::vec3(0.5, -0.5, 0.0f));
@@ -357,7 +357,7 @@ public:
 		return new Model(shader, pts, normals, faces, uv, material);
 	}
 
-	void SetMaterial(Material* material) {
+	void SetMaterial(MaterialPBR* material) {
 		if (this->material != nullptr) {
 			delete(this->material);
 			this->material = nullptr;
@@ -365,7 +365,7 @@ public:
 		this->material = material;
 	}
 
-	Material* GetMaterial() {
+	MaterialPBR* GetMaterial() {
 		return this->material;
 	}
 

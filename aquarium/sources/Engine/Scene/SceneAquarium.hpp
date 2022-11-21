@@ -1,13 +1,15 @@
 #ifndef __SCENE_AQUARIUM_HPP__
 #define __SCENE_AQUARIUM_HPP__
 
-#include "Scene.hpp"
+#include <string>
 #include <Script/ColorScript.hpp>
 #include <Graphics/Camera.hpp>
 #include <Graphics/Displayable.hpp>
 #include <Graphics/Light.hpp>
+#include <Graphics/Material/MaterialPBR.hpp>
 #include <Engine/Component/Model.hpp>
 #include <Script/MovementScript.hpp>
+#include "Scene.hpp"
 
 class SceneAquarium : public Scene
 {
@@ -15,11 +17,12 @@ public:
     SceneAquarium(std::string id) : Scene(id){
         this->root = new GameObject("Scene");
 
-        Shader* shader = new Shader("std");
+        Shader* shader = new Shader("pbr");
         this->AddShader(shader);
 
-        Material* cubesMaterial = new Material(Material::Data(glm::vec3(0.5, 0.1, 0.1)));
-        Material* groundMaterial = new Material(Material::Data(glm::vec3(0.1, 0.5, 0.1)));
+        MaterialPBR* cubesMaterial = (new MaterialPBR(glm::vec4(1)))->SetFolderData("Pipe", "png");
+        MaterialPBR* groundMaterial = new MaterialPBR(glm::vec4(0.1,0.5,0.1,1));
+
 
         GameObject* camera = new GameObject("Camera", this->root);
         camera->addComponent(new Camera(camera, Camera::Settings::perspective(global.ScreenAspectRatio())));

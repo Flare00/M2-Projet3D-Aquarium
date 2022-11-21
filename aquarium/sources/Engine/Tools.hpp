@@ -135,6 +135,39 @@ public:
 		}
 		return res;
 	}
+
+	static std::string trim(std::string str){
+		if(str.size() <= 0) return "";
+		int leftPosTrim = 0;
+		int rightPosTrim = str.size();
+		bool leftPosEnd = false;
+		bool rightPosEnd = false;
+		for(int i = 0, max = (((float)str.size())/2.0f) + 1; i < max && (!leftPosEnd || !rightPosEnd); i++){
+			if(!leftPosEnd){
+				printf("L : %c\n", str.at(i));
+				if(str.at(i) == ' '){
+					leftPosTrim = i+1;
+				} else {
+					leftPosEnd = true;
+				}
+			}
+			if(!rightPosEnd){
+				printf("R : %c\n", str.at(str.size() - 1 - i));
+
+				if(str.at(str.size() - 1 - i) == ' '){
+					rightPosTrim = str.size() - i -1;
+				} else {
+					rightPosEnd = true;
+				}
+			}
+		}
+		printf("trim : %d, %d\n",leftPosTrim, rightPosTrim);
+		int length = rightPosTrim - leftPosTrim;
+		if(length > 0){
+			return str.substr(leftPosTrim, length);
+		} 
+		return "";
+	}
 };
 
 #endif // !__TOOLS_HPP__

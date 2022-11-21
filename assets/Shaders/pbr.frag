@@ -25,7 +25,7 @@ struct Material
 	sampler2D roughnessMap;
 	sampler2D aoMap;
 
-	vec3 albedo;
+	vec4 albedo;
 	float metallic;
 	float roughness;
 };
@@ -33,21 +33,29 @@ struct Material
 uniform LightInfo[MAX_LIGHTS] lights;
 uniform Material material;
 
-float computeLight(LightInfo light, vec3 point){
+float computeLight(LightInfo light, vec3 point, vec3 normal){
 	
 	float pow = lights[0].power / (distance(light.pos, point) * lights[0].attenuation);
-	float sens = max(dot(Normal, normalize(light.pos - point)), 0.0);
+	float sens = max(dot(normal, normalize(light.pos - point)), 0.0);
 
 	return pow * (sens > 0 ? 1.0 : 0.0);
 }
 
 void main(){
-	
-	color = vec4(material.color, 1.0);
-	if(MAX_LIGHTS-1 > 0){
-		//color = vec4(lights[0].color, 1);
+	vec4 albedoM = texture(material.albedoMap, TexCoord);
+	vec4 normalM = texture(material.normalMap, TexCoord);
+	vec4 metallicM = texture(material.metallicMap, TexCoord);
+	vec4 roughnessM = texture(material.roughnessMap, TexCoord);
+	vec4 aoM = texture(material.aoMap, TexCoord);
 
-		color = color * computeLight(lights[0], PointCoord.xyz);
+	color =  albedoM * material.albedo;
+
+	vec3 normal = Normal;
+	if(normalM.w == 1){
+		normal = normalM.xyz;
 	}
-	// color = vec4(vec3(gl_FragCoord.z), 1.0);
+
+	/*if(MAX_LIGHTS-1 > 0)
+		color = color * computeLight(lights[0], PointCoord.xyz, normal);*/
+	
 }

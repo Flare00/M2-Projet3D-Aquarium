@@ -149,8 +149,32 @@ public:
 			}
 		}
 
-		Material::Data material = model->GetMaterial()->GetData();
-		glUniform3f(glGetUniformLocation(program, ("material.color")), material.color.x, material.color.y, material.color.z);
+		const MaterialPBR::Data * material = model->GetMaterial()->GetData();
+
+		glUniform4f(glGetUniformLocation(program, ("material.albedo")), material->albedo.x, material->albedo.y, material->albedo.z, material->albedo.w);
+		glUniform1f(glGetUniformLocation(program, ("material.metallic")), material->metallic);
+		glUniform1f(glGetUniformLocation(program, ("material.roughness")), material->roughness);
+
+		glUniform1i(glGetUniformLocation(program, ("material.albedoMap")), 0);
+		glUniform1i(glGetUniformLocation(program, ("material.normalMap")), 1);
+		glUniform1i(glGetUniformLocation(program, ("material.metallicMap")), 2);
+		glUniform1i(glGetUniformLocation(program, ("material.roughnessMap")), 3);
+		glUniform1i(glGetUniformLocation(program, ("material.aoMap")), 4);
+		glUniform1i(glGetUniformLocation(program, ("m_heightmap")), 5);
+
+		glActiveTexture(GL_TEXTURE0);
+		material->albedoMap->Bind();
+		glActiveTexture(GL_TEXTURE1);
+        material->normalMap->Bind();
+		glActiveTexture(GL_TEXTURE2);
+		material->metallicMap->Bind();		
+		glActiveTexture(GL_TEXTURE3);
+		material->roughnessMap->Bind();
+		glActiveTexture(GL_TEXTURE4);
+		material->aoMap->Bind();
+		glActiveTexture(GL_TEXTURE5);
+		material->heightMap->Bind();
+
 
 
 		if (global.wireframe)
