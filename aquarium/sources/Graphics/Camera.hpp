@@ -270,6 +270,10 @@ public:
 		return this->framebuffer.tex_color;
 	}
 
+	glm::vec3 GetPosition(){
+		return this->transform->getPosition();
+	}
+
 protected:
 	FrustumPlaneState GetFrustumPlaneState(glm::vec3 point)
 	{

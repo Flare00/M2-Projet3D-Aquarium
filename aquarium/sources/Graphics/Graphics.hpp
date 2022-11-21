@@ -134,6 +134,8 @@ public:
 		glUniformMatrix4fv(glGetUniformLocation(program, "u_model"), 1, GL_FALSE, &transformation->getMatrix()[0][0]);
 		glUniformMatrix4fv(glGetUniformLocation(program, "u_view"), 1, GL_FALSE, &cam->GetView()[0][0]);
 		glUniformMatrix4fv(glGetUniformLocation(program, "u_projection"), 1, GL_FALSE, &cam->GetProjection()[0][0]);
+		glm::vec3 camPos = cam->GetPosition();
+		glUniform3f(glGetUniformLocation(program, ("cameraPos")), camPos.x, camPos.y, camPos.z);
 
 		if (updateLight) {
 			for (size_t i = 0, max = lights.size(); i < max; i++) {
@@ -161,6 +163,8 @@ public:
 		glUniform1i(glGetUniformLocation(program, ("material.roughnessMap")), 3);
 		glUniform1i(glGetUniformLocation(program, ("material.aoMap")), 4);
 		glUniform1i(glGetUniformLocation(program, ("m_heightmap")), 5);
+
+		
 
 		glActiveTexture(GL_TEXTURE0);
 		material->albedoMap->Bind();

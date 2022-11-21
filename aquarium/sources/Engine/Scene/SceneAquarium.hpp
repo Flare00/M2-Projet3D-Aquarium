@@ -53,7 +53,7 @@ public:
         //obj2->addComponent(new MovementScript(obj2));
 
         GameObject* light = new GameObject("Light1", this->root);
-        light->addComponent(new Light(light, Light::POINT, glm::vec3(1,1,1), 10.0));
+        light->addComponent(new Light(light, Light::POINT, glm::vec3(1,1,1), 50.0, 1.0));
         light->getFirstComponentByType<Transformation>()->SetPosition(glm::vec3(0,5,0));
 
 
