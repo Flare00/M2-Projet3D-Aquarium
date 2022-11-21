@@ -9,6 +9,12 @@
 #include <Engine/Global.hpp>
 #include <Engine/Engine.hpp>
 
+static void cursorPositionCallback(GLFWwindow* window, double xpos, double ypos){
+	global.mouseX = xpos;
+	global.mouseY = ypos;
+}
+
+
 double avance = 0.0;
 void compute(double deltaTime){
     avance += deltaTime;
@@ -22,6 +28,8 @@ void mainLoop(){
     double deltaTime = currentFrame - lastFrame;
     lastFrame = currentFrame;
     double sumDelta=  0.0;
+
+
 
     do{
         if(glfwGetKey(global.global_window, GLFW_KEY_ESCAPE) == GLFW_PRESS){
@@ -77,7 +85,7 @@ int main(int argc, char* argv[]){
 	glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GL_TRUE);
 
     // Open a global.global_window and create its OpenGL context
-    global.global_window = glfwCreateWindow(global.screen_width, global.screen_height, "Moteur", NULL, NULL);
+    global.global_window = glfwCreateWindow(global.screen_width, global.screen_height, "Aquarium 3D", NULL, NULL);
 
 	if (global.global_window == NULL)
 	{
@@ -130,6 +138,9 @@ int main(int argc, char* argv[]){
 
 	glEnable(GL_TEXTURE_2D);
 	glEnable(GL_FRAMEBUFFER_SRGB);
+
+	// Setup mouse callback
+	glfwSetCursorPosCallback(global.global_window, cursorPositionCallback);
 
 	// Launch main loop
 	mainLoop();
