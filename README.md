@@ -23,16 +23,17 @@ cmake --build build #Can add the option : --config Debug or --config Release
 - [ ] Faire un système pour interagir avec l'environnement avec la souris
 
 #### Étape 2 - Effet lumineux : --- Minimum à implémenter ---
-- [ ] faire un système de lampe projeter (soleil / spot)
-- [ ] Caustics et God Rays
-- [ ] Ombre projeté
-- [ ] Utilisation du RayCast GPU ? (Réfraction/Réflexion)
+- [ ] faire un système de lampe projeter (soleil / spot).
+- [ ] Caustics et God Rays.
+- [ ] Ombre projeté.
+- [ ] Utilisation du RayCast GPU (Réfraction/Réflexion). (?)
 
 #### Étape 3 - Ajout de vie :
 - [ ] Ajouter des poissons avec système de boids suivant une trajectoire / courant
 - [ ] Ajouter des particules de bulles / planctons / autres
 - [ ] Ajout de plante bougeant avec l'eau et les poissons.
-- [ ] Ajout de bateau contrôlable ? 
+- [ ] Ajout de bateau/sous-marin contrôlable.
+
 
 #### Étape 4 - Ajout de sable :
 - [ ] Rajouter des particules de sable réagissant à l'environnement / créant des particules.
@@ -46,29 +47,29 @@ cmake --build build #Can add the option : --config Debug or --config Release
 Réalisation d'un Moteur ECS / Semi-ECS afin de permettre une meilleure fléxibilité.
 
 #### Module IA :
-- [ ] Poissons Boids (utilisé un nuage de points pour limiter le nombre de mesh 3D ? / utilisation d'un geometry shader pour appliquer le mesh3D)
-- [ ] Déplacement par suivi de courbe / courants / aléatoire 
-- [ ] Autre IA
+- [ ] Poissons Boids (utilisé un nuage de points pour limiter le nombre de mesh 3D ? / utilisation d'un geometry shader pour appliquer le mesh3D).
+- [ ] Déplacement par suivi de courbe / courants / aléatoire .
+- [ ] Autre IA.
 
 #### Module physique :
-- [ ] Simulation de surface aquatique
-- [ ] Collision surface / objet
-- [ ] Application de force autre sur la surface
-- [ ] Collision entre deux objets
-- [ ] différents types d'objets
-- [ ] déplacement d'une algue
-- [ ] déplacement du sable / particules
+- [ ] Simulation de surface aquatique.
+- [ ] Collision surface / objet.
+- [ ] Application de force autre sur la surface.
+- [ ] Collision entre deux objets.
+- [ ] Différents types d'objets.
+- [ ] Déplacement d'une algue.
+- [ ] Déplacement du sable / particules.
 
 #### Module Graphique : 
-- [ ] Lecture de fichier OBJ / STL
-- [ ] Lecture d'animations ?
-- [ ] Lecture de texture 2D
+- [X] Affichage d'objet 3D
+- [X] Lecture de fichier OBJ / STL
+- [X] Lecture de texture 2D
+- [X] Systeme de Framebuffer
+- [ ] Lecture d'animations.
 - [ ] Systeme de particules.
-- [ ] Système de Framebuffer
-- [ ] Calcul d'ombre portée / Shadow Mapping
-- [ ] Calcul de Caustics et God Rays
-- [ ] Affichage d'objet 3D
-- [ ] Tesselation Shader
+- [ ] Calcul d'ombre portée / Shadow Mapping.
+- [ ] Calcul de Caustics et God Rays.
+- [ ] Tesselation Shader.
 - [ ] Geometry Shader pour le particules system.
 
 #### Module Sons : 
