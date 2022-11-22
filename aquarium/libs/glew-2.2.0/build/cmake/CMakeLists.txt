@@ -6,6 +6,8 @@ project (glew C)
 
 cmake_minimum_required (VERSION 2.8.12)
 
+set(GLEW_USE_STATIC_LIBS)
+
 include(GNUInstallDirs)
 
 if(POLICY CMP0003)

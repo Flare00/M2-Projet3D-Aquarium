@@ -3,7 +3,6 @@
 
 
 #include <Engine/Component/Script.hpp>
-#include <Engine/EngineBehavior.hpp>
 #include <Engine/Component/Transformation.hpp>
 #include <GLFW/glfw3.h>
 
@@ -31,7 +30,6 @@ public:
 
     virtual void loop(double deltaTime)
     {
-
         keyboard(deltaTime);
         mouse(deltaTime);
 

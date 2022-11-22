@@ -3,7 +3,6 @@
 
 #include <cmath>
 #include <Engine/Component/Script.hpp>
-#include <Engine/EngineBehavior.hpp>
 
 class ColorScript : public Script
 {
@@ -24,7 +23,7 @@ public:
         }
     }
 
-    virtual void loop(double deltaTime) {
+    void loop(double deltaTime) override {
         this->avance += deltaTime;
         double value = (cos(avance) + 1.0) / 2.0;
         double r = 1.0f, g = 1.0f, b = 1.0f;

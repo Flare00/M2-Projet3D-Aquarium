@@ -4,7 +4,7 @@
 #include <Engine/Component/Component.hpp>
 #include <Engine/EngineBehavior.hpp>
 
-class Script : public Component, EngineBehavior
+class Script : public Component, public EngineBehavior
 {
 };
 

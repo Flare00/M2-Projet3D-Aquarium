@@ -64,23 +64,22 @@ public:
 		std::ifstream file(filepath);
 		if (!file.is_open()) return; //if openning failed, return
 
-		std::vector<glm::vec3> tmpPts;
-		std::vector<glm::vec3> tmpNormals;
-		std::vector<glm::vec2> tmpUvs;
 		std::vector<std::vector<PointFaceData>> tmpFaces;
-
+		std::vector<glm::vec3> normalPerVertex;
+		std::vector<glm::vec3> tmpN;
 		std::string line;
 		while (std::getline(file, line)) {
 			std::vector<std::string> tmp = SplitString(line, " ");
 			if (tmp[0].find_first_of("#") == -1) {
 				if (tmp[0].compare("v") == 0) {
-					tmpPts.push_back(glm::vec3(std::stod(tmp[1]), std::stod(tmp[2]), std::stod(tmp[3])));
+					pts->push_back(glm::vec3(std::stod(tmp[1]), std::stod(tmp[2]), std::stod(tmp[3])));
+					normalPerVertex.push_back(glm::vec3(0));
 				}
 				else if (tmp[0].compare("vt") == 0) {
-					tmpUvs.push_back(glm::vec2(std::stod(tmp[1]), std::stod(tmp[2])));
+					uvs->push_back(glm::vec2(std::stod(tmp[1]), std::stod(tmp[2])));
 				}
 				else if (tmp[0].compare("vn") == 0) {
-					tmpNormals.push_back(glm::vec3(std::stod(tmp[1]), std::stod(tmp[2]), std::stod(tmp[3])));
+					tmpN.push_back(glm::vec3(std::stod(tmp[1]), std::stod(tmp[2]), std::stod(tmp[3])));
 				}
 				else if (tmp[0].compare("f") == 0) {
 					std::vector<PointFaceData> ids;
@@ -115,13 +114,15 @@ public:
 			std::vector<PointFaceData> pfds = tmpFaces[i];
 			std::vector<int> facesIds;
 			for(size_t j = 0, maxJ = pfds.size(); j < maxJ; j++){
-				pts->push_back( tmpPts[pfds[j].vertex]);
-				uvs->push_back( tmpUvs[pfds[j].uv]);
-				normals->push_back( tmpNormals[pfds[j].normal]);
-				facesIds.push_back(cursor);
+				facesIds.push_back(pfds[j].vertex);
+				normalPerVertex[pfds[j].vertex] += tmpN[pfds[j].normal];
 				cursor++;
 			}
 			faces->push_back(facesIds);
+		}
+
+		for (size_t i = 0, maxI = normalPerVertex.size(); i < maxI; i++) {
+			normals->push_back(glm::normalize(normalPerVertex[i]));
 		}
 				
 

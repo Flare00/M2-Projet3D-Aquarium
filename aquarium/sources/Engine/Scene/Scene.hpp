@@ -7,7 +7,9 @@
 #include <Engine/EngineBehavior.hpp>
 #include <Engine/GameObject.hpp>
 #include <Engine/Shader.hpp>
+#include <Engine/Component/Script.hpp>
 #include <Script/ColorScript.hpp>
+
 class Scene : public EngineBehavior
 {
 protected:
@@ -24,11 +26,11 @@ public:
 	virtual void start() {
 		//start all scripts
 		if (root != NULL) {
-			std::vector<EngineBehavior*> gameBehaviors = root->getComponentsByTypeRecursive<EngineBehavior>();
+			std::vector<Script*> engineBehaviors = root->getComponentsByTypeRecursive<Script>();
 
-			for (size_t i = 0, max = gameBehaviors.size(); i < max; i++) {
-				if (!gameBehaviors[i]->started) {
-					gameBehaviors[i]->start();
+			for (size_t i = 0, max = engineBehaviors.size(); i < max; i++) {
+				if (!engineBehaviors[i]->started) {
+					engineBehaviors[i]->start();
 				}
 			}
 		}

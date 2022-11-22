@@ -1,5 +1,5 @@
-#ifndef __GAME_BEHAVIOR_HPP__
-#define __GAME_BEHAVIOR_HPP__
+#ifndef __ENGINE_BEHAVIOR_HPP__
+#define __ENGINE_BEHAVIOR_HPP__
 
 class EngineBehavior
 {

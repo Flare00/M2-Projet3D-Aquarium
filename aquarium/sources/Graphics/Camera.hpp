@@ -218,7 +218,6 @@ public:
 		}
 		else
 		{
-			printf("FOV : %f\n", this->settings.fov);
 			this->projection = glm::perspectiveLH(glm::radians(this->settings.fov), this->settings.aspect, this->settings.near, this->settings.far);
 		}
 	}
