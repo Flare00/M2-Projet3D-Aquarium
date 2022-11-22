@@ -103,9 +103,6 @@ protected:
 		}
 	};
 
-
-	GameObject* attachment;
-	Transformation* transform;
 	Type type = Type::RENDER;
 	Settings settings;
 
@@ -116,20 +113,31 @@ protected:
 
 	Framebuffer framebuffer;
 
-	Shader* shader;
+	std::string shadername;
+	IMaterial* renderMaterial;
 public:
-
-	Camera(GameObject* attachment, Settings settings = Settings::perspective(), Type type = Type::RENDER, Shader* shader = nullptr)
+	Camera(Settings settings = Settings::perspective(), Type type = Type::RENDER, std::string shadername = "")
 	{
-		this->attachment = attachment;
-		this->transform = this->attachment->getFirstComponentByType<Transformation>();
 		this->settings = settings;
 		this->type = type;
-		this->shader = shader;
+		if (shadername.size() > 0) {
+			 this->renderMaterial = new IMaterial(shadername);
+		}
+		else {
+			this->renderMaterial = nullptr;
+		}
 		//Create Framebuffer for this camera
+
+	}
+
+	void PostAttachment() override {
+		if(renderMaterial != nullptr)
+			this->attachment->addComponent(this->renderMaterial);
 		GenerateFrameBuffer();
 		UpdateData();
 	}
+
+
 
 	~Camera() {
 		glDeleteTextures(1, &this->framebuffer.tex_color);
@@ -145,7 +153,7 @@ public:
 		// create a color attachment texture
 		glGenTextures(1, &this->framebuffer.tex_color);
 		glBindTexture(GL_TEXTURE_2D, this->framebuffer.tex_color);
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, global.screen_width, global.screen_height, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA16F, global.screen_width, global.screen_height, 0, GL_RGBA, GL_FLOAT, NULL);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, this->framebuffer.tex_color, 0);
@@ -168,8 +176,9 @@ public:
 	}
 
 	glm::mat4 GetView() {
-		if (this->transform != nullptr) {
-			this->transform->Update();
+		Transformation* transform = this->attachment->GetTransform();
+		if (transform != nullptr) {
+			transform->Update();
 			return glm::lookAt(transform->getPosition(), transform->getPosition() + transform->getFrontVector(), transform->getUpVector());
 		}
 		return glm::mat4(1.0);
@@ -258,8 +267,8 @@ public:
 
 
 
-	Shader* GetShader() {
-		return this->shader;
+	IMaterial* GetRenderMaterial() {
+		return this->renderMaterial;
 	}
 
 	GLuint GetFrameBuffer() {
@@ -271,7 +280,7 @@ public:
 	}
 
 	glm::vec3 GetPosition(){
-		return this->transform->getPosition();
+		return this->attachment->GetTransform()->getPosition();
 	}
 
 protected:

@@ -37,7 +37,7 @@ private:
 
 public:
 	Graphics() {
-		this->quad = Model::Quad(new Shader("screen"));
+		this->quad = Model::Quad(new IMaterial("screen"));
 		GLuint prog = quad->GetShader()->GetProgram();
 		glUseProgram(prog);
 		glUniform1i(glGetUniformLocation(prog, "renderTexture"), 0);
@@ -102,7 +102,6 @@ public:
 		}
 
 		DrawToScreen(data);
-
 	}
 
 	void Draw(Camera* cam, Displayable* element, std::vector<Light*> lights) {
@@ -122,64 +121,16 @@ public:
 			return;
 		}
 		bool updateLight = false;
-		Shader* shader = cam->GetShader();
-		if (shader == nullptr) {
-			shader = model->GetShader();
-			updateLight = shader->DefineOverride(Shader::DataOverride(Shader::FRAGMENT, "MAX_LIGHTS", std::to_string(lights.size() + 1)));
-		}
-		GLuint program = shader->GetProgram();
 
-		glUseProgram(program);
-
-		glUniformMatrix4fv(glGetUniformLocation(program, "u_model"), 1, GL_FALSE, &transformation->getMatrix()[0][0]);
-		glUniformMatrix4fv(glGetUniformLocation(program, "u_view"), 1, GL_FALSE, &cam->GetView()[0][0]);
-		glUniformMatrix4fv(glGetUniformLocation(program, "u_projection"), 1, GL_FALSE, &cam->GetProjection()[0][0]);
-		glm::vec3 camPos = cam->GetPosition();
-		glUniform3f(glGetUniformLocation(program, ("cameraPos")), camPos.x, camPos.y, camPos.z);
-
-		if (updateLight) {
-			for (size_t i = 0, max = lights.size(); i < max; i++) {
-				Light::Data data = lights[i]->GetData();
-				std::string prefix = "lights[" + std::to_string(i) + "]";
-				//printf("Infos : %s : [%f, %f, %f]\n", (prefix + ".pos").c_str(), data.pos.x, data.pos.y, data.pos.z);
-				glUniform3f(glGetUniformLocation(program, (prefix + ".pos").c_str()), data.pos.x, data.pos.y, data.pos.z);
-				glUniform3f(glGetUniformLocation(program, (prefix + ".dir").c_str()), data.dir.x, data.dir.y, data.dir.z);
-				glUniform3f(glGetUniformLocation(program, (prefix + ".color").c_str()), data.color.x, data.color.y, data.color.z);
-				glUniform1f(glGetUniformLocation(program, (prefix + ".power").c_str()), data.power);
-				glUniform1f(glGetUniformLocation(program, (prefix + ".attenuation").c_str()), data.attenuation);
-				glUniform1i(glGetUniformLocation(program, (prefix + ".directional").c_str()), (lights[i]->POINT ? 0 : 1));
-			}
+		IMaterial* renderMaterial = cam->GetRenderMaterial();
+		if (renderMaterial == nullptr) {
+			renderMaterial = model->GetRenderMaterial();
 		}
 
-		const MaterialPBR::Data * material = model->GetMaterial()->GetData();
+		renderMaterial->SetDataGPU(transformation->getMatrix(), cam->GetView(), cam->GetProjection(), cam->GetPosition());
+		renderMaterial->SetLightGPU(lights);
 
-		glUniform4f(glGetUniformLocation(program, ("material.albedo")), material->albedo.x, material->albedo.y, material->albedo.z, material->albedo.w);
-		glUniform1f(glGetUniformLocation(program, ("material.metallic")), material->metallic);
-		glUniform1f(glGetUniformLocation(program, ("material.roughness")), material->roughness);
-
-		glUniform1i(glGetUniformLocation(program, ("material.albedoMap")), 0);
-		glUniform1i(glGetUniformLocation(program, ("material.normalMap")), 1);
-		glUniform1i(glGetUniformLocation(program, ("material.metallicMap")), 2);
-		glUniform1i(glGetUniformLocation(program, ("material.roughnessMap")), 3);
-		glUniform1i(glGetUniformLocation(program, ("material.aoMap")), 4);
-		glUniform1i(glGetUniformLocation(program, ("m_heightmap")), 5);
-
-		
-
-		glActiveTexture(GL_TEXTURE0);
-		material->albedoMap->Bind();
-		glActiveTexture(GL_TEXTURE1);
-        material->normalMap->Bind();
-		glActiveTexture(GL_TEXTURE2);
-		material->metallicMap->Bind();		
-		glActiveTexture(GL_TEXTURE3);
-		material->roughnessMap->Bind();
-		glActiveTexture(GL_TEXTURE4);
-		material->aoMap->Bind();
-		glActiveTexture(GL_TEXTURE5);
-		material->heightMap->Bind();
-
-
+		glUseProgram(renderMaterial->GetShader()->GetProgram());
 
 		if (global.wireframe)
 			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
@@ -200,35 +151,12 @@ private:
 		glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 
-		/*GLuint renderTex = -1;
-		if (d.renderCamera.size() > 0) {
-			//glBindFramebuffer(GL_FRAMEBUFFER, d.renderCamera[0]->GetFrameBuffer());
-			renderTex = d.renderCamera[0]->GetColorTexture();
-		}
-		GLuint depthTex = -1;
-		if (d.depthCamera.size() > 0) {
-			//glBindFramebuffer(GL_FRAMEBUFFER, d.depthCamera[0]->GetFrameBuffer());
-			depthTex = d.depthCamera[0]->GetColorTexture();
-		}*/
-
-
-
 		GLuint program = this->quad->GetShader()->GetProgram();
 		glUseProgram(program);
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
 		Model::Data mData = this->quad->GetData();
 		glBindVertexArray(mData.VAO);
-		// Set Graphicals Texture
-
-		/*if (renderTex > -1) {
-			glActiveTexture(GL_TEXTURE0 + 0);
-			glBindTexture(GL_TEXTURE_2D, renderTex);
-		}
-		if (depthTex > -1) {
-			glActiveTexture(GL_TEXTURE0 + 1);
-			glBindTexture(GL_TEXTURE_2D, depthTex);
-		}*/
 		glDrawElements(GL_TRIANGLES, mData.sizeEBO, GL_UNSIGNED_INT, 0);
 	}
 

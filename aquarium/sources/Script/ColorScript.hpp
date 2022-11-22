@@ -12,7 +12,7 @@ private:
     double avance = 0.0;
 
 public:
-    ColorScript(GameObject* attachment, int color_mode) : Script(attachment) {
+    ColorScript(int color_mode) : Script() {
         if (color_mode <= 0) {
             this->color_mode = 0;
         }

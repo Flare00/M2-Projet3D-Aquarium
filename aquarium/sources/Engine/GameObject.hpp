@@ -14,6 +14,7 @@ class GameObject {
 protected:
 	std::string identifier;
 	GameObject* parent;
+	Transformation* transform;
 	std::vector<GameObject*> childs;
 	std::vector<Component *> components;
 	bool active = true;
@@ -25,7 +26,8 @@ public:
 		if (addToParent && parent != NULL) {
 			this->parent->addChild(this);
 		}
-		this->components.push_back(new Transformation());
+		this->transform = new Transformation();
+		this->components.push_back(transform);
 	}
 
 	GameObject(std::string id, GameObject* parent, std::vector<GameObject*> childs, bool addToParent = false) : GameObject(id, parent, addToParent)
@@ -36,7 +38,8 @@ public:
 			this->parent->addChild(this);
 		}
 		this->childs = childs;
-		this->components.push_back(new Transformation());
+		this->transform = new Transformation();
+		this->components.push_back(transform);
 	}
 
 	~GameObject()
@@ -135,7 +138,10 @@ public:
 
 	void addComponent(Component* component)
 	{
-		this->components.push_back(component);
+		if (component != nullptr) {
+			component->Attach(this);
+			this->components.push_back(component);
+		}
 	}
 
 
@@ -205,6 +211,10 @@ public:
 
 	void SetActive(bool active) {
 		this->active = active;
+	}
+
+	Transformation* GetTransform() {
+		return this->transform;
 	}
 };
 

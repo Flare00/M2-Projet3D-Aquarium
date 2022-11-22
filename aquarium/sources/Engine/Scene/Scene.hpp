@@ -12,12 +12,6 @@ class Scene : public EngineBehavior
 {
 protected:
 	GameObject* root = NULL;
-	std::vector<Shader*> shadersForReload;
-
-	Shader* AddShader(Shader* s) {
-		this->shadersForReload.push_back(s);
-		return s;
-	}
 public:
 	std::string id;
 
@@ -73,8 +67,8 @@ public:
 	}
 
 	void ReloadShaders() {
-		for (Shader* s : shadersForReload) {
-			s->Reload();
+		for (SettedShader s : settedShaders) {
+			s.shader->Reload();
 		}
 	}
 

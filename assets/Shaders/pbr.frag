@@ -1,13 +1,15 @@
 #version 430
 #define MAX_LIGHTS 1
 
+// --- IN / OUT ---
+
 out vec4 color;
 
 in vec3 Normal;
 in vec2 TexCoord;
 in vec4 PointCoord;
 
-const float PI = 3.14159265359;
+// --- Structs ---
 
 struct LightInfo
 {
@@ -15,16 +17,15 @@ struct LightInfo
 	vec3 dir;
 	vec3 color;
 	float power;
-	float attenuation;
 	bool directional;
 };
 
 struct Material
 {
 	sampler2D albedoMap;
-	sampler2D normalMap;
 	sampler2D metallicMap;
 	sampler2D roughnessMap;
+	sampler2D normalMap;
 	sampler2D aoMap;
 
 	vec4 albedo;
@@ -32,10 +33,32 @@ struct Material
 	float roughness;
 };
 
+// --- Global Variables ---
+
 uniform LightInfo[MAX_LIGHTS] lights;
 uniform Material material;
-uniform vec3 cameraPos;
+uniform vec3 u_cameraPos;
 
+const float PI = 3.14159265359;
+const float gamma = 2.2;
+
+// --- PBR Functions --- 
+vec3 getNormalFromMap()
+{
+    vec3 tangentNormal = texture(material.normalMap, TexCoord).xyz * 2.0 - 1.0;
+
+    vec3 Q1  = dFdx(PointCoord.xyz);
+    vec3 Q2  = dFdy(PointCoord.xyz);
+    vec2 st1 = dFdx(TexCoord);
+    vec2 st2 = dFdy(TexCoord);
+
+    vec3 N   = normalize(Normal);
+    vec3 T  = normalize(Q1*st2.t - Q2*st1.t);
+    vec3 B  = -normalize(cross(N, T));
+    mat3 TBN = mat3(T, B, N);
+
+    return normalize(TBN * tangentNormal);
+}
 float DistributionGGX(vec3 N, vec3 H, float roughness)
 {
     float a = roughness*roughness;
@@ -69,41 +92,63 @@ float GeometrySmith(vec3 N, vec3 V, vec3 L, float roughness)
 
     return ggx1 * ggx2;
 }
-vec3 fresnelSchlick(float cosTheta, vec3 F0)
+vec3 FresnelSchlick(float cosTheta, vec3 F0)
 {
     return F0 + (1.0 - F0) * pow(clamp(1.0 - cosTheta, 0.0, 1.0), 5.0);
 }
 
-float gamma = 2.2f;
 
-float computeLight(LightInfo light, vec3 point, vec3 normal){
-	vec3 lightDir = normalize(light.pos - point);
-	
-	float dist = distance(light.pos, point);
-	float diff = max(dot(lightDir, normal), 0.0);
-	float power = light.power / (pow(dist,gamma)  * light.attenuation);
-
-	return power * diff;
-}
+// --- Main ---
 
 void main(){
-	
-	vec4 albedoM = texture(material.albedoMap, TexCoord);
-	vec4 normalM = texture(material.normalMap, TexCoord);
+	// Get textures infos
 	vec4 metallicM = texture(material.metallicMap, TexCoord);
 	vec4 roughnessM = texture(material.roughnessMap, TexCoord);
 	vec4 aoM = texture(material.aoMap, TexCoord);
 
-	color =  albedoM * material.albedo;
+	// Set variables
+	vec4 Albedo = pow(texture(material.albedoMap, TexCoord) * material.albedo, vec4(gamma, gamma, gamma, 1));
+	vec3 Norm = getNormalFromMap();
+	float Metal = (metallicM.a == 0) ? material.metallic : metallicM.r;
+	float Roughness = (roughnessM.a == 0) ? material.roughness : roughnessM.r;
+	float Ao = (aoM.a == 0) ? 1.0f : aoM.r;
 
-	vec3 normal = Normal;
-	if(normalM.w == 1){
-		normal = normalM.xyz;
+	vec3 V = normalize(u_cameraPos - PointCoord.xyz);
+	// Reflectance at normal incidence, 0.04 for plastic, else albedo
+	vec3 F0 = vec3(0.04);
+	F0 = mix(F0, Albedo.xyz, Metal);
+
+	// reflectance equation
+	vec3 Lo = vec3(0.0);
+	for( int i = 0 ; i < MAX_LIGHTS - 1; i++){
+		//per light radiance
+		vec3 L = normalize(lights[0].pos - PointCoord.xyz);
+		vec3 H = normalize(V + L);
+		float dist = length(lights[0].pos - PointCoord.xyz);
+		float attenuation = lights[0].power /  (dist * dist);
+		vec3 radiance = lights[0].color * attenuation;
+
+		// Cook-Torrance BRDF
+		float NDF = DistributionGGX(Norm,H, Roughness);
+		float Geom	= GeometrySmith(Norm, V, L, Roughness);
+		vec3 Fresnel = FresnelSchlick(max(dot(H, V), 0.0), F0);
+
+		float NdotL = max(dot(Norm, L), 0.0);
+
+		vec3 numerator = NDF * Geom * Fresnel;
+		float denominator = 4.0 * max(dot(Norm, V), 0.0) * NdotL + 0.0001;
+		vec3 spec = numerator/denominator;
+
+		vec3 kD = vec3(1.0) - Fresnel;
+		kD *= 1.0 - Metal;
+		
+		Lo += ((kD * Albedo.rgb / PI) + spec) * radiance * NdotL; // note that we already multiplied the BRDF by the Fresnel (kS) so we won't multiply by kS again
 	}
 
-	normal = normalize((normal * 2.0) - 1.0);
+	vec3 ambient = vec3(0.001) * Albedo.rgb * Ao;
 
-	if(MAX_LIGHTS-1 > 0)
-		color = color* computeLight(lights[0], PointCoord.xyz, normal);
-	//color = vec4(normal,1.0);
+	vec3 c = ambient + Lo;
+	c = c / (c+vec3(1.0));
+	c = pow(c, vec3(1.0/gamma));
+	color = vec4(c, 1.0);
 }

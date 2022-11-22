@@ -6,11 +6,8 @@
 
 class Script : public Component
 {
-protected:
-    GameObject * attachment;
 public : 
-    Script(GameObject * attachment){
-        this->attachment = attachment;
+    Script(){
     }
 };
 

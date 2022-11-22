@@ -1,4 +1,5 @@
 #version 430
+#extension GL_OES_standard_derivatives : enable
 
 layout(location = 0) in vec3 aPos;
 layout(location = 1) in vec3 aNormal;
@@ -14,12 +15,12 @@ out vec3 Normal;
 out vec2 TexCoord;
 out vec4 PointCoord;
 
+const float displacementFactor = 0.1f;
+const float displacementBias = 0.0f;
 
 void main(){
-	vec4 p = (u_view * u_model) * vec4(aPos,1.0f);
 	PointCoord = u_model * vec4(aPos,1.0f);
 	Normal = normalize(mat3(transpose(inverse(u_model))) * aNormal);
 	TexCoord = aTexCoord;
-
-	gl_Position =  u_projection * p;
+	gl_Position =  u_projection * ((u_view * u_model) * vec4(aPos,1.0f));
 }

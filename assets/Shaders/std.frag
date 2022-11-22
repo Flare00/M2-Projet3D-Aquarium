@@ -13,7 +13,6 @@ struct LightInfo
 	vec3 dir;
 	vec3 color;
 	float power;
-	float attenuation;
 	bool directional;
 };
 
@@ -26,8 +25,8 @@ uniform LightInfo[MAX_LIGHTS] lights;
 uniform Material material;
 
 float computeLight(LightInfo light, vec3 point){
-	
-	float pow = lights[0].power / (distance(light.pos, point) * lights[0].attenuation);
+	float dist = distance(light.pos, point);
+	float pow = lights[0].power / (dist * dist);
 	float sens = max(dot(Normal, normalize(light.pos - point)), 0.0);
 
 	return pow * (sens > 0 ? 1.0 : 0.0);
