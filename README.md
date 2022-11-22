@@ -5,12 +5,11 @@ Nous nous concentrerons ici sur l'aspect graphique avec une simulation simplifiÃ
 
 ## Build and Execution
 ```bash
+# Build
 cmake -Bbuild .
 cmake --build build #Can add the option : --config Debug or --config Release
 
-# For Linux :
-./Aquarium
-# For Windows :
+# Execution
 ./Aquarium.exe
 ```
 > The executable and dynamics libraries are generated in the root folder.
