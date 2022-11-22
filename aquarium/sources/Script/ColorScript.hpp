@@ -5,14 +5,14 @@
 #include <Engine/Component/Script.hpp>
 #include <Engine/EngineBehavior.hpp>
 
-class ColorScript : public Script, public EngineBehavior
+class ColorScript : public Script
 {
 private:
     int color_mode = 0; //0 : R, 1 : G, 2 : B
     double avance = 0.0;
 
 public:
-    ColorScript(int color_mode) : Script() {
+    ColorScript(int color_mode) {
         if (color_mode <= 0) {
             this->color_mode = 0;
         }

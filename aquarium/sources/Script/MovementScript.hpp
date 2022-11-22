@@ -8,7 +8,7 @@
 #include <GLFW/glfw3.h>
 
 
-class MovementScript : public Script, public EngineBehavior
+class MovementScript : public Script
 {
 private:
     float tSpeed = 1.0f;
