@@ -106,34 +106,10 @@ vec3 fresnelSchlick(float cosTheta, vec3 F0)
 // --- Other Functions ---
 vec3 ComputeLight(LightInfo light,vec3 V,vec3 F0, vec3 albedo, vec3 N,  float metallic, float roughness){
 	//per light radiance
-	/*vec3 L = normalize(light.pos - PointCoord.xyz);
-	vec3 H = normalize(V + L);
-	float dist = length(light.pos - PointCoord.xyz);
-	float attenuation = light.power /  (dist*dist);
-	vec3 radiance = light.color * attenuation;
-
-	// Cook-Torrance BRDF
-	float NDF = DistributionGGX(Norm,H, Roughness);
-	float G	= GeometrySmith(Norm, V, L, Roughness);
-	vec3 F = fresnelSchlick(max(dot(H, V), 0.0), F0);
-
-	float NdotL = max(dot(Norm, L), 0.0);
-
-	vec3 numerator = NDF * G * F;
-	float denominator = 4.0 * max(dot(Norm, V), 0.0) * NdotL + 0.0001;
-
-	vec3 spec = numerator/denominator;
-
-	vec3 kS = F;
-	vec3 kD = vec3(1.0) - kS;
-	kD *= 1.0 - Metal;
-	
-	return ((((kD * Albedo.rgb) / PI) + spec) * radiance * NdotL);*/
-
 	vec3 L = normalize(light.pos - PointCoord.xyz);
 	vec3 H = normalize(V + L);
 	float distance = length(light.pos - PointCoord.xyz);
-	float attenuation = 1.0 / (distance * distance);
+	float attenuation = light.power / (distance * distance);
 	vec3 radiance = light.color * attenuation;
 
 	// Cook-Torrance BRDF
@@ -153,6 +129,7 @@ vec3 ComputeLight(LightInfo light,vec3 V,vec3 F0, vec3 albedo, vec3 N,  float me
 	// scale light by NdotL
 	float NdotL = max(dot(N, L), 0.0);        
 
+	//return vec3(NdotL);
 	// add to outgoing radiance Lo
 	return (kD * albedo / PI + specular) * radiance * NdotL; 
 }
@@ -196,5 +173,5 @@ void main(){
 	c = pow(c, vec3(1.0/gamma));
 	FragColor = vec4(c,1.0f);
 
-	//FragColor =  vec4(material.albedo);
+	//FragColor =  vec4(Lo,1.0);
 }

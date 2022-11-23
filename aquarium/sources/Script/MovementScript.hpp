@@ -10,6 +10,10 @@
 class MovementScript : public Script
 {
 private:
+
+    double lockTimer = 0.0;
+    bool lockedMouse = false;
+
     float tSpeed = 1.0f;
     float rSpeed = 1.0f;
 
@@ -66,10 +70,16 @@ public:
         if (glfwGetKey(global.global_window, keyRZpos) == GLFW_PRESS) {
             this->attachment->GetTransform()->Rotate(glm::vec3(0, 0, rSpeed * deltaTime));
         }
+        //Lock / Unlock Mouse
+        lockTimer-= deltaTime;
+        if (glfwGetKey(global.global_window, GLFW_KEY_L) == GLFW_PRESS && lockTimer < 0) {
+            lockedMouse = !lockedMouse;
+            lockTimer = 0.5;
+        }
     }
 
     void mouse(double deltaTime){
-        if(!firstMouse){
+        if(!firstMouse && !lockedMouse){
             double dx = global.mouseX - lastXPos, dy = global.mouseY - lastYPos;
             //Rotation X
             if(dx != 0){
