@@ -146,10 +146,16 @@ void main(){
 
 	// Set variables
 	vec3 Albedo = pow(albedoM.xyz * material.albedo.xyz, vec3(gamma));
-	vec3 Norm = getNormalFromMap();
+	vec3 Norm;
 	float Metal = (metallicM.w == 0) ? material.metallic : metallicM.r;
 	float Roughness = (roughnessM.w == 0) ? material.roughness : roughnessM.r;
 	float Ao = (aoM.a == 0) ? 1.0f : aoM.r;
+
+	if(texture(material.normalMap, TexCoord).a == 0){
+		Norm = Normal;
+	} else {
+		Norm = getNormalFromMap();
+	}
 
 	//FragColor = material.albedo;
 	FragColor =  vec4(Norm,1.0);
@@ -173,6 +179,6 @@ void main(){
 	
 	c = c / (c+vec3(1.0));
 	c = pow(c, vec3(1.0/gamma));
-	FragColor = vec4(c,1.0f);
+	FragColor = vec4(c,material.albedo.a);
 
 }

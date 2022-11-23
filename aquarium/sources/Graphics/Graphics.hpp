@@ -38,7 +38,7 @@ private:
 
 public:
 	Graphics() {
-		this->quad = ModelGenerator::Quad(new IMaterial("screen"));
+		this->quad = ModelGenerator::QuadScreen(new IMaterial("screen"));
 		GLuint prog = quad->GetShader()->GetProgram();
 		glUseProgram(prog);
 		glUniform1i(glGetUniformLocation(prog, "renderTexture"), 0);
@@ -141,6 +141,7 @@ public:
 		Model::Data mData = model->GetData();
 		glBindVertexArray(mData.VAO);
 		glDrawElements(GL_TRIANGLES, mData.sizeEBO, GL_UNSIGNED_INT, 0);
+
 	}
 
 private:

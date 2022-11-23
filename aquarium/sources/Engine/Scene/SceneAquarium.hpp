@@ -19,8 +19,9 @@ public:
     SceneAquarium(std::string id) : Scene(id){
         this->root = new GameObject("Scene");
 
-        IMaterial* cubesMaterial = (new MaterialPBR())->SetFolderData("Pipe", "png");
-        IMaterial* groundMaterial = new MaterialPBR(glm::vec4(0.1,0.5,0.1,1));
+        IMaterial* pipeMaterial = (new MaterialPBR())->SetFolderData("Pipe", "png");
+        IMaterial* dragonMaterial = (new MaterialPBR())->SetFolderData("Dragon", "jpg");
+        IMaterial* groundMaterial = new MaterialPBR(glm::vec4(0.0,0.66,0.8,0.7));
 
 
         GameObject* camera = new GameObject("Camera", this->root);
@@ -32,10 +33,10 @@ public:
         //depthCam->addComponent(new Camera(depthCam, Camera::Settings::perspective(global.ScreenAspectRatio()), Camera::DEPTH_STENCIL, this->AddShader(new Shader("depth"))));
 
 
-        GameObject* obj0 = new GameObject("Obj", this->root);
+        GameObject* obj0 = new GameObject("Dragon", this->root);
         obj0->addComponent(new Displayable(obj0));
-        obj0->addComponent(ModelGenerator::LoadFromFile("Dragon/Dragon 2.5_fbx.fbx", cubesMaterial));
-        obj0->GetTransform()->SetPosition(glm::vec3(0, 0, 2));;
+        obj0->addComponent(ModelGenerator::LoadFromFile("Dragon/Dragon 2.5_fbx.fbx", dragonMaterial));
+        obj0->GetTransform()->SetPosition(glm::vec3(0, 0, 4))->SetRotation(glm::vec3(-90, 180, 0));
 
 
         /*GameObject* obj1 = new GameObject("Obj1", this->root);
@@ -44,22 +45,23 @@ public:
         obj1->getFirstComponentByType<Transformation>()->SetPosition(glm::vec3(-5, 0, 5));;*/
         
 
-        GameObject* obj2 = new GameObject("Obj2", this->root);
+        GameObject* obj2 = new GameObject("Sphere", this->root);
         obj2->addComponent(new Displayable(obj2));
-        obj2->addComponent(ModelGenerator::LoadFromFile("sphere.fbx", cubesMaterial));
-        obj2->GetTransform()->SetPosition(glm::vec3(2, 0, 2));
+        //obj2->addComponent(ModelGenerator::LoadFromFile("sphere.fbx", cubesMaterial, 0.01));
+        obj2->addComponent(ModelGenerator::UVSphere(pipeMaterial));
+        obj2->GetTransform()->SetPosition(glm::vec3(0, -4, 2));
 
         //obj2->addComponent(new MovementScript(obj2));
 
         GameObject* light = new GameObject("Light1", this->root);
-        light->addComponent(new Light(Light::POINT, glm::vec3(1,1,1), 100.0, 1.0));
+        light->addComponent(new Light(Light::POINT, glm::vec3(1,1,1), 10.0, 1.0));
         light->GetTransform()->SetPosition(glm::vec3(0,0,0));
 
 
         GameObject* ground = new GameObject("Ground", this->root);
         ground->addComponent(new Displayable(ground));
-        ground->addComponent(ModelGenerator::DQuad(groundMaterial));
-        ground->GetTransform()->SetPosition(glm::vec3(0, -4, 5))->SetRotation(glm::vec3(90, 0, 0))->SetScale(50.0)->Update();
+        ground->addComponent(ModelGenerator::Quad(groundMaterial, 128, 128, 4,4));
+        ground->GetTransform()->SetPosition(glm::vec3(0, -1, 2));
     }
 
 };

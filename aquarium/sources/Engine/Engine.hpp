@@ -18,6 +18,7 @@ protected:
     Graphics graphics;
 
     double reloadWait = 0.0;
+    double wireframeWait = 0.0;
 public:
     Engine(){
         scenes.push_back(SceneAquarium("Aquarium 3D"));
@@ -33,9 +34,15 @@ public:
 
         if(activeScene >= 0 && activeScene < nbScene){
             reloadWait -= deltaT;
+            wireframeWait -= deltaT;
             if (glfwGetKey(global.global_window, GLFW_KEY_R) == GLFW_PRESS && reloadWait < 0) {
                 scenes[activeScene].ReloadShaders();
                 reloadWait = 0.5;
+            }
+
+            if (glfwGetKey(global.global_window, GLFW_KEY_Z) == GLFW_PRESS && wireframeWait < 0) {
+                global.wireframe = !global.wireframe;
+                wireframeWait = 0.5;
             }
 
             scenes[activeScene].loop(deltaT);
