@@ -16,18 +16,20 @@ public:
 protected:
 	std::string path;
 	glm::vec4 fallback;
-	int width, height;
-
+	int width, height, nbChannel;
+	int fallbackChannel;
 	GLuint texture_index = -1;
 	unsigned char* texture_data;
+
 
 	bool loaded;
 public:
 
-	Texture(std::string path = "", glm::vec4 fallback = glm::vec4(1.0))
+	Texture(std::string path = "", glm::vec4 fallback = glm::vec4(1.0), int fallbackChannel = 4)
 	{
 		this->path = path;
 		this->fallback = fallback;
+		this->fallbackChannel = fallbackChannel;
 		this->LoadData();
 	}
 	Texture(glm::vec4 fallback)
@@ -59,11 +61,20 @@ public:
 			glGenTextures(1, &this->texture_index);
 		}
 		if (this->texture_data) {
+			GLenum format = GL_RGBA;
+			if(this->nbChannel == 1){
+				format = GL_RED;
+			} else if (this->nbChannel == 3){
+				format = GL_RGB;
+			}
 			glBindTexture(GL_TEXTURE_2D, this->texture_index);
-			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, this->width, this->height, 0, GL_RGBA, GL_UNSIGNED_BYTE, this->texture_data);
+			glTexImage2D(GL_TEXTURE_2D, 0, format, this->width, this->height, 0, format, GL_UNSIGNED_BYTE, this->texture_data);
+			
+			glGenerateMipmap(GL_TEXTURE_2D);
+
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 			this->loaded = true;
 			if (this->path.size() > 0) {
@@ -79,7 +90,7 @@ public:
 	void LoadData() {
 		if (this->path.size() > 0) {
 			int nbC;
-			this->texture_data = stbi_load(path.c_str(), &this->width, &this->height, &nbC, 4);
+			this->texture_data = stbi_load(path.c_str(), &this->width, &this->height, &this->nbChannel, 0);
 			if(this->texture_data == nullptr){
 				printf("Failed to load texture : %s\n Generate Fallback.\n", this->path.c_str());
 				GenerateColorData(this->fallback);
@@ -97,8 +108,10 @@ public:
 	void GenerateColorData(glm::vec4 color) {
 		this->width = 1;
 		this->height = 1;
-		this->texture_data = new unsigned char[4];
-		for (int i = 0; i < 4; i++) {
+		this->nbChannel = this->fallbackChannel;
+
+		this->texture_data = new unsigned char[this->nbChannel];
+		for (int i = 0; i < this->nbChannel; i++) {
 			this->texture_data[i] = (int)(color[i] * 0xff);
 		}
 

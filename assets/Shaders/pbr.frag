@@ -98,36 +98,63 @@ float GeometrySmith(vec3 N, vec3 V, vec3 L, float roughness)
 
     return ggx1 * ggx2;
 }
-vec3 FresnelSchlick(float cosTheta, vec3 F0)
+vec3 fresnelSchlick(float cosTheta, vec3 F0)
 {
     return F0 + (1.0 - F0) * pow(clamp(1.0 - cosTheta, 0.0, 1.0), 5.0);
 }
 
 // --- Other Functions ---
-vec3 ComputeLight(LightInfo light,vec3 V,vec3 F0, vec4 Albedo, vec3 Norm,  float Metal, float Roughness){
+vec3 ComputeLight(LightInfo light,vec3 V,vec3 F0, vec3 albedo, vec3 N,  float metallic, float roughness){
 	//per light radiance
-	vec3 L = normalize(light.pos - PointCoord.xyz);
+	/*vec3 L = normalize(light.pos - PointCoord.xyz);
 	vec3 H = normalize(V + L);
 	float dist = length(light.pos - PointCoord.xyz);
-	float attenuation = light.power /  (dist);
+	float attenuation = light.power /  (dist*dist);
 	vec3 radiance = light.color * attenuation;
 
 	// Cook-Torrance BRDF
 	float NDF = DistributionGGX(Norm,H, Roughness);
-	float Geom	= GeometrySmith(Norm, V, L, Roughness);
-	vec3 Fresnel = FresnelSchlick(max(dot(H, V), 0.0), F0);
+	float G	= GeometrySmith(Norm, V, L, Roughness);
+	vec3 F = fresnelSchlick(max(dot(H, V), 0.0), F0);
 
 	float NdotL = max(dot(Norm, L), 0.0);
 
-	vec3 numerator = NDF * Geom * Fresnel;
+	vec3 numerator = NDF * G * F;
 	float denominator = 4.0 * max(dot(Norm, V), 0.0) * NdotL + 0.0001;
+
 	vec3 spec = numerator/denominator;
 
-	vec3 kD = vec3(1.0) - Fresnel;
+	vec3 kS = F;
+	vec3 kD = vec3(1.0) - kS;
 	kD *= 1.0 - Metal;
 	
-	//Lo = vec3(NdotL);
-	return ((((kD * Albedo.rgb) / PI) + spec) * radiance * NdotL);
+	return ((((kD * Albedo.rgb) / PI) + spec) * radiance * NdotL);*/
+
+	vec3 L = normalize(light.pos - PointCoord.xyz);
+	vec3 H = normalize(V + L);
+	float distance = length(light.pos - PointCoord.xyz);
+	float attenuation = 1.0 / (distance * distance);
+	vec3 radiance = light.color * attenuation;
+
+	// Cook-Torrance BRDF
+	float NDF = DistributionGGX(N, H, roughness);   
+	float G   = GeometrySmith(N, V, L, roughness);      
+	vec3 F    = fresnelSchlick(max(dot(H, V), 0.0), F0);
+		
+	vec3 numerator    = NDF * G * F; 
+	float denominator = 4.0 * max(dot(N, V), 0.0) * max(dot(N, L), 0.0) + 0.0001; // + 0.0001 to prevent divide by zero
+	vec3 specular = numerator / denominator;
+	
+	// kS is equal to Fresnel
+	vec3 kS = F;
+	vec3 kD = vec3(1.0) - kS;
+	kD *= 1.0 - metallic;	  
+
+	// scale light by NdotL
+	float NdotL = max(dot(N, L), 0.0);        
+
+	// add to outgoing radiance Lo
+	return (kD * albedo / PI + specular) * radiance * NdotL; 
 }
 
 
@@ -141,10 +168,10 @@ void main(){
 	vec4 aoM = texture(material.aoMap, TexCoord);
 
 	// Set variables
-	vec4 Albedo = albedoM * material.albedo;
+	vec3 Albedo = pow(albedoM.xyz * material.albedo.xyz, vec3(gamma));
 	vec3 Norm = getNormalFromMap();
-	float Metal = (metallicM.a == 0) ? material.metallic : metallicM.r;
-	float Roughness = (roughnessM.a == 0) ? material.roughness : roughnessM.r;
+	float Metal = (metallicM.w == 0) ? material.metallic : metallicM.r;
+	float Roughness = (roughnessM.w == 0) ? material.roughness : roughnessM.r;
 	float Ao = (aoM.a == 0) ? 1.0f : aoM.r;
 
 	//FragColor = material.albedo;
@@ -161,11 +188,13 @@ void main(){
 		Lo += ComputeLight(lights[i],V, F0, Albedo, Norm, Metal, Roughness);
 	}
 
-	vec3 ambient = vec3(0.001) * Albedo.rgb; //* Ao;
+	vec3 ambient = vec3(0.03) * Albedo.rgb; //* Ao;
 
 	vec3 c = ambient + Lo;
-
+	
 	c = c / (c+vec3(1.0));
 	c = pow(c, vec3(1.0/gamma));
 	FragColor = vec4(c,1.0f);
+
+	//FragColor =  vec4(material.albedo);
 }
