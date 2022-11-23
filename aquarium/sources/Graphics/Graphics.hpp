@@ -9,6 +9,7 @@
 #include <Graphics/Light.hpp>
 #include <Engine/Shader.hpp>
 #include <Engine/Component/Model.hpp>
+#include <Engine/Tools/ModelGenerator.hpp>
 #include <Engine/Global.hpp>
 
 class Graphics {
@@ -37,7 +38,7 @@ private:
 
 public:
 	Graphics() {
-		this->quad = Model::Quad(new IMaterial("screen"));
+		this->quad = ModelGenerator::Quad(new IMaterial("screen"));
 		GLuint prog = quad->GetShader()->GetProgram();
 		glUseProgram(prog);
 		glUniform1i(glGetUniformLocation(prog, "renderTexture"), 0);

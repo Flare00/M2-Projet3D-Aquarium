@@ -5,7 +5,7 @@
 
 #include <GL/gl.h>
 #include <string>
-#include <Engine/Tools.hpp>
+#include <Engine/Tools/Tools.hpp>
 #include <stb_image.h>
 #include <GLFW/glfw3.h>
 #include <iostream>

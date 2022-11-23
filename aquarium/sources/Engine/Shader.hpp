@@ -5,7 +5,7 @@
 #include <string>
 #include <GLFW/glfw3.h>
 #include <GL/glew.h>
-#include <Engine/Tools.hpp>
+#include <Engine/Tools/Tools.hpp>
 #include <Engine/Global.hpp>
 class Shader
 {

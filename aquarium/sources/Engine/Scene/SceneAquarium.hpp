@@ -9,6 +9,7 @@
 #include <Graphics/Material/MaterialPBR.hpp>
 #include <Graphics/Material/Material.hpp>
 #include <Engine/Component/Model.hpp>
+#include <Engine/Tools/ModelGenerator.hpp>
 #include <Script/MovementScript.hpp>
 #include "Scene.hpp"
 
@@ -33,19 +34,19 @@ public:
 
         GameObject* obj0 = new GameObject("Obj", this->root);
         obj0->addComponent(new Displayable(obj0));
-        obj0->addComponent(Model::LoadFromFile("Dragon/Dragon 2.5_fbx.fbx", cubesMaterial));
+        obj0->addComponent(ModelGenerator::LoadFromFile("Dragon/Dragon 2.5_fbx.fbx", cubesMaterial));
         obj0->GetTransform()->SetPosition(glm::vec3(0, 0, 2));;
 
 
         /*GameObject* obj1 = new GameObject("Obj1", this->root);
         obj1->addComponent(new Displayable(obj1));
-        obj1->addComponent(Model::LoadFromFile(shader, "cube.obj", cubesMaterial));
+        obj1->addComponent(ModelGenerator::LoadFromFile(shader, "cube.obj", cubesMaterial));
         obj1->getFirstComponentByType<Transformation>()->SetPosition(glm::vec3(-5, 0, 5));;*/
         
 
         GameObject* obj2 = new GameObject("Obj2", this->root);
         obj2->addComponent(new Displayable(obj2));
-        obj2->addComponent(Model::LoadFromFile("sphere.fbx", cubesMaterial));
+        obj2->addComponent(ModelGenerator::LoadFromFile("sphere.fbx", cubesMaterial));
         obj2->GetTransform()->SetPosition(glm::vec3(2, 0, 2));
 
         //obj2->addComponent(new MovementScript(obj2));
@@ -57,7 +58,7 @@ public:
 
         GameObject* ground = new GameObject("Ground", this->root);
         ground->addComponent(new Displayable(ground));
-        ground->addComponent(Model::DQuad(groundMaterial));
+        ground->addComponent(ModelGenerator::DQuad(groundMaterial));
         ground->GetTransform()->SetPosition(glm::vec3(0, -4, 5))->SetRotation(glm::vec3(90, 0, 0))->SetScale(50.0)->Update();
     }
 
