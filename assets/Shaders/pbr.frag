@@ -129,7 +129,7 @@ vec3 ComputeLight(LightInfo light,vec3 V,vec3 F0, vec3 albedo, vec3 N,  float me
 	// scale light by NdotL
 	float NdotL = max(dot(N, L), 0.0);        
 
-	//return vec3(NdotL);
+	//return vec3(N);
 	// add to outgoing radiance Lo
 	return (kD * albedo / PI + specular) * radiance * NdotL; 
 }
@@ -152,12 +152,14 @@ void main(){
 	float Ao = (aoM.a == 0) ? 1.0f : aoM.r;
 
 	//FragColor = material.albedo;
+	FragColor =  vec4(Norm,1.0);
 
 
 	vec3 V = normalize(u_cameraPos - PointCoord.xyz);
 	// Reflectance at normal incidence, 0.04 for plastic, else albedo
 	vec3 F0 = vec3(0.04);
 	F0 = mix(F0, Albedo.xyz, Metal);
+
 
 	// reflectance equation
 	vec3 Lo = vec3(0.0);
@@ -173,5 +175,4 @@ void main(){
 	c = pow(c, vec3(1.0/gamma));
 	FragColor = vec4(c,1.0f);
 
-	//FragColor =  vec4(Lo,1.0);
 }

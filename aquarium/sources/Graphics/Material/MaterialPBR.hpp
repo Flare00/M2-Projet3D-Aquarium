@@ -38,37 +38,6 @@ public:
 	};
 
 protected:
-	struct PBRUniform
-	{
-		GLuint albedo;
-		GLuint metallic;
-		GLuint roughness;
-
-		GLuint albedoMap;
-		GLuint normalMap;
-		GLuint metallicMap;
-		GLuint roughnessMap;
-		GLuint aoMap;
-		GLuint heightMap;
-
-		PBRUniform(GLuint program, std::string albedo, std::string metallic, std::string roughness,
-			std::string albedoMap, std::string normalMap, std::string metallicMap, std::string roughnessMap, std::string aoMap, std::string heightMap) {
-
-			glUseProgram(program);
-			this->albedo = glGetUniformLocation(program, albedo.c_str());
-			this->metallic = glGetUniformLocation(program, metallic.c_str());
-			this->roughness = glGetUniformLocation(program, roughness.c_str());
-
-			this->albedoMap = glGetUniformLocation(program, albedoMap.c_str());
-			this->normalMap = glGetUniformLocation(program, normalMap.c_str());
-			this->metallicMap = glGetUniformLocation(program, metallicMap.c_str());
-			this->roughnessMap = glGetUniformLocation(program, roughnessMap.c_str());
-			this->aoMap = glGetUniformLocation(program, aoMap.c_str());
-			this->heightMap = glGetUniformLocation(program, heightMap.c_str());
-		}
-	};
-
-	PBRUniform* pbrUniform;
 	Data* data;
 
 	std::string albedoMapFile;
@@ -99,8 +68,6 @@ public:
 			new Texture(aoMapFile, glm::vec4(0)),
 			new Texture(heightMapFile, glm::vec4(0))
 		);
-
-		this->pbrUniform = new PBRUniform(this->shader->GetProgram(), "material.albedo", "material.metallic", "material.roughness", "material.albedoMap", "material.normalMap", "material.metallicMap", "material.roughnessMap", "material.aoMap", "m_heightmap");
 	}
 
 	MaterialPBR* SetAlbedo(glm::vec4 albedo) {
@@ -172,30 +139,33 @@ public:
 
 	void SetDataGPU(glm::mat4 M, glm::mat4 V, glm::mat4 P, glm::vec3 camPos) override {
 		IMaterial::SetDataGPU(M, V, P, camPos);
+		GLuint program = this->shader->GetProgram();
 
-		glUniform4f(pbrUniform->albedo, this->data->albedo.x, this->data->albedo.y, this->data->albedo.z, this->data->albedo.w);
-		glUniform1f(pbrUniform->metallic, this->data->metallic);
-		glUniform1f(pbrUniform->roughness, this->data->roughness);
+		glUseProgram(program);
+		glUniform4f(glGetUniformLocation(program, ("material.albedo")), this->data->albedo.x, this->data->albedo.y, this->data->albedo.z, this->data->albedo.w);
+		glUniform1f(glGetUniformLocation(program, ("material.metallic")), this->data->metallic);
+		glUniform1f(glGetUniformLocation(program, ("material.roughness")), this->data->roughness);
 
-		glUniform1i(pbrUniform->albedoMap, 0);
-		glUniform1i(pbrUniform->normalMap, 1);
-		glUniform1i(pbrUniform->metallicMap, 2);
-		glUniform1i(pbrUniform->roughnessMap, 3);
-		glUniform1i(pbrUniform->aoMap, 4);
-		glUniform1i(pbrUniform->heightMap, 5);
+		glUniform1i(glGetUniformLocation(program, ("material.albedoMap")), 0);
+		glUniform1i(glGetUniformLocation(program, ("material.normalMap")), 1);
+		glUniform1i(glGetUniformLocation(program, ("material.metallicMap")), 2);
+		glUniform1i(glGetUniformLocation(program, ("material.roughnessMap")), 3);
+		glUniform1i(glGetUniformLocation(program, ("material.aoMap")), 4);
+		glUniform1i(glGetUniformLocation(program, ("m_heightmap")),5);
 
 		glActiveTexture(GL_TEXTURE0);
 		this->data->albedoMap->Bind();
-		glActiveTexture(GL_TEXTURE0 + 1);
+		glActiveTexture(GL_TEXTURE1);
 		this->data->normalMap->Bind();
-		glActiveTexture(GL_TEXTURE0 + 2);
+		glActiveTexture(GL_TEXTURE2);
 		this->data->metallicMap->Bind();
-		glActiveTexture(GL_TEXTURE0 + 3);
+		glActiveTexture(GL_TEXTURE3);
 		this->data->roughnessMap->Bind();
-		glActiveTexture(GL_TEXTURE0 + 4);
+		glActiveTexture(GL_TEXTURE4);
 		this->data->aoMap->Bind();
-		glActiveTexture(GL_TEXTURE0 + 5);
+		glActiveTexture(GL_TEXTURE5);
 		this->data->heightMap->Bind();
+
 
 	}
 };
