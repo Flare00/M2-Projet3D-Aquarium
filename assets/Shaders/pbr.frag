@@ -1,6 +1,8 @@
 #version 430
 #define MAX_LIGHTS 1
 
+
+
 // --- IN / OUT ---
 
 out vec4 FragColor;
@@ -101,6 +103,33 @@ vec3 FresnelSchlick(float cosTheta, vec3 F0)
     return F0 + (1.0 - F0) * pow(clamp(1.0 - cosTheta, 0.0, 1.0), 5.0);
 }
 
+// --- Other Functions ---
+vec3 ComputeLight(LightInfo light,vec3 V,vec3 F0, vec4 Albedo, vec3 Norm,  float Metal, float Roughness){
+	//per light radiance
+	vec3 L = normalize(light.pos - PointCoord.xyz);
+	vec3 H = normalize(V + L);
+	float dist = length(light.pos - PointCoord.xyz);
+	float attenuation = light.power /  (dist);
+	vec3 radiance = light.color * attenuation;
+
+	// Cook-Torrance BRDF
+	float NDF = DistributionGGX(Norm,H, Roughness);
+	float Geom	= GeometrySmith(Norm, V, L, Roughness);
+	vec3 Fresnel = FresnelSchlick(max(dot(H, V), 0.0), F0);
+
+	float NdotL = max(dot(Norm, L), 0.0);
+
+	vec3 numerator = NDF * Geom * Fresnel;
+	float denominator = 4.0 * max(dot(Norm, V), 0.0) * NdotL + 0.0001;
+	vec3 spec = numerator/denominator;
+
+	vec3 kD = vec3(1.0) - Fresnel;
+	kD *= 1.0 - Metal;
+	
+	//Lo = vec3(NdotL);
+	return ((((kD * Albedo.rgb) / PI) + spec) * radiance * NdotL);
+}
+
 
 // --- Main ---
 
@@ -118,7 +147,7 @@ void main(){
 	float Roughness = (roughnessM.a == 0) ? material.roughness : roughnessM.r;
 	float Ao = (aoM.a == 0) ? 1.0f : aoM.r;
 
-	FragColor = material.albedo;
+	//FragColor = material.albedo;
 
 
 	vec3 V = normalize(u_cameraPos - PointCoord.xyz);
@@ -129,28 +158,7 @@ void main(){
 	// reflectance equation
 	vec3 Lo = vec3(0.0);
 	for( int i = 0 ; i < MAX_LIGHTS - 1; i++){
-		//per light radiance
-		vec3 L = normalize(lights[0].pos - PointCoord.xyz);
-		vec3 H = normalize(V + L);
-		float dist = length(lights[0].pos - PointCoord.xyz);
-		float attenuation = lights[0].power /  (dist);
-		vec3 radiance = lights[0].color * attenuation;
-
-		// Cook-Torrance BRDF
-		float NDF = DistributionGGX(Norm,H, Roughness);
-		float Geom	= GeometrySmith(Norm, V, L, Roughness);
-		vec3 Fresnel = FresnelSchlick(max(dot(H, V), 0.0), F0);
-
-		float NdotL = max(dot(Norm, L), 0.0);
-
-		vec3 numerator = NDF * Geom * Fresnel;
-		float denominator = 4.0 * max(dot(Norm, V), 0.0) * NdotL + 0.0001;
-		vec3 spec = numerator/denominator;
-
-		vec3 kD = vec3(1.0) - Fresnel;
-		kD *= 1.0 - Metal;
-		
-		Lo += ((kD * Albedo.rgb / PI) + spec) * radiance * NdotL; // note that we already multiplied the BRDF by the Fresnel (kS) so we won't multiply by kS again
+		Lo += ComputeLight(lights[i],V, F0, Albedo, Norm, Metal, Roughness);
 	}
 
 	vec3 ambient = vec3(0.001) * Albedo.rgb; //* Ao;
@@ -160,8 +168,4 @@ void main(){
 	c = c / (c+vec3(1.0));
 	c = pow(c, vec3(1.0/gamma));
 	FragColor = vec4(c,1.0f);
-	
-		
-	//FragColor = material.albedo;
-	
 }
