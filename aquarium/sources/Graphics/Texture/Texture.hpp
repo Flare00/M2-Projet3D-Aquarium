@@ -80,6 +80,10 @@ public:
 		if (this->path.size() > 0) {
 			int nbC;
 			this->texture_data = stbi_load(path.c_str(), &this->width, &this->height, &nbC, 4);
+			if(this->texture_data == nullptr){
+				printf("Failed to load texture : %s\n Generate Fallback.\n", this->path.c_str());
+				GenerateColorData(this->fallback);
+			}
 			
 		}
 		else {

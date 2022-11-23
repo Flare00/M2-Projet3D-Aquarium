@@ -16,9 +16,11 @@ protected:
     std::vector<Scene> scenes;
     size_t nbScene = 0;
     Graphics graphics;
+
+    double reloadWait = 0.0;
 public:
     Engine(){
-        scenes.push_back(SceneAquarium("lol"));
+        scenes.push_back(SceneAquarium("Aquarium 3D"));
         activeScene = 0;
         
         nbScene = scenes.size();
@@ -30,8 +32,10 @@ public:
     void loop(double deltaT){
 
         if(activeScene >= 0 && activeScene < nbScene){
-            if (glfwGetKey(global.global_window, GLFW_KEY_R) == GLFW_PRESS) {
+            reloadWait -= deltaT;
+            if (glfwGetKey(global.global_window, GLFW_KEY_R) == GLFW_PRESS && reloadWait < 0) {
                 scenes[activeScene].ReloadShaders();
+                reloadWait = 0.5;
             }
 
             scenes[activeScene].loop(deltaT);

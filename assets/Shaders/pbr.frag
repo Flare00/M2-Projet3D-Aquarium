@@ -3,7 +3,7 @@
 
 // --- IN / OUT ---
 
-out vec4 color;
+out vec4 FragColor;
 
 in vec3 Normal;
 in vec2 TexCoord;
@@ -39,8 +39,12 @@ uniform LightInfo[MAX_LIGHTS] lights;
 uniform Material material;
 uniform vec3 u_cameraPos;
 
+const int u_show_mode = 0; // 0 = PBR, 1 = Albedo, 2 = Albedo Map, 3 = Normal, 4 = Metallic, 5 = Roughness, 6 = Ao
+
 const float PI = 3.14159265359;
 const float gamma = 2.2;
+
+
 
 // --- PBR Functions --- 
 vec3 getNormalFromMap()
@@ -102,16 +106,20 @@ vec3 FresnelSchlick(float cosTheta, vec3 F0)
 
 void main(){
 	// Get textures infos
+	vec4 albedoM = texture(material.albedoMap, TexCoord);
 	vec4 metallicM = texture(material.metallicMap, TexCoord);
 	vec4 roughnessM = texture(material.roughnessMap, TexCoord);
 	vec4 aoM = texture(material.aoMap, TexCoord);
 
 	// Set variables
-	vec4 Albedo = pow(texture(material.albedoMap, TexCoord) * material.albedo, vec4(gamma, gamma, gamma, 1));
+	vec4 Albedo = albedoM * material.albedo;
 	vec3 Norm = getNormalFromMap();
 	float Metal = (metallicM.a == 0) ? material.metallic : metallicM.r;
 	float Roughness = (roughnessM.a == 0) ? material.roughness : roughnessM.r;
 	float Ao = (aoM.a == 0) ? 1.0f : aoM.r;
+
+	FragColor = material.albedo;
+
 
 	vec3 V = normalize(u_cameraPos - PointCoord.xyz);
 	// Reflectance at normal incidence, 0.04 for plastic, else albedo
@@ -125,7 +133,7 @@ void main(){
 		vec3 L = normalize(lights[0].pos - PointCoord.xyz);
 		vec3 H = normalize(V + L);
 		float dist = length(lights[0].pos - PointCoord.xyz);
-		float attenuation = lights[0].power /  (dist * dist);
+		float attenuation = lights[0].power /  (dist);
 		vec3 radiance = lights[0].color * attenuation;
 
 		// Cook-Torrance BRDF
@@ -145,10 +153,15 @@ void main(){
 		Lo += ((kD * Albedo.rgb / PI) + spec) * radiance * NdotL; // note that we already multiplied the BRDF by the Fresnel (kS) so we won't multiply by kS again
 	}
 
-	vec3 ambient = vec3(0.001) * Albedo.rgb * Ao;
+	vec3 ambient = vec3(0.001) * Albedo.rgb; //* Ao;
 
 	vec3 c = ambient + Lo;
+
 	c = c / (c+vec3(1.0));
 	c = pow(c, vec3(1.0/gamma));
-	color = vec4(c, 1.0);
+	FragColor = vec4(c,1.0f);
+	
+		
+	//FragColor = material.albedo;
+	
 }

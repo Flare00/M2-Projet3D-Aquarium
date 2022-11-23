@@ -9,11 +9,14 @@
 #include <Engine/Shader.hpp>
 #include <Engine/Component/Script.hpp>
 #include <Script/ColorScript.hpp>
+#include <Graphics/Material/IMaterial.hpp>
+#include <Graphics/Material/MaterialPBR.hpp>
 
 class Scene : public EngineBehavior
 {
 protected:
 	GameObject* root = NULL;
+	int pbrShowMode = 0;
 public:
 	std::string id;
 
@@ -73,7 +76,6 @@ public:
 			s.shader->Reload();
 		}
 	}
-
 
 };
 

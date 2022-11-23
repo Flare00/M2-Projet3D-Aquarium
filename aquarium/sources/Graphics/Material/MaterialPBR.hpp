@@ -186,15 +186,15 @@ public:
 
 		glActiveTexture(GL_TEXTURE0);
 		this->data->albedoMap->Bind();
-		glActiveTexture(GL_TEXTURE1);
+		glActiveTexture(GL_TEXTURE0 + 1);
 		this->data->normalMap->Bind();
-		glActiveTexture(GL_TEXTURE2);
+		glActiveTexture(GL_TEXTURE0 + 2);
 		this->data->metallicMap->Bind();
-		glActiveTexture(GL_TEXTURE3);
+		glActiveTexture(GL_TEXTURE0 + 3);
 		this->data->roughnessMap->Bind();
-		glActiveTexture(GL_TEXTURE4);
+		glActiveTexture(GL_TEXTURE0 + 4);
 		this->data->aoMap->Bind();
-		glActiveTexture(GL_TEXTURE5);
+		glActiveTexture(GL_TEXTURE0 + 5);
 		this->data->heightMap->Bind();
 
 	}

@@ -20,7 +20,7 @@ const float displacementBias = 0.0f;
 
 void main(){
 	PointCoord = u_model * vec4(aPos,1.0f);
-	Normal = normalize(mat3(transpose(inverse(u_model))) * aNormal);
+	Normal = normalize(u_model* vec4(aNormal,0)).xyz;
 	TexCoord = aTexCoord;
 	gl_Position =  u_projection * ((u_view * u_model) * vec4(aPos,1.0f));
 }

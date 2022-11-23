@@ -145,7 +145,6 @@ public:
 		bool rightPosEnd = false;
 		for(int i = 0, max = (((float)str.size())/2.0f) + 1; i < max && (!leftPosEnd || !rightPosEnd); i++){
 			if(!leftPosEnd){
-				printf("L : %c\n", str.at(i));
 				if(str.at(i) == ' '){
 					leftPosTrim = i+1;
 				} else {
@@ -153,7 +152,6 @@ public:
 				}
 			}
 			if(!rightPosEnd){
-				printf("R : %c\n", str.at(str.size() - 1 - i));
 
 				if(str.at(str.size() - 1 - i) == ' '){
 					rightPosTrim = str.size() - i -1;
@@ -162,7 +160,6 @@ public:
 				}
 			}
 		}
-		printf("trim : %d, %d\n",leftPosTrim, rightPosTrim);
 		int length = rightPosTrim - leftPosTrim;
 		if(length > 0){
 			return str.substr(leftPosTrim, length);
