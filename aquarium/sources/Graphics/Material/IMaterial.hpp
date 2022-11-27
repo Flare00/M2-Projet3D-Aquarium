@@ -7,63 +7,22 @@
 #include <Engine/Shader.hpp>
 #include <Engine/Component/Component.hpp>
 #include <Graphics/Light.hpp>
+#include <Engine/SettedShaders.hpp>
 
-struct SettedShader
-{
-	std::string shadername;
-	Shader* shader;
-
-	SettedShader(std::string shadername = "", Shader* shader = nullptr) {
-		this->shadername = shadername;
-		this->shader = shader;
-	}
-};
-
-std::vector<SettedShader> settedShaders;
 
 class IMaterial : public Component{
 protected:
-	struct MVPCUniform {
-		GLuint M;
-		GLuint V;
-		GLuint P;
-		GLuint C;
-
-		MVPCUniform(GLuint program, std::string M, std::string V, std::string P, std::string C) {
-			glUseProgram(program);
-			this->M = glGetUniformLocation(program, M.c_str());
-			this->V = glGetUniformLocation(program, V.c_str());
-			this->P = glGetUniformLocation(program, P.c_str());
-			this->C = glGetUniformLocation(program, C.c_str());
-		}
-	};
-
-	MVPCUniform* mvpc;
 	Shader* shader;
 	bool handleLights;
 
-
 public:
+	static SettedShaders settedShaders;
 
 
 	IMaterial(std::string shadername, bool handleLights = true) {
 		this->handleLights = handleLights;
 		if (shadername.size() > 0) {
-			size_t found = -1; // Check if the shader already exist, to save memory.
-			for (size_t i = 0, max = settedShaders.size(); i < max && found < 0; i++) {
-				if (settedShaders[i].shadername.compare(shadername) == 0) {
-					found = i;
-				}
-			}
-			if (found == -1) {
-				this->shader = new Shader(shadername);
-				settedShaders.push_back(SettedShader(shadername, this->shader));
-			}
-			else {
-				this->shader = settedShaders[found].shader;
-			}
-			this->mvpc = new MVPCUniform(this->shader->GetProgram(), "u_model", "u_view", "u_projection", "u_cameraPos");
-
+			this->shader = IMaterial::settedShaders.AddShader(shadername);
 		}
 	}
 
@@ -71,21 +30,14 @@ public:
 		return this->shader;
 	}
 
-	static std::vector<SettedShader> GetSettedShaders() {
-		return settedShaders;
-	}
-
-	static void ClearSettedShaders() {
-		settedShaders.clear();
-	}
-
 	virtual void SetDataGPU(glm::mat4 M, glm::mat4 V, glm::mat4 P, glm::vec3 camPos) {
-		glUseProgram(this->shader->GetProgram());
+		GLuint program = this->shader->GetProgram();
+		glUseProgram(program);
 
-		glUniformMatrix4fv(this->mvpc->M, 1, GL_FALSE, &M[0][0]);
-		glUniformMatrix4fv(this->mvpc->V, 1, GL_FALSE, &V[0][0]);
-		glUniformMatrix4fv(this->mvpc->P, 1, GL_FALSE, &P[0][0]);
-		glUniform3f(this->mvpc->C, camPos.x, camPos.y, camPos.z);
+		glUniformMatrix4fv(glGetUniformLocation(program, "u_model"), 1, GL_FALSE, &M[0][0]);
+		glUniformMatrix4fv(glGetUniformLocation(program, "u_view"), 1, GL_FALSE, &V[0][0]);
+		glUniformMatrix4fv(glGetUniformLocation(program, "u_projection"), 1, GL_FALSE, &P[0][0]);
+		glUniform3f(glGetUniformLocation(program, "u_cameraPos"), camPos.x, camPos.y, camPos.z);
 	}
 
 	void SetLightGPU(std::vector<Light*> lights) {

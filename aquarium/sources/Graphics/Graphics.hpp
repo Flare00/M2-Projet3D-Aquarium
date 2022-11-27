@@ -73,9 +73,8 @@ public:
 				}
 				else
 				{
-					Model* model = elements[indexElem]->GetGameObject()->getFirstComponentByType<Model>();
-					Transformation* t = elements[indexElem]->GetTransformation();
-					if (cameras[indexCam]->IsInView(t->getMatrix() * glm::vec4(model->GetMin(), 1), t->getMatrix() * glm::vec4(model->GetMax(), 1))) {
+					BoundingBoxCollider frustumCollider = elements[indexElem]->GetGameObject()->getFirstComponentByType<Model>()->GetFrustumCollider();
+					if (cameras[indexCam]->IsInView(frustumCollider.GetMinOriented(), frustumCollider.GetMaxOriented())) {
 						//printf("In View\n");
 						Draw(cameras[indexCam], elements[indexElem], lights);
 					}

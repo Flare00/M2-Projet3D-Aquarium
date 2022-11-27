@@ -3,12 +3,12 @@
 
 #include <vector>
 #include <glm/glm.hpp>
-#include <float.h>
 #include <string>
 #include <GLFW/glfw3.h>
 #include <Engine/Shader.hpp>
 #include <Engine/Component/Component.hpp>
 #include <Graphics/Material/MaterialPBR.hpp>
+#include <Physics/Collider/BoundingBoxCollider.hpp>
 
 
 
@@ -67,7 +67,7 @@ protected:
 	std::vector<Face> faces;
 	std::vector<glm::vec2> uv;
 
-	glm::vec3 min, max;
+	BoundingBoxCollider frustumCollider;
 
 	bool generated = false;
 
@@ -79,7 +79,7 @@ public:
 		this->faces = faces;
 		this->uv = uv;
 		this->material = material;
-		ComputeMinMax();
+		ComputeFrustumCollider();
 		GenerateBuffer();
 	}
 
@@ -97,19 +97,8 @@ public:
 		}
 	}
 
-	void ComputeMinMax() {
-		this->min = glm::vec3(DBL_MAX);
-		this->max = glm::vec3(-DBL_MAX);
-		for (glm::vec3 p : this->points) {
-			for (int i = 0; i < 3; i++) {
-				if (p[i] < this->min[i]) {
-					this->min[i] = p[i];
-				}
-				if (p[i] > this->max[i]) {
-					this->max[i] = p[i];
-				}
-			}
-		}
+	void ComputeFrustumCollider() {
+		this->frustumCollider = BoundingBoxCollider(this->points);
 	}
 
 	void GenerateBuffer()
@@ -178,12 +167,8 @@ public:
 		return this->material;
 	}
 
-	glm::vec3 GetMin() {
-		return this->min;
-	}
-
-	glm::vec3 GetMax() {
-		return this->max;
+	BoundingBoxCollider GetFrustumCollider() {
+		return this->frustumCollider;
 	}
 };
 

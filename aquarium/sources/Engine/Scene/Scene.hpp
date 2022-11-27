@@ -72,7 +72,7 @@ public:
 	}
 
 	void ReloadShaders() {
-		for (SettedShader s : settedShaders) {
+		for (SettedShaders::SettedShader s : IMaterial::settedShaders.GetSettedShaders()) {
 			s.shader->Reload();
 		}
 	}

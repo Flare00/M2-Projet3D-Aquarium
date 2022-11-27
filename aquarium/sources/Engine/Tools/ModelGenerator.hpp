@@ -32,7 +32,7 @@ public:
 			for (int i = 0, max = vert.size(); i < max; i++) {
 				pts.push_back(glm::vec3(vert[i].x * scale, vert[i].y * scale, vert[i].z * scale));
 				normals.push_back(glm::vec3(norm[i].x, norm[i].y, norm[i].z));
-				uv.push_back(glm::vec2(uvs[i].x,1.0- uvs[i].y));
+				uv.push_back(glm::vec2(uvs[i].x, 1.0 - uvs[i].y));
 			}
 
 			const std::vector<int> indices = g->getFaceIndicesVector();
@@ -254,50 +254,71 @@ public:
 		return new Model(pts, normals, faces, uv, material);
 	}
 
-	static Model* Cube(IMaterial* material = new MaterialPBR()) {
+	static Model* Cube(IMaterial* material = new MaterialPBR(), size_t res = 2, glm::vec3 halfSize = glm::vec3(0.5), glm::vec3 center = glm::vec3(0)) {
+		double pas = 1.0 / (double)res;
 		std::vector<glm::vec3> pts;
-		pts.push_back(glm::vec3(-0.5, -0.5, 0.0f));
-		pts.push_back(glm::vec3(0.5, -0.5, 0.0f));
-		pts.push_back(glm::vec3(0.5, 0.5, 0.0f));
-		pts.push_back(glm::vec3(-0.5, 0.5, 0.0f));
-
-		pts.push_back(glm::vec3(-0.5, -0.5, -1.0f));
-		pts.push_back(glm::vec3(0.5, -0.5, -1.0f));
-		pts.push_back(glm::vec3(0.5, 0.5, -1.0f));
-		pts.push_back(glm::vec3(-0.5, 0.5, -1.0f));
-
 		std::vector<glm::vec3> normals;
-		normals.push_back(glm::vec3(0, 0, 1));
-		normals.push_back(glm::vec3(0, 0, 1));
-		normals.push_back(glm::vec3(0, 0, 1));
-		normals.push_back(glm::vec3(0, 0, 1));
-		normals.push_back(glm::vec3(0, 0, -1));
-		normals.push_back(glm::vec3(0, 0, -1));
-		normals.push_back(glm::vec3(0, 0, -1));
-		normals.push_back(glm::vec3(0, 0, -1));
-
-		std::vector<Model::Face> faces;
-		//Front & Back
-		faces.push_back(Model::Face(6, 7, 4, 5));
-		faces.push_back(Model::Face(1, 0, 3, 2));
-		// Bottom & Top
-		faces.push_back(Model::Face(5, 4, 0, 1));
-		faces.push_back(Model::Face(7, 6, 2, 3));
-		// Left & Right
-		faces.push_back(Model::Face(6, 5, 1, 2));
-		faces.push_back(Model::Face(3, 0, 4, 7));
-
 		std::vector<glm::vec2> uv;
-		uv.push_back(glm::vec2(0, 0));
-		uv.push_back(glm::vec2(1, 0));
-		uv.push_back(glm::vec2(1, 1));
-		uv.push_back(glm::vec2(0, 1));
-		uv.push_back(glm::vec2(0, 0));
-		uv.push_back(glm::vec2(1, 0));
-		uv.push_back(glm::vec2(1, 1));
-		uv.push_back(glm::vec2(0, 1));
+		std::vector<Model::Face> faces;
+
+		size_t rp1 = res + 1;
+		size_t rp1_2 = rp1 * rp1;
+
+		for (int f = 0; f < 6; f++) {
+			size_t fres2 = f * rp1_2;
+			glm::vec2 pos(0);
+			for (size_t x = 0; x <= res; x++) {
+				pos.x = x * pas;
+				for (size_t y = 0; y <= res; y++) {
+					bool inverted = false;
+					pos.y = y * pas;
+					if (f == 0) { // bottom
+						pts.push_back(glm::vec3(pos.x, 0, pos.y));
+						inverted = true;
+					}
+					else if (f == 1) { // top
+						pts.push_back(glm::vec3(pos.x, 1, pos.y));
+					}
+					else if (f == 2) { //Front
+						pts.push_back(glm::vec3(pos.x, pos.y, 0));
+					}
+					else if (f == 3) { // Back
+						pts.push_back(glm::vec3(pos.x, pos.y, 1));
+						inverted = true;
+					}
+					else if (f == 4) { //Left
+						pts.push_back(glm::vec3(0, pos.x, pos.y));
+					}
+					else if (f == 5) { // Right
+						pts.push_back(glm::vec3(1, pos.x, pos.y));
+						inverted = true;
+					}
+					uv.push_back(pos);
+					if (x < res && y < res) {
+						
+						if (inverted)
+							faces.push_back(Model::Face(fres2 + (x * rp1) + y, fres2 + (x * rp1) + y + 1, fres2 + ((x + 1) * rp1) + y + 1, fres2 + ((x + 1) * rp1) + y));
+						else
+							faces.push_back(Model::Face(fres2 + (x * rp1) + y + 1, fres2 + (x * rp1) + y, fres2 + ((x + 1) * rp1) + y, fres2 + ((x + 1) * rp1) + y + 1));
+					}
+				}
+			}
+		}
+
+		for (size_t i = 0, max = pts.size(); i < max; i++) {
+			pts[i] = (pts[i] * (2.0f * halfSize)) - halfSize;
+			normals.push_back(glm::normalize(pts[i]));
+			pts[i] += center;
+		}
+
 
 		return new Model(pts, normals, faces, uv, material);
+	}
+
+	static Model* ForCollider(ICollider* collider) {
+		if (collider->ColliderType() == "boundingbox") {
+		}
+		return nullptr;
 	}
 
 

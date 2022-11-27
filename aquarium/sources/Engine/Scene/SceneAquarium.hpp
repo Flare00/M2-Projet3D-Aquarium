@@ -12,12 +12,17 @@
 #include <Engine/Tools/ModelGenerator.hpp>
 #include <Script/MovementScript.hpp>
 #include "Scene.hpp"
+#include <Physics/Collider/BoundingBoxCollider.hpp>
 
 class SceneAquarium : public Scene
 {
 public:
     SceneAquarium(std::string id) : Scene(id){
         this->root = new GameObject("Scene");
+
+        BoundingBoxCollider* bb1 = new BoundingBoxCollider();
+        BoundingBoxCollider* bb2 = new BoundingBoxCollider();
+        bb1->IsColliding(bb2);
 
         IMaterial* pipeMaterial = (new MaterialPBR())->SetFolderData("Pipe", "png");
         IMaterial* dragonMaterial = (new MaterialPBR())->SetFolderData("Dragon", "jpg");
@@ -48,7 +53,7 @@ public:
         GameObject* obj2 = new GameObject("Sphere", this->root);
         obj2->addComponent(new Displayable(obj2));
         //obj2->addComponent(ModelGenerator::LoadFromFile("sphere.fbx", cubesMaterial, 0.01));
-        obj2->addComponent(ModelGenerator::UVSphere(pipeMaterial));
+        obj2->addComponent(ModelGenerator::Cube(pipeMaterial));
         obj2->GetTransform()->SetPosition(glm::vec3(0, -4, 2));
 
         //obj2->addComponent(new MovementScript(obj2));
