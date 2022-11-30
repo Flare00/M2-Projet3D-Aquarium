@@ -6,6 +6,7 @@
 #include <string>
 #include <Graphics/Material/IMaterial.hpp>
 #include <Graphics/Texture/Texture.hpp>
+#include <Physics/IPhysics.hpp>
 
 std::string textureFolder = "assets/Texture/";
 
@@ -163,8 +164,22 @@ public:
 		this->data->roughnessMap->Bind();
 		glActiveTexture(GL_TEXTURE4);
 		this->data->aoMap->Bind();
-		glActiveTexture(GL_TEXTURE5);
-		this->data->heightMap->Bind();
+
+				
+		IPhysics * p = this->attachment->getFirstComponentByType<IPhysics>();
+		bool set = false;
+		if(p != nullptr){
+			if(p->GetTexture() != -1){
+				glActiveTexture(GL_TEXTURE5);
+				glBindTexture(GL_TEXTURE_2D, p->GetTexture());
+				set = true;
+			}
+		} 
+		if(!set) {
+			glActiveTexture(GL_TEXTURE5);
+			this->data->heightMap->Bind();
+		}
+
 
 
 	}

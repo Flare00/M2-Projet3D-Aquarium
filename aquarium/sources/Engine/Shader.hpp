@@ -185,7 +185,7 @@ protected:
 			const char* vData = this->vertexData.c_str();
 			glShaderSource(this->vertexShader, 1, &vData, NULL);
 			glCompileShader(this->vertexShader);
-			if (CheckIfCompiled(this->vertexShader, "vertex")) {
+			if (CheckIfCompiled(this->vertexShader, "vertex", this->vertexFilename)) {
 				glAttachShader(this->program, this->vertexShader);
 			}
 		}
@@ -196,7 +196,7 @@ protected:
 			const char* fData = this->fragmentData.c_str();
 			glShaderSource(this->fragmentShader, 1, &fData, NULL);
 			glCompileShader(this->fragmentShader);
-			if (CheckIfCompiled(this->fragmentShader, "fragment")) {
+			if (CheckIfCompiled(this->fragmentShader, "fragment", this->fragmentFilename)) {
 				glAttachShader(this->program, this->fragmentShader);
 			}
 		}
@@ -206,7 +206,7 @@ protected:
 			const char* tcData = this->tesselationControlData.c_str();
 			glShaderSource(this->tesselationControlShader, 1, &tcData, NULL);
 			glCompileShader(this->tesselationControlShader);
-			if (CheckIfCompiled(this->tesselationControlShader, "tess control")) {
+			if (CheckIfCompiled(this->tesselationControlShader, "tess control", this->tesselationControlFilename)) {
 				glAttachShader(this->program, this->tesselationControlShader);
 			}
 		}
@@ -218,7 +218,7 @@ protected:
 			glShaderSource(this->tesselationEvalShader, 1, &teData, NULL);
 			glCompileShader(this->tesselationEvalShader);
 
-			if (CheckIfCompiled(this->tesselationEvalShader, "tess eval")) {
+			if (CheckIfCompiled(this->tesselationEvalShader, "tess eval", this->tesselationEvalFilename)) {
 				glAttachShader(this->program, this->tesselationEvalShader);
 			}
 		}
@@ -229,7 +229,7 @@ protected:
 			glShaderSource(this->geometryShader, 1, &gData, NULL);
 			glCompileShader(this->geometryShader);
 
-			if (CheckIfCompiled(this->geometryShader, "geometry")) {
+			if (CheckIfCompiled(this->geometryShader, "geometry", this->geometryFilename)) {
 				glAttachShader(this->program, this->geometryShader);
 			}
 		}
@@ -241,13 +241,17 @@ protected:
 		}
 	}
 
-	bool CheckIfCompiled(GLuint shader, std::string name)
+	bool CheckIfCompiled(GLuint shader, std::string name, std::string filename = "")
 	{
 		GLint isCompiled = 0;
 		glGetShaderiv(shader, GL_COMPILE_STATUS, &isCompiled);
 		if (isCompiled == GL_FALSE)
 		{
-			printf("%s failed.\n", name.c_str());
+			if(filename.size() > 0) {
+				printf("%s | %s failed.\n", filename.c_str(), name.c_str());
+			} else {
+				printf("%s failed.\n", name.c_str());
+			}
 			GLint maxLength = 0;
 			glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &maxLength);
 

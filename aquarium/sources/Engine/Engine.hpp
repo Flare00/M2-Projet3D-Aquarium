@@ -8,6 +8,7 @@
 #include "Scene/SceneAquarium.hpp"
 #include <Engine/GameObject.hpp>
 #include <Graphics/Graphics.hpp>
+#include <Physics/Physics.hpp>
 
 #include <Engine/Tools/Tools.hpp>
 class Engine{
@@ -16,7 +17,8 @@ protected:
     std::vector<Scene> scenes;
     size_t nbScene = 0;
     Graphics graphics;
-
+    Physics physics;
+    
     double reloadWait = 0.0;
     double wireframeWait = 0.0;
 public:
@@ -48,6 +50,7 @@ public:
             scenes[activeScene].loop(deltaT);
 
             GameObject* root = scenes[activeScene].GetRoot();
+            physics.Compute(deltaT, root);
             graphics.Compute(root);
         }
     }

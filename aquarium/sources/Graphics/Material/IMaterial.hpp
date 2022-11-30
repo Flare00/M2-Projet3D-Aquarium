@@ -9,6 +9,7 @@
 #include <Graphics/Light.hpp>
 #include <Engine/SettedShaders.hpp>
 
+SettedShaders settedStdShaders;
 
 class IMaterial : public Component{
 protected:
@@ -16,13 +17,11 @@ protected:
 	bool handleLights;
 
 public:
-	static SettedShaders settedShaders;
-
 
 	IMaterial(std::string shadername, bool handleLights = true) {
 		this->handleLights = handleLights;
 		if (shadername.size() > 0) {
-			this->shader = IMaterial::settedShaders.AddShader(shadername);
+			this->shader = settedStdShaders.AddShader(shadername);
 		}
 	}
 

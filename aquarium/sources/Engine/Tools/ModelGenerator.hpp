@@ -170,6 +170,31 @@ public:
 
 		return new Model(pts, normals, faces, uv, material);
 	}
+	
+	static std::vector<glm::vec3> QuadPoints(int resX = 2, int resZ = 2, float sizeX = 1, float sizeZ = 1, bool center = true) {
+		std::vector<glm::vec3> pts;
+		
+		if (resX < 1 || resZ < 1) {
+			return pts;
+		}
+
+		double pasX = 1.0 / (double)resX;
+		double pasY = 1.0 / (double)resZ;
+		int resZp1 = resZ + 1;
+
+		for (int x = 0; x <= resX; x++) {
+			for (int z = 0; z <= resZ; z++) {
+				glm::vec3 pt = glm::vec3(x * pasX, 0, z * pasY);
+				if(center){
+					pt -= glm::vec3(0.5);
+				}
+				pt *= glm::vec3(sizeX, 0, sizeZ); 
+				pts.push_back(pt);
+			}
+		}
+
+		return pts;
+	}
 
 	static Model* UVSphere(IMaterial* material = new MaterialPBR(), int nbMeridien = 16, int nbParalleles = 32, float scale = 1.0f) {
 		if (nbMeridien < 3 || nbParalleles < 3) {

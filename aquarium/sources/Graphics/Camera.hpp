@@ -8,6 +8,7 @@
 #include <Engine/Component/Transformation.hpp>
 #include <Engine/Component/Model.hpp>
 #include <Engine/Shader.hpp>
+#include <Graphics/Framebuffer.hpp>
 
 class Camera : public Component
 {
@@ -57,13 +58,6 @@ public:
 			Settings res = Settings();
 			return res.perspect(aspect, near, far, fov);
 		}
-	};
-
-	struct Framebuffer {
-		GLuint framebuffer;
-		GLuint renderbuffer;
-		GLuint tex_color;
-
 	};
 
 
@@ -126,49 +120,18 @@ public:
 		else {
 			this->renderMaterial = nullptr;
 		}
-		//Create Framebuffer for this camera
-
 	}
 
 	void PostAttachment() override {
 		if(renderMaterial != nullptr)
 			this->attachment->addComponent(this->renderMaterial);
-		GenerateFrameBuffer();
+		framebuffer.Generate();
 		UpdateData();
 	}
 
 
 
 	~Camera() {
-		glDeleteTextures(1, &this->framebuffer.tex_color);
-		glDeleteRenderbuffers(1, &this->framebuffer.renderbuffer);
-		glDeleteFramebuffers(1, &this->framebuffer.framebuffer);
-	}
-
-	void GenerateFrameBuffer() {
-		//create the framebuffer
-		glGenFramebuffers(1, &this->framebuffer.framebuffer);
-		glBindFramebuffer(GL_FRAMEBUFFER, this->framebuffer.framebuffer);
-
-		// create a color attachment texture
-		glGenTextures(1, &this->framebuffer.tex_color);
-		glBindTexture(GL_TEXTURE_2D, this->framebuffer.tex_color);
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, global.screen_width, global.screen_height, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, this->framebuffer.tex_color, 0);
-
-		//create the renderbuffer
-		glGenRenderbuffers(1, &this->framebuffer.renderbuffer);
-		glBindRenderbuffer(GL_RENDERBUFFER, this->framebuffer.renderbuffer);
-
-		glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, global.screen_width, global.screen_height);
-		glBindRenderbuffer(GL_RENDERBUFFER, 0);
-		glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, this->framebuffer.renderbuffer);
-
-		if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
-			printf("ERROR::FRAMEBUFFER:: Framebuffer is not complete!\n");
-		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	}
 
 	glm::mat4 GetProjection() {
@@ -271,11 +234,11 @@ public:
 	}
 
 	GLuint GetFrameBuffer() {
-		return this->framebuffer.framebuffer;
+		return this->framebuffer.GetFramebuffer();
 	}
 
 	GLuint GetColorTexture() {
-		return this->framebuffer.tex_color;
+		return this->framebuffer.GetTexColor();
 	}
 
 	glm::vec3 GetPosition(){

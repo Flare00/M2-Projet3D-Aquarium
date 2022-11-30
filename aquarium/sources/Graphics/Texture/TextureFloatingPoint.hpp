@@ -15,14 +15,14 @@ protected:
 	Precision precision;
 public:
 	TextureFloatingPoint(int width = 512, int height = 512, int nbChannel = 1, Precision precision = F16) {
-		this->width = size;
-		this->height = size;
+		this->width = width;
+		this->height = height;
 		this->nbChannel = nbChannel < 1 ? 1 : (nbChannel > 4 ? 4 : nbChannel);
 		this->precision = precision;
 		GenerateTexture();
 	}
 
-	void GetInternalAndNormalFormat(GLenum* internalFormat, GLenum* format) {
+	void GetInternalAndNormalFormat(int & internalFormat, int & format) {
 		if (this->nbChannel == 1) {
 			internalFormat = (this->precision == F16 ? GL_R16F : GL_R32F);
 			format = GL_RED;
@@ -56,9 +56,9 @@ public:
 			}
 		}
 
-		GLenum i_format = GL_RGBA16F;
-		GLenum format = GL_RGBA;
-		GetInternalAndNormalFormat(&i_format, &format);
+		int i_format = GL_RGBA16F;
+		int format = GL_RGBA;
+		GetInternalAndNormalFormat(i_format, format);
 
 		glBindTexture(GL_TEXTURE_2D, this->texture_index);
 		glTexImage2D(GL_TEXTURE_2D, 0, i_format, this->width, this->height, 0, format, GL_FLOAT, data);

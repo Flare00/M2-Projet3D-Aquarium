@@ -1,5 +1,5 @@
-#ifndef __SETTED_SHADER_HPP__
-#define __SETTED_SHADER_HPP__
+#ifndef __SETTED_SHADERS_HPP__
+#define __SETTED_SHADERS_HPP__
 
 #include <string>
 #include <vector>
@@ -61,7 +61,8 @@ public:
 			return s;
 		}
 		else {
-			this->settedShaders.push_back(SettedShaders::SettedShader(shadername, shadername));
+			Shader* shader = new Shader(shadername);
+			this->settedShaders.push_back(SettedShaders::SettedShader(shadername, shader));
 			return shader;
 		}
 	}

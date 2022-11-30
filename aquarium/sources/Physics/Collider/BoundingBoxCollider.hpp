@@ -70,7 +70,6 @@ public:
 
 	bool IsColliding(ICollider * other) override {
 		printf("Self : %s | Other : %s\n", this->ColliderType().c_str(), other->ColliderType().c_str());
-		if(other)
 		return false;
 	}
 

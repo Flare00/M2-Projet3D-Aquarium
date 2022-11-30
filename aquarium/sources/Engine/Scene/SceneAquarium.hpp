@@ -13,6 +13,7 @@
 #include <Script/MovementScript.hpp>
 #include "Scene.hpp"
 #include <Physics/Collider/BoundingBoxCollider.hpp>
+#include <Physics/WaterPhysics.hpp>
 
 class SceneAquarium : public Scene
 {
@@ -26,8 +27,9 @@ public:
 
         IMaterial* pipeMaterial = (new MaterialPBR())->SetFolderData("Pipe", "png");
         IMaterial* dragonMaterial = (new MaterialPBR())->SetFolderData("Dragon", "jpg");
-        IMaterial* groundMaterial = new MaterialPBR(glm::vec4(0.0,0.66,0.8,0.7));
+        IMaterial* waterMaterial = new MaterialPBR(glm::vec4(0.0,0.66,0.8,0.7));
 
+        Shader * waterPhysicsShader = new Shader("Physics/water.vert", "Physics/water.frag");
 
         GameObject* camera = new GameObject("Camera", this->root);
         camera->addComponent(new Camera(Camera::Settings::perspective(global.ScreenAspectRatio())));
@@ -63,10 +65,11 @@ public:
         light->GetTransform()->SetPosition(glm::vec3(0,0,0));
 
 
-        GameObject* ground = new GameObject("Ground", this->root);
-        ground->addComponent(new Displayable(ground));
-        ground->addComponent(ModelGenerator::Quad(groundMaterial, 128, 128, 4,4));
-        ground->GetTransform()->SetPosition(glm::vec3(0, -1, 2));
+        GameObject* water = new GameObject("water", this->root);
+        water->addComponent(new Displayable(water));
+        water->addComponent(ModelGenerator::Quad(waterMaterial, 128, 128, 4,4));
+        //water->addComponent(new WaterPhysics(waterPhysicsShader, 128));
+        water->GetTransform()->SetPosition(glm::vec3(0, -1, 2));
     }
 
 };
