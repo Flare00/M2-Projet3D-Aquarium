@@ -20,8 +20,10 @@ public :
 
     void Compute( double deltatime, std::vector<IPhysics*> elems, int nbStep = 1){
         double stepDelta = deltatime / (double)nbStep;
+
         for(int i = 0 ; i < nbStep ; i++){
-            double currentStep = stepDelta*(double)i;
+            double currentStep = stepDelta*((double)(i+1));
+
             for(size_t j = 0, max = elems.size(); j < max ; j++)
                 elems[j]->Compute(currentStep);
         }

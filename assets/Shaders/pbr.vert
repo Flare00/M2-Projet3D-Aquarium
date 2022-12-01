@@ -10,6 +10,7 @@ uniform mat4 u_view;
 uniform mat4 u_projection;
 
 uniform sampler2D m_heightmap;
+uniform int u_is_heightmap;
 
 out vec3 Normal;
 out vec2 TexCoord;
@@ -19,7 +20,11 @@ const float displacementFactor = 0.1f;
 const float displacementBias = 0.0f;
 
 void main(){
-	PointCoord = u_model * vec4(aPos,1.0f);
+	float height = 0.0f;
+	if(u_is_heightmap == 1){
+		height = texture(m_heightmap, aTexCoord).r;
+	}
+	PointCoord = u_model * vec4(aPos.x, aPos.y + height, aPos.z, 1.0f);
 	Normal = mat3(u_model) * aNormal;
 	TexCoord = aTexCoord;
 	gl_Position =  u_projection * (u_view * PointCoord);

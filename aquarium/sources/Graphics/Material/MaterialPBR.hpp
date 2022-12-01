@@ -25,6 +25,7 @@ public:
 		float roughness;
 
 		Data(glm::vec4 albedo, float metallic, float roughness, Texture* albedoMap, Texture* normalMap, Texture* metallicMap, Texture* roughnessMap, Texture* aoMap, Texture* heightMap) {
+			
 			this->albedo = albedo;
 			this->metallic = metallic;
 			this->roughness = roughness;
@@ -143,6 +144,7 @@ public:
 		GLuint program = this->shader->GetProgram();
 
 		glUseProgram(program);
+
 		glUniform4f(glGetUniformLocation(program, ("material.albedo")), this->data->albedo.x, this->data->albedo.y, this->data->albedo.z, this->data->albedo.w);
 		glUniform1f(glGetUniformLocation(program, ("material.metallic")), this->data->metallic);
 		glUniform1f(glGetUniformLocation(program, ("material.roughness")), this->data->roughness);
@@ -152,7 +154,7 @@ public:
 		glUniform1i(glGetUniformLocation(program, ("material.metallicMap")), 2);
 		glUniform1i(glGetUniformLocation(program, ("material.roughnessMap")), 3);
 		glUniform1i(glGetUniformLocation(program, ("material.aoMap")), 4);
-		glUniform1i(glGetUniformLocation(program, ("m_heightmap")),5);
+		glUniform1i(glGetUniformLocation(program, ("m_heightmap")), 5);
 
 		glActiveTexture(GL_TEXTURE0);
 		this->data->albedoMap->Bind();
@@ -165,20 +167,26 @@ public:
 		glActiveTexture(GL_TEXTURE4);
 		this->data->aoMap->Bind();
 
-				
-		IPhysics * p = this->attachment->getFirstComponentByType<IPhysics>();
+
+		IPhysics* p = this->attachment->getFirstComponentByType<IPhysics>();
 		bool set = false;
-		if(p != nullptr){
-			if(p->GetTexture() != -1){
+		if (p != nullptr) {
+			if (p->GetTexture() != -1) {
 				glActiveTexture(GL_TEXTURE5);
 				glBindTexture(GL_TEXTURE_2D, p->GetTexture());
 				set = true;
 			}
-		} 
-		if(!set) {
-			glActiveTexture(GL_TEXTURE5);
-			this->data->heightMap->Bind();
 		}
+		if (!set ) {
+			if (!this->data->heightMap->IsFallback()) {
+				glActiveTexture(GL_TEXTURE5);
+				this->data->heightMap->Bind();
+				set = true;
+			}
+		}
+
+		glUniform1i(glGetUniformLocation(program, ("u_is_heightmap")), set ? 1 : 0);
+
 
 
 

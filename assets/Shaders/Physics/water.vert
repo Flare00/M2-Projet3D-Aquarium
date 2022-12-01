@@ -5,6 +5,6 @@ uniform vec2 halfSize;
 out vec2 coord;
 
 void main(){
-	coord = (aPos.xy / halfSize);
-	gl_Position =  vec4(aPos,1);
+	coord = (aPos.xz+vec2(1)) / 2.0;
+	gl_Position =  vec4(aPos.x, aPos.z, aPos.y, 1.0); 
 }

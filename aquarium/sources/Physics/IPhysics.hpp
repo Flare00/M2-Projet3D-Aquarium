@@ -1,7 +1,7 @@
 #ifndef __I_PHYSICS_HPP__
 #define __I_PHYSICS_HPP__
 
-#include <GL/glut.h>
+#include <GL/glew.h>
 #include <Engine/Component/Component.hpp>
 
 class IPhysics : public Component

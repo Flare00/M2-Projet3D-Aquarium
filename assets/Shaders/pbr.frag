@@ -181,4 +181,7 @@ void main(){
 	c = pow(c, vec3(1.0/gamma));
 	FragColor = vec4(c,material.albedo.a);
 
+
+
+
 }

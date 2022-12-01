@@ -105,8 +105,6 @@ public:
 	}
 
 	void Draw(Camera* cam, Displayable* element, std::vector<Light*> lights) {
-
-		
 		Model* model = element->GetGameObject()->getFirstComponentByType<Model>();
 		Draw(cam, element, model, lights);
 	}

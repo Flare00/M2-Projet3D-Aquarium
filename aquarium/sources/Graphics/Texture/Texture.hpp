@@ -23,6 +23,7 @@ protected:
 
 
 	bool loaded;
+	bool isFallBack = true;
 public:
 
 	Texture(std::string path = "", glm::vec4 fallback = glm::vec4(1.0), int fallbackChannel = 4)
@@ -95,6 +96,9 @@ public:
 				printf("Failed to load texture : %s\n Generate Fallback.\n", this->path.c_str());
 				GenerateColorData(this->fallback);
 			}
+			else {
+				isFallBack = false;
+			}
 			
 		}
 		else {
@@ -125,6 +129,9 @@ public:
 		glBindTexture(GL_TEXTURE_2D, this->texture_index);
 	}
 
+	bool IsFallback() {
+		return this->isFallBack;
+	}
 };
 
 #endif

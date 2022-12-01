@@ -29,8 +29,6 @@ public:
         IMaterial* dragonMaterial = (new MaterialPBR())->SetFolderData("Dragon", "jpg");
         IMaterial* waterMaterial = new MaterialPBR(glm::vec4(0.0,0.66,0.8,0.7));
 
-        Shader * waterPhysicsShader = new Shader("Physics/water.vert", "Physics/water.frag");
-
         GameObject* camera = new GameObject("Camera", this->root);
         camera->addComponent(new Camera(Camera::Settings::perspective(global.ScreenAspectRatio())));
         camera->addComponent(new MovementScript());
@@ -68,8 +66,11 @@ public:
         GameObject* water = new GameObject("water", this->root);
         water->addComponent(new Displayable(water));
         water->addComponent(ModelGenerator::Quad(waterMaterial, 128, 128, 4,4));
-        //water->addComponent(new WaterPhysics(waterPhysicsShader, 128));
+        WaterPhysics* waterP = new WaterPhysics(128);
+        water->addComponent(waterP);
         water->GetTransform()->SetPosition(glm::vec3(0, -1, 2));
+
+        waterP->AddDrop(glm::vec2(0.5, 0.5), 1.0f, 1.0f);
     }
 
 };
