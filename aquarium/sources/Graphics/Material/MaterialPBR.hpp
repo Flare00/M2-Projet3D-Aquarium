@@ -37,6 +37,15 @@ public:
 			this->aoMap = aoMap;
 			this->heightMap = heightMap;
 		}
+
+		~Data() {
+			delete albedoMap;
+			delete normalMap;
+			delete metallicMap;
+			delete roughnessMap;
+			delete aoMap;
+			delete heightMap;
+		}
 	};
 
 protected:
@@ -70,6 +79,10 @@ public:
 			new Texture(aoMapFile, glm::vec4(0)),
 			new Texture(heightMapFile, glm::vec4(0))
 		);
+	}
+
+	~MaterialPBR() {
+		delete data;
 	}
 
 	MaterialPBR* SetAlbedo(glm::vec4 albedo) {

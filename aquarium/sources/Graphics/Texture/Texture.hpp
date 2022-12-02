@@ -40,7 +40,9 @@ public:
 		this->LoadData();
 	}
 
-
+	~Texture() {
+		glDeleteTextures(0, &texture_index);
+	}
 
 	void SetPath(std::string path) {
 		if (this->path.compare(path) != 0) {
@@ -80,6 +82,9 @@ public:
 			this->loaded = true;
 			if (this->path.size() > 0) {
 				stbi_image_free(this->texture_data);
+			}
+			else {
+				delete this->texture_data;
 			}
 		}
 		else {

@@ -41,14 +41,10 @@ public:
 		this->quad = ModelGenerator::Quad(nullptr, resolution, resolution, 2, 2);
 
 
-		float data[resolution][resolution][4];
+		float* data = new float[resolution * resolution * 4];
 
-		for (int i = 0; i < this->resolution; i++) {
-			for (int j = 0; j < this->resolution; j++) {
-				for (int k = 0; k < 4; k++) {
-					data[i][j][k] = (k == 3 ? 1.0f : 0.0f);
-				}
-			}
+		for (int i = 0, max = this->resolution * this->resolution * 4; i < max; i++) {
+			data[i] = (i%4 == 3 ? 1.0f : 0.0f);
 		}
 		glGenTextures(1, &this->texture);
 		glBindTexture(GL_TEXTURE_2D, this->texture);
@@ -57,6 +53,8 @@ public:
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+
+		delete data;
 	}
 
 	void PostAttachment() override {

@@ -17,17 +17,15 @@ class Model : public Component {
 public:
 	struct Face {
 		bool quad;
-		unsigned int* linkedPoints;
+		unsigned int linkedPoints[4];
 		Face(unsigned int p1, unsigned int p2, unsigned int p3) {
 			quad = false;
-			linkedPoints = new unsigned int[3]();
 			linkedPoints[0] = p1;
 			linkedPoints[1] = p2;
 			linkedPoints[2] = p3;
 		}
 		Face(unsigned int p1, unsigned int p2, unsigned int p3, unsigned int p4) {
 			quad = true;
-			linkedPoints = new unsigned int[4]();
 			linkedPoints[0] = p1;
 			linkedPoints[1] = p2;
 			linkedPoints[2] = p3;
@@ -49,6 +47,7 @@ public:
 
 			return res;
 		}
+
 	};
 
 	struct Data

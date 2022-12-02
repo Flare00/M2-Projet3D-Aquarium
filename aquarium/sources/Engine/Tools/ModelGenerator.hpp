@@ -50,6 +50,8 @@ public:
 				//Load Material ? 
 				material = new MaterialPBR();
 			}
+			scene->destroy();
+			
 		}
 		else if (ext.compare("stl") == 0) {
 
