@@ -2,6 +2,8 @@
 
 const float PI = 3.141592;
 
+out vec4 color;
+
 struct Drop{
     vec2 center;
     float radius;
@@ -22,23 +24,21 @@ void main(){
     vec4 data = texture(tex, coord);
 
     data.a = 1.0f;
-    data.r *= 1.0 - (deltaTime/2.0);
+    //data.r *= 1.0 - (deltaTime/2.0);
     //Add drop
     
-    if (is_drop == 0){
-        data.b = 1.0f;
-    } else {
+    if (is_drop == 1){
         float d = max(0.0 , 1.0 - length(drop.center - coord) / drop.radius);
         d = 0.5 - (0.5 * cos(d * PI));
         data.r = d * drop.strength;
     } 
 
 
-    gl_FragColor = data;
-    /*
+    
 
     vec2 dx = vec2(deltaMove.x, 0.0);
     vec2 dy = vec2(0.0, deltaMove.y);
+
 
     float average = (
         texture(tex, coord - dx).r +
@@ -51,10 +51,11 @@ void main(){
     data.g += (average - data.r) * 2.0;
     
     // attenuate the velocity a little so waves do not last forever 
-    //data.g *= 0.995;
+    data.g *= 1.0 - (deltaTime);
     
     // move the vertex along the velocity 
-    data.r += data.g;*/
+    data.r += data.g;
 
+    color = data;
 }
 

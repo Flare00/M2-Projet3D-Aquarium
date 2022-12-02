@@ -2,6 +2,7 @@
 #define __WATER_PHYSICS_HPP__
 
 #include <glm/glm.hpp>
+#include <string>
 #include <GL/glew.h>
 #include <vector>
 #include <Physics/IPhysics.hpp>
@@ -39,9 +40,19 @@ public:
 		this->invRes = 1.0f / (float)resolution;
 		this->quad = ModelGenerator::Quad(nullptr, resolution, resolution, 2, 2);
 
+
+		float data[resolution][resolution][4];
+
+		for (int i = 0; i < this->resolution; i++) {
+			for (int j = 0; j < this->resolution; j++) {
+				for (int k = 0; k < 4; k++) {
+					data[i][j][k] = (k == 3 ? 1.0f : 0.0f);
+				}
+			}
+		}
 		glGenTextures(1, &this->texture);
 		glBindTexture(GL_TEXTURE_2D, this->texture);
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA16F, resolution, resolution, 0, GL_RGBA, GL_FLOAT, NULL);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA16F, resolution, resolution, 0, GL_RGBA, GL_FLOAT, data);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);

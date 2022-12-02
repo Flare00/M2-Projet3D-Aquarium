@@ -70,7 +70,7 @@ public:
         water->addComponent(waterP);
         water->GetTransform()->SetPosition(glm::vec3(0, -1, 2));
 
-        waterP->AddDrop(glm::vec2(0.5, 0.5), 1.0f, 1.0f);
+        waterP->AddDrop(glm::vec2(0.5, 0.5), 0.05f, 1.0f);
     }
 
 };

@@ -22,7 +22,7 @@ const float displacementBias = 0.0f;
 void main(){
 	float height = 0.0f;
 	if(u_is_heightmap == 1){
-		height = texture(m_heightmap, aTexCoord).r;
+		height = -texture(m_heightmap, aTexCoord).r;
 	}
 	PointCoord = u_model * vec4(aPos.x, aPos.y + height, aPos.z, 1.0f);
 	Normal = mat3(u_model) * aNormal;
