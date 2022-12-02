@@ -10,6 +10,8 @@ out vec4 FragColor;
 in vec3 Normal;
 in vec2 TexCoord;
 in vec4 PointCoord;
+in vec3 PhysicsNorm;
+in flat int IsDataPhysics;
 
 // --- Structs ---
 
@@ -151,7 +153,9 @@ void main(){
 	float Roughness = (roughnessM.w == 0) ? material.roughness : roughnessM.r;
 	float Ao = (aoM.a == 0) ? 1.0f : aoM.r;
 
-	if(texture(material.normalMap, TexCoord).a == 0){
+	if(IsDataPhysics == 1){
+		Norm = PhysicsNorm;
+	} else if (texture(material.normalMap, TexCoord).a == 0){
 		Norm = Normal;
 	} else {
 		Norm = getNormalFromMap();

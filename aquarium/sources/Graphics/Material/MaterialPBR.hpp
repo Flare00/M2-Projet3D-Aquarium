@@ -155,6 +155,7 @@ public:
 		glUniform1i(glGetUniformLocation(program, ("material.roughnessMap")), 3);
 		glUniform1i(glGetUniformLocation(program, ("material.aoMap")), 4);
 		glUniform1i(glGetUniformLocation(program, ("m_heightmap")), 5);
+		glUniform1i(glGetUniformLocation(program, ("p_data_physics")), 6);
 
 		glActiveTexture(GL_TEXTURE0);
 		this->data->albedoMap->Bind();
@@ -167,29 +168,21 @@ public:
 		glActiveTexture(GL_TEXTURE4);
 		this->data->aoMap->Bind();
 
+		glActiveTexture(GL_TEXTURE5);
+		this->data->heightMap->Bind();
+
 
 		IPhysics* p = this->attachment->getFirstComponentByType<IPhysics>();
-		bool set = false;
+		int isDataP = 0;
 		if (p != nullptr) {
 			if (p->GetTexture() != -1) {
-				glActiveTexture(GL_TEXTURE5);
+				glActiveTexture(GL_TEXTURE6);
 				glBindTexture(GL_TEXTURE_2D, p->GetTexture());
-				set = true;
-			}
-		}
-		if (!set ) {
-			if (!this->data->heightMap->IsFallback()) {
-				glActiveTexture(GL_TEXTURE5);
-				this->data->heightMap->Bind();
-				set = true;
+				isDataP = 1;
 			}
 		}
 
-		glUniform1i(glGetUniformLocation(program, ("u_is_heightmap")), set ? 1 : 0);
-
-
-
-
+		glUniform1i(glGetUniformLocation(program, ("u_is_data_physics")), isDataP);
 	}
 };
 

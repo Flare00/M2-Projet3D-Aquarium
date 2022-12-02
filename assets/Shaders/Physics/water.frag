@@ -34,8 +34,6 @@ void main(){
     } 
 
 
-    
-
     vec2 dx = vec2(deltaMove.x, 0.0);
     vec2 dy = vec2(0.0, deltaMove.y);
 
@@ -51,10 +49,12 @@ void main(){
     data.g += (average - data.r) * 2.0;
     
     // attenuate the velocity a little so waves do not last forever 
-    data.g *= 1.0 - (deltaTime);
+    data.g *= 1.0 - (deltaTime * 0.1);
     
     // move the vertex along the velocity 
     data.r += data.g;
+
+    data.b = deltaMove.x;
 
     color = data;
 }

@@ -65,12 +65,12 @@ public:
 
         GameObject* water = new GameObject("water", this->root);
         water->addComponent(new Displayable(water));
-        water->addComponent(ModelGenerator::Quad(waterMaterial, 128, 128, 4,4));
-        WaterPhysics* waterP = new WaterPhysics(128);
+        water->addComponent(ModelGenerator::Quad(waterMaterial, 1024, 1024, 10,10));
+        WaterPhysics* waterP = new WaterPhysics(256);
         water->addComponent(waterP);
         water->GetTransform()->SetPosition(glm::vec3(0, -1, 2));
 
-        waterP->AddDrop(glm::vec2(0.5, 0.5), 0.05f, 1.0f);
+        waterP->AddDrop(glm::vec2(0.5, 0.5), 0.05f, 0.1f);
     }
 
 };
