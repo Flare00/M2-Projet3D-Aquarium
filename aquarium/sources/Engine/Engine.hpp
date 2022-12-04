@@ -3,9 +3,11 @@
 
 #include <vector>
 #include <string>
+#include <GL/glew.h>
 #include <GLFW/glfw3.h>
+#include <Engine/Scene/SceneAquarium.hpp>
 
-#include "Scene/SceneAquarium.hpp"
+#include <Engine/Global.hpp>
 #include <Engine/GameObject.hpp>
 #include <Graphics/Graphics.hpp>
 #include <Physics/Physics.hpp>
@@ -23,16 +25,130 @@ protected:
     double wireframeWait = 0.0;
 public:
     Engine(){
+    }
+    ~Engine() { Terminate(); }
+    int Init() {
+        // Initialise GLFW
+        if (!glfwInit())
+        {
+            fprintf(stderr, "Failed to initialize GLFW\n");
+            getchar();
+            return -1;
+        }
+        // GLFW Parameters
+        glfwWindowHint(GLFW_SAMPLES, 2);
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+        glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE); // To make MacOS happy; should not be needed
+        glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+        glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GL_TRUE);
+
+        // Open a global.global_window and create its OpenGL context
+        global.global_window = glfwCreateWindow(global.screen_width, global.screen_height, "Aquarium 3D", NULL, NULL);
+        if (global.global_window == NULL)
+        {
+            fprintf(stderr, "Failed to open GLFW global.global_window.\n");
+            getchar();
+            glfwTerminate();
+            return -1;
+        }
+
+        //Set Size Callback
+        glfwMakeContextCurrent(global.global_window);
+        glfwSetFramebufferSizeCallback(global.global_window, framebuffer_size_callback);
+
+        printf("OpenGL version supported by this platform : %s\n", glGetString(GL_VERSION));
+
+        // Initialize GLEW
+        glewExperimental = true; // Needed for core profile
+        if (glewInit() != GLEW_OK)
+        {
+            fprintf(stderr, "Failed to initialize GLEW\n");
+            getchar();
+            glfwTerminate();
+            return -1;
+        }
+
+        // Ensure we can capture the escape key being pressed below
+        glfwSetInputMode(global.global_window, GLFW_STICKY_KEYS, GL_TRUE);
+
+        // Hide the mouse and enable unlimited mouvement
+        glfwSetInputMode(global.global_window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+
+        // Set the mouse at the center of the screen
+        glfwPollEvents();
+        glfwSetCursorPos(global.global_window, global.screen_width / 2.0, global.screen_height / 2.0);
+
+        //Clear background to grey
+        glClearColor(0.8f, 0.8f, 0.8f, 0.0f);
+
+        // Enable depth test
+        glEnable(GL_DEPTH_TEST);
+        // Accept fragment if it closer to the camera than the former one
+        glDepthFunc(GL_LESS);
+        // Cull triangles which normal is not towards the camera
+        glEnable(GL_CULL_FACE);
+        glCullFace(GL_BACK);
+
+        //for Tesselation
+        glPatchParameteri(GL_PATCH_VERTICES, 4);
+
+        glEnable(GL_TEXTURE_2D);
+        glEnable(GL_FRAMEBUFFER_SRGB);
+        glEnable(GL_BLEND);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        // Setup mouse callback
+        glfwSetCursorPosCallback(global.global_window, cursorPositionCallback);
+
+        //Init Modules.
+        graphics.Init();
+        physics.Init();
+    }
+
+    void InitScenes() {
         scenes.push_back(SceneAquarium("Aquarium 3D"));
         activeScene = 0;
-        
+
         nbScene = scenes.size();
-        if(activeScene >= 0 && activeScene < nbScene){
+        if (activeScene >= 0 && activeScene < nbScene) {
             scenes[activeScene].start();
         }
     }
 
-    void loop(double deltaT){
+    void MainLoop() {
+        double lastFrame = 0.0f;
+        double currentFrame = glfwGetTime();
+        double deltaTime = currentFrame - lastFrame;
+        lastFrame = currentFrame;
+        double sumDelta = 0.0;
+
+        do {
+            if (glfwGetKey(global.global_window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
+                global.close_asked = true;
+            }
+
+            double currentFrame = glfwGetTime();
+            deltaTime = currentFrame - lastFrame;
+            lastFrame = currentFrame;
+            sumDelta += deltaTime;
+
+            if (sumDelta >= 1.0 / (global.fps_limit)) {
+
+                std::string titre = "Moteur - ";
+                titre += std::to_string((int)((1.0 / sumDelta) + 0.1));
+                glfwSetWindowTitle(global.global_window, titre.c_str());
+
+                Loop(sumDelta);
+
+                glfwSwapBuffers(global.global_window);
+                glfwPollEvents();
+                sumDelta = 0.0f;
+            }
+
+        } while (!global.close_asked && glfwWindowShouldClose(global.global_window) == 0);
+    }
+
+    void Loop(double deltaT){
 
         if(activeScene >= 0 && activeScene < nbScene){
             reloadWait -= deltaT;
@@ -55,21 +171,25 @@ public:
         }
     }
 
-    void changeScene(size_t scene_number){
+    void Terminate() {
+        glfwTerminate();
+    }
+
+    void ChangeScene(size_t scene_number){
         if(scene_number >= 0 && scene_number < nbScene){
             scenes[activeScene].stop();
             activeScene = scene_number;
             scenes[activeScene].start();
         }
     }
-    void changeScene(std::string scene_id){
+    void ChangeScene(std::string scene_id){
         size_t index = -1;
         for(size_t i = 0, max = scenes.size(); i < max && index == -1; i++){
             if(scenes[i].id == scene_id){
                 index = i;
             }
         }
-        this->changeScene(index);
+        this->ChangeScene(index);
     }
 };
 

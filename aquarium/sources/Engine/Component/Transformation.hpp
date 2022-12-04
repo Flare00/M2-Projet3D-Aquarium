@@ -10,32 +10,35 @@
 class Transformation : public Component
 {
 private:
-	glm::vec3 position;
-	glm::vec3 rotation;
-	glm::vec3 scale;
-	glm::vec3 frontVector;
-	glm::vec3 upVector;
+	glm::vec3 position = glm::vec3(0);
+	glm::vec3 rotation = glm::vec3(0);
+	glm::vec3 scale = glm::vec3(1);
+	glm::vec3 frontVector = glm::vec3(1, 0, 0);
+	glm::vec3 upVector = glm::vec3(0,1,0);
 	bool dirty = true;
 	glm::mat4 matrix = glm::mat4(1.0);
-	glm::mat4 rotationMatrix;
+	glm::mat4 rotationMatrix = glm::mat4(1);;
 
 public:
 	Transformation(glm::vec3 position, glm::vec3 rotation, glm::vec3 scale) {
 		this->position = position;
 		this->rotation = rotation;
 		this->scale = scale;
+		computeMatrix();
 	}
 
 	Transformation(glm::vec3 position) {
 		this->position = position;
 		this->rotation = glm::vec3(0.0);
 		this->scale = glm::vec3(1, 1, 1);
+		computeMatrix();
 	}
 
 	Transformation() {
 		this->position = glm::vec3(0);
 		this->rotation = glm::vec3(0);
 		this->scale = glm::vec3(1, 1, 1);
+		computeMatrix();
 	}
 
 	Transformation* SetPosition(glm::vec3 position) {
@@ -97,20 +100,17 @@ public:
 	}
 
 	void computeMatrix() {
-		//faire la matrice identitée
-		this->matrix = glm::mat4(1.0f);
-
-
 		//deplacer la matrice
 		glm::mat4 translate = glm::translate(glm::mat4(1.0f), this->position);
 
 		//tourner la matrice selon les 3 axes
+		this->rotationMatrix = glm::mat4(1);
 		this->rotationMatrix = glm::rotate(glm::mat4(1.0f), glm::radians(this->rotation[1]), glm::vec3(0, 1, 0));
 		this->rotationMatrix = glm::rotate(this->rotationMatrix, glm::radians(this->rotation[0]), glm::vec3(1, 0, 0));
 		this->rotationMatrix = glm::rotate(this->rotationMatrix, glm::radians(this->rotation[2]), glm::vec3(0, 0, 1));
 
 		//scale la matrice;
-		this->matrix = translate * this->rotationMatrix * glm::scale(matrix, this->scale);
+		this->matrix = translate * this->rotationMatrix * glm::scale(glm::mat4(1.0f), this->scale);
 
 		this->dirty = false;
 

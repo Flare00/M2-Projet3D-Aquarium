@@ -18,60 +18,75 @@
 class SceneAquarium : public Scene
 {
 public:
-    SceneAquarium(std::string id) : Scene(id){
-        this->root = new GameObject("Scene");
+	SceneAquarium(std::string id) : Scene(id) {
+		this->root = new GameObject("Scene");
 
-        BoundingBoxCollider* bb1 = new BoundingBoxCollider();
-        BoundingBoxCollider* bb2 = new BoundingBoxCollider();
-        bb1->IsColliding(bb2);
+		IMaterial* pipeMaterial = (new MaterialPBR())->SetFolderData("Pipe", "png");
+		//IMaterial* dragonMaterial = (new MaterialPBR())->SetFolderData("Dragon", "jpg");
 
-        IMaterial* pipeMaterial = (new MaterialPBR())->SetFolderData("Pipe", "png");
-        IMaterial* dragonMaterial = (new MaterialPBR())->SetFolderData("Dragon", "jpg");
-        IMaterial* waterMaterial = new MaterialPBR(glm::vec4(0.0,0.66,0.8,0.7));
+		IMaterial* waterMaterial = new MaterialPBR(glm::vec4(0.0, 0.66, 0.8, 0.7), 0.0f, 0.0f, 1.33f, true);
+		IMaterial* glassMaterial = new MaterialPBR(glm::vec4(1, 1, 1, 0.3), 0.0f, 0.0f, 1.5f, true);
+		IMaterial* baseAquariumMaterial = new MaterialPBR(glm::vec4(0.5, 0.5, 0.5, 1.0));
 
-        GameObject* camera = new GameObject("Camera", this->root);
-        camera->addComponent(new Camera(Camera::Settings::perspective(global.ScreenAspectRatio())));
-        camera->addComponent(new MovementScript());
-
-
-        //GameObject* depthCam = new GameObject("depthCam", this->root);
-        //depthCam->addComponent(new Camera(depthCam, Camera::Settings::perspective(global.ScreenAspectRatio()), Camera::DEPTH_STENCIL, this->AddShader(new Shader("depth"))));
+		GameObject* camera = new GameObject("Camera", this->root);
+		camera->addComponent(new Camera(Camera::Settings::perspective(global.ScreenAspectRatio())));
+		camera->addComponent(new MovementScript());
 
 
-        GameObject* obj0 = new GameObject("Dragon", this->root);
-        obj0->addComponent(new Displayable(obj0));
-        obj0->addComponent(ModelGenerator::LoadFromFile("Dragon/Dragon 2.5_fbx.fbx", dragonMaterial));
-        obj0->GetTransform()->SetPosition(glm::vec3(0, 0, 4))->SetRotation(glm::vec3(-90, 180, 0));
+		//GameObject* depthCam = new GameObject("depthCam", this->root);
+		//depthCam->addComponent(new Camera(depthCam, Camera::Settings::perspective(global.ScreenAspectRatio()), Camera::DEPTH_STENCIL, this->AddShader(new Shader("depth"))));
 
 
-        /*GameObject* obj1 = new GameObject("Obj1", this->root);
-        obj1->addComponent(new Displayable(obj1));
-        obj1->addComponent(ModelGenerator::LoadFromFile(shader, "cube.obj", cubesMaterial));
-        obj1->getFirstComponentByType<Transformation>()->SetPosition(glm::vec3(-5, 0, 5));;*/
-        
+		/*GameObject* obj0 = new GameObject("Dragon", this->root);
+		obj0->addComponent(new Displayable());
+		obj0->addComponent(ModelGenerator::LoadFromFile("Dragon/Dragon 2.5_fbx.fbx", dragonMaterial));
+		obj0->GetTransform()->SetPosition(glm::vec3(0, 0, 4))->SetRotation(glm::vec3(-90, 180, 0));*/
 
-        GameObject* obj2 = new GameObject("Sphere", this->root);
-        obj2->addComponent(new Displayable(obj2));
-        //obj2->addComponent(ModelGenerator::LoadFromFile("sphere.fbx", cubesMaterial, 0.01));
-        obj2->addComponent(ModelGenerator::Cube(pipeMaterial));
-        obj2->GetTransform()->SetPosition(glm::vec3(0, -4, 2));
-
-        //obj2->addComponent(new MovementScript(obj2));
-
-        GameObject* light = new GameObject("Light1", this->root);
-        light->addComponent(new Light(Light::POINT, glm::vec3(1,1,1), 10.0, 1.0));
-        light->GetTransform()->SetPosition(glm::vec3(0,0,0));
+		GameObject* light = new GameObject("Light1", this->root);
+		light->addComponent(new Light(Light::POINT, glm::vec3(1, 1, 1), 10.0, 1.0));
+		light->GetTransform()->SetPosition(glm::vec3(0, 0, 0));
 
 
-        GameObject* water = new GameObject("water", this->root);
-        water->addComponent(new Displayable(water));
-        water->addComponent(ModelGenerator::Quad(waterMaterial, 1024, 1024, 10,10));
-        WaterPhysics* waterP = new WaterPhysics(256);
-        water->addComponent(waterP);
-        water->GetTransform()->SetPosition(glm::vec3(0, -1, 2));
+		//Create the aquarium
+		GameObject* aquarium = new GameObject("Aquarium", this->root);
+		GameObject* bottomAquarium = new GameObject("Aquarium Bottom", aquarium);
+		bottomAquarium->addComponent(ModelGenerator::Cube(baseAquariumMaterial, 1, glm::vec3(4, 0.05, 2), glm::vec3(0, -2, 0)));
+		bottomAquarium->addComponent(new Displayable());
 
-        waterP->AddDrop(glm::vec2(0.5, 0.5), 0.05f, 0.1f);
-    }
+		GameObject* frontAquarium = new GameObject("Aquarium Front", aquarium);
+		frontAquarium->addComponent(ModelGenerator::Cube(glassMaterial, 1, glm::vec3(4, 2, 0.05), glm::vec3(0, 0, -2)));
+		frontAquarium->addComponent(new Displayable());
+
+		GameObject* backAquarium = new GameObject("Aquarium Back", aquarium);
+		backAquarium->addComponent(ModelGenerator::Cube(glassMaterial, 1, glm::vec3(4, 2, 0.05), glm::vec3(0, 0, 2)));
+		backAquarium->addComponent(new Displayable());
+
+		GameObject* leftAquarium = new GameObject("Aquarium Left", aquarium);
+		leftAquarium->addComponent(ModelGenerator::Cube(glassMaterial, 1, glm::vec3(0.05, 2, 2), glm::vec3(-4, 0, 0)));
+		leftAquarium->addComponent(new Displayable());
+
+		GameObject* rightAquarium = new GameObject("Aquarium Right", aquarium);
+		rightAquarium->addComponent(ModelGenerator::Cube(glassMaterial, 1, glm::vec3(0.05, 2, 2), glm::vec3(4, 0, 0)));
+		rightAquarium->addComponent(new Displayable());
+
+
+
+
+
+		//Create Water of the aquarium
+		GameObject* water = new GameObject("water", aquarium);
+		water->addComponent(new Displayable());
+		water->addComponent(ModelGenerator::Quad(waterMaterial, 1024, 512, 8, 4));
+		WaterPhysics* waterP = new WaterPhysics(512,256);
+		water->addComponent(waterP);
+		water->GetTransform()->SetPosition(glm::vec3(0, 1,0));
+
+		//Add a drop
+		waterP->AddDrop(glm::vec2(0.5, 0.5), 0.05f, 0.1f);
+
+		aquarium->GetTransform()->SetPosition(glm::vec3(0, -2, 2));
+
+	}
 
 };
 

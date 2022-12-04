@@ -84,6 +84,7 @@ public:
 
 	void PostAttachment() override {
 		this->attachment->addComponent(material);
+		this->attachment->addComponent(&frustumCollider);
 	}
 
 	~Model()

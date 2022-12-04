@@ -44,13 +44,13 @@ public:
 	}
 
 	glm::vec3 GetMinOriented() {
-		glm::vec4 tmp = glm::vec4(this->center - halfSize, 1) * this->attachment->GetTransform()->getRotationMatrix();
-		return glm::vec3(tmp.x, tmp.y, tmp.z) + this->attachment->GetTransform()->getPosition();
+		glm::vec4 tmp = glm::vec4(this->center - halfSize, 1) * this->attachment->GetRotationMatrixRecursive();
+		return glm::vec3(tmp.x, tmp.y, tmp.z) + this->attachment->GetPositionWithRecursiveMatrix();
 	}
 
 	glm::vec3 GetMaxOriented() {
-		glm::vec4 tmp = glm::vec4(this->center + halfSize, 1) * this->attachment->GetTransform()->getRotationMatrix();
-		return glm::vec3(tmp.x, tmp.y, tmp.z) + this->attachment->GetTransform()->getPosition();
+		glm::vec4 tmp = glm::vec4(this->center + halfSize, 1) * this->attachment->GetRotationMatrixRecursive();
+		return glm::vec3(tmp.x, tmp.y, tmp.z) + this->attachment->GetPositionWithRecursiveMatrix();
 	}
 
 	glm::vec3 GetCenterOriented() {
@@ -59,7 +59,7 @@ public:
 	}
 
 	glm::vec3 GetCenter() {
-		return this->center + this->attachment->GetTransform()->getPosition();
+		return this->center + this->attachment->GetPositionWithRecursiveMatrix();
 	}
 
 	glm::vec3 GetHalfSize() {

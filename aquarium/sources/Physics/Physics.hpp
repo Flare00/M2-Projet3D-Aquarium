@@ -12,7 +12,7 @@ class Physics
 {
 public :
     Physics(){}
-
+    void Init(){}
 
     void Compute(double deltatime, GameObject * root, int nbStep = 1){
         this->Compute(deltatime, root->getComponentsByTypeRecursive<IPhysics>(), nbStep);

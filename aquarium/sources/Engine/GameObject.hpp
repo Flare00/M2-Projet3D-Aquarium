@@ -14,20 +14,20 @@ class GameObject {
 protected:
 	std::string identifier;
 	GameObject* parent;
-	Transformation* transform;
+	Transformation transform;
 	std::vector<GameObject*> childs;
 	std::vector<Component *> components;
 	bool active = true;
 
 public:
 	GameObject(std::string id, GameObject* parent = NULL, bool addToParent = true) {
+
 		this->identifier = id;
 		this->parent = parent;
 		if (addToParent && parent != NULL) {
 			this->parent->addChild(this);
 		}
-		this->transform = new Transformation();
-		this->components.push_back(transform);
+		this->components.push_back(&transform);
 	}
 
 	GameObject(std::string id, GameObject* parent, std::vector<GameObject*> childs, bool addToParent = false) : GameObject(id, parent, addToParent)
@@ -38,8 +38,7 @@ public:
 			this->parent->addChild(this);
 		}
 		this->childs = childs;
-		this->transform = new Transformation();
-		this->components.push_back(transform);
+		this->components.push_back(&transform);
 	}
 
 	~GameObject()
@@ -214,7 +213,25 @@ public:
 	}
 
 	Transformation* GetTransform() {
-		return this->transform;
+		return &this->transform;
+	}
+
+	glm::mat4 GetMatrixRecursive() {
+		if (this->parent != nullptr) {
+			return this->parent->GetMatrixRecursive() * this->transform.getMatrix();
+		}
+		return this->transform.getMatrix();
+	}
+ 	glm::mat4 GetRotationMatrixRecursive() {
+		if (this->parent != NULL) {
+			return this->parent->GetRotationMatrixRecursive() * this->transform.getRotationMatrix();
+		}
+		return this->transform.getRotationMatrix();
+	}
+
+	glm::vec3 GetPositionWithRecursiveMatrix() {
+		glm::vec4 pos = glm::vec4(this->transform.getPosition(),1.0) * GetMatrixRecursive();
+		return glm::vec3(pos.x, pos.y, pos.z);
 	}
 };
 

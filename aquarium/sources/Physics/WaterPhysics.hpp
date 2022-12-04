@@ -26,29 +26,31 @@ protected:
 	Shader* physicShader;
 	Framebuffer framebuffer;
 	std::vector<Drop> drops;
-	int resolution;
-	float invRes;
+	int resolutionX, resolutionY;
+	float invResX, invResY;
 
 	int frameForCapture = 60;
 	int frameForCaptureCurrent = 61;
 
 	Model* quad;
 public:
-	WaterPhysics(int resolution = 1024) {
+	WaterPhysics(int resolutionX = 1024, int resolutionY = 1024) {
 		this->physicShader = new Shader("Physics/water.vert", "Physics/water.frag");
-		this->resolution = resolution;
-		this->invRes = 1.0f / (float)resolution;
-		this->quad = ModelGenerator::Quad(nullptr, resolution, resolution, 2, 2);
+		this->resolutionX = resolutionX;
+		this->resolutionY = resolutionY;
+		this->invResX = 1.0f / (float)resolutionX;
+		this->invResY = 1.0f / (float)resolutionY;
+		this->quad = ModelGenerator::Quad(nullptr, resolutionX, resolutionY, 2, 2);
 
 
-		float* data = new float[resolution * resolution * 4];
+		float* data = new float[resolutionX * resolutionY * 4];
 
-		for (int i = 0, max = this->resolution * this->resolution * 4; i < max; i++) {
+		for (int i = 0, max = this->resolutionX * this->resolutionY * 4; i < max; i++) {
 			data[i] = (i%4 == 3 ? 1.0f : 0.0f);
 		}
 		glGenTextures(1, &this->texture);
 		glBindTexture(GL_TEXTURE_2D, this->texture);
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA16F, resolution, resolution, 0, GL_RGBA, GL_FLOAT, data);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA16F, resolutionX, resolutionY, 0, GL_RGBA, GL_FLOAT, data);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
@@ -58,7 +60,7 @@ public:
 	}
 
 	void PostAttachment() override {
-		framebuffer.Generate(this->resolution, this->resolution, true);
+		framebuffer.Generate(this->resolutionX, this->resolutionY, true);
 	}
 
 	void AddDrop(glm::vec2 pos, float radius, float strength) {
@@ -80,7 +82,7 @@ public:
 		glUseProgram(physicShader->GetProgram());
 		//Set Data
 		glUniform1f(glGetUniformLocation(physicShader->GetProgram(), "deltaTime"), delta);
-		glUniform2f(glGetUniformLocation(physicShader->GetProgram(), "deltaMove"), invRes, invRes);
+		glUniform2f(glGetUniformLocation(physicShader->GetProgram(), "deltaMove"), invResX, invResY);
 		glUniform1i(glGetUniformLocation(physicShader->GetProgram(), "tex"), 0);
 
 		// Set Drop
@@ -122,20 +124,20 @@ public:
 		glFlush();
 
 		glBindTexture(GL_TEXTURE_2D, this->texture);
-		glCopyTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, 0, 0, this->resolution, this->resolution);
+		glCopyTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, 0, 0, this->resolutionX, this->resolutionY);
 
 		if (frameForCaptureCurrent <= frameForCapture && frameForCaptureCurrent > 0) {
 			std::string name2 = "capture/" + std::to_string(frameForCapture - frameForCaptureCurrent) + ".2.png";
 
 			glBindTexture(GL_TEXTURE_2D, this->texture);
-			GLsizei stride = 4 * this->resolution;
-			std::vector<GLfloat> datas(stride * this->resolution);
+			GLsizei stride = 4 * this->resolutionY;
+			std::vector<GLfloat> datas(stride * this->resolutionX);
 			glGetTexImage(GL_TEXTURE_2D, 0, GL_RGBA, GL_FLOAT, datas.data());
 			std::vector <GLchar> datasChar;
 			for (int i = 0, max = datas.size(); i < max; i++) {
 				datasChar.push_back((char)(datas[i] * 255.0));
 			}
-			stbi_write_png(name2.c_str(), this->resolution, this->resolution, 4, datasChar.data(), stride);
+			stbi_write_png(name2.c_str(), this->resolutionX, this->resolutionY, 4, datasChar.data(), stride);
 		}
 
 		if (frameForCaptureCurrent <= frameForCapture) {

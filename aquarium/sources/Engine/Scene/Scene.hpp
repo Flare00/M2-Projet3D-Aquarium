@@ -15,9 +15,9 @@
 class Scene : public EngineBehavior
 {
 protected:
-	GameObject* root = NULL;
 	int pbrShowMode = 0;
 public:
+	GameObject* root = NULL;
 	std::string id;
 
 	Scene(std::string id) {

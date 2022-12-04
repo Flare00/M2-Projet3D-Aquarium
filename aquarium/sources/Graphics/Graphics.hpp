@@ -38,13 +38,16 @@ private:
 
 public:
 	Graphics() {
+	}
+	~Graphics() {
+	}
+
+	void Init() {
 		this->quad = ModelGenerator::QuadScreen(new IMaterial("screen"));
 		GLuint prog = quad->GetShader()->GetProgram();
 		glUseProgram(prog);
 		glUniform1i(glGetUniformLocation(prog, "renderTexture"), 0);
 		glUniform1i(glGetUniformLocation(prog, "depthTexture"), 1);
-	}
-	~Graphics() {
 	}
 
 	void Compute(GameObject* root) {
@@ -110,8 +113,8 @@ public:
 	}
 
 	void Draw(Camera* cam, Displayable * element, Model* model, std::vector<Light*> lights) {
-		Transformation* transformation = element->GetTransformation();
-		if (transformation == nullptr) {
+		GameObject* go = element->GetGameObject();
+		if (go == nullptr) {
 			return;
 		}
 
@@ -125,7 +128,7 @@ public:
 			renderMaterial = model->GetRenderMaterial();
 		}
 
-		renderMaterial->SetDataGPU(transformation->getMatrix(), cam->GetView(), cam->GetProjection(), cam->GetPosition());
+		renderMaterial->SetDataGPU(go->GetMatrixRecursive(), cam->GetView(), cam->GetProjection(), cam->GetPosition());
 		renderMaterial->SetLightGPU(lights);
 
 		glUseProgram(renderMaterial->GetShader()->GetProgram());

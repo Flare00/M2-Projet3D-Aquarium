@@ -35,6 +35,9 @@ struct Material
 	vec4 albedo;
 	float metallic;
 	float roughness;
+
+	float ior;
+	int transparent;
 };
 
 // --- Global Variables ---

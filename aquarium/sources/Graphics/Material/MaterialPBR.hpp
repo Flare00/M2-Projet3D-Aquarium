@@ -24,11 +24,16 @@ public:
 		float metallic;
 		float roughness;
 
-		Data(glm::vec4 albedo, float metallic, float roughness, Texture* albedoMap, Texture* normalMap, Texture* metallicMap, Texture* roughnessMap, Texture* aoMap, Texture* heightMap) {
+		float ior;
+		int transparent;
+
+		Data(glm::vec4 albedo, float metallic, float roughness, float ior, int transparent, Texture* albedoMap, Texture* normalMap, Texture* metallicMap, Texture* roughnessMap, Texture* aoMap, Texture* heightMap) {
 			
 			this->albedo = albedo;
 			this->metallic = metallic;
 			this->roughness = roughness;
+			this->ior = ior;
+			this->transparent = transparent;
 
 			this->albedoMap = albedoMap;
 			this->normalMap = normalMap;
@@ -59,7 +64,7 @@ protected:
 	std::string heightMapFile;
 
 public:
-	MaterialPBR(glm::vec4 albedo = glm::vec4(1.0), float metallic = 0.0f, float roughness = 0.0f,
+	MaterialPBR(glm::vec4 albedo = glm::vec4(1.0), float metallic = 0.0f, float roughness = 0.0f, float ior = 1.0f, bool transparent = false,
 		std::string albedoMapFile = "", std::string normalMapFile = "", std::string metallicMapFile = "", std::string roughnessMapFile = "", std::string aoMapFile = "", std::string heightMapFile = "")
 		: IMaterial("pbr")
 	{
@@ -71,7 +76,7 @@ public:
 		this->aoMapFile = aoMapFile;
 		this->heightMapFile = heightMapFile;
 
-		this->data = new Data(albedo, metallic, roughness,
+		this->data = new Data(albedo, metallic, roughness, ior, transparent ? 1 : 0, 
 			new Texture(albedoMapFile, glm::vec4(1)),
 			new Texture(normalMapFile, glm::vec4(0)),
 			new Texture(metallicMapFile, glm::vec4(0)),
@@ -161,6 +166,8 @@ public:
 		glUniform4f(glGetUniformLocation(program, ("material.albedo")), this->data->albedo.x, this->data->albedo.y, this->data->albedo.z, this->data->albedo.w);
 		glUniform1f(glGetUniformLocation(program, ("material.metallic")), this->data->metallic);
 		glUniform1f(glGetUniformLocation(program, ("material.roughness")), this->data->roughness);
+		glUniform1f(glGetUniformLocation(program, ("material.ior")), this->data->ior);
+		glUniform1f(glGetUniformLocation(program, ("material.transparent")), this->data->transparent);
 
 		glUniform1i(glGetUniformLocation(program, ("material.albedoMap")), 0);
 		glUniform1i(glGetUniformLocation(program, ("material.normalMap")), 1);
