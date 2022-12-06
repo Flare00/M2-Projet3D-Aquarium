@@ -11,14 +11,15 @@ class MovementScript : public Script
 {
 private:
 
-    double lockTimer = 0.0;
-    bool lockedMouse = false;
-
     float tSpeed = 1.0f;
     float rSpeed = 1.0f;
+    float mouseSensivity = 4.0f;
 
     double lastXPos, lastYPos;
     bool firstMouse = true;
+
+    bool rightClick = false;
+    bool leftClick = false;
 
     //Movement
     int keyUp = GLFW_KEY_SPACE, keyDown = GLFW_KEY_LEFT_SHIFT;
@@ -27,6 +28,8 @@ private:
 
     //Rotations
     int keyRZneg =  GLFW_KEY_E, keyRZpos =GLFW_KEY_Q;
+
+    
     
 public:
     MovementScript() {
@@ -70,25 +73,50 @@ public:
         if (glfwGetKey(global.global_window, keyRZpos) == GLFW_PRESS) {
             this->attachment->GetTransform()->Rotate(glm::vec3(0, 0, rSpeed * deltaTime));
         }
-        //Lock / Unlock Mouse
-        lockTimer-= deltaTime;
-        if (glfwGetKey(global.global_window, GLFW_KEY_L) == GLFW_PRESS && lockTimer < 0) {
-            lockedMouse = !lockedMouse;
-            lockTimer = 0.5;
+        //Enable camera rotation
+        if (glfwGetMouseButton(global.global_window, GLFW_MOUSE_BUTTON_RIGHT) == GLFW_PRESS && !rightClick) {
+            // Hide the mouse
+            glfwSetInputMode(global.global_window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+            this->lastXPos = global.mouseX;
+            this->lastYPos = global.mouseY; 
+            rightClick = true;
+        } else if (glfwGetMouseButton(global.global_window, GLFW_MOUSE_BUTTON_RIGHT) == GLFW_RELEASE && rightClick) {
+            // Show the mouse
+            glfwSetInputMode(global.global_window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+            rightClick = false;
+        }
+
+        //Enable left click raytracing
+        if (glfwGetMouseButton(global.global_window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS && !leftClick) {
+            leftClick = true;
+        }
+        else if (glfwGetMouseButton(global.global_window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_RELEASE && leftClick) {
+            leftClick = false;
         }
     }
 
     void mouse(double deltaTime){
-        if(!firstMouse && !lockedMouse){
-            double dx = global.mouseX - lastXPos, dy = global.mouseY - lastYPos;
-            //Rotation X
-            if(dx != 0){
-                this->attachment->GetTransform()->Rotate(glm::vec3( 0 ,rSpeed * dx * deltaTime , 0));
-            } 
-            //Rotation Y
-            if(dy != 0){
-                this->attachment->GetTransform()->Rotate(glm::vec3(rSpeed * dy * deltaTime, 0, 0));
-            } 
+        if(!firstMouse){
+            if (rightClick) {
+                double dx = global.mouseX - lastXPos, dy = global.mouseY - lastYPos;
+                //Rotation X
+                if (dx != 0) {
+                    this->attachment->GetTransform()->Rotate(glm::vec3(0, rSpeed * dx * deltaTime * mouseSensivity, 0));
+                }
+                //Rotation Y
+                if (dy != 0) {
+                    this->attachment->GetTransform()->Rotate(glm::vec3(rSpeed * dy * deltaTime * mouseSensivity, 0, 0));
+                }
+            }
+            if (leftClick) {
+                if (global.mouseX != this->lastXPos || global.mouseY != this->lastYPos) {
+                    // The Idea here is to send a Ray Cast (or a Sphere Cast) to grab object or create drop on the water
+                    // First we get the Mouse coordinate on the screen, here global.mouseX / Y
+                    // Then we cast it to the 3D world coordinate
+                    // Then we sent the ray that start with the 3D world coordinate and have the camera front vector as direction.
+                    // We stop it when we encouter an object, (we can imagine some object that ignore raycast ?, maybe layers / tags ?
+                }
+            }
         } else {
             firstMouse = false;
         }

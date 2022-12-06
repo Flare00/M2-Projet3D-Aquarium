@@ -38,4 +38,6 @@ void cursorPositionCallback(GLFWwindow* window, double xpos, double ypos) {
 	global.mouseX = xpos;
 	global.mouseY = ypos;
 }
+
+
 #endif

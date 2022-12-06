@@ -72,12 +72,12 @@ public:
         // Ensure we can capture the escape key being pressed below
         glfwSetInputMode(global.global_window, GLFW_STICKY_KEYS, GL_TRUE);
 
-        // Hide the mouse and enable unlimited mouvement
-        glfwSetInputMode(global.global_window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+        // Set the mouse to normal
+        glfwSetInputMode(global.global_window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 
         // Set the mouse at the center of the screen
         glfwPollEvents();
-        glfwSetCursorPos(global.global_window, global.screen_width / 2.0, global.screen_height / 2.0);
+        //glfwSetCursorPos(global.global_window, global.screen_width / 2.0, global.screen_height / 2.0);
 
         //Clear background to grey
         glClearColor(0.8f, 0.8f, 0.8f, 0.0f);

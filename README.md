@@ -51,7 +51,7 @@ Réalisation d'un Moteur ECS / Semi-ECS afin de permettre une meilleure fléxibi
 - [ ] Autre IA.
 
 #### Module physique :
-- [ ] Simulation de surface aquatique.
+- [X] Simulation de surface aquatique.
 - [ ] Collision surface / objet.
 - [ ] Application de force autre sur la surface.
 - [ ] Collision entre deux objets.
