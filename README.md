@@ -14,6 +14,16 @@ cmake --build build #Can add the option : --config Debug or --config Release
 ```
 > The executable and dynamics libraries are generated in the root folder.
 
+## Inputs
+
+
+- W/S , Z/S : Move the camera forward/backward.
+- A/D , Q/D : Move the camera left/right.
+- Space/Left Shift : Move the camera Up/Down.
+- Q/E , A/E : Rotate the camera on the roll axis.
+- Right click drag : Rotate the Camera on the Pitch and Yaw axis.
+
+
 ## Étapes du développement prévus
 
 #### Étape 1 - Réaliser un environnement aquatique simple :

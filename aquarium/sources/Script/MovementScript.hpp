@@ -114,7 +114,8 @@ public:
                     // First we get the Mouse coordinate on the screen, here global.mouseX / Y
                     // Then we cast it to the 3D world coordinate
                     // Then we sent the ray that start with the 3D world coordinate and have the camera front vector as direction.
-                    // We stop it when we encouter an object, (we can imagine some object that ignore raycast ?, maybe layers / tags ?
+                    // We stop it when we encouter an object, (we can imagine some object that ignore raycast ?, maybe layers / tags ? Component ?)
+                    // (We can also imagine different type of action for Component (Grabable, IgnoreRaycast, Interactable (for the water for example, not grabable but to some action)
                 }
             }
         } else {
