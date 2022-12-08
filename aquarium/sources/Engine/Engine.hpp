@@ -14,11 +14,11 @@
 
 #include <Engine/Tools/Tools.hpp>
 
-Graphics graphics;
-Physics physics;
-
 class Engine{
 protected:
+    Graphics graphics;
+    Physics physics;
+
     size_t activeScene = -1;
     std::vector<Scene> scenes;
     size_t nbScene = 0;
@@ -30,6 +30,7 @@ public:
     Engine(){
     }
     ~Engine() { Terminate(); }
+
     int Init() {
         // Initialise GLFW
         if (!glfwInit())
@@ -106,6 +107,8 @@ public:
         //Init Modules.
         graphics.Init();
         physics.Init();
+
+        return 0;
     }
 
     void InitScenes() {
@@ -197,6 +200,14 @@ public:
 
     GameObject* GetActiveSceneRoot() {
         return this->scenes[activeScene].GetRoot();
+    }
+
+    Graphics* GetGraphics(){
+        return &this->graphics;
+    }
+
+    Physics* GetPhysics(){
+        return &this->physics;
     }
 };
 

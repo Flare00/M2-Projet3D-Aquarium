@@ -29,8 +29,8 @@ protected:
 	int resolutionX, resolutionY;
 	float invResX, invResY;
 
-	int frameForCapture = 60;
-	int frameForCaptureCurrent = 61;
+	int frameForCapture = 5;
+	int frameForCaptureCurrent = 6;
 
 	Model* quad;
 public:

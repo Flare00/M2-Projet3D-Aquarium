@@ -76,8 +76,8 @@ public:
 		//Create Water of the aquarium
 		GameObject* water = new GameObject("water", aquarium);
 		water->addComponent(new Displayable());
-		water->addComponent(ModelGenerator::Quad(waterMaterial, 1024, 512, 8, 4));
-		WaterPhysics* waterP = new WaterPhysics(512,256);
+		water->addComponent(ModelGenerator::CubeWater(waterMaterial, 512, 512, 4, 4));
+		WaterPhysics* waterP = new WaterPhysics(256,256);
 		water->addComponent(waterP);
 		water->GetTransform()->SetPosition(glm::vec3(0, 1,0));
 

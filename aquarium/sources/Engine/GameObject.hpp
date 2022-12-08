@@ -208,7 +208,7 @@ public:
 		std::vector<GameObject*> res;
 		for (size_t i = 0, maxI = this->childs.size(); i < maxI; i++) {
 			if (this->childs[i]->active) {
-				std::vector<GameObject*> tmp = this->childs[i]->GetChildWithoutComponentRecursive();
+				std::vector<GameObject*> tmp = this->childs[i]->GetChildsWithoutComponentRecursive<T>();
 				if (tmp.size() > 0) {
 					res.insert(res.end(), tmp.begin(), tmp.end());
 				}

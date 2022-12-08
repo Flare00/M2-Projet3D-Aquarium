@@ -332,12 +332,129 @@ public:
 			}
 		}
 
+
 		for (size_t i = 0, max = pts.size(); i < max; i++) {
 			pts[i] = (pts[i] * (2.0f * halfSize)) - halfSize;
 			normals.push_back(glm::normalize(pts[i]));
 			pts[i] += center;
 		}
 
+
+		return new Model(pts, normals, faces, uv, material);
+	}
+
+
+	static Model* CubeWater(IMaterial* material = new MaterialPBR(), int resX = 2, int resZ = 2, float sizeX = 1, float sizeZ = 1, bool center = true) {
+		if (resX < 1 || resZ < 1) {
+			return nullptr;
+		}
+		std::vector<glm::vec3> pts;
+		std::vector<glm::vec3> normals;
+		std::vector<glm::vec2> uv;
+		std::vector<Model::Face> faces;
+
+		double pasX = 1.0 / (double)resX;
+		double pasZ = 1.0 / (double)resZ;
+		int resZp1 = resZ + 1;
+
+		//TOP
+		for (int x = 0; x <= resX; x++) {
+			for (int z = 0; z <= resZ; z++) {
+				pts.push_back(glm::vec3(x * pasX, 0, z * pasZ));
+				normals.push_back(glm::vec3(0, 1, 0));
+				uv.push_back(glm::vec2(x * pasX, z * pasZ));
+
+				if (x < resX && z < resZ) {
+					int a = (x * resZp1) + z + 1;
+					int b = (x * resZp1) + z;
+					int c = ((x + 1) * resZp1) + z;
+					int d = ((x + 1) * resZp1) + z + 1;
+					faces.push_back(Model::Face(a, b, c, d));
+				}
+			}
+		}
+
+		int decalage = (resX+1)*(resZ+1);
+		//LEFT
+		for(int x = 0; x <= resX; x++){
+			pts.push_back(glm::vec3(x * pasX, -1, 0));
+			normals.push_back(glm::vec3(1, 0, 0));
+			uv.push_back(glm::vec2(x * pasX, 1));
+
+			if(x < resX){
+
+				int a = (x * resZp1);
+				int b = decalage + x;
+				int c = ((x + 1) * resZp1);
+				int d = decalage + x + 1; 
+				faces.push_back(Model::Face(a, b, c, d));
+			}
+		}
+
+		decalage += resX + 1;
+		//Right
+		for(int x = 0; x <= resX; x++){
+			pts.push_back(glm::vec3(x * pasX, -1, 1));
+			normals.push_back(glm::vec3(-1, 0, 0));
+			uv.push_back(glm::vec2(x * pasX, 1));
+
+			if(x < resX){
+				int a = (x * resZp1) + resZ;
+				int b = decalage + x;
+				int c = ((x + 1) * resZp1) + resZ;
+				int d = decalage + x + 1; 
+				faces.push_back(Model::Face(a, b, c, d));
+			}
+		}
+
+
+		decalage += resX + 1;
+		//Front
+		for(int z = 0; z <= resZ; z++){
+			pts.push_back(glm::vec3(0, -1, z * pasZ));
+			normals.push_back(glm::vec3(0, 0, 1));
+			uv.push_back(glm::vec2(1, z * pasZ));
+
+			if(z < resZ){
+
+				int a = z + 1;
+				int b = z;
+				int c = decalage + z;
+				int d = decalage + z + 1;
+				faces.push_back(Model::Face(a, b, c, d));
+			}
+		}
+
+		decalage += resZ + 1;
+		//Back
+		for(int z = 0; z <= resZ; z++){
+			pts.push_back(glm::vec3(1, -1, z * pasZ));
+			normals.push_back(glm::vec3(0, 0, -1));
+			uv.push_back(glm::vec2(1, z * pasZ));
+
+			if(z < resZ){
+
+				int a = (resX * resZp1) + z + 1;
+				int b = (resX * resZp1) + z;
+				int c = decalage + z;
+				int d = decalage + z + 1;
+				faces.push_back(Model::Face(a, b, c, d));
+			}
+		}
+
+
+		for (int x = 0; x < resX; x++) {
+			for (int z = 0; z < resZ; z++) {
+
+			}
+		}
+
+		for (int i = 0, max = pts.size(); i < max; i++) {
+			if (center) {
+				pts[i] -= glm::vec3(0.5);
+			}
+			pts[i] *= glm::vec3(sizeX, 0, sizeZ);
+		}
 
 		return new Model(pts, normals, faces, uv, material);
 	}

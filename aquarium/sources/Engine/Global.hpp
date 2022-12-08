@@ -4,6 +4,7 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
+
 struct Global {
 	//window
 	GLFWwindow* global_window;
@@ -39,8 +40,5 @@ void cursorPositionCallback(GLFWwindow* window, double xpos, double ypos) {
 	global.mouseX = xpos;
 	global.mouseY = ypos;
 }
-
-#include <Engine/Engine.hpp>
-Engine engine;
 
 #endif
