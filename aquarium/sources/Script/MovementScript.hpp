@@ -132,12 +132,13 @@ public:
 
 					//Do some action with the hitted Gameobject
 					if (hitted != nullptr) {
+						//Maybe create a latency before we consider the element "grabbed" ? for exemple if the cursor does not move and is less than 0.1s, it's a hit, else, it's a grab
 						if (hitted == this->lastHittedGO) {
 							//Do action on grab
 							printf("Grab : %s\n", hitted);
 						}
 						else {
-							//Do action on Hit
+							//Do action on Hit 
 							printf("Hit : %s\n", hitted);
 						}
 					}
