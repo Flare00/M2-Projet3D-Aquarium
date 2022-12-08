@@ -151,6 +151,14 @@ public:
 		glFlush();
 	}
 
+	GameObject* RaycastStencil(Camera* camera, std::vector<GameObject*> elems) {
+		// Use the Depth/Stencil (maybe faster) ? Or use collision ?
+		for (size_t i = 0, max = elems.size(); i < max; i++) {
+
+		}
+		return nullptr;
+	}
+
 private:
 
 	void DrawToScreen(Data d) {

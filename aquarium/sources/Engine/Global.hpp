@@ -1,6 +1,9 @@
 #ifndef __GLOBAL_HPP__
 #define __GLOBAL_HPP__
 
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
+
 struct Global {
 	//window
 	GLFWwindow* global_window;
@@ -19,8 +22,6 @@ struct Global {
 	double ScreenAspectRatio() {
 		return ((float)screen_width) / ((float)screen_height);
 	}
-
-
 };
 
 Global global;
@@ -39,5 +40,7 @@ void cursorPositionCallback(GLFWwindow* window, double xpos, double ypos) {
 	global.mouseY = ypos;
 }
 
+#include <Engine/Engine.hpp>
+Engine engine;
 
 #endif

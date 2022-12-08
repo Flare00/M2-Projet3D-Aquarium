@@ -1,10 +1,10 @@
-#include <Engine/Engine.hpp>
+#include <Engine/Global.hpp>
 
 int main(int argc, char* argv[]){
-	Engine engine;
+
 	//Init the engine.
 	if (engine.Init() == -1) {
-		return -1;
+		return 1;
 	}
 	//Init the scenes.
 	engine.InitScenes();
@@ -12,6 +12,5 @@ int main(int argc, char* argv[]){
 	engine.MainLoop();
 	//Close the program.
 	engine.Terminate();
-
 	return 0;
 }

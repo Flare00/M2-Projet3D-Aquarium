@@ -13,16 +13,19 @@
 #include <Physics/Physics.hpp>
 
 #include <Engine/Tools/Tools.hpp>
+
+Graphics graphics;
+Physics physics;
+
 class Engine{
 protected:
     size_t activeScene = -1;
     std::vector<Scene> scenes;
     size_t nbScene = 0;
-    Graphics graphics;
-    Physics physics;
     
     double reloadWait = 0.0;
     double wireframeWait = 0.0;
+
 public:
     Engine(){
     }
@@ -190,6 +193,10 @@ public:
             }
         }
         this->ChangeScene(index);
+    }
+
+    GameObject* GetActiveSceneRoot() {
+        return this->scenes[activeScene].GetRoot();
     }
 };
 

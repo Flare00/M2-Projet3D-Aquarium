@@ -4,6 +4,7 @@
 #include <vector>
 #include <Engine/SettedShaders.hpp>
 #include <Engine/GameObject.hpp>
+#include <Engine/Engine.hpp>
 #include <Physics/IPhysics.hpp>
 
 SettedShaders settedPhysicsShaders;
@@ -29,6 +30,13 @@ public :
         }
     }
 
+    GameObject* Raycast(std::vector<GameObject*> elems, glm::vec3 origin, glm::vec3 direction) {
+        // Use the Depth/Stencil (maybe faster) ? Or use collision ?
+        for (size_t i = 0, max = elems.size(); i < max; i++) {
+
+        }
+        return nullptr;
+    }
 };
 
 #endif

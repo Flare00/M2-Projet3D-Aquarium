@@ -16,7 +16,7 @@ protected:
 	GameObject* parent;
 	Transformation transform;
 	std::vector<GameObject*> childs;
-	std::vector<Component *> components;
+	std::vector<Component*> components;
 	bool active = true;
 
 public:
@@ -164,7 +164,7 @@ public:
 	{
 		if (this->active) {
 			std::vector<T*> res = getComponentsByType<T>(activeOnly);
-		
+
 			for (size_t i = 0, max = this->childs.size(); i < max; i++) {
 				std::vector<T*> tmp = this->childs[i]->getComponentsByTypeRecursive<T>(activeOnly);
 				res.insert(res.end(), tmp.begin(), tmp.end());
@@ -188,11 +188,45 @@ public:
 		return res;
 	}
 
+	template<typename T>
+	std::vector<GameObject*> GetChildsWithoutComponent()
+	{
+		std::vector<GameObject*> res;
+		for (size_t i = 0, maxI = this->childs.size(); i < maxI; i++) {
+			if (this->childs[i]->active) {
+				if (this->childs[i]->getFirstComponentByType<T>() == nullptr) {
+					res.push_back(this->childs[i]);
+				}
+			}
+		}
+		return res;
+	}
+
+	template<typename T>
+	std::vector<GameObject*> GetChildsWithoutComponentRecursive()
+	{
+		std::vector<GameObject*> res;
+		for (size_t i = 0, maxI = this->childs.size(); i < maxI; i++) {
+			if (this->childs[i]->active) {
+				std::vector<GameObject*> tmp = this->childs[i]->GetChildWithoutComponentRecursive();
+				if (tmp.size() > 0) {
+					res.insert(res.end(), tmp.begin(), tmp.end());
+				}
+				if (this->childs[i]->getFirstComponentByType<T>() == nullptr) {
+					res.push_back(this->childs[i]);
+				}
+			}
+		}
+		return res;
+	}
+
 	void removeComponent(int id) {
 		if (id >= 0 && id < this->components.size()) {
 			this->components.erase(this->components.begin() + id);
 		}
 	}
+
+
 
 	template<typename T>
 	void removeComponentsByType() {
@@ -222,7 +256,7 @@ public:
 		}
 		return this->transform.getMatrix();
 	}
- 	glm::mat4 GetRotationMatrixRecursive() {
+	glm::mat4 GetRotationMatrixRecursive() {
 		if (this->parent != NULL) {
 			return this->parent->GetRotationMatrixRecursive() * this->transform.getRotationMatrix();
 		}
@@ -230,7 +264,7 @@ public:
 	}
 
 	glm::vec3 GetPositionWithRecursiveMatrix() {
-		glm::vec4 pos = glm::vec4(this->transform.getPosition(),1.0) * GetMatrixRecursive();
+		glm::vec4 pos = glm::vec4(this->transform.getPosition(), 1.0) * GetMatrixRecursive();
 		return glm::vec3(pos.x, pos.y, pos.z);
 	}
 };
