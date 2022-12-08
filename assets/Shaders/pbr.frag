@@ -156,7 +156,7 @@ void main(){
 	float Roughness = (roughnessM.w == 0) ? material.roughness : roughnessM.r;
 	float Ao = (aoM.a == 0) ? 1.0f : aoM.r;
 
-	if(IsDataPhysics == 1){
+	if(IsDataPhysics == 1 && Normal.y == 1){
 		Norm = PhysicsNorm;
 	} else if (texture(material.normalMap, TexCoord).a == 0){
 		Norm = Normal;

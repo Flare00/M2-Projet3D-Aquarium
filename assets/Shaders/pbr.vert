@@ -27,7 +27,7 @@ void main(){
 	IsDataPhysics = u_is_data_physics;
 	float height = texture(m_heightmap, aTexCoord).r;;
 
-	if(u_is_data_physics == 1){
+	if(u_is_data_physics == 1 && aNormal.y == 1){
 		vec4 d = texture(p_data_physics, aTexCoord);
 		height += -d.r;
 

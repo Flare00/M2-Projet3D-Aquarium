@@ -344,7 +344,7 @@ public:
 	}
 
 
-	static Model* CubeWater(IMaterial* material = new MaterialPBR(), int resX = 2, int resZ = 2, float sizeX = 1, float sizeZ = 1, bool center = true) {
+	static Model* CubeWater(IMaterial* material = new MaterialPBR(), int resX = 2, int resZ = 2, glm::vec3 size = glm::vec3(1.0f), bool center = true) {
 		if (resX < 1 || resZ < 1) {
 			return nullptr;
 		}
@@ -374,25 +374,25 @@ public:
 			}
 		}
 
-		int decalage = (resX+1)*(resZ+1);
-		//LEFT
+		int decalage = pts.size();
+		//Front
 		for(int x = 0; x <= resX; x++){
 			pts.push_back(glm::vec3(x * pasX, -1, 0));
 			normals.push_back(glm::vec3(1, 0, 0));
 			uv.push_back(glm::vec2(x * pasX, 1));
 
 			if(x < resX){
-
-				int a = (x * resZp1);
-				int b = decalage + x;
-				int c = ((x + 1) * resZp1);
+				int a = ((x + 1) * resZp1);
+				int b = (x * resZp1);
+				int c = decalage + x;
 				int d = decalage + x + 1; 
+
 				faces.push_back(Model::Face(a, b, c, d));
 			}
 		}
 
-		decalage += resX + 1;
-		//Right
+		decalage = pts.size();
+		//Back
 		for(int x = 0; x <= resX; x++){
 			pts.push_back(glm::vec3(x * pasX, -1, 1));
 			normals.push_back(glm::vec3(-1, 0, 0));
@@ -400,16 +400,17 @@ public:
 
 			if(x < resX){
 				int a = (x * resZp1) + resZ;
-				int b = decalage + x;
-				int c = ((x + 1) * resZp1) + resZ;
-				int d = decalage + x + 1; 
+				int b = ((x + 1) * resZp1) + resZ;
+				int c = decalage + x + 1;
+				int d = decalage + x;
+
 				faces.push_back(Model::Face(a, b, c, d));
 			}
 		}
 
 
-		decalage += resX + 1;
-		//Front
+		decalage = pts.size();
+		//Left
 		for(int z = 0; z <= resZ; z++){
 			pts.push_back(glm::vec3(0, -1, z * pasZ));
 			normals.push_back(glm::vec3(0, 0, 1));
@@ -417,16 +418,16 @@ public:
 
 			if(z < resZ){
 
-				int a = z + 1;
-				int b = z;
-				int c = decalage + z;
-				int d = decalage + z + 1;
+				int a = z;
+				int b = z + 1;
+				int c = decalage + z + 1;
+				int d = decalage + z;
 				faces.push_back(Model::Face(a, b, c, d));
 			}
 		}
 
-		decalage += resZ + 1;
-		//Back
+		decalage = pts.size();
+		//Right
 		for(int z = 0; z <= resZ; z++){
 			pts.push_back(glm::vec3(1, -1, z * pasZ));
 			normals.push_back(glm::vec3(0, 0, -1));
@@ -442,18 +443,11 @@ public:
 			}
 		}
 
-
-		for (int x = 0; x < resX; x++) {
-			for (int z = 0; z < resZ; z++) {
-
-			}
-		}
-
 		for (int i = 0, max = pts.size(); i < max; i++) {
 			if (center) {
 				pts[i] -= glm::vec3(0.5);
 			}
-			pts[i] *= glm::vec3(sizeX, 0, sizeZ);
+			pts[i] *= size;
 		}
 
 		return new Model(pts, normals, faces, uv, material);
