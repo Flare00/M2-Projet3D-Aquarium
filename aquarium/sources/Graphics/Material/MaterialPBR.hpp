@@ -66,7 +66,7 @@ protected:
 public:
 	MaterialPBR(glm::vec4 albedo = glm::vec4(1.0), float metallic = 0.0f, float roughness = 0.0f, float ior = 1.0f, bool transparent = false,
 		std::string albedoMapFile = "", std::string normalMapFile = "", std::string metallicMapFile = "", std::string roughnessMapFile = "", std::string aoMapFile = "", std::string heightMapFile = "")
-		: IMaterial("pbr")
+		: IMaterial("pbr", true, transparent)
 	{
 
 		this->albedoMapFile = albedoMapFile;

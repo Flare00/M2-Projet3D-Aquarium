@@ -127,7 +127,13 @@ public:
 		if (renderMaterial == nullptr) {
 			renderMaterial = model->GetRenderMaterial();
 		}
-
+		
+		if (renderMaterial->IsTransparent()) {
+			glDisable(GL_DEPTH_TEST);
+		}
+		else {
+			glEnable(GL_DEPTH_TEST);
+		}
 		renderMaterial->SetDataGPU(go->GetMatrixRecursive(), cam->GetView(), cam->GetProjection(), cam->GetPosition());
 		renderMaterial->SetLightGPU(lights);
 
@@ -142,6 +148,7 @@ public:
 		glBindVertexArray(mData.VAO);
 		glDrawElements(GL_TRIANGLES, mData.sizeEBO, GL_UNSIGNED_INT, 0);
 
+		glFlush();
 	}
 
 private:

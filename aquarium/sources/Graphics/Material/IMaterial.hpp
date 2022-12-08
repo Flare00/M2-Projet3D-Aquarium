@@ -15,10 +15,11 @@ class IMaterial : public Component{
 protected:
 	Shader* shader;
 	bool handleLights;
+	bool transparent;
 
 public:
 
-	IMaterial(std::string shadername, bool handleLights = true) {
+	IMaterial(std::string shadername, bool handleLights = true, bool transparent = false) {
 		this->handleLights = handleLights;
 		if (shadername.size() > 0) {
 			this->shader = settedStdShaders.AddShader(shadername);
@@ -54,6 +55,10 @@ public:
 				glUniform1i(uniform.directionnal, (lights[i]->POINT ? 0 : 1));
 			}
 		}
+	}
+
+	bool IsTransparent() {
+		return this->transparent;
 	}
 };
 #endif // !__I_MATERIAL_HPP__
