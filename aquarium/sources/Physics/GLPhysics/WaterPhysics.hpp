@@ -5,13 +5,13 @@
 #include <string>
 #include <GL/glew.h>
 #include <vector>
-#include <Physics/IPhysics.hpp>
+#include <Physics/GLPhysics/GLPhysic.hpp>
 #include <Graphics/Framebuffer.hpp>
 #include <Engine/Shader.hpp>
 #include <Engine/Tools/ModelGenerator.hpp>
 
 
-class WaterPhysics : public IPhysics {
+class WaterPhysics : public GLPhysic {
 protected:
 	struct Drop {
 		glm::vec2 pos;
@@ -148,14 +148,9 @@ public:
 			frameForCaptureCurrent = frameForCapture + 1;
 		}
 
-
-
 		//Release
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 		glViewport(0, 0, global.screen_width, global.screen_height);
-
-
-
 	}
 
 	GLuint GetHeightmap() {

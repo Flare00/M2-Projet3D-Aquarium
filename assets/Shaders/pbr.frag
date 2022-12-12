@@ -165,7 +165,7 @@ void main(){
 	}
 
 	//FragColor = material.albedo;
-	FragColor =  vec4(Norm,1.0);
+	//FragColor =  vec4(Norm,1.0);
 
 
 	vec3 V = normalize(u_cameraPos - PointCoord.xyz);
@@ -188,7 +188,14 @@ void main(){
 	c = pow(c, vec3(1.0/gamma));
 	FragColor = vec4(c,material.albedo.a);
 
+	/*float fog_maxdist = 2.0;
+	float fog_mindist = 0.1;
+	vec4 fog_color = vec4(0.66, 0.66, 0.8, 1.0);
+	float dist = length(PointCoord.xyz);
+	float fog_factor = (fog_maxdist - dist) / (fog_maxdist - fog_maxdist);
+	fog_factor = clamp(fog_factor, 0.0,1.0);
 
+	FragColor = mix(FragColor, fog_color, fog_factor);*/
 
 
 }

@@ -19,6 +19,11 @@ public:
 	}
 	virtual void PostAttachment() {
 	}
+
+	GameObject* GetGameObject() {
+		return attachment;
+	}
+
 };
 
 #endif // !__COMPONENT_HPP__

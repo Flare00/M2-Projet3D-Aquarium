@@ -6,7 +6,7 @@
 #include <string>
 #include <Graphics/Material/IMaterial.hpp>
 #include <Graphics/Texture/Texture.hpp>
-#include <Physics/IPhysics.hpp>
+#include <Physics/GLPhysics/GLPhysic.hpp>
 
 std::string textureFolder = "assets/Texture/";
 
@@ -157,8 +157,8 @@ public:
 		return this->data;
 	}
 
-	void SetDataGPU(glm::mat4 M, glm::mat4 V, glm::mat4 P, glm::vec3 camPos) override {
-		IMaterial::SetDataGPU(M, V, P, camPos);
+	void SetDataGPU(glm::mat4 M, glm::mat4 V, glm::mat4 P, glm::vec3 camPos, bool inWater) override {
+		IMaterial::SetDataGPU(M, V, P, camPos, inWater);
 		GLuint program = this->shader->GetProgram();
 
 		glUseProgram(program);
@@ -192,7 +192,7 @@ public:
 		this->data->heightMap->Bind();
 
 
-		IPhysics* p = this->attachment->getFirstComponentByType<IPhysics>();
+		GLPhysic* p = this->attachment->getFirstComponentByType<GLPhysic>();
 		int isDataP = 0;
 		if (p != nullptr) {
 			if (p->GetTexture() != -1) {

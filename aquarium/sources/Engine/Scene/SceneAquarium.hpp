@@ -5,6 +5,7 @@
 #include <Script/ColorScript.hpp>
 #include <Graphics/Camera.hpp>
 #include <Graphics/Displayable.hpp>
+#include <Graphics/WaterAffected.hpp>
 #include <Graphics/Light.hpp>
 #include <Graphics/Material/MaterialPBR.hpp>
 #include <Graphics/Material/Material.hpp>
@@ -13,7 +14,9 @@
 #include <Script/MovementScript.hpp>
 #include "Scene.hpp"
 #include <Physics/Collider/BoundingBoxCollider.hpp>
-#include <Physics/WaterPhysics.hpp>
+#include <Physics/GLPhysics/WaterPhysics.hpp>
+#include <Physics/Physics/Rigidbody.hpp>
+#include <Physics/Collider/SphereCollider.hpp>
 
 class SceneAquarium : public Scene
 {
@@ -31,7 +34,9 @@ public:
 		GameObject* camera = new GameObject("Camera", this->root);
 		camera->addComponent(new Camera(Camera::Settings::perspective(global.ScreenAspectRatio())));
 		camera->addComponent(new MovementScript());
+		camera->addComponent(new WaterAffected());
 
+		camera->GetTransform()->SetPosition(glm::vec3(0,0,-2));
 
 		//GameObject* depthCam = new GameObject("depthCam", this->root);
 		//depthCam->addComponent(new Camera(depthCam, Camera::Settings::perspective(global.ScreenAspectRatio()), Camera::DEPTH_STENCIL, this->AddShader(new Shader("depth"))));
@@ -45,6 +50,25 @@ public:
 		GameObject* light = new GameObject("Light1", this->root);
 		light->addComponent(new Light(Light::POINT, glm::vec3(1, 1, 1), 10.0, 1.0));
 		light->GetTransform()->SetPosition(glm::vec3(0, 0, 0));
+
+		//Create Moving Sphere
+		GameObject* sphere1 = new GameObject("Sphere", this->root);
+		sphere1->addComponent(ModelGenerator::UVSphere(baseAquariumMaterial, 16,32,0.1));
+		sphere1->addComponent(new Displayable());
+		sphere1->addComponent(new SphereCollider(0.1));
+		Rigidbody * sphereRigid = new Rigidbody();
+		sphere1->addComponent(sphereRigid);
+		sphereRigid->SetVelocity(glm::vec3(0.1,0,0));
+		sphere1->GetTransform()->SetPosition(glm::vec3(-1,0.2,0));
+
+		GameObject* sphere2 = new GameObject("Sphere", this->root);
+		sphere2->addComponent(ModelGenerator::UVSphere(baseAquariumMaterial, 16,32,0.1));
+		sphere2->addComponent(new Displayable());
+		sphere2->addComponent(new SphereCollider(0.1));
+		Rigidbody * sphereRigid2 = new Rigidbody();
+		sphere2->addComponent(sphereRigid2);
+		sphereRigid2->SetVelocity(glm::vec3(-0.1,0,0));
+		sphere2->GetTransform()->SetPosition(glm::vec3(1,0.2,0));
 
 
 		//Create the aquarium
@@ -70,16 +94,13 @@ public:
 		rightAquarium->addComponent(new Displayable());
 
 
-
-
-
 		//Create Water of the aquarium
 		GameObject* water = new GameObject("water", aquarium);
 		water->addComponent(new Displayable());
-		water->addComponent(ModelGenerator::CubeWater(waterMaterial, 1024, 512, glm::vec3(8,2,4)));
+		water->addComponent(ModelGenerator::CubeWater(waterMaterial, 1024, 512, glm::vec3(8,3,4)));
 		WaterPhysics* waterP = new WaterPhysics(512,256);
 		water->addComponent(waterP);
-		water->GetTransform()->SetPosition(glm::vec3(0, 1,0));
+		water->GetTransform()->SetPosition(glm::vec3(0, 2.5,0));
 
 		//Add a drop
 		waterP->AddDrop(glm::vec2(0.5, 0.5), 0.05f, 0.1f);

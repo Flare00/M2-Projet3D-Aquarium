@@ -2,6 +2,8 @@
 #define __GRAPHICS_HPP__
 
 #include <vector>
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
 #include <Engine/GameObject.hpp>
 #include <Graphics/Displayable.hpp>
@@ -113,6 +115,25 @@ public:
 	}
 
 	void Draw(Camera* cam, Displayable * element, Model* model, std::vector<Light*> lights) {
+		bool waterFog = true;
+		if(cam->GetGameObject()->getFirstComponentByType<WaterAffected>() != nullptr)
+		{
+			//Test if in water and set the value in waterFog
+			waterFog = true;
+		}
+
+		if(waterFog){
+			glEnable(GL_FOG);
+			GLfloat fogcolor[4] = {1.0, 0, 0, 1.0};
+			glFogi(GL_FOG_MODE, GL_EXP);
+			glFogfv(GL_FOG_COLOR, fogcolor);
+			glFogf(GL_FOG_DENSITY, 0.33);
+			glFogf(GL_FOG_START, 0.1);
+			glFogf(GL_FOG_END, 1.0);
+		} else {
+			glDisable(GL_FOG);
+		}
+
 		GameObject* go = element->GetGameObject();
 		if (go == nullptr) {
 			return;
@@ -129,12 +150,12 @@ public:
 		}
 		
 		if (renderMaterial->IsTransparent()) {
-			glDisable(GL_DEPTH_TEST);
+			glDisable(GL_DEPTH_TEST); // Do thing we don't want
 		}
 		else {
 			glEnable(GL_DEPTH_TEST);
 		}
-		renderMaterial->SetDataGPU(go->GetMatrixRecursive(), cam->GetView(), cam->GetProjection(), cam->GetPosition());
+		renderMaterial->SetDataGPU(go->GetMatrixRecursive(), cam->GetView(), cam->GetProjection(), cam->GetPosition(), waterFog);
 		renderMaterial->SetLightGPU(lights);
 
 		glUseProgram(renderMaterial->GetShader()->GetProgram());

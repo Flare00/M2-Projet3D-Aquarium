@@ -10,7 +10,7 @@ protected:
 	glm::vec3 center;
 	double radius;
 public :
-	SphereCollider(glm::vec3 center = glm::vec3(0), double radius = 0.0) : ICollider("sphere") {
+	SphereCollider(double radius = 1.0, glm::vec3 center = glm::vec3(0)) : ICollider("sphere") {
 		this->center = center;
 		this->radius = radius;
 	}

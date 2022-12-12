@@ -27,8 +27,8 @@ public :
         return this->data;
     }
 
-    void SetDataGPU(glm::mat4 M, glm::mat4 V, glm::mat4 P, glm::vec3 camPos) override {
-        IMaterial::SetDataGPU(M, V, P, camPos);
+    void SetDataGPU(glm::mat4 M, glm::mat4 V, glm::mat4 P, glm::vec3 camPos, bool inWater) override {
+        IMaterial::SetDataGPU(M, V, P, camPos, inWater);
         GLuint program = this->shader->GetProgram();
         glUseProgram(program);
         glUniform4f(glGetUniformLocation(program, "material.color"), this->data->color.x, this->data->color.y, this->data->color.z, this->data->color.w);

@@ -16,10 +16,6 @@ public:
 		this->alwaysDraw = alwaysDraw;
 	}
 
-	GameObject* GetGameObject() {
-		return attachment;
-	}
-
 	Transformation* GetTransformation() {
 		return this->attachment->GetTransform();
 	}

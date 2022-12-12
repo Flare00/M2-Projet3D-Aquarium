@@ -5,7 +5,7 @@
 #include <Engine/SettedShaders.hpp>
 #include <Engine/GameObject.hpp>
 #include <Engine/Engine.hpp>
-#include <Physics/IPhysics.hpp>
+#include <Physics/Physics/CPhysic.hpp>
 
 SettedShaders settedPhysicsShaders;
 
@@ -16,10 +16,10 @@ public :
     void Init(){}
 
     void Compute(double deltatime, GameObject * root, int nbStep = 1){
-        this->Compute(deltatime, root->getComponentsByTypeRecursive<IPhysics>(), nbStep);
+        this->Compute(deltatime, root->getComponentsByTypeRecursive<CPhysic>(), nbStep);
     }
 
-    void Compute( double deltatime, std::vector<IPhysics*> elems, int nbStep = 1){
+    void Compute( double deltatime, std::vector<CPhysic*> elems, int nbStep = 1){
         double stepDelta = deltatime / (double)nbStep;
 
         for(int i = 0 ; i < nbStep ; i++){

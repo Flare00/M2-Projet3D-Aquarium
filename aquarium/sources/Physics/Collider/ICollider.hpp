@@ -11,12 +11,18 @@ class ICollider : public Component {
 protected :
 	std::string type;
 	bool trigger;
+	bool isCollision = false;
 public:
 	ICollider(std::string type = "none", bool trigger = false) {
 		this->type = type;
 	}
+
 	virtual bool IsColliding(ICollider* other) {
 		return false;
+	}
+
+	virtual bool IsCollision(){
+		return isCollision;
 	}
 
 	std::string ColliderType(){

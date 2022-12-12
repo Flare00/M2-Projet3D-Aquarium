@@ -27,7 +27,7 @@ Qwerty -- Azerty
 ## Étapes du développement prévus
 
 #### Étape 1 - Réaliser un environnement aquatique simple :
-- [ ] Faire une surface réagissant avec son environnement / collision
+- [X] Faire une surface réagissant avec son environnement / collision
 - [ ] Faire une sphère capable d'interagir avec l'eau et flotter / subir la gravité
 - [ ] Faire un système pour interagir avec l'environnement avec la souris
 
