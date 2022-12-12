@@ -241,6 +241,13 @@ public:
 		return this->framebuffer.GetTexColor();
 	}
 
+	GLuint GetDepthTexture() {
+		return this->framebuffer.GetTexDepth();
+	}
+	/*GLuint GetStencilTexture() {
+		return this->framebuffer.GetTexStencil();
+	}*/
+
 	glm::vec3 GetPosition(){
 		return this->attachment->GetTransform()->getPosition();
 	}

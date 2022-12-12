@@ -50,6 +50,7 @@ public:
 		glUseProgram(prog);
 		glUniform1i(glGetUniformLocation(prog, "renderTexture"), 0);
 		glUniform1i(glGetUniformLocation(prog, "depthTexture"), 1);
+		//glUniform1i(glGetUniformLocation(prog, "stencilTexture"), 2);
 	}
 
 	void Compute(GameObject* root) {
@@ -93,11 +94,17 @@ public:
 				//data.renderCamera.push_back(cameras[indexCam]);
 				glActiveTexture(GL_TEXTURE0 + 0);
 				glBindTexture(GL_TEXTURE_2D, cameras[indexCam]->GetColorTexture());
+				glActiveTexture(GL_TEXTURE0 + 1);
+				glBindTexture(GL_TEXTURE_2D, cameras[indexCam]->GetDepthTexture());
+				//glActiveTexture(GL_TEXTURE0 + 2);
+				//glBindTexture(GL_TEXTURE_2D, cameras[indexCam]->GetStencilTexture());
+
+
 				break;
 			case Camera::DEPTH_STENCIL:
 				//data.depthCamera.push_back(cameras[indexCam]);
-				glActiveTexture(GL_TEXTURE0 + 1);
-				glBindTexture(GL_TEXTURE_2D, cameras[indexCam]->GetColorTexture());
+				//glActiveTexture(GL_TEXTURE0 + 1);
+				//glBindTexture(GL_TEXTURE_2D, cameras[indexCam]->GetColorTexture());
 				break;
 			}
 
@@ -149,12 +156,13 @@ public:
 			renderMaterial = model->GetRenderMaterial();
 		}
 		
-		if (renderMaterial->IsTransparent()) {
+		/*if (renderMaterial->IsTransparent()) {
 			glDisable(GL_DEPTH_TEST); // Do thing we don't want
 		}
 		else {
+
 			glEnable(GL_DEPTH_TEST);
-		}
+		}*/
 		renderMaterial->SetDataGPU(go->GetMatrixRecursive(), cam->GetView(), cam->GetProjection(), cam->GetPosition(), waterFog);
 		renderMaterial->SetLightGPU(lights);
 

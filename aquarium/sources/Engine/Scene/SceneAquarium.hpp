@@ -30,6 +30,7 @@ public:
 		IMaterial* waterMaterial = new MaterialPBR(glm::vec4(0.0, 0.66, 0.8, 0.7), 0.0f, 0.0f, 1.33f, true);
 		IMaterial* glassMaterial = new MaterialPBR(glm::vec4(1, 1, 1, 0.3), 0.0f, 0.0f, 1.5f, true);
 		IMaterial* baseAquariumMaterial = new MaterialPBR(glm::vec4(0.5, 0.5, 0.5, 1.0));
+		IMaterial* ballMaterial = new MaterialPBR(glm::vec4(0.0, 1.0, 0.0, 1.0));
 
 		GameObject* camera = new GameObject("Camera", this->root);
 		camera->addComponent(new Camera(Camera::Settings::perspective(global.ScreenAspectRatio())));
@@ -53,7 +54,7 @@ public:
 
 		//Create Moving Sphere
 		GameObject* sphere1 = new GameObject("Sphere", this->root);
-		sphere1->addComponent(ModelGenerator::UVSphere(baseAquariumMaterial, 16,32,0.1));
+		sphere1->addComponent(ModelGenerator::UVSphere(ballMaterial, 16,32,0.1));
 		sphere1->addComponent(new Displayable());
 		sphere1->addComponent(new SphereCollider(0.1));
 		Rigidbody * sphereRigid = new Rigidbody();
@@ -62,7 +63,7 @@ public:
 		sphere1->GetTransform()->SetPosition(glm::vec3(-1,0.2,0));
 
 		GameObject* sphere2 = new GameObject("Sphere", this->root);
-		sphere2->addComponent(ModelGenerator::UVSphere(baseAquariumMaterial, 16,32,0.1));
+		sphere2->addComponent(ModelGenerator::UVSphere(ballMaterial, 16,32,0.1));
 		sphere2->addComponent(new Displayable());
 		sphere2->addComponent(new SphereCollider(0.1));
 		Rigidbody * sphereRigid2 = new Rigidbody();

@@ -5,9 +5,15 @@ in vec2 TexCoords;
 
 uniform sampler2D renderTexture;
 uniform sampler2D depthTexture;
+//uniform sampler2D stencilTexture;
 
 void main()
 {
-    vec3 col = texture(renderTexture, TexCoords).rgb;
-    FragColor = vec4(col, 1.0);
+    vec4 col = texture(renderTexture, TexCoords).rgba;
+    FragColor = col;
+    if(col.r > 1.0){
+        FragColor = vec4(0,1,0,1);
+    } else if (col.r > 2.0){
+        FragColor = vec4(0,0,1,1);
+    }
 } 

@@ -14,9 +14,43 @@ protected:
 	GLuint framebuffer;
 	GLuint renderbuffer;
 	GLuint tex_color;
+	GLuint tex_depth;
 
 	int w = -1, h = -1;
 	bool floating = false;
+
+	void GenTextures(){
+		// create a color attachment texture
+		glGenTextures(1, &this->tex_color);
+		glBindTexture(GL_TEXTURE_2D, this->tex_color);
+
+		if (floating) {
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA16F, this->w, this->h, 0, GL_RGBA, GL_FLOAT, NULL);
+		}
+		else {
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, this->w, this->h, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
+		}
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+		glBindTexture(GL_TEXTURE_2D, 0);
+
+		// create a depth attachment texture
+		glGenTextures(1, &this->tex_depth);
+		glBindTexture(GL_TEXTURE_2D, this->tex_depth);
+
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT24, this->w, this->h, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
+
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+		glTexParameteri(GL_TEXTURE_2D, GL_DEPTH_TEXTURE_MODE, GL_INTENSITY); // GL_INTENSITY16 ?
+		//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_MODE, GL_COMPARE_R_TO_TEXTURE);
+		//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_FUNC, GL_LEQUAL);
+		glBindTexture(GL_TEXTURE_2D, 0);
+	}
 public:
 	Framebuffer() {
 
@@ -42,24 +76,14 @@ public:
 		if (this->h < 0) {
 			this->h = global.screen_height;
 		}
-		// create a color attachment texture
-		glGenTextures(1, &this->tex_color);
-		glBindTexture(GL_TEXTURE_2D, this->tex_color);
+		
 
-		if (floating) {
-			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA16F, this->w, this->h, 0, GL_RGBA, GL_FLOAT, NULL);
-		}
-		else {
-			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, this->w, this->h, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
-		}
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
-		glBindTexture(GL_TEXTURE_2D, 0);
+		GenTextures();
 
 		glBindFramebuffer(GL_FRAMEBUFFER, this->framebuffer);
 		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, this->tex_color, 0);
+		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, this->tex_depth, 0);
+		//glFramebufferTexture2D(GL_FRAMEBUFFER, GL_STENCIL_ATTACHMENT, GL_TEXTURE_2D, this->tex_stencil, 0);
 
 		//create the renderbuffer
 		glGenRenderbuffers(1, &this->renderbuffer);
@@ -79,6 +103,14 @@ public:
 		return this->tex_color;
 	}
 
+	GLuint GetTexDepth() {
+		return this->tex_depth;
+	}
+
+	/*GLuint GetTexStencil() {
+		return this->tex_stencil;
+	}*/
+
 	GLuint GetFramebuffer() {
 		return this->framebuffer;
 	}
@@ -87,11 +119,11 @@ public:
 		return this->renderbuffer;
 	}
 
-	void WriteTextureToFile(std::string name) {
+	void WriteTextureToFile(std::string name, int tex = 0) { //Tex : 0 = Color, 1 = Depth
 		if (w <= 0 || h <= 0)
 			return;
-
-		glBindTexture(GL_TEXTURE_2D, this->tex_color);
+		
+		glBindTexture(GL_TEXTURE_2D, tex == 0 ? this->tex_color : this->tex_depth);
 
 		if (floating) {
 			GLsizei stride = 4 * this->w;
