@@ -84,12 +84,15 @@ public:
         //glfwSetCursorPos(global.global_window, global.screen_width / 2.0, global.screen_height / 2.0);
 
         //Clear background to grey
-        glClearColor(0.8f, 0.8f, 0.8f, 0.0f);
+        glClearColor(0.8f, 0.8f, 0.8f, 1.0f);
 
         // Enable depth test
         glEnable(GL_DEPTH_TEST);
         // Accept fragment if it closer to the camera than the former one
         glDepthFunc(GL_LESS);
+
+  
+
         // Cull triangles which normal is not towards the camera
         glEnable(GL_CULL_FACE);
         glCullFace(GL_BACK);
@@ -100,7 +103,8 @@ public:
         glEnable(GL_TEXTURE_2D);
         glEnable(GL_FRAMEBUFFER_SRGB);
         glEnable(GL_BLEND);
-        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        //glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        glBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, GL_ONE, GL_ZERO);
         // Setup mouse callback
         glfwSetCursorPosCallback(global.global_window, cursorPositionCallback);
 

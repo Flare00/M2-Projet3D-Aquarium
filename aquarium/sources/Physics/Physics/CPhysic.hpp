@@ -7,8 +7,11 @@
 class CPhysic : public Component
 {
 protected:
+    bool threadable;
 public:
-    CPhysic(){}
+    CPhysic(bool threadable){
+        this->threadable = threadable;
+    }
     virtual void Compute(double delta){}
 };
 

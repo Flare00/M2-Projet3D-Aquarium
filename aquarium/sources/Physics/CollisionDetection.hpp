@@ -9,6 +9,8 @@
 
 class CollisionDetection {
 public:
+
+
 	enum BBMode {
 		AABB_AABB,
 		AABB_OBB,
@@ -16,7 +18,7 @@ public:
 		OBB_OBB
 	};
 	struct Data {
-		bool collision;
+		bool collision = false;
 		glm::vec3 closestPoint;
 
 		Data(bool c, glm::vec3 cp) {
@@ -37,8 +39,75 @@ public:
 		}
 	};
 
+	Data Detection(GameObject* one, GameObject* two) {
+		ICollider* collider1 = nullptr;
+		ICollider* collider2 = nullptr;
+
+		if (one->HasCustomCollider()) {
+			collider1 = one->getFirstComponentByType<ICollider>();
+		}
+		else {
+			return Data(false, glm::vec3());
+		}
+
+		if (two->HasCustomCollider()) {
+			collider2 = two->getFirstComponentByType<ICollider>();
+		}
+		else {
+			return Data(false, glm::vec3());
+		}
+
+
+		if (collider1->ColliderType() == ICollider::BoundingBox)
+		{
+			BoundingBoxCollider* bb = dynamic_cast<BoundingBoxCollider*>(collider1);
+			if (bb != nullptr) {
+				return Detection(bb, collider2);
+			}
+		}
+		else if (collider1->ColliderType() == ICollider::Sphere) {
+			SphereCollider* s = dynamic_cast<SphereCollider*>(collider1);
+			if (s != nullptr) {
+				return Detection(s, collider2, true);
+			}
+		}
+	}
+
+	Data Detection(BoundingBoxCollider* one, ICollider* two) {
+		if (two->ColliderType() == ICollider::BoundingBox)
+		{
+			BoundingBoxCollider* bb = dynamic_cast<BoundingBoxCollider*>(two);
+			if (bb != nullptr) {
+				return Detection(one, bb, OBB_OBB);
+			}
+		}
+		else if (two->ColliderType() == ICollider::Sphere) {
+			SphereCollider* s = dynamic_cast<SphereCollider*>(two);
+			if (s != nullptr) {
+				return Detection(s, one, true);
+
+			}
+		}
+	}
+
+	Data Detection(SphereCollider* one, ICollider* two) {
+		if (two->ColliderType() == ICollider::BoundingBox)
+		{
+			BoundingBoxCollider* bb = dynamic_cast<BoundingBoxCollider*>(two);
+			if (bb != nullptr) {
+				return Detection(one, bb, true);
+			}
+		}
+		else if (two->ColliderType() == ICollider::Sphere) {
+			SphereCollider* s = dynamic_cast<SphereCollider*>(two);
+			if (s != nullptr) {
+				return Detection(one, s);
+			}
+		}
+	}
+
 	// --- FUNCTIONS ---
-	static Data Detection(BoundingBoxCollider* one, BoundingBoxCollider* two, BBMode mode) {
+	Data Detection(BoundingBoxCollider* one, BoundingBoxCollider* two, BBMode mode) {
 		if (mode == AABB_AABB)
 			return AABB_AABB(one, two);
 		else if (mode == OBB_OBB)
@@ -49,7 +118,7 @@ public:
 			return OBB_AABB(one, two);
 	}
 
-	static Data Detection(SphereCollider* one, BoundingBoxCollider* two, bool oriented) {
+	Data Detection(SphereCollider* one, BoundingBoxCollider* two, bool oriented) {
 		if (oriented) {
 			return Sphere_OBB(one, two);
 		}
@@ -58,7 +127,7 @@ public:
 		}
 	}
 
-	static Data Detection(glm::vec3 one, BoundingBoxCollider* two, bool oriented) {
+	Data Detection(glm::vec3 one, BoundingBoxCollider* two, bool oriented) {
 		if (oriented) {
 			return Point_OBB(one, two);
 		}
@@ -67,17 +136,17 @@ public:
 		}
 	}
 
-	static Data Detection(glm::vec3 one, SphereCollider* two) {
+	Data Detection(glm::vec3 one, SphereCollider* two) {
 		return Point_Sphere(one, two);
 	}
 
-	static Data Detection(SphereCollider* one, SphereCollider* two) {
+	Data Detection(SphereCollider* one, SphereCollider* two) {
 		return Sphere_Sphere(one, two);
 	}
 
 	// --- SPECIFIC ---
 
-	static Data AABB_AABB(BoundingBoxCollider* one, BoundingBoxCollider* two) {
+	Data AABB_AABB(BoundingBoxCollider* one, BoundingBoxCollider* two) {
 		glm::vec3 closestPoint;
 		glm::vec3 c = one->GetCenter();
 		glm::vec3 aMin = one->GetMin(), aMax = one->GetMax();
@@ -97,7 +166,7 @@ public:
 		return Data(collision, closestPoint);
 	}
 
-	static Data OBB_OBB(BoundingBoxCollider* one, BoundingBoxCollider* two) {
+	Data OBB_OBB(BoundingBoxCollider* one, BoundingBoxCollider* two) {
 		bool collision = true;
 		glm::vec3 closestPoint;
 
@@ -127,10 +196,10 @@ public:
 		return true;
 	}
 
-	static Data AABB_OBB(BoundingBoxCollider* one, BoundingBoxCollider* two) {
+	Data AABB_OBB(BoundingBoxCollider* one, BoundingBoxCollider* two) {
 		return OBB_AABB(two, one);
 	}
-	static Data OBB_AABB(BoundingBoxCollider* one, BoundingBoxCollider* two) {
+	Data OBB_AABB(BoundingBoxCollider* one, BoundingBoxCollider* two) {
 		bool collision = true;
 		glm::vec3 closestPoint;
 
@@ -159,10 +228,10 @@ public:
 		return true;
 	}
 
-	static Data AABB_Sphere(BoundingBoxCollider* one, SphereCollider* two) {
+	Data AABB_Sphere(BoundingBoxCollider* one, SphereCollider* two) {
 		return Sphere_AABB(two, one);
 	}
-	static Data Sphere_AABB(SphereCollider* one, BoundingBoxCollider* two) {
+	Data Sphere_AABB(SphereCollider* one, BoundingBoxCollider* two) {
 		glm::vec3 oneCenter = one->GetCenter();
 		Data d = Point_AABB(oneCenter, two);
 		if (!d.collision) {
@@ -171,10 +240,10 @@ public:
 		return d;
 	}
 
-	static Data OBB_Sphere(BoundingBoxCollider* one, SphereCollider* two) {
+	Data OBB_Sphere(BoundingBoxCollider* one, SphereCollider* two) {
 		return Sphere_AABB(two, one);
 	}
-	static Data Sphere_OBB(SphereCollider* one, BoundingBoxCollider* two) {
+	Data Sphere_OBB(SphereCollider* one, BoundingBoxCollider* two) {
 		glm::vec3 oneCenter = one->GetCenter();
 		Data d = Point_OBB(oneCenter, two);
 		if (!d.collision) {
@@ -185,7 +254,7 @@ public:
 
 
 
-	static Data Sphere_Sphere(SphereCollider* one, SphereCollider* two) {
+	Data Sphere_Sphere(SphereCollider* one, SphereCollider* two) {
 		float dist = glm::distance(one->GetCenter(), two->GetCenter());
 		float sum = one->GetRadius() + two->GetRadius();
 		glm::vec3 n = glm::normalize(two->GetCenter() - one->GetCenter());
@@ -194,7 +263,7 @@ public:
 
 	// --- Points ---
 
-	static Data Point_AABB(glm::vec3 one, BoundingBoxCollider* two) {
+	Data Point_AABB(glm::vec3 one, BoundingBoxCollider* two) {
 		bool collision = true;
 		glm::vec3 closestPoint = one;
 
@@ -218,7 +287,7 @@ public:
 		return Data(collision, closestPoint);
 	}
 
-	static Data Point_OBB(glm::vec3 one, BoundingBoxCollider* two) {
+	Data Point_OBB(glm::vec3 one, BoundingBoxCollider* two) {
 		bool collision = true;
 		glm::vec3 closestPoint = one;
 
@@ -244,7 +313,7 @@ public:
 		return Data(collision, closestPoint);
 	}
 
-	static Data Point_Sphere(glm::vec3 one, SphereCollider* two) {
+	Data Point_Sphere(glm::vec3 one, SphereCollider* two) {
 		bool collision = glm::distance(one, two->GetCenter()) <= two->GetRadius();
 		glm::vec3 closestPoint = glm::normalize(one - two->GetCenter()); *two->GetRadius();
 		return Data(collision, closestPoint)

@@ -54,7 +54,7 @@ public:
 	}
 
 	void Compute(GameObject* root) {
-		Compute(root->getComponentsByTypeRecursive<Camera>(true), root->getComponentsByTypeRecursive<Light>(true), root->getComponentsByTypeRecursive<Displayable>(true));
+		Compute(root->getComponentsByTypeRecursive<Camera>(true), root->getComponentsByTypeRecursive<Light>(true), Displayable::SortByPriority(root->getComponentsByTypeRecursive<Displayable>(true)));
 	}
 
 	void Compute(std::vector<Camera*> cameras, std::vector<Light*> lights, std::vector<Displayable*> elements) {
@@ -63,7 +63,6 @@ public:
 		glEnable(GL_DEPTH_TEST);
 
 		GLuint program = this->quad->GetShader()->GetProgram();
-
 		for (size_t indexCam = 0, nbCam = cameras.size(); indexCam < nbCam; indexCam++) {
 			//Update the camera Frustum
 			cameras[indexCam]->UpdateFrustum();

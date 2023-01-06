@@ -9,15 +9,22 @@
 #include <Engine/Component/Component.hpp>
 #include <Engine/Component/Transformation.hpp>
 
+
 class GameObject {
 
 protected:
 	std::string identifier;
 	GameObject* parent;
 	Transformation transform;
+
 	std::vector<GameObject*> childs;
 	std::vector<Component*> components;
+
+	bool customCollider = false; //for octree
 	bool active = true;
+
+	uint_fast8_t layer;
+	uint_fast8_t tag;
 
 public:
 	GameObject(std::string id, GameObject* parent = NULL, bool addToParent = true) {
@@ -266,6 +273,22 @@ public:
 	glm::vec3 GetPositionWithRecursiveMatrix() {
 		glm::vec4 pos = glm::vec4(this->transform.getPosition(), 1.0) * GetMatrixRecursive();
 		return glm::vec3(pos.x, pos.y, pos.z);
+	}
+
+	bool HasCustomCollider() {
+		return this->customCollider;
+	}
+
+	void SetHasCustomCollider(bool customCollider) {
+		this->customCollider = customCollider;
+	}
+
+	int_fast8_t GetLayer() {
+		return this->layer;
+	}
+
+	int_fast8_t GetTag() {
+		return this->tag;
 	}
 };
 

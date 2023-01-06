@@ -19,11 +19,14 @@ private:
 	glm::mat4 matrix = glm::mat4(1.0);
 	glm::mat4 rotationMatrix = glm::mat4(1);;
 
+	glm::vec3 minPos, maxPos;
+
 public:
 	Transformation(glm::vec3 position, glm::vec3 rotation, glm::vec3 scale) {
 		this->position = position;
 		this->rotation = rotation;
 		this->scale = scale;
+		this->minPos = this->maxPos = this->position;
 		computeMatrix();
 	}
 
@@ -31,6 +34,8 @@ public:
 		this->position = position;
 		this->rotation = glm::vec3(0.0);
 		this->scale = glm::vec3(1, 1, 1);
+		this->minPos = this->maxPos = this->position;
+
 		computeMatrix();
 	}
 
@@ -38,11 +43,13 @@ public:
 		this->position = glm::vec3(0);
 		this->rotation = glm::vec3(0);
 		this->scale = glm::vec3(1, 1, 1);
+		this->minPos = this->maxPos = this->position;
 		computeMatrix();
 	}
 
 	Transformation* SetPosition(glm::vec3 position) {
 		this->dirty = true;
+
 		this->position = position;
 		return this;
 	}

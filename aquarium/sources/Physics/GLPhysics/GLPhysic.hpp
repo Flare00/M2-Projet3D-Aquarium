@@ -9,7 +9,7 @@ class GLPhysic : public CPhysic
 protected:
     GLuint texture = -1;
 public:
-    GLPhysic(){}
+    GLPhysic(): CPhysic(false){}
     GLuint GetTexture(){
         return this->texture;
     }

@@ -76,7 +76,7 @@ public:
 		GameObject* aquarium = new GameObject("Aquarium", this->root);
 		GameObject* bottomAquarium = new GameObject("Aquarium Bottom", aquarium);
 		bottomAquarium->addComponent(ModelGenerator::Cube(baseAquariumMaterial, 1, glm::vec3(4, 0.05, 2), glm::vec3(0, -2, 0)));
-		bottomAquarium->addComponent(new Displayable());
+		bottomAquarium->addComponent(new Displayable(10));
 
 		GameObject* frontAquarium = new GameObject("Aquarium Front", aquarium);
 		frontAquarium->addComponent(ModelGenerator::Cube(glassMaterial, 1, glm::vec3(4, 2, 0.05), glm::vec3(0, 0, -2)));
@@ -97,7 +97,7 @@ public:
 
 		//Create Water of the aquarium
 		GameObject* water = new GameObject("water", aquarium);
-		water->addComponent(new Displayable());
+		water->addComponent(new Displayable(100));
 		water->addComponent(ModelGenerator::CubeWater(waterMaterial, 1024, 512, glm::vec3(8,3,4)));
 		WaterPhysics* waterP = new WaterPhysics(512,256);
 		water->addComponent(waterP);

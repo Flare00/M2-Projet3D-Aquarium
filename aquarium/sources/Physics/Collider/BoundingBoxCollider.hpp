@@ -13,7 +13,7 @@ protected:
 
 	
 public:
-	BoundingBoxCollider(glm::vec3 center = glm::vec3(0), glm::vec3 halfSize = glm::vec3(1)) : ICollider("boundingbox") {
+	BoundingBoxCollider(glm::vec3 center = glm::vec3(0), glm::vec3 halfSize = glm::vec3(1)) : ICollider(Type::BoundingBox) {
 		this->center = center;
 		this->halfSize = halfSize;
 	}

@@ -8,13 +8,20 @@
 #include <Engine/Component/Component.hpp>
 
 class ICollider : public Component {
+public:
+	enum Type {
+		None,
+		BoundingBox,
+		Sphere
+	};
 protected :
-	std::string type;
+	Type type;
 	bool trigger;
 	bool isCollision = false;
 public:
-	ICollider(std::string type = "none", bool trigger = false) {
+	ICollider(Type type = Type::None, bool trigger = false) {
 		this->type = type;
+		this->attachment->SetHasCustomCollider(true); // For Octree
 	}
 
 	virtual bool IsColliding(ICollider* other) {
@@ -25,7 +32,7 @@ public:
 		return isCollision;
 	}
 
-	std::string ColliderType(){
+	Type ColliderType(){
 		return this->type;
 	}
 };
