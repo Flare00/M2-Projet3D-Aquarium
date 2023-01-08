@@ -10,15 +10,24 @@
 #include <Engine/Shader.hpp>
 #include <Graphics/Framebuffer.hpp>
 
+/// <summary>
+/// Camera Object to draw the scene.
+/// </summary>
 class Camera : public Component
 {
 public:
+	/// <summary>
+	/// The type of camera.
+	/// </summary>
 	enum Type
 	{
 		RENDER,
 		DEPTH_STENCIL
 	};
 
+	/// <summary>
+	/// The settings of the camera.
+	/// </summary>
 	struct Settings
 	{
 		double aspect;
@@ -31,6 +40,14 @@ public:
 		Settings() {
 		}
 
+		/// <summary>
+		/// Set ortho data.
+		/// </summary>
+		/// <param name="aspect">Aspect ratio</param>
+		/// <param name="near">the near plane</param>
+		/// <param name="far">the far plane</param>
+		/// <param name="size">the ortho size.</param>
+		/// <returns>copy of self.</returns>
 		Settings ortho(double aspect = 16.0 / 9.0, double near = 0.01, double far = 1000.0, double size = 1.0) {
 			this->near = near;
 			this->far = far;
@@ -40,6 +57,14 @@ public:
 			return *this;
 		}
 
+		/// <summary>
+		/// Set perspective data,
+		/// </summary>
+		/// <param name="aspect">Aspect ratio</param>
+		/// <param name="near">the near plance</param>
+		/// <param name="far">the far plane</param>
+		/// <param name="fov">the FOV</param>
+		/// <returns>copy of self.</returns>
 		Settings perspect(double aspect = 16.0 / 9.0, double near = 0.01, double far = 1000.0, double fov = 90.0) {
 			this->near = near;
 			this->far = far;
@@ -49,11 +74,27 @@ public:
 			return *this;
 		}
 
+		/// <summary>
+		/// Generate a Orthographic camera Settings.
+		/// </summary>
+		/// <param name="aspect">Aspect ratio</param>
+		/// <param name="near">the near plane</param>
+		/// <param name="far">the far plane</param>
+		/// <param name="size">the ortho size.</param>
+		/// <returns>Generated Settings.</returns>
 		static Settings orthographic(double aspect = 16.0 / 9.0, double near = 0.01, double far = 1000.0, double size = 1.0) {
 			Settings res = Settings();
 			return res.ortho(aspect, near, far, size);
 		}
 
+		/// <summary>
+		/// Generate a Orthographic camera Settings.
+		/// </summary>
+		/// <param name="aspect">Aspect ratio</param>
+		/// <param name="near">the near plane</param>
+		/// <param name="far">the far plane</param>
+		/// <param name="fov">the fov.</param>
+		/// <returns>Generated Settings.</returns>
 		static Settings perspective(double aspect = 16.0 / 9.0, double near = 0.01, double far = 1000.0, double fov = 90.0) {
 			Settings res = Settings();
 			return res.perspect(aspect, near, far, fov);
@@ -63,10 +104,16 @@ public:
 
 protected:
 
+	/// <summary>
+	/// Frustum plane state of the camera.
+	/// </summary>
 	struct FrustumPlaneState {
 		bool left = false, right = false, top = false, bottom = false, near = false, far = false;
 	};
 
+	/// <summary>
+	/// Frustum Data of the Perspective Camera
+	/// </summary>
 	struct FrustumDataPerpective {
 		glm::vec4 cols[4] = { glm::vec4(0.0), glm::vec4(0.0), glm::vec4(0.0),glm::vec4(0.0) };
 
@@ -84,6 +131,9 @@ protected:
 		}
 	};
 
+	/// <summary>
+	/// Frustum Data of the Orthogonal Camera
+	/// </summary>
 	struct FrustumDataOrtho {
 		glm::vec3 min, max;
 
@@ -98,18 +148,30 @@ protected:
 	};
 
 	Type type = Type::RENDER;
+	//The camera setting
 	Settings settings;
 
+	//The projection matrix.
 	glm::mat4 projection;
 
+	//The frustums data.
 	FrustumDataPerpective frustumDataPerspective;
 	FrustumDataOrtho frustumDataOrtho;
 
-	Framebuffer framebuffer;
+	// The framebuffer of the camera.
+	Framebuffer framebuffer; 
 
+	//The material of the camera, for special effect.
 	std::string shadername;
 	IMaterial* renderMaterial;
+
 public:
+	/// <summary>
+	/// Create a camera
+	/// </summary>
+	/// <param name="settings">The settings of the camera (Perspective or Orthogonal)</param>
+	/// <param name="type">The type of camera.</param>
+	/// <param name="shadername">The shadername (if needed)</param>
 	Camera(Settings settings = Settings::perspective(), Type type = Type::RENDER, std::string shadername = "")
 	{
 		this->settings = settings;
@@ -122,6 +184,9 @@ public:
 		}
 	}
 
+	/// <summary>
+	/// Add childs component after the Gameobject is attached.
+	/// </summary>
 	void PostAttachment() override {
 		if(renderMaterial != nullptr)
 			this->attachment->addComponent(this->renderMaterial);
@@ -134,10 +199,18 @@ public:
 	~Camera() {
 	}
 
+	/// <summary>
+	/// Return the projection matrix
+	/// </summary>
+	/// <returns>the projection matrix</returns>
 	glm::mat4 GetProjection() {
 		return this->projection;
 	}
 
+	/// <summary>
+	/// Return the view Matrix
+	/// </summary>
+	/// <returns>The view matrix</returns>
 	glm::mat4 GetView() {
 		Transformation* transform = this->attachment->GetTransform();
 		if (transform != nullptr) {
@@ -147,29 +220,51 @@ public:
 		return glm::mat4(1.0);
 	}
 
+	/// <summary>
+	/// Return the camera type
+	/// </summary>
+	/// <returns>The camera type</returns>
 	Type GetType() {
 		return this->type;
 	}
 
+	/// <summary>
+	/// Set the camera type
+	/// </summary>
+	/// <param name="type">The new camera type</param>
 	void SetType(Type type) {
 		this->type = type;
 	}
 
+	/// <summary>
+	/// Return the camera settings
+	/// </summary>
+	/// <returns>The camera settings</returns>
 	Settings GetSettings() {
 		return this->settings;
 	}
 
+	/// <summary>
+	/// Set the camera settings
+	/// </summary>
+	/// <param name="settings">the new camera settings</param>
 	void SetSettings(Settings settings) {
 		this->settings = settings;
 		UpdateProjection();
 	}
 
+	/// <summary>
+	/// Update projection and frustum data.
+	/// </summary>
 	void UpdateData()
 	{
 		UpdateProjection();
 		UpdateFrustum();
 	}
 
+	/// <summary>
+	/// Update the projection data.
+	/// </summary>
 	void UpdateProjection()
 	{
 		if (this->settings.isOrtho)
@@ -185,6 +280,9 @@ public:
 		}
 	}
 
+	/// <summary>
+	/// Update the frustum culling data.
+	/// </summary>
 	void UpdateFrustum() {
 		if (this->settings.isOrtho) {
 			double w = this->settings.aspect * this->settings.size;
@@ -198,7 +296,11 @@ public:
 		}
 	}
 
-
+	/// <summary>
+	/// Check if an point is in view
+	/// </summary>
+	/// <param name="point">The point to test</param>
+	/// <returns>True if is in view, else False</returns>
 	bool IsInView(glm::vec3 point)
 	{
 		FrustumPlaneState fps = GetFrustumPlaneState(point);
@@ -206,10 +308,22 @@ public:
 		return fps.left && fps.right && fps.bottom && fps.top && fps.near && fps.far;
 	}
 
+	/// <summary>
+	/// Check if a bounding box is in view.
+	/// </summary>
+	/// <param name="min">Min of the AABB</param>
+	/// <param name="max">Max of the AABB</param>
+	/// <returns>If is in view</returns>
 	bool IsInView(glm::vec4 min, glm::vec4 max) {
 		return IsInView(glm::vec3(min.x, min.y, min.z), glm::vec3(max.x, max.y, max.z));
 	}
 
+	/// <summary>
+	/// Check if a bounding box is in view
+	/// </summary>
+	/// <param name="min">Min of the AABB</param>
+	/// <param name="max">Max of the AABB</param>
+	/// <returns>Is in view</returns>
 	bool IsInView(glm::vec3 min, glm::vec3 max)
 	{
 		//printf("min : [%f, %f, %f] | max : [%f, %f, %f]\n", min.x, min.y, min.z, max.x, max.y, max.z);
@@ -228,19 +342,34 @@ public:
 	}
 
 
-
+	/// <summary>
+	/// Return the Material of the camera
+	/// </summary>
+	/// <returns>The material</returns>
 	IMaterial* GetRenderMaterial() {
 		return this->renderMaterial;
 	}
 
+	/// <summary>
+	/// Return the Framebuffer of the camera
+	/// </summary>
+	/// <returns>The framebuffer</returns>
 	GLuint GetFrameBuffer() {
 		return this->framebuffer.GetFramebuffer();
 	}
 
+	/// <summary>
+	/// Return the color texture of the framebuffer
+	/// </summary>
+	/// <returns>The color texture.</returns>
 	GLuint GetColorTexture() {
 		return this->framebuffer.GetTexColor();
 	}
 
+	/// <summary>
+	/// Return the depth texture of the framebuffer
+	/// </summary>
+	/// <returns>The depth texture.</returns>
 	GLuint GetDepthTexture() {
 		return this->framebuffer.GetTexDepth();
 	}
@@ -248,11 +377,20 @@ public:
 		return this->framebuffer.GetTexStencil();
 	}*/
 
+	/// <summary>
+	/// Return the position of the camera
+	/// </summary>
+	/// <returns>The position</returns>
 	glm::vec3 GetPosition(){
 		return this->attachment->GetTransform()->getPosition();
 	}
 
 protected:
+	/// <summary>
+	/// Get the frustum plane state for a point.
+	/// </summary>
+	/// <param name="point">The point to test.</param>
+	/// <returns>The frustum plane data</returns>
 	FrustumPlaneState GetFrustumPlaneState(glm::vec3 point)
 	{
 		FrustumPlaneState res;

@@ -13,9 +13,18 @@
 
 
 std::string modelFolder = "assets/Model/";
+
+/// <summary>
+/// Model component, for graphical.
+/// </summary>
 class Model : public Component {
 public:
+
+	/// <summary>
+	/// A Face data structure, Triangle or Quad.
+	/// </summary>
 	struct Face {
+
 		bool quad;
 		unsigned int linkedPoints[4];
 		Face(unsigned int p1, unsigned int p2, unsigned int p3) {
@@ -32,6 +41,10 @@ public:
 			linkedPoints[3] = p4;
 		}
 
+		/// <summary>
+		/// Cast this Face to an int vector, corresponding to a list of triangle.
+		/// </summary>
+		/// <returns></returns>
 		std::vector<unsigned int> ToTriangleVector() {
 			std::vector<unsigned int> res;
 
@@ -50,6 +63,9 @@ public:
 
 	};
 
+	/// <summary>
+	/// Graphics data of this object, (Vertex Array, Vertex Buffer, Element Buffer)
+	/// </summary>
 	struct Data
 	{
 		GLuint VAO, VBO[3], EBO;
@@ -57,21 +73,34 @@ public:
 	};
 
 protected:
+	//The data of the model.
 	Data data;
 
+	// The material of the Model.
 	IMaterial* material;
 
+	//Points, normals, face and UVs array.
 	std::vector<glm::vec3> points;
 	std::vector<glm::vec3> normals;
 	std::vector<Face> faces;
 	std::vector<glm::vec2> uv;
 
+	//The bounding box for the frustum computation.
 	BoundingBoxCollider frustumCollider;
 
+	//Is the object is generated ?
 	bool generated = false;
 
 public:
 
+	/// <summary>
+	/// Constructor of the Model.
+	/// </summary>
+	/// <param name="pts">List of the points of the model.</param>
+	/// <param name="normals">List of the normals of the model.</param>
+	/// <param name="faces">List of the face of the model.</param>
+	/// <param name="uv">List of the uvs of the model.</param>
+	/// <param name="material">The material of the model.</param>
 	Model(std::vector<glm::vec3> pts, std::vector<glm::vec3> normals = std::vector<glm::vec3>(), std::vector<Face> faces = std::vector<Face>(), std::vector<glm::vec2> uv = std::vector<glm::vec2>(), IMaterial* material = new MaterialPBR()) {
 		this->points = pts;
 		this->normals = normals;
@@ -82,11 +111,17 @@ public:
 		GenerateBuffer();
 	}
 
+	/// <summary>
+	/// Function called after the Gameobject attachement was set, automatically add the linked component.
+	/// </summary>
 	void PostAttachment() override {
 		this->attachment->addComponent(material);
 		this->attachment->addComponent(&frustumCollider);
 	}
 
+	/// <summary>
+	/// Destructor that automaticalle free the arrays and buffers.
+	/// </summary>
 	~Model()
 	{
 		glDeleteVertexArrays(1, &this->data.VAO);
@@ -97,10 +132,16 @@ public:
 		}
 	}
 
+	/// <summary>
+	/// Compute the frustum collider for frustum computing.
+	/// </summary>
 	void ComputeFrustumCollider() {
 		this->frustumCollider = BoundingBoxCollider(this->points);
 	}
 
+	/// <summary>
+	/// Generate the VAO, VBO and EBO buffers.
+	/// </summary>
 	void GenerateBuffer()
 	{
 		glGenVertexArrays(1, &this->data.VAO);
@@ -145,16 +186,26 @@ public:
 		this->generated = true;
 	}
 
+	/// <summary>
+	/// Return the graphicals data of the object.
+	/// </summary>
+	/// <returns>The graphicals data.</returns>
 	Data GetData() {
 		return this->data;
 	}
 
+	/// <summary>
+	/// Return the shader of the material.
+	/// </summary>
+	/// <returns>The shader of the material.</returns>
 	Shader* GetShader() {
 		return this->material->GetShader();
 	}
 
-	
-
+	/// <summary>
+	/// Set the Material of the object.
+	/// </summary>
+	/// <param name="material">The new Material.</param>
 	void SetMaterial(MaterialPBR* material) {
 		if (this->material != nullptr) {
 			delete(this->material);
@@ -163,10 +214,18 @@ public:
 		this->material = material;
 	}
 
+	/// <summary>
+	/// Return the Material of the object.
+	/// </summary>
+	/// <returns>The Material</returns>
 	IMaterial* GetRenderMaterial() {
 		return this->material;
 	}
 
+	/// <summary>
+	/// Return the Frustum Collider of the object.
+	/// </summary>
+	/// <returns>The Frustum Collider</returns>
 	BoundingBoxCollider GetFrustumCollider() {
 		return this->frustumCollider;
 	}

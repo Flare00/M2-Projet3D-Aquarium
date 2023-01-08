@@ -4,6 +4,9 @@
 #include <cmath>
 #include <Engine/Component/Script.hpp>
 
+/// <summary>
+/// Simple script to make the clear color change. (not used anymore)
+/// </summary>
 class ColorScript : public Script
 {
 private:
@@ -11,6 +14,10 @@ private:
     double avance = 0.0;
 
 public:
+    /// <summary>
+    /// Simple script to make the clear color change. not used anymore.
+    /// </summary>
+    /// <param name="color_mode"></param>
     ColorScript(int color_mode) {
         if (color_mode <= 0) {
             this->color_mode = 0;

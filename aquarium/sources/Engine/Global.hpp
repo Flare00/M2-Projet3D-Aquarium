@@ -4,7 +4,9 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
-
+/// <summary>
+/// Global datas, sush as the windows, resolution or mouse informations.
+/// </summary>
 struct Global {
 	//window
 	GLFWwindow* global_window;
@@ -27,6 +29,12 @@ struct Global {
 
 Global global;
 
+/// <summary>
+/// Handle the screen resolution change.
+/// </summary>
+/// <param name="window">The concerned windows.</param>
+/// <param name="width">New Width</param>
+/// <param name="height">New Height</param>
 void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 {
 	global.screen_width = width;
@@ -36,6 +44,12 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 	glViewport(0, 0, width, height);
 }
 
+/// <summary>
+/// Callback of the mouse position change.
+/// </summary>
+/// <param name="window">The concerned window</param>
+/// <param name="xpos">The new X position</param>
+/// <param name="ypos">The new Y position</param>
 void cursorPositionCallback(GLFWwindow* window, double xpos, double ypos) {
 	global.mouseX = xpos;
 	global.mouseY = ypos;

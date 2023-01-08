@@ -3,6 +3,9 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
+/// <summary>
+/// Texture in floating point, for GPU computing.
+/// </summary>
 class TextureFloatingPoint {
 public:
 	enum Precision {
@@ -14,6 +17,13 @@ protected:
 	GLuint texture_index = -1;
 	Precision precision;
 public:
+	/// <summary>
+	/// Generate a floating point texture, for GPU computing
+	/// </summary>
+	/// <param name="width">The width of the texture</param>
+	/// <param name="height">The height of the texture</param>
+	/// <param name="nbChannel">Number of channel for this texture. [1->4]</param>
+	/// <param name="precision">The precision of the texture (Floating 16, or floating 32)</param>
 	TextureFloatingPoint(int width = 512, int height = 512, int nbChannel = 1, Precision precision = F16) {
 		this->width = width;
 		this->height = height;
@@ -22,6 +32,11 @@ public:
 		GenerateTexture();
 	}
 
+	/// <summary>
+	/// Generate the internalformat and format of the texture by the number of channel and the precision.
+	/// </summary>
+	/// <param name="internalFormat">Output of the internalformat</param>
+	/// <param name="format">Output of the format</param>
 	void GetInternalAndNormalFormat(int & internalFormat, int & format) {
 		if (this->nbChannel == 1) {
 			internalFormat = (this->precision == F16 ? GL_R16F : GL_R32F);
@@ -41,6 +56,9 @@ public:
 		}
 	}
 
+	/// <summary>
+	/// Generate the texture.
+	/// </summary>
 	void GenerateTexture() {
 		if (this->texture_index == -1) {
 			glGenTextures(1, &this->texture_index);
@@ -71,10 +89,17 @@ public:
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	}
 
+	/// <summary>
+	/// Return the GPU index of the texture.
+	/// </summary>
+	/// <returns></returns>
 	GLuint GetIndex() {
 		return this->texture_index;
 	}
 
+	/// <summary>
+	/// Bind the texture to the GPU.
+	/// </summary>
 	void Bind() {
 		glBindTexture(GL_TEXTURE_2D, this->texture_index);
 	}

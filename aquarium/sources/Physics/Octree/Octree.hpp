@@ -7,39 +7,56 @@
 #include <Physics/Collider/ICollider.hpp>
 #include <Engine/GameObject.hpp>
 
-//A cube of the octree with is position, radius (each side is the same size) that contain a Gameobject
-struct OctreeNode {
-	glm::vec3 pos;
-	double radius;
-	std::vector<GameObject*> objects;
-};
-
-struct OctreeCollisionPossibility {
-	std::vector<GameObject*> possibleCollisions;
-};
 
 int OCTREE_MAX_PROFONDEUR = 64;
+
+/// <summary>
+/// An Octree Structure, Not Working for now.
+/// </summary>
 class Octree
 {
+public : 
+	/// <summary>
+	/// List of Gameobject that are possibly in collision.
+	/// </summary>
+	struct OctreeCollisionPossibility {
+		std::vector<GameObject*> possibleCollisions;
+	};
 private:
 	int currentProfondeur;
 
-	OctreeNode current;
+	glm::vec3 pos;
+	double radius;
+	std::vector<GameObject*> objects;
 
 	std::vector<Octree*> childs;
 
 public:
-
+	
+	/// <summary>
+	/// Generate an octree
+	/// </summary>
+	/// <param name="pos">Position of the octree</param>
+	/// <param name="radius">Radius of the octree</param>
+	/// <param name="profondeur">Profondeur value of this octree level (root = 0)</param>
 	Octree(glm::vec3 pos, double radius, int profondeur = 0) {
-		current.pos = pos;
-		current.radius = radius;
-		currentProfondeur = profondeur;
+		this->pos = pos;
+		this->radius = radius;
+		this->currentProfondeur = profondeur;
 	}
 
+	/// <summary>
+	/// Destroy octree and childs.
+	/// </summary>
 	~Octree() {
 		RemoveChilds();
 	}
 
+	/// <summary>
+	/// Refresh the octree values.
+	/// </summary>
+	/// <param name="root">The root Octree.</param>
+	/// <returns>the number of object in this branch of octree.</returns>
 	int Refresh(Octree* root) {
 		int nb = 0;
 		if (childs.size() > 0) {
@@ -51,7 +68,7 @@ public:
 			}
 		}
 
-		for (int i = current.objects.size(); i >= 0; i--) {
+		for (int i = current.objects.size() -1 ; i >= 0; i--) {
 			if (!Fit(current.objects[i])) {
 				root->Insert(current.objects[i]);
 				current.objects.erase(std::next(current.objects.begin(), i));
@@ -61,6 +78,9 @@ public:
 		return nb;
 	}
 
+	/// <summary>
+	/// Remove all childs of this octree.
+	/// </summary>
 	void RemoveChilds() {
 		for (int i = childs.size() - 1; i >= 0; i--) {
 			delete childs[i];
@@ -68,11 +88,19 @@ public:
 		childs.clear();
 	}
 
+	/// <summary>
+	/// Remove and Insert an element to the octree
+	/// </summary>
+	/// <param name="elem">The element to reinsert.</param>
 	void ReInsert(GameObject* elem) {
 		Remove(elem);
 		Insert(elem);
 	}
 
+	/// <summary>
+	/// Insert an element in the octree
+	/// </summary>
+	/// <param name="elem">The element to insert</param>
 	void Insert(GameObject* elem) {
 		if (!Fit(elem)) {
 			printf("Octree Error : Gameobject does not fit in Octree");
@@ -92,6 +120,12 @@ public:
 		}
 	}
 
+
+	/// <summary>
+	/// Remove an element from the octreez
+	/// </summary>
+	/// <param name="elem">The element to remove</param>
+	/// <returns>is remove succeed ?</returns>
 	bool Remove(GameObject* elem) {
 		bool erased = false;
 		for (int i = current.objects.size() - 1; i >= 0; i++) {
@@ -114,6 +148,11 @@ public:
 		return erased;
 	}
 
+	/// <summary>
+	/// is an element fitting inside of this Octree ?
+	/// </summary>
+	/// <param name="elem">The element to check</param>
+	/// <returns>The element fit or not</returns>
 	bool Fit(GameObject* elem) {
 		if (elem->HasCustomCollider()) {
 			ICollider* collider = elem->getFirstComponentByType<ICollider>();
@@ -125,6 +164,10 @@ public:
 	}
 
 
+	/// <summary>
+	/// Return collision possibility find in the octree.
+	/// </summary>
+	/// <returns>List of Octree Collision Possibility</returns>
 	std::vector<OctreeCollisionPossibility> GetAllCollisionPossibility() {
 		std::vector<OctreeCollisionPossibility> ocps = GetAllCollisionPossibility_Full();
 		for (int i = ocps.size() - 1; i >= 0; i--) {
@@ -132,8 +175,13 @@ public:
 				ocps.erase(std::next(ocps.begin(), i));
 			}
 		}
+		return ocps;
 	}
 
+	/// <summary>
+	/// Return all Information of possibility from each childs, recursivly, including element with no collision possibility detected.
+	/// </summary>
+	/// <returns></returns>
 	std::vector<OctreeCollisionPossibility> GetAllCollisionPossibility_Full() {
 		std::vector<OctreeCollisionPossibility> res;
 		if (this->childs.size() > 0) {
@@ -161,43 +209,15 @@ public:
 		return res;
 	}
 
-private:
-
-	void MakeChilds() {
-		if (childs.size() == 0) {
-			double r = current.radius;
-
-			childs.push_back(new Octree(current.pos + glm::vec3(r, r, r), r / 2.0, this->currentProfondeur + 1));
-			childs.push_back(new Octree(current.pos + glm::vec3(-r, r, r), r / 2.0, this->currentProfondeur + 1));
-			childs.push_back(new Octree(current.pos + glm::vec3(-r, -r, r), r / 2.0, this->currentProfondeur + 1));
-			childs.push_back(new Octree(current.pos + glm::vec3(r, -r, r), r / 2.0, this->currentProfondeur + 1));
-			childs.push_back(new Octree(current.pos + glm::vec3(r, r, -r), r / 2.0, this->currentProfondeur + 1));
-			childs.push_back(new Octree(current.pos + glm::vec3(-r, r, -r), r / 2.0, this->currentProfondeur + 1));
-			childs.push_back(new Octree(current.pos + glm::vec3(-r, -r, -r), r / 2.0, this->currentProfondeur + 1));
-			childs.push_back(new Octree(current.pos + glm::vec3(r, -r, -r), r / 2.0, this->currentProfondeur + 1));
-		}
-	}
-
-	bool ReallocateToChild() {
-		bool foundAny = false;
-		for (size_t j = current.objects.size() - 1; j >= 0; j--) {
-			bool found = false;
-			for (int i = 0; i < 8 && !found; i++) {
-				if (childs[i]->Fit(current.objects[j])) {
-					childs[i]->Insert(current.objects[j]);
-					current.objects.erase(std::next(current.objects.begin(), j));
-					found = true;
-					foundAny = true;
-				}
-			}
-		}
-		return foundAny;
-	}
-
+	/// <summary>
+	/// Check if a collider fit in the octree.
+	/// </summary>
+	/// <param name="collider">The collider to test</param>
+	/// <returns>Is fitting ?</returns>
 	bool Fit(ICollider* collider) {
 		bool fit = false;
-		std::string type = collider->ColliderType();
-		if (type == "boundingbox") {
+		ICollider::Type type = collider->ColliderType();
+		if (type == ICollider::Type::BoundingBox) {
 			BoundingBoxCollider* bb = dynamic_cast<BoundingBoxCollider*>(collider);
 			if (bb != nullptr) {
 
@@ -213,7 +233,7 @@ private:
 				}
 			}
 		}
-		else if (type == "sphere") {
+		else if (type == ICollider::Type::Sphere) {
 			SphereCollider* s = dynamic_cast<SphereCollider*>(collider);
 			if (s != nullptr) {
 				if (Fit(s->GetCenter())) {
@@ -231,6 +251,11 @@ private:
 		return fit;
 	}
 
+	/// <summary>
+	/// Check if a point fit in this octree.
+	/// </summary>
+	/// <param name="pos">The point to test</param>
+	/// <returns>Is fitting ?</returns>
 	bool Fit(glm::vec3 pos) {
 		bool fit = true;
 		for (int i = 0; i < 3 && fit; i++) {
@@ -240,6 +265,46 @@ private:
 		}
 		return fit;
 	}
+
+	/// <summary>
+	/// Generate childs for this octree.
+	/// </summary>
+	void MakeChilds() {
+		if (childs.size() == 0) {
+			double r = current.radius / 2.0;
+
+			childs.push_back(new Octree(current.pos + glm::vec3(r, r, r), r / 2.0, this->currentProfondeur + 1));
+			childs.push_back(new Octree(current.pos + glm::vec3(-r, r, r), r / 2.0, this->currentProfondeur + 1));
+			childs.push_back(new Octree(current.pos + glm::vec3(-r, -r, r), r / 2.0, this->currentProfondeur + 1));
+			childs.push_back(new Octree(current.pos + glm::vec3(r, -r, r), r / 2.0, this->currentProfondeur + 1));
+			childs.push_back(new Octree(current.pos + glm::vec3(r, r, -r), r / 2.0, this->currentProfondeur + 1));
+			childs.push_back(new Octree(current.pos + glm::vec3(-r, r, -r), r / 2.0, this->currentProfondeur + 1));
+			childs.push_back(new Octree(current.pos + glm::vec3(-r, -r, -r), r / 2.0, this->currentProfondeur + 1));
+			childs.push_back(new Octree(current.pos + glm::vec3(r, -r, -r), r / 2.0, this->currentProfondeur + 1));
+		}
+	}
+
+	/// <summary>
+	/// Realocate all object in this octree to children if possible.
+	/// </summary>
+	/// <returns>Is any object can go to children ?</returns>
+	bool ReallocateToChild() {
+		bool foundAny = false;
+		for (size_t j = current.objects.size() - 1; j >= 0; j--) {
+			bool found = false;
+			for (int i = 0; i < 8 && !found; i++) {
+				if (childs[i]->Fit(current.objects[j])) {
+					childs[i]->Insert(current.objects[j]);
+					current.objects.erase(std::next(current.objects.begin(), j));
+					found = true;
+					foundAny = true;
+				}
+			}
+		}
+		return foundAny;
+	}
+
+
 
 
 

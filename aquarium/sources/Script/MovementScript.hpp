@@ -7,6 +7,9 @@
 #include <Engine/Component/Transformation.hpp>
 #include <GLFW/glfw3.h>
 
+/// <summary>
+/// Script to move elements with keyboard and mouse.
+/// </summary>
 class MovementScript : public Script
 {
 private:
@@ -32,9 +35,16 @@ private:
 	GameObject* lastHittedGO = nullptr;
 
 public:
+	/// <summary>
+	/// Script to move elements with keyboard and mouse.
+	/// </summary>
 	MovementScript() {
 	}
 
+	/// <summary>
+	/// Loop the inputs and update the transformation of the attached object.
+	/// </summary>
+	/// <param name="deltaTime">Time since last frame.</param>
 	virtual void loop(double deltaTime)
 	{
 		keyboard(deltaTime);
@@ -43,6 +53,10 @@ public:
 		this->attachment->GetTransform()->Update();
 	}
 
+	/// <summary>
+	/// Keyboard inputs
+	/// </summary>
+	/// <param name="deltaTime">Time since last frame.</param>
 	void keyboard(double deltaTime) {
 		//Translation X
 		if (glfwGetKey(global.global_window, keyUp) == GLFW_PRESS) {
@@ -96,6 +110,10 @@ public:
 		}
 	}
 
+	/// <summary>
+	/// Mouse inputs
+	/// </summary>
+	/// <param name="deltaTime">Time since last frame</param>
 	void mouse(double deltaTime) {
 		if (!firstMouse) {
 			if (rightClick) {

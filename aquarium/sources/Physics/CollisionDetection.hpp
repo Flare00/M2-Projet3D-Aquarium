@@ -7,17 +7,33 @@
 #include <Engine/GameObject.hpp>
 
 
+/// <summary>
+/// Collision detection tools.
+/// </summary>
 class CollisionDetection {
 public:
 
-
+	/// <summary>
+	/// Bounding Box mode for the BoudingBoxCollider.
+	/// </summary>
 	enum BBMode {
-		AABB_AABB,
-		AABB_OBB,
-		OBB_AABB,
-		OBB_OBB
+		M_AABB_AABB,
+		M_AABB_OBB,
+		M_OBB_AABB,
+		M_OBB_OBB
 	};
+
+
+	/// <summary>
+	/// Data of a collisions
+	/// </summary>
 	struct Data {
+		/// <summary>
+		/// Data of the collisions
+		/// </summary>
+		/// <param name="collision">If there are a collision or not.</param>
+		/// <param name="closestPoint">The closest point hit of the object.</param>
+
 		bool collision = false;
 		glm::vec3 closestPoint;
 
@@ -27,19 +43,37 @@ public:
 		}
 	};
 
+	/// <summary>
+	/// A triangle object with 3 glm::vec3 as point.
+	/// </summary>
 	struct Triangle {
+		/// <summary>
+		/// A triangle object with 3 glm::vec3 as point.
+		/// </summary>
+		/// <param name="points">A list of 3 glm::vec3.</param>
 		glm::vec3 points[3];
+
 		Triangle(glm::vec3 p0, glm::vec3 p1, glm::vec3 p2) {
 			this->points[0] = p0;
 			this->points[0] = p1;
 			this->points[0] = p2;
 		}
+		/// <summary>
+		/// Override the [] operator to access directly points[].
+		/// </summary>
 		glm::vec3 operator[](size_t idx) {
 			return points[idx];
 		}
 	};
 
+	/// <summary>
+	/// Detection function that take two Gameobject and return Data
+	/// </summary>
+	/// <param name="one">First GameObject to detect collision.</param>
+	/// <param name="two">Second GameObject to detect collision.</param>
+	/// <returns>The Data of the collision.</returns>
 	Data Detection(GameObject* one, GameObject* two) {
+
 		ICollider* collider1 = nullptr;
 		ICollider* collider2 = nullptr;
 
@@ -68,17 +102,23 @@ public:
 		else if (collider1->ColliderType() == ICollider::Sphere) {
 			SphereCollider* s = dynamic_cast<SphereCollider*>(collider1);
 			if (s != nullptr) {
-				return Detection(s, collider2, true);
+				return Detection(s, collider2);
 			}
 		}
 	}
 
+	/// <summary>
+	/// Detection function that take One BoundingBoxCollider and one ICollider.
+	/// </summary>
+	/// <param name="one">A BoundingBoxCollider to detect collision.</param>
+	/// <param name="two">A ICollider to detect collision.</param>
+	/// <returns>The Data of the collision.</returns>
 	Data Detection(BoundingBoxCollider* one, ICollider* two) {
 		if (two->ColliderType() == ICollider::BoundingBox)
 		{
 			BoundingBoxCollider* bb = dynamic_cast<BoundingBoxCollider*>(two);
 			if (bb != nullptr) {
-				return Detection(one, bb, OBB_OBB);
+				return Detection(one, bb, M_OBB_OBB);
 			}
 		}
 		else if (two->ColliderType() == ICollider::Sphere) {
@@ -90,6 +130,12 @@ public:
 		}
 	}
 
+	/// <summary>
+	/// Detection function that take One SphereCollider and one ICollider.
+	/// </summary>
+	/// <param name="one">A SphereCollider to detect collision.</param>
+	/// <param name="two">A ICollider to detect collision.</param>
+	/// <returns>The Data of the collision.</returns>
 	Data Detection(SphereCollider* one, ICollider* two) {
 		if (two->ColliderType() == ICollider::BoundingBox)
 		{
@@ -106,18 +152,33 @@ public:
 		}
 	}
 
-	// --- FUNCTIONS ---
+
+	/// <summary>
+	/// Detection function that take two BoundingBoxCollider and one BBMode
+	/// </summary>
+	/// <param name="one">First BoundingBoxCollider to detect collision.</param>
+	/// <param name="two">Second BoundingBoxCollider to detect collision.</param>
+	/// <param name="mode">The mode of the Detection</param>
+	/// <returns>The Data of the collision.</returns>
 	Data Detection(BoundingBoxCollider* one, BoundingBoxCollider* two, BBMode mode) {
-		if (mode == AABB_AABB)
+		if (mode == M_AABB_AABB)
 			return AABB_AABB(one, two);
-		else if (mode == OBB_OBB)
+		else if (mode == M_OBB_OBB)
 			return OBB_OBB(one, two);
-		else if (mode == AABB_OBB)
+		else if (mode == M_AABB_OBB)
 			return OBB_AABB(two, one);
 		else
 			return OBB_AABB(one, two);
 	}
 
+
+	/// <summary>
+	///  Detection function that take One SphereCollider and one BoundingBoxCollider oriented or not.
+	/// </summary>
+	///  <param name="one">A SphereCollider to detect collision.</param>
+	/// <param name="two">A BoundingBoxCollider to detect collision.</param>
+	/// <param name="oriented">If the bounding box is oritented or not</param>
+	/// <returns>The Data of the collision.</returns>
 	Data Detection(SphereCollider* one, BoundingBoxCollider* two, bool oriented) {
 		if (oriented) {
 			return Sphere_OBB(one, two);
@@ -127,6 +188,13 @@ public:
 		}
 	}
 
+	/// <summary>
+	///  Detection function that take One Point and one BoundingBoxCollider oriented or not.
+	/// </summary>
+	///  <param name="one">A point to detect collision.</param>
+	/// <param name="two">A BoundingBoxCollider to detect collision.</param>
+	/// <param name="oriented">If the bounding box is oritented or not</param>
+	/// <returns>The Data of the collision.</returns>
 	Data Detection(glm::vec3 one, BoundingBoxCollider* two, bool oriented) {
 		if (oriented) {
 			return Point_OBB(one, two);
@@ -136,16 +204,34 @@ public:
 		}
 	}
 
+	/// <summary>
+	///  Detection function that take One Point and one SphereCollider .
+	/// </summary>
+	///  <param name="one">A point to detect collision.</param>
+	/// <param name="two">A SphereCollider to detect collision.</param>
+	/// <returns>The Data of the collision.</returns>
 	Data Detection(glm::vec3 one, SphereCollider* two) {
 		return Point_Sphere(one, two);
 	}
 
+	/// <summary>
+	/// Detection function that take two SphereCollider
+	/// </summary>
+	/// <param name="one">First SphereCollider to detect collision.</param>
+	/// <param name="two">Second SphereCollider to detect collision.</param>
+	/// <returns>The Data of the collision.</returns>
 	Data Detection(SphereCollider* one, SphereCollider* two) {
 		return Sphere_Sphere(one, two);
 	}
 
 	// --- SPECIFIC ---
 
+	/// <summary>
+	/// Compute collision for two AABB Bounding box.
+	/// </summary>
+	/// <param name="one">A BoundingBoxCollider</param>
+	/// <param name="two">A BoundingBoxCollider</param>
+	/// <returns>The Data of the collision.</returns>
 	Data AABB_AABB(BoundingBoxCollider* one, BoundingBoxCollider* two) {
 		glm::vec3 closestPoint;
 		glm::vec3 c = one->GetCenter();
@@ -157,18 +243,26 @@ public:
 			(aMin.z <= bMax.z && aMax.z >= bMin.z);
 
 		if (glm::distance(c, bMin) <= glm::distance(c, bMax)) {
-			closestPoint = Point_AABB(bMin, one);
+			Data tmp = Point_AABB(bMin, one);
+			closestPoint = tmp.closestPoint;
 		}
 		else {
-			closestPoint = Point_AABB(bMax, one);
+			Data tmp = Point_AABB(bMax, one);
+			closestPoint = tmp.closestPoint;
 		}
 
 		return Data(collision, closestPoint);
 	}
 
+	/// <summary>
+	/// Compute collision for two OBB Bounding box.
+	/// </summary>
+	/// <param name="one">A BoundingBoxCollider</param>
+	/// <param name="two">A BoundingBoxCollider</param>
+	/// <returns>The Data of the collision.</returns>
 	Data OBB_OBB(BoundingBoxCollider* one, BoundingBoxCollider* two) {
 		bool collision = true;
-		glm::vec3 closestPoint;
+		glm::vec3 closestPoint = glm::vec3(0);
 
 		glm::mat3 o1(one->attachment->GetTransform()->getRotationMatrix());
 		glm::mat3 o2(two->attachment->GetTransform()->getRotationMatrix());
@@ -188,20 +282,33 @@ public:
 			test[6 + i * 3 + 2] = glm::cross(test[i], test[2]);
 		}
 
-		for (int i = 0; i < 15; ++i) {
-			if (!AxisOverlap(one, two, test[i], OBB_OBB)) {
-				return false; // Seperating axis found
+		for (int i = 0; i < 15 && collision; ++i) {
+			if (!AxisOverlap(one, two, test[i], M_OBB_OBB)) {
+				collision = false;
 			}
 		}
-		return true;
+		return Data(collision, closestPoint);
 	}
 
+	/// <summary>
+	/// Compute collision for a AABB Bounding box and a OBB Bounding box (in that order).
+	/// </summary>
+	/// <param name="one">A AABB BoundingBoxCollider </param>
+	/// <param name="two">A OBB BoundingBoxCollider</param>
+	/// <returns>The Data of the collision.</returns>
 	Data AABB_OBB(BoundingBoxCollider* one, BoundingBoxCollider* two) {
 		return OBB_AABB(two, one);
 	}
+
+	/// <summary>
+	/// Compute collision for a OBB Bounding box and a AABB Bounding box (in that order).
+	/// </summary>
+	/// <param name="one">A OBB BoundingBoxCollider </param>
+	/// <param name="two">A AABB BoundingBoxCollider</param>
+	/// <returns>The Data of the collision.</returns>
 	Data OBB_AABB(BoundingBoxCollider* one, BoundingBoxCollider* two) {
 		bool collision = true;
-		glm::vec3 closestPoint;
+		glm::vec3 closestPoint = glm::vec3(0);
 
 		glm::mat3 o(one->attachment->GetTransform()->getRotationMatrix());
 
@@ -220,17 +327,24 @@ public:
 			test[6 + i * 3 + 2] = glm::cross(test[i], test[2]);
 		}
 
-		for (int i = 0; i < 15; ++i) {
-			if (!AxisOverlap(one, two, test[i], OBB_AABB)) {
-				return false; // Seperating axis found
+		for (int i = 0; i < 15 && collision; ++i) {
+			if (!AxisOverlap(one, two, test[i], M_OBB_AABB)) {
+				collision = false;
 			}
 		}
-		return true;
+		return Data(collision, closestPoint);
 	}
 
+	/// <summary>
+	/// Compute collision for a AABB Bounding box and a Sphere.
+	/// </summary>
+	/// <param name="one">A AABB BoundingBoxCollider </param>
+	/// <param name="two">A SphereCollider</param>
+	/// <returns>The Data of the collision.</returns>
 	Data AABB_Sphere(BoundingBoxCollider* one, SphereCollider* two) {
 		return Sphere_AABB(two, one);
 	}
+
 	Data Sphere_AABB(SphereCollider* one, BoundingBoxCollider* two) {
 		glm::vec3 oneCenter = one->GetCenter();
 		Data d = Point_AABB(oneCenter, two);
@@ -240,9 +354,22 @@ public:
 		return d;
 	}
 
+	/// <summary>
+	/// Compute collision for a OBB Bounding box and a Sphere.
+	/// </summary>
+	/// <param name="one">A OBB BoundingBoxCollider </param>
+	/// <param name="two">A SphereCollider</param>
+	/// <returns>The Data of the collision.</returns>
 	Data OBB_Sphere(BoundingBoxCollider* one, SphereCollider* two) {
 		return Sphere_AABB(two, one);
 	}
+
+	/// <summary>
+	/// Compute collision for a Sphere and a OBB Bounding box.
+	/// </summary>
+	/// <param name="one">A SphereCollider.</param>
+	/// <param name="two">A OBB BoundingBoxCollider.</param>
+	/// <returns>The Data of the collision.</returns>
 	Data Sphere_OBB(SphereCollider* one, BoundingBoxCollider* two) {
 		glm::vec3 oneCenter = one->GetCenter();
 		Data d = Point_OBB(oneCenter, two);
@@ -254,15 +381,27 @@ public:
 
 
 
+	/// <summary>
+	/// Compute collision for two Sphere.
+	/// </summary>
+	/// <param name="one">A SphereCollider</param>
+	/// <param name="two">A SphereCollider</param>
+	/// <returns>The Data of the collision.</returns>
 	Data Sphere_Sphere(SphereCollider* one, SphereCollider* two) {
 		float dist = glm::distance(one->GetCenter(), two->GetCenter());
 		float sum = one->GetRadius() + two->GetRadius();
 		glm::vec3 n = glm::normalize(two->GetCenter() - one->GetCenter());
-		return Data(dist <= sum, n * one->GetRadius());
+		return Data(dist <= sum, n * (float)one->GetRadius());
 	}
 
 	// --- Points ---
 
+	/// <summary>
+	/// Compute collision for a point and a AABB Bounding box .
+	/// </summary>
+	/// <param name="one">A Point.</param>
+	/// <param name="two">A AABB BoundingBoxCollider.</param>
+	/// <returns>The Data of the collision.</returns>
 	Data Point_AABB(glm::vec3 one, BoundingBoxCollider* two) {
 		bool collision = true;
 		glm::vec3 closestPoint = one;
@@ -287,6 +426,12 @@ public:
 		return Data(collision, closestPoint);
 	}
 
+	/// <summary>
+	/// Compute collision for a point and a OBB Bounding box .
+	/// </summary>
+	/// <param name="one">A Point.</param>
+	/// <param name="two">A OBB BoundingBoxCollider.</param>
+	/// <returns>The Data of the collision.</returns>
 	Data Point_OBB(glm::vec3 one, BoundingBoxCollider* two) {
 		bool collision = true;
 		glm::vec3 closestPoint = one;
@@ -313,13 +458,26 @@ public:
 		return Data(collision, closestPoint);
 	}
 
+	/// <summary>
+	/// Compute collision for a point and a Sphere.
+	/// </summary>
+	/// <param name="one">A Point.</param>
+	/// <param name="two">A SphereCollider.</param>
+	/// <returns>The Data of the collision.</returns>
 	Data Point_Sphere(glm::vec3 one, SphereCollider* two) {
 		bool collision = glm::distance(one, two->GetCenter()) <= two->GetRadius();
-		glm::vec3 closestPoint = glm::normalize(one - two->GetCenter()); *two->GetRadius();
-		return Data(collision, closestPoint)
+		glm::vec3 closestPoint = glm::normalize(one - two->GetCenter()) * (float)two->GetRadius();
+		return Data(collision, closestPoint);
 	}
 
 	// --- Intervales ---
+	
+	/// <summary>
+	/// Get the Interval for axis overlap with a triangle and an axis.
+	/// </summary>
+	/// <param name="t">A triangle.</param>
+	/// <param name="axis">The axis.</param>
+	/// <returns>The interval of the axis</returns>
 	glm::vec2 GetInterval(Triangle t, glm::vec3 axis) {
 		glm::vec2 res(glm::dot(axis, t[0]));
 		for (int i = 1; i < 3; i++) {
@@ -330,7 +488,14 @@ public:
 		return res;
 	}
 
-	glm::vec2 GetInterval(const BoundingBoxCollider* one, glm::vec3 axis, bool oriented) {
+	/// <summary>
+	/// Get the Interval for axis overlap with a BoundingBox oriented or not and an axis.
+	/// </summary>
+	/// <param name="one">The boundingBox</param>
+	/// <param name="axis">The axis.</param>
+	/// <param name="oriented">If the bounding box is oriented.</param>
+	/// <returns>The interval of the axis</returns>
+	glm::vec2 GetInterval(BoundingBoxCollider* one, glm::vec3 axis, bool oriented) {
 		glm::vec3 v[8];
 		if (!oriented) {
 			glm::vec3 i = one->GetMin();
@@ -379,18 +544,25 @@ public:
 	// --- Overlap on axis ---
 
 
-
-	bool AxisOverlap(const BoundingBoxCollider* one, const BoundingBoxCollider* two, glm::vec3 axis, BBMode mode) {
+	/// <summary>
+	/// Compute the axis overlap between two Bounding box.
+	/// </summary>
+	/// <param name="one">A BoundingBoxCollider object.</param>
+	/// <param name="two">A BoundingBoxCollider object.</param>
+	/// <param name="axis">The Axis.</param>
+	/// <param name="mode">The bounding Box mode of the two bouding box</param>
+	/// <returns>Is the axis is overlaping</returns>
+	bool AxisOverlap(BoundingBoxCollider* one, BoundingBoxCollider* two, glm::vec3 axis, BBMode mode) {
 		glm::vec2 a, b;
-		if (mode == AABB_AABB) {
+		if (mode == M_AABB_AABB) {
 			a = GetInterval(one, axis, false);
 			b = GetInterval(two, axis, false);
 		}
-		else if (mode == OBB_OBB) {
+		else if (mode == M_OBB_OBB) {
 			a = GetInterval(one, axis, true);
 			b = GetInterval(two, axis, true);
 		}
-		else if (mode == AABB_OBB) {
+		else if (mode == M_AABB_OBB) {
 			a = GetInterval(one, axis, false);
 			b = GetInterval(two, axis, true);
 		}
@@ -402,13 +574,28 @@ public:
 		return ((b.x <= a.y) && (a.x <= b.y));
 	}
 
-	bool AxisOverlap(const BoundingBoxCollider* bb, Triangle t, glm::vec3 axis, bool oriented) {
+	/// <summary>
+	/// Compute the axis overlap between a Bounding box and a triangle.
+	/// </summary>
+	/// <param name="bb">A BoundingBoxCollider object.</param>
+	/// <param name="t">A Triangle object.</param>
+	/// <param name="axis">The Axis.</param>
+	/// <param name="oriented">Is the bouding box is oriented or not.</param>
+	/// <returns>Is the axis is overlaping</returns>
+	bool AxisOverlap(BoundingBoxCollider* bb, Triangle t, glm::vec3 axis, bool oriented) {
 		glm::vec2 a = GetInterval(bb, axis, oriented);
 		glm::vec2 b = GetInterval(t, axis);
 		return ((b.x <= a.y) && (a.x <= b.y));
 	}
 
-	bool AxisOverlap(Triangle t1, Triangle t2, glm::vec3 axis, bool oriented) {
+	/// <summary>
+	/// Compute the axis overlap between a Bounding box and a triangle.
+	/// </summary>
+	/// <param name="t1">A Triangle object.</param>
+	/// <param name="t2">A Triangle object.</param>
+	/// <param name="axis">The Axis.</param>
+	/// <returns>Is the axis is overlaping</returns>
+	bool AxisOverlap(Triangle t1, Triangle t2, glm::vec3 axis) {
 		glm::vec2 a = GetInterval(t1, axis);
 		glm::vec2 b = GetInterval(t2, axis);
 		return ((b.x <= a.y) && (a.x <= b.y));

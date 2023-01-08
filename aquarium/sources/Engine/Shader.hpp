@@ -7,9 +7,16 @@
 #include <GL/glew.h>
 #include <Engine/Tools/Tools.hpp>
 #include <Engine/Global.hpp>
+
+/// <summary>
+/// GPU shader program.
+/// </summary>
 class Shader
 {
 public:
+	/// <summary>
+	/// The type of shader program.
+	/// </summary>
 	enum Type {
 		VERTEX,
 		FRAGMENT,
@@ -18,6 +25,9 @@ public:
 		GEOMETRY
 	};
 
+	/// <summary>
+	/// The information for shader overrides.
+	/// </summary>
 	struct DataOverride {
 		Type type;
 		std::string define;
@@ -29,16 +39,22 @@ public:
 		}
 	};
 protected:
+
 	std::string shaderFolder = "assets/Shaders/";
 	std::string vertexFilename, fragmentFilename, tesselationControlFilename, tesselationEvalFilename, geometryFilename; // Name of all shader files, even if it does not exist, to permit the reload in case of change / add / remove
 	std::string vertexData, fragmentData, tesselationControlData, tesselationEvalData, geometryData; // data of each shaders
 
-	std::vector<DataOverride> previousDataOverride;
+	std::vector<DataOverride> previousDataOverride; //List of all Overrides set for this shaders.
 
 	GLuint vertexShader, fragmentShader, tesselationControlShader, tesselationEvalShader, geometryShader; //Shaders
-	GLuint program;
+	GLuint program; // the program.
 public:
 
+
+	/// <summary>
+	/// Generate a shader with is name. (name.vert, name.frag ...)
+	/// </summary>
+	/// <param name="name">The name of the shader</param>
 	Shader(std::string name)
 	{
 		this->vertexFilename = name + ".vert";
@@ -50,6 +66,14 @@ public:
 		Compile();
 	}
 
+	/// <summary>
+	/// Generate a shader with files (one.vert, two.frag ...)
+	/// </summary>
+	/// <param name="vertexFilename">The vertex shader file name.</param>
+	/// <param name="fragmentFilename">The fragment shader file name.</param>
+	/// <param name="tesselationControlFilename">The Tesselation Control shader file name.</param>
+	/// <param name="tesselationEvalFilename">The tesselation Evaluation shader file name.</param>
+	/// <param name="geometryFilename">The Geometry shader file name.</param>
 	Shader(std::string vertexFilename, std::string fragmentFilename, std::string tesselationControlFilename = "", std::string tesselationEvalFilename = "", std::string geometryFilename = "") {
 		this->vertexFilename = vertexFilename;
 		this->fragmentFilename = fragmentFilename;
@@ -60,10 +84,21 @@ public:
 		Compile();
 	}
 
+	/// <summary>
+	/// Destroy the shader, and delete the program on GPU.
+	/// </summary>
 	~Shader() {
 		glDeleteProgram(program);
 	}
 
+	/// <summary>
+	/// The custom data for this shader.
+	/// </summary>
+	/// <param name="vertexData">The vertex Data</param>
+	/// <param name="fragmentData">The fragment Data</param>
+	/// <param name="tesselationControlData">The tesselation control Data</param>
+	/// <param name="tesselationEvalData">The tesselation evaluation Data</param>
+	/// <param name="geometryData">The geometry Data</param>
 	void SetData(std::string vertexData, std::string fragmentData, std::string tesselationControlData = "", std::string tesselationEvalData = "", std::string geometryData = "")
 	{
 		this->vertexData = vertexData;
@@ -74,6 +109,9 @@ public:
 		Compile();
 	}
 
+	/// <summary>
+	/// Reload this Shader (may remove custom data set with (SetData)
+	/// </summary>
 	void Reload()
 	{
 		glDeleteProgram(program);
@@ -82,6 +120,11 @@ public:
 		Compile();
 	}
 
+	/// <summary>
+	/// Define a new override for the Shader.
+	/// </summary>
+	/// <param name="data">The Override data</param>
+	/// <returns>Return if succesfully added</returns>
 	bool DefineOverride(DataOverride data) {
 		std::vector<DataOverride> datas;
 		datas.push_back(data);
@@ -89,6 +132,11 @@ public:
 
 	}
 
+	/// <summary>
+	/// Apply the defined override.
+	/// </summary>
+	/// <param name="datas">List of defined override.</param>
+	/// <returns>The number of change applied</returns>
 	int DefineOverride(std::vector<DataOverride> datas) {
 		int changes = 0;
 		for (DataOverride d : datas) {
@@ -136,10 +184,21 @@ public:
 		return changes;
 	}
 
+	/// <summary>
+	/// Return the Shader program.
+	/// </summary>
+	/// <returns>The shader program</returns>
 	GLuint GetProgram() {
 		return program;
 	}
 protected:
+	/// <summary>
+	/// Replace a definition of a shader data.
+	/// </summary>
+	/// <param name="data">The data of the shader</param>
+	/// <param name="define">The name of the definition</param>
+	/// <param name="value">The new value.</param>
+	/// <returns>The new Shader data</returns>
 	std::string ReplaceDefine(std::string data, std::string define, std::string value) {
 		std::string search = "#define " + define;
 		size_t found = data.find(search);
@@ -158,6 +217,10 @@ protected:
 		//printf("DATA : %s\n", data.c_str());
 		return data;
 	}
+
+	/// <summary>
+	/// Load all shaders data.
+	/// </summary>
 	void LoadFiles()
 	{
 		this->vertexData = Tools::GetFileContent(this->shaderFolder + this->vertexFilename);
@@ -173,6 +236,10 @@ protected:
 			printf("geometryData : %s\n", geometryData.c_str());
 		}
 	}
+
+	/// <summary>
+	/// Compile the Shader Program.
+	/// </summary>
 	void Compile()
 	{
 		//Create Shader Program
@@ -241,6 +308,13 @@ protected:
 		}
 	}
 
+	/// <summary>
+	/// Check if the program is properly compiled.
+	/// </summary>
+	/// <param name="shader">The Shader program</param>
+	/// <param name="name">The name of the shader, for debug.</param>
+	/// <param name="filename">The filename of the shader, for debug. </param>
+	/// <returns>If the program is properly compiled.</returns>
 	bool CheckIfCompiled(GLuint shader, std::string name, std::string filename = "")
 	{
 		GLint isCompiled = 0;
@@ -270,6 +344,10 @@ protected:
 		return true;
 	}
 
+	/// <summary>
+	/// Check if the program is properly linked.
+	/// </summary>
+	/// <returns>If the program is properly linked.</returns>
 	bool CheckIfLinked()
 	{
 		GLint isLinked = 0;
@@ -298,6 +376,9 @@ protected:
 		return true;
 	}
 
+	/// <summary>
+	/// Clean the program after linkage.
+	/// </summary>
 	void CleanAfterLink() {
 		GLsizei maxCount = 10;
 		GLsizei count;

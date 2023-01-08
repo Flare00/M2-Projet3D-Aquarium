@@ -6,9 +6,17 @@
 #include <fstream>      
 #include <sstream>
 #include <Engine/Global.hpp>
+/// <summary>
+/// A tools class for different operations.
+/// </summary>
 class Tools
 {
 public:
+	/// <summary>
+	/// Return the content of a file.
+	/// </summary>
+	/// <param name="filepath">The path of the file.</param>
+	/// <returns>A long string corresponding to the file content.</returns>
 	static std::string GetFileContent(std::string filepath) {
 		if (global.debug_file_load)
 			printf("Load : %s\n", filepath.c_str());
@@ -23,6 +31,11 @@ public:
 		return res;
 	}
 
+	/// <summary>
+	/// Return the file content in bytes.
+	/// </summary>
+	/// <param name="filepath">the path of the file.</param>
+	/// <returns>The file content in a byte vector.</returns>
 	static std::vector<unsigned char> GetFileContentByte(std::string filepath) {
 		if (global.debug_file_load)
 			printf("Load : %s\n", filepath.c_str());
@@ -34,6 +47,13 @@ public:
 		return std::vector<unsigned char>(std::istreambuf_iterator<char>(file), std::istreambuf_iterator<char>());
 	}
 
+
+	/// <summary>
+	/// Split a string.
+	/// </summary>
+	/// <param name="str">The string to split</param>
+	/// <param name="splitter">The element that split the string</param>
+	/// <returns>The splitted string.</returns>
 	static std::vector<std::string> SplitString(std::string str, std::string splitter) {
 		std::vector<std::string> res;
 		size_t lastPos = 0;
@@ -54,10 +74,22 @@ public:
 		return res;
 	}
 
+
+	/// <summary>
+	/// Simple data for ObjLoader
+	/// </summary>
 	struct PointFaceData{
 		int vertex = -1, uv = -1, normal = -1;
 	};
 
+	/// <summary>
+	/// Load an OBJ file.
+	/// </summary>
+	/// <param name="filepath">The file path</param>
+	/// <param name="pts">output vector of the points of the OBJ file</param>
+	/// <param name="normals"> output vector of the normals of the OBJ file</param>
+	/// <param name="uvs">output vector of the uvs of the OBJ file</param>
+	/// <param name="faces">output vector of the faces of the OBJ file</param>
 	static void ObjLoader(std::string filepath, std::vector<glm::vec3>* pts, std::vector<glm::vec3>* normals, std::vector<glm::vec2>* uvs, std::vector<std::vector<int>>* faces) {
 		if (global.debug_file_load)
 			printf("Load : %s\n", filepath.c_str());
@@ -128,6 +160,11 @@ public:
 
 	}
 
+	/// <summary>
+	/// Get the extension of the file, in lowercase.
+	/// </summary>
+	/// <param name="filename">The filename.</param>
+	/// <returns>The extension of the file, in lowercase.</returns>
 	static std::string GetExtensionLower(std::string filename) {
 		std::string ext = filename.substr(filename.find_last_of(".") + 1);
 		std::string res = "";
@@ -137,6 +174,11 @@ public:
 		return res;
 	}
 
+	/// <summary>
+	/// Trim a string.
+	/// </summary>
+	/// <param name="str">The string to trim</param>
+	/// <returns>The trimmed string.</returns>
 	static std::string trim(std::string str){
 		if(str.size() <= 0) return "";
 		int leftPosTrim = 0;

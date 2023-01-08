@@ -11,8 +11,14 @@
 #include <Engine/Tools/ModelGenerator.hpp>
 
 
+/// <summary>
+/// The water physics Inherit GLPhysic.
+/// </summary>
 class WaterPhysics : public GLPhysic {
 protected:
+	/// <summary>
+	/// Data of a drop of water.
+	/// </summary>
 	struct Drop {
 		glm::vec2 pos;
 		float radius;
@@ -23,17 +29,22 @@ protected:
 			this->strength = strength;
 		}
 	};
-	Shader* physicShader;
-	Framebuffer framebuffer;
-	std::vector<Drop> drops;
-	int resolutionX, resolutionY;
-	float invResX, invResY;
+	Shader* physicShader; // the physic shader
+	Framebuffer framebuffer; // the framebuffer of this physic
+	std::vector<Drop> drops; // list of drops to apply
+	int resolutionX, resolutionY; // the resolution of the texture
+	float invResX, invResY; // inverse of the resolution
 
-	int frameForCapture = 5;
+	int frameForCapture = 5; // Debug element to capture what is going on.
 	int frameForCaptureCurrent = 6;
 
-	Model* quad;
+	Model* quad; // the quad model to compute the physics
 public:
+	/// <summary>
+	/// Create the water physics elements.
+	/// </summary>
+	/// <param name="resolutionX">The width of the texture</param>
+	/// <param name="resolutionY">The height of the texture</param>
 	WaterPhysics(int resolutionX = 1024, int resolutionY = 1024) {
 		this->physicShader = new Shader("Physics/water.vert", "Physics/water.frag");
 		this->resolutionX = resolutionX;
@@ -59,14 +70,27 @@ public:
 		delete data;
 	}
 
+	/// <summary>
+	/// Wait the attachement of the gameobject to generate the framebuffer.
+	/// </summary>
 	void PostAttachment() override {
 		framebuffer.Generate(this->resolutionX, this->resolutionY, true);
 	}
 
+	/// <summary>
+	/// Add a drop to the physics
+	/// </summary>
+	/// <param name="pos">The position of the drop on the texture</param>
+	/// <param name="radius">The radius of the drop</param>
+	/// <param name="strength">The power of the drop</param>
 	void AddDrop(glm::vec2 pos, float radius, float strength) {
 		this->drops.push_back(Drop(pos, radius, strength));
 	}
 
+	/// <summary>
+	/// Compute The Physic
+	/// </summary>
+	/// <param name="delta">Time since last frame</param>
 	void Compute(double delta) override {
 		if (glfwGetKey(global.global_window, GLFW_KEY_C) == GLFW_PRESS && frameForCaptureCurrent > frameForCapture) {
 			frameForCaptureCurrent = frameForCapture;
@@ -97,7 +121,7 @@ public:
 			glUniform1i(glGetUniformLocation(physicShader->GetProgram(), "is_drop"), 0);
 		}
 
-
+		//Debug to capture informations. May output wierd thing if texture not square.
 		if (frameForCaptureCurrent <= frameForCapture && frameForCaptureCurrent > 0) {
 			std::string name = "capture/" + std::to_string(frameForCapture - frameForCaptureCurrent) + ".0.png";
 			this->framebuffer.WriteTextureToFile(name);
@@ -126,6 +150,8 @@ public:
 		glBindTexture(GL_TEXTURE_2D, this->texture);
 		glCopyTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, 0, 0, this->resolutionX, this->resolutionY);
 
+
+		//Debug to capture informations. May output wierd thing if texture not square.
 		if (frameForCaptureCurrent <= frameForCapture && frameForCaptureCurrent > 0) {
 			std::string name2 = "capture/" + std::to_string(frameForCapture - frameForCaptureCurrent) + ".2.png";
 
@@ -152,7 +178,10 @@ public:
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 		glViewport(0, 0, global.screen_width, global.screen_height);
 	}
-
+	/// <summary>
+	/// Return the heightmap (aka Color texture)
+	/// </summary>
+	/// <returns>The heightmap</returns>
 	GLuint GetHeightmap() {
 		return this->framebuffer.GetTexColor();
 	}

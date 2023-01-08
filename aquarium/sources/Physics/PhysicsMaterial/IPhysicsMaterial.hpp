@@ -6,7 +6,9 @@
 #include <Engine/Shader.hpp>
 #include <Engine/Component/Component.hpp>
 
-
+/// <summary>
+/// Physics Material for GPU computing, with shaders.
+/// </summary>
 class IPhysicsMaterial : public Component 
 {
 protected:
@@ -14,6 +16,9 @@ protected:
 public:
 	static SettedShaders settedShaders;
 
+	/// <summary>
+	/// Physics material for GPU computing.
+	/// </summary>
 	IPhysicsMaterial() {
 	}
 

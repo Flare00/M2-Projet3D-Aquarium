@@ -12,20 +12,29 @@
 #include <Graphics/Material/IMaterial.hpp>
 #include <Graphics/Material/MaterialPBR.hpp>
 
+/// <summary>
+/// A scene for the engine.
+/// </summary>
 class Scene : public EngineBehavior
 {
-protected:
-	int pbrShowMode = 0;
 public:
+	//The root gameobject.
 	GameObject* root = NULL;
+	//The id of the scene.
 	std::string id;
 
+	/// <summary>
+	/// A Scene Object for the engine
+	/// </summary>
+	/// <param name="id">The id of the scene.</param>
 	Scene(std::string id) {
 		this->id = id;
 	}
 	~Scene() {}
 
-	//EngineBehavior
+	/// <summary>
+	/// Start the scene, and all the scripts linked to it.
+	/// </summary>
 	virtual void start() {
 		//start all scripts
 		if (root != NULL) {
@@ -39,6 +48,10 @@ public:
 		}
 	}
 
+	/// <summary>
+	/// Loop the scene, and all the scripts linked to it.
+	/// </summary>
+	/// <param name="deltaT">The time since the last frame</param>
 	virtual void loop(double deltaT) {
 		if (root != NULL) {
 			//Loop all scripts and start the non started one.
@@ -55,6 +68,9 @@ public:
 
 	}
 
+	/// <summary>
+	/// Stop the scene, and all the scripts linked to it.
+	/// </summary>
 	virtual void stop() {
 		if (root != NULL) {
 			//stop all the started scripts
@@ -67,16 +83,22 @@ public:
 		}
 	}
 
+	/// <summary>
+	/// Return the Root gameobject.
+	/// </summary>
+	/// <returns>The Root gameobject</returns>
 	GameObject* GetRoot() {
 		return this->root;
 	}
 
+	/// <summary>
+	/// Reload the setted shader of this scene.
+	/// </summary>
 	void ReloadShaders() {
 		for (SettedShaders::SettedShader s : settedStdShaders.GetSettedShaders()) {
 			s.shader->Reload();
 		}
 	}
-
 };
 
 #endif

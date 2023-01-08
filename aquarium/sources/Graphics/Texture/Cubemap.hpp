@@ -8,6 +8,9 @@
 #include <string>
 #include <stb_image.h>
 
+/// <summary>
+/// A Cubemap, not used.
+/// </summary>
 class Cubemap {
 public :
 	enum Mode {

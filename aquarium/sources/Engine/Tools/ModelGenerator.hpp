@@ -7,8 +7,19 @@
 #include <ofbx.h>
 #include <string>
 #include <vector>
+
+/// <summary>
+/// Tools to generate Models.
+/// </summary>
 class ModelGenerator {
 public:
+	/// <summary>
+	/// Load a model from a file, .FBX or .OBJ.
+	/// </summary>
+	/// <param name="filename">The filename.</param>
+	/// <param name="material">The material of the model.</param>
+	/// <param name="scale">the scale of the object.</param>
+	/// <returns>The model loaded.</returns>
 	static Model* LoadFromFile(std::string filename, IMaterial* material = new MaterialPBR(), double scale = 0.1)
 	{
 		bool set = false;
@@ -36,7 +47,7 @@ public:
 			}
 
 			const std::vector<int> indices = g->getFaceIndicesVector();
-			for (int i = 0, max = indices.size(); i < max; i += 3) {
+			for (size_t i = 0, max = indices.size(); i < max; i += 3) {
 				int p0 = indices[i], p1 = indices[i + 1], p2 = indices[i + 2];
 				p0 = p0 < 0 ? (-p0) - 1 : p0;
 				p1 = p1 < 0 ? (-p1) - 1 : p1;
@@ -84,7 +95,12 @@ public:
 		}
 	}
 
-	static Model* Triangle(Shader* shader, IMaterial* material = new MaterialPBR()) {
+	/// <summary>
+	/// Generate a triangle
+	/// </summary>
+	/// <param name="material">The Material of the model </param>
+	/// <returns>The model generated</returns>
+	static Model* Triangle(IMaterial* material = new MaterialPBR()) {
 		std::vector<glm::vec3> pts;
 		pts.push_back(glm::vec3(-0.5, -0.5, 0.0f));
 		pts.push_back(glm::vec3(0.5, -0.5, 0.0f));
@@ -105,6 +121,11 @@ public:
 		return new Model(pts, normals, faces, uv, material);
 	}
 
+	/// <summary>
+	/// Generate a quad for the screen.
+	/// </summary>
+	/// <param name="material">The Material of the model </param>
+	/// <returns>The model generated</returns>
 	static Model* QuadScreen(IMaterial* material = new MaterialPBR()) {
 		std::vector<glm::vec3> pts;
 		pts.push_back(glm::vec3(-1.0, -1.0, 0.0f));
@@ -127,6 +148,16 @@ public:
 	}
 
 
+	/// <summary>
+	/// Generate a Quad
+	/// </summary>
+	/// <param name="material">The material.</param>
+	/// <param name="resX">Resolution X of the quad</param>
+	/// <param name="resZ">Resolution Z of the quad</param>
+	/// <param name="sizeX">The Size on X axis of the quad</param>
+	/// <param name="sizeZ">The Size on Z axis of the quad</param>
+	/// <param name="center">is the origin is centered in the model ?</param>
+	/// <returns>The generated model.</returns>
 	static Model* Quad(IMaterial* material = new MaterialPBR(), int resX = 2, int resZ = 2, float sizeX = 1, float sizeZ = 1, bool center = true) {
 		if (resX < 1 || resZ < 1) {
 			return nullptr;
@@ -173,6 +204,16 @@ public:
 		return new Model(pts, normals, faces, uv, material);
 	}
 	
+
+	/// <summary>
+	/// Generate a Quad without faces.
+	/// </summary>
+	/// <param name="resX">Resolution X of the quad</param>
+	/// <param name="resZ">Resolution Z of the quad</param>
+	/// <param name="sizeX">The Size on X axis of the quad</param>
+	/// <param name="sizeZ">The Size on Z axis of the quad</param>
+	/// <param name="center">is the origin is centered in the model ?</param>
+	/// <returns>The generated model.</returns>
 	static std::vector<glm::vec3> QuadPoints(int resX = 2, int resZ = 2, float sizeX = 1, float sizeZ = 1, bool center = true) {
 		std::vector<glm::vec3> pts;
 		
@@ -198,6 +239,14 @@ public:
 		return pts;
 	}
 
+	/// <summary>
+	/// Generate an UV Sphere
+	/// </summary>
+	/// <param name="material">The material</param>
+	/// <param name="nbMeridien">Number of meridian of the Sphere</param>
+	/// <param name="nbParalleles">Number of paralleles of the Sphere</param>
+	/// <param name="scale">The scale of the sphere</param>
+	/// <returns>The generated model.</returns>
 	static Model* UVSphere(IMaterial* material = new MaterialPBR(), int nbMeridien = 16, int nbParalleles = 32, float scale = 1.0f) {
 		if (nbMeridien < 3 || nbParalleles < 3) {
 			return nullptr;
@@ -281,6 +330,14 @@ public:
 		return new Model(pts, normals, faces, uv, material);
 	}
 
+	/// <summary>
+	/// Generate a cube
+	/// </summary>
+	/// <param name="material">The material.</param>
+	/// <param name="res">The resolution of the cube, for all axis</param>
+	/// <param name="halfSize">The half size of each axis</param>
+	/// <param name="center">is the origin centered ?</param>
+	/// <returns>The generated mesh.</returns>
 	static Model* Cube(IMaterial* material = new MaterialPBR(), size_t res = 2, glm::vec3 halfSize = glm::vec3(0.5), glm::vec3 center = glm::vec3(0)) {
 		double pas = 1.0 / (double)res;
 		std::vector<glm::vec3> pts;
@@ -343,7 +400,15 @@ public:
 		return new Model(pts, normals, faces, uv, material);
 	}
 
-
+	/// <summary>
+	/// Generate a Cube for the water simulation.
+	/// </summary>
+	/// <param name="material">The material</param>
+	/// <param name="resX">Resolution X of the top quad.</param>
+	/// <param name="resZ">Resolution Z of the top quad.</param>
+	/// <param name="size">The size of each axis.</param>
+	/// <param name="center">Is the origin is centered ?</param>
+	/// <returns>The generated model.</returns>
 	static Model* CubeWater(IMaterial* material = new MaterialPBR(), int resX = 2, int resZ = 2, glm::vec3 size = glm::vec3(1.0f), bool center = true) {
 		if (resX < 1 || resZ < 1) {
 			return nullptr;
@@ -451,12 +516,6 @@ public:
 		}
 
 		return new Model(pts, normals, faces, uv, material);
-	}
-
-	static Model* ForCollider(ICollider* collider) {
-		if (collider->ColliderType() == "boundingbox") {
-		}
-		return nullptr;
 	}
 
 

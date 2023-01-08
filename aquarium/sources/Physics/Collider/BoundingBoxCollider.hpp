@@ -6,6 +6,9 @@
 #include <float.h>
 #include <Physics/Collider/ICollider.hpp>
 
+/// <summary>
+/// A Bounding Box collider. (AABB and OBB)
+/// </summary>
 class BoundingBoxCollider : public ICollider {
 protected:
 	glm::vec3 center;
@@ -13,11 +16,20 @@ protected:
 
 	
 public:
+	/// <summary>
+	/// Create a Bounding box collider.
+	/// </summary>
+	/// <param name="center">The center of the Bounding box</param>
+	/// <param name="halfSize">The half size of each axis of the bounding box</param>
 	BoundingBoxCollider(glm::vec3 center = glm::vec3(0), glm::vec3 halfSize = glm::vec3(1)) : ICollider(Type::BoundingBox) {
 		this->center = center;
 		this->halfSize = halfSize;
 	}
 
+	/// <summary>
+	/// Create a bounding box, with a list of points.
+	/// </summary>
+	/// <param name="points">Points in 3D space</param>
 	BoundingBoxCollider(std::vector<glm::vec3> points) {
 		glm::vec3 min = glm::vec3(DBL_MAX);
 		glm::vec3 max = glm::vec3(-DBL_MAX);
@@ -35,45 +47,66 @@ public:
 		this->halfSize = (max - min) / 2.0f;
 	}
 
+	/// <summary>
+	/// Return the Min value for AABB
+	/// </summary>
+	/// <returns>The min AABB value</returns>
 	glm::vec3 GetMin() {
 		return (this->center - halfSize) + this->attachment->GetTransform()->getPosition();
 	}
 
+	/// <summary>
+	/// Return the Max value for AABB
+	/// </summary>
+	/// <returns>The Max AABB value</returns>
 	glm::vec3 GetMax() {
 		return (this->center + halfSize) + this->attachment->GetTransform()->getPosition();
 	}
 
+	/// <summary>
+	/// Return the Min value for OBB
+	/// </summary>
+	/// <returns>the Min value for OBB</returns>
 	glm::vec3 GetMinOriented() {
 		glm::vec4 tmp = glm::vec4(this->center - halfSize, 1) * this->attachment->GetRotationMatrixRecursive();
 		return glm::vec3(tmp.x, tmp.y, tmp.z) + this->attachment->GetPositionWithRecursiveMatrix();
 	}
 
+	/// <summary>
+	/// Return the Max value for OBB
+	/// </summary>
+	/// <returns>the Max value for OBB</returns>
 	glm::vec3 GetMaxOriented() {
 		glm::vec4 tmp = glm::vec4(this->center + halfSize, 1) * this->attachment->GetRotationMatrixRecursive();
 		return glm::vec3(tmp.x, tmp.y, tmp.z) + this->attachment->GetPositionWithRecursiveMatrix();
 	}
 
+
+
+	/// <summary>
+	/// Return the Center value for OBB
+	/// </summary>
+	/// <returns>the Center value for OBB</returns>
 	glm::vec3 GetCenterOriented() {
 		glm::vec4 tmp = glm::vec4(this->center,1) * this->attachment->GetTransform()->getRotationMatrix();
 		return glm::vec3(tmp.x, tmp.y, tmp.z);
 	}
 
+	/// <summary>
+	/// Return the Center value for AABB
+	/// </summary>
+	/// <returns>the Center value for AABB</returns>
 	glm::vec3 GetCenter() {
 		return this->center + this->attachment->GetPositionWithRecursiveMatrix();
 	}
 
+	/// <summary>
+	/// Return the HalfSize of each axis.
+	/// </summary>
+	/// <returns></returns>
 	glm::vec3 GetHalfSize() {
 		return halfSize;
 	}
-
-	
-
-	bool IsColliding(ICollider * other) override {
-		printf("Self : %s | Other : %s\n", this->ColliderType().c_str(), other->ColliderType().c_str());
-		return false;
-	}
-
-	
 
 };
 

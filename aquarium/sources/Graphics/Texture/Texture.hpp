@@ -10,7 +10,9 @@
 #include <GLFW/glfw3.h>
 #include <iostream>
 
-
+/// <summary>
+/// A Texture Object for GPU rendering.
+/// </summary>
 class Texture {
 public:
 protected:
@@ -26,6 +28,12 @@ protected:
 	bool isFallBack = true;
 public:
 
+	/// <summary>
+	/// Generate a Texture
+	/// </summary>
+	/// <param name="path">The path of the texture</param>
+	/// <param name="fallback">The color fallback, if the texture does not exist</param>
+	/// <param name="fallbackChannel">number of channel for the callback</param>
 	Texture(std::string path = "", glm::vec4 fallback = glm::vec4(1.0), int fallbackChannel = 4)
 	{
 		this->path = path;
@@ -33,6 +41,11 @@ public:
 		this->fallbackChannel = fallbackChannel;
 		this->LoadData();
 	}
+
+	/// <summary>
+	/// Generate a fallback texture.
+	/// </summary>
+	/// <param name="fallback">The color of the texture.</param>
 	Texture(glm::vec4 fallback)
 	{
 		this->path = "";
@@ -40,10 +53,17 @@ public:
 		this->LoadData();
 	}
 
+	/// <summary>
+	/// Destroy the texture, and remove the data from GPU.
+	/// </summary>
 	~Texture() {
 		glDeleteTextures(0, &texture_index);
 	}
 
+	/// <summary>
+	/// Set the path of the texture, and reload.
+	/// </summary>
+	/// <param name="path"></param>
 	void SetPath(std::string path) {
 		if (this->path.compare(path) != 0) {
 			this->path = path;
@@ -51,6 +71,10 @@ public:
 		}
 	}
 
+	/// <summary>
+	/// Change the fallback value, and reload.
+	/// </summary>
+	/// <param name="fallback"></param>
 	void SetFallback(glm::vec4 fallback) {
 		if (this->fallback != fallback) {
 			this->fallback = fallback;
@@ -58,7 +82,9 @@ public:
 		}
 	}
 
-	//Load the texture data to the GPU
+	/// <summary>
+	/// Generate the texture to the GPU.
+	/// </summary>
 	void GenerateTexture() {
 		if (this->texture_index == -1) {
 			glGenTextures(1, &this->texture_index);
@@ -92,7 +118,9 @@ public:
 		}
 	}
 
-	//Try to load texture file, if not possible, generate a texture with the fallback color. then Load the data to the GPU
+	/// <summary>
+	/// Try to load texture file, if not possible, generate a texture with the fallback color. then Load the data to the GPU
+	/// </summary>
 	void LoadData() {
 		if (this->path.size() > 0) {
 			int nbC;
@@ -113,7 +141,10 @@ public:
 		this->GenerateTexture();
 	}
 
-	//Generate a texture data 1 by 1 with the given color;
+	/// <summary>
+	/// Generate a texture data 1 by 1 with the given color;
+	/// </summary>
+	/// <param name="color">The color.</param>
 	void GenerateColorData(glm::vec4 color) {
 		this->width = 1;
 		this->height = 1;
@@ -126,14 +157,25 @@ public:
 
 	}
 
+	/// <summary>
+	/// Return the texture GPU index.
+	/// </summary>
+	/// <returns>The texture GPU index.</returns>
 	GLuint GetIndex() {
 		return this->texture_index;
 	}
 
+	/// <summary>
+	/// Bind the texture to the GPU.
+	/// </summary>
 	void Bind() {
 		glBindTexture(GL_TEXTURE_2D, this->texture_index);
 	}
 
+	/// <summary>
+	/// Get if it's fallback.
+	/// </summary>
+	/// <returns>It is fallback ?</returns>
 	bool IsFallback() {
 		return this->isFallBack;
 	}

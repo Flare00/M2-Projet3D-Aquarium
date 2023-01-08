@@ -14,28 +14,22 @@
 #include <Engine/Tools/ModelGenerator.hpp>
 #include <Engine/Global.hpp>
 
+/// <summary>
+/// The graphics Engine
+/// </summary>
 class Graphics {
 private:
-	struct CameraFrustumData {
-		glm::vec4 cols[4];
-		CameraFrustumData(glm::mat4 proj) {
-			for (int i = 0; i < 4; i++) {
-				glm::vec4 col(0,0,0,0);
-				for (int j = 0; j < 4; j++) {
-					col[j] = proj[j][i];
-				}
-				cols[i] = col;
-			}
-		}
-	};
-
-
+	/// <summary>
+	/// Graphics engine data (List of different camera by type)
+	/// </summary>
 	struct Data {
 		std::vector<Camera*> renderCamera;
 		std::vector<Camera*> depthCamera;
 	};
 
-
+	/// <summary>
+	/// The screen model.
+	/// </summary>
 	Model* quad;
 
 public:
@@ -44,6 +38,9 @@ public:
 	~Graphics() {
 	}
 
+	/// <summary>
+	/// Initialize the Graphics
+	/// </summary>
 	void Init() {
 		this->quad = ModelGenerator::QuadScreen(new IMaterial("screen"));
 		GLuint prog = quad->GetShader()->GetProgram();
@@ -53,10 +50,19 @@ public:
 		//glUniform1i(glGetUniformLocation(prog, "stencilTexture"), 2);
 	}
 
+	/// <summary>
+	/// Compute the graphics using the root object of the scene, extracting all informations.
+	/// </summary>
+	/// <param name="root">The root Gameobject of the scene.</param>
 	void Compute(GameObject* root) {
 		Compute(root->getComponentsByTypeRecursive<Camera>(true), root->getComponentsByTypeRecursive<Light>(true), Displayable::SortByPriority(root->getComponentsByTypeRecursive<Displayable>(true)));
 	}
-
+	/// <summary>
+	/// Compute the graphics using a list of camera, lights, and Displayable elements.
+	/// </summary>
+	/// <param name="cameras">List of camera in the scene</param>
+	/// <param name="lights">List of lights in the scene</param>
+	/// <param name="elements">List of displayable element in the scene.</param>
 	void Compute(std::vector<Camera*> cameras, std::vector<Light*> lights, std::vector<Displayable*> elements) {
 
 		Data data;
@@ -115,11 +121,24 @@ public:
 		DrawToScreen(data);
 	}
 
+	/// <summary>
+	/// Draw an element to a Camera
+	/// </summary>
+	/// <param name="cam">The camera</param>
+	/// <param name="element">The element to draw</param>
+	/// <param name="lights">The list of lights in the scene.</param>
 	void Draw(Camera* cam, Displayable* element, std::vector<Light*> lights) {
 		Model* model = element->GetGameObject()->getFirstComponentByType<Model>();
 		Draw(cam, element, model, lights);
 	}
 
+	/// <summary>
+	/// Draw an element to the camera, with a specific model of him.
+	/// </summary>
+	/// <param name="cam">The camera</param>
+	/// <param name="element">This displayable element to draw</param>
+	/// <param name="model">The model to draw</param>
+	/// <param name="lights">The list of lights in the scene</param>
 	void Draw(Camera* cam, Displayable * element, Model* model, std::vector<Light*> lights) {
 		bool waterFog = true;
 		if(cam->GetGameObject()->getFirstComponentByType<WaterAffected>() != nullptr)
@@ -179,6 +198,12 @@ public:
 		glFlush();
 	}
 
+	/// <summary>
+	/// Raycast using the stencil, not implemented yet
+	/// </summary>
+	/// <param name="camera">The camera</param>
+	/// <param name="elems">The elements</param>
+	/// <returns>Return the hitted object.</returns>
 	GameObject* RaycastStencil(Camera* camera, std::vector<GameObject*> elems) {
 		// Use the Depth/Stencil (maybe faster) ? Or use collision ?
 		for (size_t i = 0, max = elems.size(); i < max; i++) {
@@ -189,6 +214,10 @@ public:
 
 private:
 
+	/// <summary>
+	/// Draw the result of the cameras to screen.
+	/// </summary>
+	/// <param name="d">The data (aka list of cameras)</param>
 	void DrawToScreen(Data d) {
 
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);

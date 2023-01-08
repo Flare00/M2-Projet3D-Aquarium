@@ -11,14 +11,23 @@
 
 SettedShaders settedStdShaders;
 
+/// <summary>
+/// Material Interface for drawing.
+/// </summary>
 class IMaterial : public Component{
 protected:
-	Shader* shader;
+	Shader* shader = nullptr;
 	bool handleLights;
 	bool transparent;
 
 public:
 
+	/// <summary>
+	/// Create an IMaterial
+	/// </summary>
+	/// <param name="shadername">The name of the shader</param>
+	/// <param name="handleLights">Is handling light ?</param>
+	/// <param name="transparent">Is handling transparency ?</param>
 	IMaterial(std::string shadername, bool handleLights = true, bool transparent = false) {
 		this->handleLights = handleLights;
 		if (shadername.size() > 0) {
@@ -26,10 +35,22 @@ public:
 		}
 	}
 
+	/// <summary>
+	/// Return the shader
+	/// </summary>
+	/// <returns>The shader</returns>
 	Shader* GetShader() {
 		return this->shader;
 	}
 
+	/// <summary>
+	/// Set Data to the GPU
+	/// </summary>
+	/// <param name="M">Model matrix</param>
+	/// <param name="V">View Matrix</param>
+	/// <param name="P">Projection Matrix</param>
+	/// <param name="camPos">Camera position</param>
+	/// <param name="inWater">Is in water ?</param>
 	virtual void SetDataGPU(glm::mat4 M, glm::mat4 V, glm::mat4 P, glm::vec3 camPos, bool inWater) {
 		GLuint program = this->shader->GetProgram();
 		glUseProgram(program);
@@ -41,6 +62,10 @@ public:
 		glUniform1i(glGetUniformLocation(program, "u_in_water"), inWater ? 1 : 0);
 	}
 
+	/// <summary>
+	/// Set lights information on GPU.
+	/// </summary>
+	/// <param name="lights">List of lights.</param>
 	void SetLightGPU(std::vector<Light*> lights) {
 		if (handleLights) {
 			this->shader->DefineOverride(Shader::DataOverride(Shader::FRAGMENT, "MAX_LIGHTS", std::to_string(lights.size() + 1)));
@@ -58,6 +83,10 @@ public:
 		}
 	}
 
+	/// <summary>
+	/// return if it's transparent.
+	/// </summary>
+	/// <returns>If it's transparent.</returns>
 	bool IsTransparent() {
 		return this->transparent;
 	}

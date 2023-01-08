@@ -8,6 +8,9 @@
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 #include <stb_image_write.h>
 
+/// <summary>
+/// Framebuffer object, with framebuffer and renderbuffer. Permit to do more advanced Graphical operations.
+/// </summary>
 class Framebuffer
 {
 protected:
@@ -19,6 +22,9 @@ protected:
 	int w = -1, h = -1;
 	bool floating = false;
 
+	/// <summary>
+	/// Generate Framebuffer textures.
+	/// </summary>
 	void GenTextures(){
 		// create a color attachment texture
 		glGenTextures(1, &this->tex_color);
@@ -52,16 +58,28 @@ protected:
 		glBindTexture(GL_TEXTURE_2D, 0);
 	}
 public:
+	/// <summary>
+	/// Create a framebuffer.
+	/// </summary>
 	Framebuffer() {
 
 	}
 
+	/// <summary>
+	/// Destroy the framebuffer, and free the GPU data.
+	/// </summary>
 	~Framebuffer() {
 		glDeleteRenderbuffers(1, &this->renderbuffer);
 		glDeleteFramebuffers(1, &this->framebuffer);
 		glDeleteTextures(1, &this->tex_color);
 	}
 
+	/// <summary>
+	/// Generate the framebuffer.
+	/// </summary>
+	/// <param name="width">The width (-1 = screen width)</param>
+	/// <param name="height">The height (-1 = screen height)</param>
+	/// <param name="floating">Is floating point ?</param>
 	void Generate(int width = -1, int height = -1, bool floating = false) {
 		//create the framebuffer
 		glGenFramebuffers(1, &this->framebuffer);
@@ -99,10 +117,19 @@ public:
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	}
 
+	/// <summary>
+	/// Return the color texture.
+	/// </summary>
+	/// <returns>The color texture</returns>
 	GLuint GetTexColor() {
 		return this->tex_color;
 	}
 
+
+	/// <summary>
+	/// Return the depth texture.
+	/// </summary>
+	/// <returns>The depth texture</returns>
 	GLuint GetTexDepth() {
 		return this->tex_depth;
 	}
@@ -111,14 +138,27 @@ public:
 		return this->tex_stencil;
 	}*/
 
+	/// <summary>
+	/// Return the framebuffer GPU location
+	/// </summary>
+	/// <returns>the framebuffer GPU location</returns>
 	GLuint GetFramebuffer() {
 		return this->framebuffer;
 	}
 
+	/// <summary>
+	/// Return the renderbuffer GPU location
+	/// </summary>
+	/// <returns>the renderbuffer GPU location</returns>
 	GLuint GetRenderbuffer() {
 		return this->renderbuffer;
 	}
 
+	/// <summary>
+	/// Write the texture to a File
+	/// </summary>
+	/// <param name="name">The name of the file</param>
+	/// <param name="tex">The texture to draw (0 = Color, 1 = Depth)</param>
 	void WriteTextureToFile(std::string name, int tex = 0) { //Tex : 0 = Color, 1 = Depth
 		if (w <= 0 || h <= 0)
 			return;
@@ -146,10 +186,18 @@ public:
 		}
 	}
 
+	/// <summary>
+	/// Return the width
+	/// </summary>
+	/// <returns>the width</returns>
 	int GetWidth() {
 		return this->w;
 	}
 
+	/// <summary>
+	/// return the height
+	/// </summary>
+	/// <returns>the height</returns>
 	int GetHeight() {
 		return this->h;
 	}
