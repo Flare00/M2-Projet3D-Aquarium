@@ -32,7 +32,7 @@ public:
 
 		IMaterial* pipeMaterial = (new MaterialPBR())->SetFolderData("Pipe", "png");
 		IMaterial* waterMaterial = new MaterialPBR(glm::vec4(0.0, 0.66, 0.8, 0.7), 0.0f, 0.0f, 1.33f, true);
-		IMaterial* glassMaterial = new MaterialPBR(glm::vec4(1, 1, 1, 0.7), 0.0f, 0.0f, 1.5f, true);
+		IMaterial* glassMaterial = new MaterialPBR(glm::vec4(1, 1, 1, 0.1), 0.0f, 0.0f, 1.5f, true);
 		IMaterial* baseAquariumMaterial = new MaterialPBR(glm::vec4(0.5, 0.5, 0.5, 1.0));
 		IMaterial* ballMaterial = new MaterialPBR(glm::vec4(0.0, 1.0, 0.0, 1.0));
 
@@ -94,11 +94,13 @@ public:
 
 		//Create Water of the aquarium, with the water physics.
 		GameObject* water = new GameObject("water", aquarium);
+		Model* waterModel = ModelGenerator::CubeWater(waterMaterial, 1024, 512, glm::vec3(8, 3, 4));
 		water->addComponent(new Displayable(100)); //cutom display priority, to show the water behind the glass.
-		water->addComponent(ModelGenerator::CubeWater(waterMaterial, 1024, 512, glm::vec3(8,3,4)));
+		water->addComponent(waterModel);
+		water->addComponent(new BoundingBoxCollider(waterModel->GetPoints()));
 		WaterPhysics* waterP = new WaterPhysics(512,256);
 		water->addComponent(waterP);
-		water->GetTransform()->SetPosition(glm::vec3(0, 2.5,0));
+		water->GetTransform()->SetPosition(glm::vec3(0, 2.55,0));
 
 		//Add a drop
 		waterP->AddDrop(glm::vec2(0.5, 0.5), 0.05f, 0.1f);

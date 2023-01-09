@@ -180,13 +180,13 @@ void main(){
 		Lo += ComputeLight(lights[i],V, F0, Albedo, Norm, Metal, Roughness);
 	}
 
-	vec3 ambient = vec3(0.03) * Albedo.rgb; //* Ao;
+	vec3 ambient = vec3(0.03) * Albedo.rgb;
 
 	vec3 c = ambient + Lo;
 	
 	c = c / (c+vec3(1.0));
 	c = pow(c, vec3(1.0/gamma));
-	FragColor = vec4(c,material.albedo.a);
+	FragColor = vec4(c, material.albedo.a);
 
 	/*float fog_maxdist = 2.0;
 	float fog_mindist = 0.1;

@@ -52,7 +52,7 @@ public:
 	/// </summary>
 	/// <returns>The min AABB value</returns>
 	glm::vec3 GetMin() {
-		return (this->center - halfSize) + this->attachment->GetTransform()->getPosition();
+		return (this->center - halfSize) + this->attachment->GetPositionWithRecursiveMatrix();
 	}
 
 	/// <summary>
@@ -60,7 +60,18 @@ public:
 	/// </summary>
 	/// <returns>The Max AABB value</returns>
 	glm::vec3 GetMax() {
-		return (this->center + halfSize) + this->attachment->GetTransform()->getPosition();
+		return (this->center + halfSize) + this->attachment->GetPositionWithRecursiveMatrix();
+	}
+
+	/// <summary>
+	/// Compute Min and Max of the bounding box (faster than calling GetMin then GetMax)
+	/// </summary>
+	/// <param name="min">the Min result</param>
+	/// <param name="max">the Max result</param>
+	void GetMinMax(glm::vec3& min, glm::vec3& max) {
+		glm::vec3 pos = this->attachment->GetPositionWithRecursiveMatrix();
+		min = (this->center - halfSize) + pos;
+		max = (this->center + halfSize) + pos;
 	}
 
 	/// <summary>

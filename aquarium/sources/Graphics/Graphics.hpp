@@ -13,6 +13,8 @@
 #include <Engine/Component/Model.hpp>
 #include <Engine/Tools/ModelGenerator.hpp>
 #include <Engine/Global.hpp>
+#include <Physics/GLPhysics/WaterPhysics.hpp>
+#include <Physics/CollisionDetection.hpp>
 
 /// <summary>
 /// The graphics Engine
@@ -55,7 +57,7 @@ public:
 	/// </summary>
 	/// <param name="root">The root Gameobject of the scene.</param>
 	void Compute(GameObject* root) {
-		Compute(root->getComponentsByTypeRecursive<Camera>(true), root->getComponentsByTypeRecursive<Light>(true), Displayable::SortByPriority(root->getComponentsByTypeRecursive<Displayable>(true)));
+		Compute(root->getComponentsByTypeRecursive<Camera>(true), root->getComponentsByTypeRecursive<Light>(true), Displayable::SortByPriority(root->getComponentsByTypeRecursive<Displayable>(true)), root->getComponentsByTypeRecursive<WaterPhysics>());
 	}
 	/// <summary>
 	/// Compute the graphics using a list of camera, lights, and Displayable elements.
@@ -63,7 +65,7 @@ public:
 	/// <param name="cameras">List of camera in the scene</param>
 	/// <param name="lights">List of lights in the scene</param>
 	/// <param name="elements">List of displayable element in the scene.</param>
-	void Compute(std::vector<Camera*> cameras, std::vector<Light*> lights, std::vector<Displayable*> elements) {
+	void Compute(std::vector<Camera*> cameras, std::vector<Light*> lights, std::vector<Displayable*> elements, std::vector<WaterPhysics*> waterPhysics) {
 
 		Data data;
 		glEnable(GL_DEPTH_TEST);
@@ -75,19 +77,33 @@ public:
 			//Bind the Framebuffer
 			glBindFramebuffer(GL_FRAMEBUFFER, cameras[indexCam]->GetFrameBuffer());
 			//Clear the Framebuffer
-			glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
+
+			bool isInWater = false;
+			if (waterPhysics.size() > 0 && cameras[indexCam]->attachment->getFirstComponentByType<WaterAffected>() != nullptr) {
+				for (size_t wIndex = 0, wMax = waterPhysics.size(); wIndex < wMax && !isInWater; wIndex++) {
+					BoundingBoxCollider * bb = waterPhysics[wIndex]->attachment->getFirstComponentByType<BoundingBoxCollider>();
+					isInWater = CollisionDetection::Point_AABB(cameras[indexCam]->GetPosition(), bb).collision;
+				}
+			}
+			if (isInWater) {
+				glClearColor(0.0f, 0.66f, 0.8f, 1.0f);
+			}
+			else {
+				glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
+			}
+
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 			for (size_t indexElem = 0, nbElem = elements.size(); indexElem < nbElem; indexElem++) {
 				if (elements[indexElem]->IsAlwaysDraw()) {
-					Draw(cameras[indexCam], elements[indexElem], lights);
+					Draw(cameras[indexCam], elements[indexElem], lights, isInWater);
 				}
 				else
 				{
 					BoundingBoxCollider frustumCollider = elements[indexElem]->GetGameObject()->getFirstComponentByType<Model>()->GetFrustumCollider();
 					if (cameras[indexCam]->IsInView(frustumCollider.GetMinOriented(), frustumCollider.GetMaxOriented())) {
 						//printf("In View\n");
-						Draw(cameras[indexCam], elements[indexElem], lights);
+						Draw(cameras[indexCam], elements[indexElem], lights, isInWater);
 					}
 				}
 			}
@@ -127,9 +143,9 @@ public:
 	/// <param name="cam">The camera</param>
 	/// <param name="element">The element to draw</param>
 	/// <param name="lights">The list of lights in the scene.</param>
-	void Draw(Camera* cam, Displayable* element, std::vector<Light*> lights) {
+	void Draw(Camera* cam, Displayable* element, std::vector<Light*> lights,bool waterFog = false) {
 		Model* model = element->GetGameObject()->getFirstComponentByType<Model>();
-		Draw(cam, element, model, lights);
+		Draw(cam, element, model, lights, waterFog);
 	}
 
 	/// <summary>
@@ -139,14 +155,7 @@ public:
 	/// <param name="element">This displayable element to draw</param>
 	/// <param name="model">The model to draw</param>
 	/// <param name="lights">The list of lights in the scene</param>
-	void Draw(Camera* cam, Displayable * element, Model* model, std::vector<Light*> lights) {
-		bool waterFog = true;
-		if(cam->GetGameObject()->getFirstComponentByType<WaterAffected>() != nullptr)
-		{
-			//Test if in water and set the value in waterFog
-			waterFog = true;
-		}
-
+	void Draw(Camera* cam, Displayable * element, Model* model, std::vector<Light*> lights, bool waterFog = false) {
 		if(waterFog){
 			glEnable(GL_FOG);
 			GLfloat fogcolor[4] = {1.0, 0, 0, 1.0};

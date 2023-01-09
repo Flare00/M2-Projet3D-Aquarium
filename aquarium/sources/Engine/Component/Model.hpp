@@ -229,6 +229,39 @@ public:
 	BoundingBoxCollider GetFrustumCollider() {
 		return this->frustumCollider;
 	}
+
+
+	/// <summary>
+	/// Return the point list of the model.
+	/// </summary>
+	/// <returns>The point list</returns>
+	std::vector<glm::vec3> GetPoints() {
+		return this->points;
+	}
+
+	/// <summary>
+	/// Return the normal list of the model.
+	/// </summary>
+	/// <returns>The normal list</returns>
+	std::vector<glm::vec3> GetNormales() {
+		return this->normals;
+	}
+
+	/// <summary>
+	/// Return the uv list of the model.
+	/// </summary>
+	/// <returns>The uv list</returns>
+	std::vector<glm::vec2> GetUVs() {
+		return this->uv;
+	}
+
+	/// <summary>
+	/// Return the face list of the model.
+	/// </summary>
+	/// <returns>The face list</returns>
+	std::vector<Face> GetFaces() {
+		return this->faces;
+	}
 };
 
 #endif // !__MODEL_HPP__

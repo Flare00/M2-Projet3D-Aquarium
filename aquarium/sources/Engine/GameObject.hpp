@@ -382,7 +382,7 @@ public:
 	/// <returns>The global Transformation matrix.</returns>
 	glm::mat4 GetMatrixRecursive() {
 		if (this->parent != nullptr) {
-			return this->parent->GetMatrixRecursive() * this->transform.getMatrix();
+			return  this->transform.getMatrix() * this->parent->GetMatrixRecursive();
 		}
 		return this->transform.getMatrix();
 	}
@@ -403,7 +403,7 @@ public:
 	/// </summary>
 	/// <returns>The world position.</returns>
 	glm::vec3 GetPositionWithRecursiveMatrix() {
-		glm::vec4 pos = glm::vec4(this->transform.getPosition(), 1.0) * GetMatrixRecursive();
+		glm::vec4 pos = GetMatrixRecursive() * glm::vec4(0,0,0, 1.0);
 		return glm::vec3(pos.x, pos.y, pos.z);
 	}
 
