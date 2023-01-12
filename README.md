@@ -29,13 +29,13 @@ Qwerty -- Azerty
 #### Étape 1 - Réaliser un environnement aquatique simple :
 - [X] Faire une surface réagissant avec son environnement / collision
 - [ ] Faire une sphère capable d'interagir avec l'eau et flotter / subir la gravité
-- [ ] Faire un système pour interagir avec l'environnement avec la souris
+- [X] Faire un système pour interagir avec l'environnement avec la souris
 
 #### Étape 2 - Effet lumineux : --- Minimum à implémenter ---
 - [X] faire un système de lampe projeter (soleil / spot).
 - [ ] Caustics et God Rays.
 - [ ] Ombre projeté.
-- [ ] Utilisation du RayCast GPU (Réfraction/Réflexion). (?)
+- [X] Réfraction/Réflexion GPU
 
 #### Étape 3 - Ajout de vie :
 - [X] Ajouter des poissons avec système de boids suivant une trajectoire / courant
