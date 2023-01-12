@@ -42,32 +42,14 @@ public:
 	/// <param name="render_camera">The render camera</param>
 	/// <param name="raycast_camera">The raycast camera</param>
 	/// <param name="root">The root gameobject</param>
-	void Compute(Camera* camera, GameObject* root, bool raycast) {
+	void Compute(Camera* camera, GameObject* root, bool preRender) {
 		glEnable(GL_DEPTH_TEST);
-		std::vector<Light*> lights;
+		std::vector<Light*> lights = root->getComponentsByTypeRecursive<Light>(true);
 		std::vector<Displayable*> elements = Displayable::SortByPriority(root->getComponentsByTypeRecursive<Displayable>(true));
 		std::vector<WaterPhysics*> waterPhysics = root->getComponentsByTypeRecursive<WaterPhysics>();
-		if (raycast) {
-			for (int i = elements.size() - 1; i >= 0; i--) {
-				if (elements[i]->attachment->getFirstComponentByType<RaycastObject>() == nullptr)
-				{
-					elements.erase(elements.begin() + i);
-				}
-			}
-		}
-		else {
-			lights = root->getComponentsByTypeRecursive<Light>(true);
-		}
 
-		Render(camera, lights, elements, waterPhysics, raycast);
 
-		/*if (!raycast) {
-			//DrawToScreen(camera);
-			glBindFramebuffer(GL_READ_FRAMEBUFFER, camera->GetFrameBuffer());
-			glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
-			glBlitFramebuffer(0, 0, global.screen_width, global.screen_height, 0, 0, camera->GetFramebufferObject()->GetWidth(), camera->GetFramebufferObject()->GetHeight(),
-				GL_COLOR_BUFFER_BIT, GL_NEAREST);
-		}*/
+		Render(camera, lights, elements, waterPhysics, preRender);
 	}
 	/// <summary>
 	/// Compute the graphics using a list of camera, lights, and Displayable elements.
@@ -83,51 +65,49 @@ public:
 	/// <param name="lights">List of lights in the scene</param>
 	/// <param name="elements">List of displayable element in the scene.</param>
 	/// <param name="waterPhysics">The water physics</param>
-	void Render(Camera* camera, std::vector<Light*> lights, std::vector<Displayable*> elements, std::vector<WaterPhysics*> waterPhysics, bool raycast) {
+	void Render(Camera* camera, std::vector<Light*> lights, std::vector<Displayable*> elements, std::vector<WaterPhysics*> waterPhysics, bool mainRender) {
 
-
-		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+		glBindFramebuffer(GL_FRAMEBUFFER, mainRender ?  0  : camera->GetFrameBuffer());
 
 		//Update the camera Frustum
 		camera->UpdateFrustum();
-		//Bind the Framebuffer
-		//Clear the Framebuffer
 
+		//Test if the camera is in the water
 		bool isInWater = false;
-		if (!raycast) {
-			if (waterPhysics.size() > 0 && camera->attachment->getFirstComponentByType<WaterAffected>() != nullptr) {
-				for (size_t wIndex = 0, wMax = waterPhysics.size(); wIndex < wMax && !isInWater; wIndex++) {
-					BoundingBoxCollider* bb = waterPhysics[wIndex]->attachment->getFirstComponentByType<BoundingBoxCollider>();
-					isInWater = CollisionDetection::Point_AABB(camera->GetPosition(), bb).collision;
-				}
-			}
-			if (isInWater) {
-				glClearColor(0.0f, 0.66f, 0.8f, 1.0f);
-			}
-			else {
-				glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
+
+		if (waterPhysics.size() > 0 && camera->attachment->getFirstComponentByType<WaterAffected>() != nullptr) {
+			for (size_t wIndex = 0, wMax = waterPhysics.size(); wIndex < wMax && !isInWater; wIndex++) {
+				BoundingBoxCollider* bb = waterPhysics[wIndex]->attachment->getFirstComponentByType<BoundingBoxCollider>();
+				isInWater = CollisionDetection::Point_AABB(camera->GetPosition(), bb).collision;
 			}
 		}
+
+		//Clear the color and depth.
+		if (isInWater) {
+			glClearColor(0.0f, 0.66f, 0.8f, 1.0f);
+		}
 		else {
-			glBindFramebuffer(GL_FRAMEBUFFER, camera->GetFrameBuffer());
-			glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+			glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
 		}
 
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+		//Draw the elements
 		for (size_t indexElem = 0, nbElem = elements.size(); indexElem < nbElem; indexElem++) {
 			if (elements[indexElem]->IsAlwaysDraw()) {
-				Draw(camera, elements[indexElem], lights, isInWater);
+				Draw(camera, elements[indexElem], lights, isInWater, mainRender);
 			}
 			else
 			{
 				BoundingBoxCollider frustumCollider = elements[indexElem]->GetGameObject()->getFirstComponentByType<Model>()->GetFrustumCollider();
 				if (camera->IsInView(frustumCollider.GetMinOriented(), frustumCollider.GetMaxOriented())) {
 					//printf("In View\n");
-					Draw(camera, elements[indexElem], lights, isInWater);
+					Draw(camera, elements[indexElem], lights, isInWater, mainRender);
 				}
 			}
 		}
+
+		//Reset the buffer to the screen.
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	}
 
@@ -142,9 +122,9 @@ public:
 	/// <param name="cam">The camera</param>
 	/// <param name="element">The element to draw</param>
 	/// <param name="lights">The list of lights in the scene.</param>
-	void Draw(Camera* cam, Displayable* element, std::vector<Light*> lights, bool waterFog = false) {
+	void Draw(Camera* cam, Displayable* element, std::vector<Light*> lights, bool waterFog, bool mainRender) {
 		Model* model = element->GetGameObject()->getFirstComponentByType<Model>();
-		Draw(cam, element, model, lights, waterFog);
+		Draw(cam, element, model, lights, waterFog, mainRender);
 	}
 
 	/// <summary>
@@ -154,7 +134,7 @@ public:
 	/// <param name="element">This displayable element to draw</param>
 	/// <param name="model">The model to draw</param>
 	/// <param name="lights">The list of lights in the scene</param>
-	void Draw(Camera* cam, Displayable* element, Model* model, std::vector<Light*> lights, bool waterFog = false) {
+	void Draw(Camera* cam, Displayable* element, Model* model, std::vector<Light*> lights, bool waterFog, bool mainRender) {
 
 		GameObject* go = element->GetGameObject();
 		if (go == nullptr) {
@@ -171,8 +151,21 @@ public:
 			renderMaterial = model->GetRenderMaterial();
 		}
 
-		renderMaterial->SetDataGPU(go->GetMatrixRecursive(), cam->GetView(), cam->GetProjection(), cam->GetPosition(), waterFog);
+		renderMaterial->SetDataGPU(go->GetMatrixRecursive(), cam->GetView(), cam->GetProjection(), cam->GetPosition(), waterFog, mainRender);
 		renderMaterial->SetLightGPU(lights);
+
+		if (mainRender) {
+			glUseProgram(renderMaterial->GetShader()->GetProgram());
+			Framebuffer * fb = cam->GetFramebufferObject();
+			if (fb != nullptr) {
+				glActiveTexture(GL_TEXTURE7);
+				glBindTexture(GL_TEXTURE_2D, fb->GetTexColor());
+				glActiveTexture(GL_TEXTURE8);
+				glBindTexture(GL_TEXTURE_2D, fb->GetTexPosition());
+				glActiveTexture(GL_TEXTURE9);
+				glBindTexture(GL_TEXTURE_2D, fb->GetTexNormal());
+			}
+		}
 
 		glUseProgram(renderMaterial->GetShader()->GetProgram());
 

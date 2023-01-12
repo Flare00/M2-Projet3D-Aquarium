@@ -218,7 +218,10 @@ public:
 			GameObject* root = scenes[activeScene].GetRoot();
 			physics.Compute(deltaT, root);
 			int activeCam = scenes[activeScene].activeCamera;
-			graphics.Compute(scenes[activeScene].renderCamera[activeCam], root , false);
+
+			graphics.Compute(scenes[activeScene].renderCamera[activeCam], root, false);
+			glFlush();
+			graphics.Compute(scenes[activeScene].renderCamera[activeCam], root , true);
 
 			//Do the raycast with
 			if (global.raycastAsked) {

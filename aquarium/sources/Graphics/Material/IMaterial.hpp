@@ -51,7 +51,7 @@ public:
 	/// <param name="P">Projection Matrix</param>
 	/// <param name="camPos">Camera position</param>
 	/// <param name="inWater">Is in water ?</param>
-	virtual void SetDataGPU(glm::mat4 M, glm::mat4 V, glm::mat4 P, glm::vec3 camPos, bool inWater) {
+	virtual void SetDataGPU(glm::mat4 M, glm::mat4 V, glm::mat4 P, glm::vec3 camPos, bool inWater, bool mainRender) {
 		GLuint program = this->shader->GetProgram();
 		glUseProgram(program);
 
@@ -59,7 +59,8 @@ public:
 		glUniformMatrix4fv(glGetUniformLocation(program, "u_view"), 1, GL_FALSE, &V[0][0]);
 		glUniformMatrix4fv(glGetUniformLocation(program, "u_projection"), 1, GL_FALSE, &P[0][0]);
 		glUniform3f(glGetUniformLocation(program, "u_cameraPos"), camPos.x, camPos.y, camPos.z);
-		glUniform1i(glGetUniformLocation(program, "u_in_water"), inWater ? 1 : 0);
+		glUniform1i(glGetUniformLocation(program, ("u_in_water")), inWater ? 1 : 0);
+
 	}
 
 	/// <summary>
@@ -100,5 +101,6 @@ public:
 			this->shader = settedStdShaders.AddShader(shadername);
 		}
 	}
+
 };
 #endif // !__I_MATERIAL_HPP__

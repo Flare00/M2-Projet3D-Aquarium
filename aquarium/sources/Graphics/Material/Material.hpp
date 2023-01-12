@@ -55,8 +55,8 @@ public :
     /// <param name="P">Projection Matrix</param>
     /// <param name="camPos">Camera position</param>
     /// <param name="inWater">Is in water ?</param>
-    void SetDataGPU(glm::mat4 M, glm::mat4 V, glm::mat4 P, glm::vec3 camPos, bool inWater) override {
-        IMaterial::SetDataGPU(M, V, P, camPos, inWater);
+    void SetDataGPU(glm::mat4 M, glm::mat4 V, glm::mat4 P, glm::vec3 camPos, bool inWater, bool mainRender) override {
+        IMaterial::SetDataGPU(M, V, P, camPos, inWater, mainRender);
         GLuint program = this->shader->GetProgram();
         glUseProgram(program);
         glUniform4f(glGetUniformLocation(program, "material.color"), this->data->color.x, this->data->color.y, this->data->color.z, this->data->color.w);

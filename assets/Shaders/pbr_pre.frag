@@ -2,22 +2,20 @@
 #define MAX_LIGHTS 1
 
 layout (location = 0) out vec4 gAlbedo;
-layout (location = 1) out vec4 gPosition;
-layout (location = 2) out vec4 gNormal;
-layout (location = 3) out vec4 gMetalnness;
+layout (location = 1) out vec3 gNormal;
+layout (location = 2) out float gMetalnness;
+layout (location = 3) out float gDepth;
 
 
 // --- IN / OUT ---
 
 //out vec4 FragColor;
-in mat4 Proj;
+
 in vec3 Normal;
 in vec2 TexCoord;
-in vec2 ScreenTexCoord;
 in vec4 PointCoord;
 in vec3 PhysicsNorm;
 in flat int IsDataPhysics;
-in float fogDistance;
 
 // --- Structs ---
 
@@ -57,10 +55,7 @@ const int u_show_mode = 0; // 0 = PBR, 1 = Albedo, 2 = Albedo Map, 3 = Normal, 4
 const float PI = 3.14159265359;
 const float gamma = 2.2;
 
-uniform int u_use_pre_render;
 uniform sampler2D t_pre_render;
-uniform sampler2D t_pre_position;
-uniform sampler2D t_pre_normal;
 
 
 // --- PBR Functions --- 
@@ -156,8 +151,6 @@ void main(){
 	// Get textures infos
 	vec4 albedoM = texture(material.albedoMap, TexCoord);
 	vec4 metallicM = texture(material.metallicMap, TexCoord);
-
-
 	vec4 roughnessM = texture(material.roughnessMap, TexCoord);
 	vec4 aoM = texture(material.aoMap, TexCoord);
 
@@ -167,7 +160,6 @@ void main(){
 	float Metal = (metallicM.w == 0) ? material.metallic : metallicM.r;
 	float Roughness = (roughnessM.w == 0) ? material.roughness : roughnessM.r;
 	float Ao = (aoM.a == 0) ? 1.0f : aoM.r;
-
 
 	if(IsDataPhysics == 1 && Normal.y == 1){
 		Norm = PhysicsNorm;
@@ -195,44 +187,22 @@ void main(){
 	
 	c = c / (c+vec3(1.0));
 	c = pow(c, vec3(1.0/gamma));
-		
+
+	/*float fog_maxdist = 2.0;
+	float fog_mindist = 0.1;
+	vec4 fog_color = vec4(0.66, 0.66, 0.8, 1.0);
+	float dist = length(PointCoord.xyz);
+	float fog_factor = (fog_maxdist - dist) / (fog_maxdist - fog_maxdist);
+	fog_factor = clamp(fog_factor, 0.0,1.0);
+
+	FragColor = mix(FragColor, fog_color, fog_factor);*/
+
+	
 	gAlbedo = vec4(c, material.albedo.a);
-	gPosition = PointCoord;
-	gNormal = vec4(Norm, 1);
-	gMetalnness = vec4(Metal,0,0,1);
+	gMetalnness = Metal;
+	gNormal = Norm;
+	gDepth = PointCoord.z / PointCoord.w;
 
-	if(u_use_pre_render == 1 && Metal > 0.01){
-		vec3 incomingRay = normalize(PointCoord.xyz);
-		vec3 normal = normalize(-Norm);
-        vec3 reflectedRay = reflect(incomingRay, normal);
-        vec3 refractedRay = refract(incomingRay, normal, 1.33);
 
-        float fresnel = mix(0.5, 1.0, pow(1.0 - dot(normal, -incomingRay), 3.0));
-          
-        /*vec3 reflectedColor = getSurfaceRayColor(position, reflectedRay, underwaterColor);
-        vec3 refractedColor = getSurfaceRayColor(position, refractedRay, vec3(1.0)) * vec3(0.8, 1.0, 1.1);
-          
-        gl_FragColor = vec4(mix(reflectedColor, refractedColor, (1.0 - fresnel) * length(refractedRay)), 1.0);
-        vec3 reflectedRay = reflect(incomingRay, normal);
-        vec3 refractedRay = refract(incomingRay, normal, IOR_AIR / IOR_WATER);
-        float fresnel = mix(0.25, 1.0, pow(1.0 - dot(normal, -incomingRay), 3.0));
-          
-        vec3 reflectedColor = getSurfaceRayColor(position, reflectedRay, abovewaterColor);
-        vec3 refractedColor = getSurfaceRayColor(position, refractedRay, abovewaterColor);
-          
-        gl_FragColor = vec4(mix(refractedColor, reflectedColor, fresnel), 1.0);*/
-		//gAlbedo = Reflection(5,0.3,2,0.5);
-		/*vec4 vp = texture(t_pre_position, TexCoord);
-		vec4 vreflect = reflect(vp, vn);
-		vec4 vrefract = refract(vp, vn, 1.33);*/
 
-		vec4 refractColor = texture(t_pre_render, refractedRay.xy);
-		vec4 reflectColor = texture(t_pre_render, reflectedRay.xy);
-
-		vec4 mixed =  mix(refractColor, reflectColor, fresnel);
-		gAlbedo = mix(gAlbedo, mixed, Metal);
-	}
-
-	float fogFactor = clamp((fogDistance - 2.0f) / (1000.0f - 2.0f), 0.0, 1.0);
-	gAlbedo = mix(gAlbedo, vec4(0.5,0.5,0,1)  , fogFactor);
 }

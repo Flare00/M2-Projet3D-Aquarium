@@ -259,8 +259,8 @@ public:
 	/// <param name="P">Projection Matrix</param>
 	/// <param name="camPos">Camera position</param>
 	/// <param name="inWater">Is in water ?</param>
-	void SetDataGPU(glm::mat4 M, glm::mat4 V, glm::mat4 P, glm::vec3 camPos, bool inWater) override {
-		IMaterial::SetDataGPU(M, V, P, camPos, inWater);
+	void SetDataGPU(glm::mat4 M, glm::mat4 V, glm::mat4 P, glm::vec3 camPos, bool inWater, bool mainRender) override {
+		IMaterial::SetDataGPU(M, V, P, camPos, inWater, mainRender);
 		GLuint program = this->shader->GetProgram();
 
 		glUseProgram(program);
@@ -278,6 +278,9 @@ public:
 		glUniform1i(glGetUniformLocation(program, ("material.aoMap")), 4);
 		glUniform1i(glGetUniformLocation(program, ("m_heightmap")), 5);
 		glUniform1i(glGetUniformLocation(program, ("p_data_physics")), 6);
+		glUniform1i(glGetUniformLocation(program, ("t_pre_render")), 7);
+		glUniform1i(glGetUniformLocation(program, ("t_pre_position")), 8);
+		glUniform1i(glGetUniformLocation(program, ("t_pre_normal")), 9);
 
 		glActiveTexture(GL_TEXTURE0);
 		this->data->albedoMap->Bind();
@@ -305,6 +308,8 @@ public:
 		}
 
 		glUniform1i(glGetUniformLocation(program, ("u_is_data_physics")), isDataP);
+		glUniform1i(glGetUniformLocation(program, ("u_use_pre_render")), mainRender ? 1 : 0);
+
 	}
 };
 

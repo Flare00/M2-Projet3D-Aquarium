@@ -14,14 +14,11 @@ uniform sampler2D m_heightmap;
 uniform sampler2D p_data_physics;
 uniform int u_is_data_physics;
 
-out mat4 Proj;
 out vec3 Normal;
 out vec2 TexCoord;
-out vec2 ScreenTexCoord;
 out vec4 PointCoord;
 out vec3 PhysicsNorm;
 out flat int IsDataPhysics;
-out float fogDistance;
 
 const float displacementFactor = 0.1f;
 const float displacementBias = 0.0f;
@@ -39,8 +36,5 @@ void main(){
 	PointCoord = u_model * vec4(aPos.x, aPos.y + height, aPos.z, 1.0f);
 	Normal = mat3(u_model) * aNormal;
 	TexCoord = aTexCoord;
-	ScreenTexCoord = aPos.xy;
 	gl_Position =  u_projection * (u_view * PointCoord);
-	Proj = u_projection;
-	fogDistance = length(gl_Position.xyz);
 }

@@ -17,6 +17,9 @@ protected:
 	GLuint framebuffer;
 	GLuint renderbuffer;
 	GLuint tex_color;
+	GLuint tex_position;
+	GLuint tex_normal;
+	GLuint tex_reflection;
 	GLuint tex_depth;
 
 	int w = -1, h = -1;
@@ -26,20 +29,45 @@ protected:
 	/// Generate Framebuffer textures.
 	/// </summary>
 	void GenTextures(){
-		// create a color attachment texture
+
+		// create a Color attachment texture
 		glGenTextures(1, &this->tex_color);
 		glBindTexture(GL_TEXTURE_2D, this->tex_color);
-
-		if (floating) {
-			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA16F, this->w, this->h, 0, GL_RGBA, GL_FLOAT, NULL);
-		}
-		else {
-			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, this->w, this->h, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
-		}
+		glTexImage2D(GL_TEXTURE_2D, 0, floating ? GL_RGBA16F : GL_RGBA, this->w, this->h, 0, GL_RGBA, GL_FLOAT, NULL);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+		glBindTexture(GL_TEXTURE_2D, 0);
+
+		// create a Normal attachment texture
+		glGenTextures(1, &this->tex_position);
+		glBindTexture(GL_TEXTURE_2D, this->tex_position);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA16F, this->w, this->h, 0, GL_RGBA, GL_FLOAT, NULL);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+		glBindTexture(GL_TEXTURE_2D, 0);
+
+		// create a Normal attachment texture
+		glGenTextures(1, &this->tex_normal);
+		glBindTexture(GL_TEXTURE_2D, this->tex_normal);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA16F, this->w, this->h, 0, GL_RGBA, GL_FLOAT, NULL);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+		glBindTexture(GL_TEXTURE_2D, 0);
+
+		// create a Reflection attachment texture
+		glGenTextures(1, &this->tex_reflection);
+		glBindTexture(GL_TEXTURE_2D, this->tex_reflection);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA16F, this->w, this->h, 0, GL_RGBA, GL_FLOAT, NULL);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 		glBindTexture(GL_TEXTURE_2D, 0);
 
 		// create a depth attachment texture
@@ -50,8 +78,8 @@ protected:
 
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 		glTexParameteri(GL_TEXTURE_2D, GL_DEPTH_TEXTURE_MODE, GL_INTENSITY); // GL_INTENSITY16 ?
 		//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_MODE, GL_COMPARE_R_TO_TEXTURE);
 		//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_FUNC, GL_LEQUAL);
@@ -72,6 +100,9 @@ public:
 		glDeleteRenderbuffers(1, &this->renderbuffer);
 		glDeleteFramebuffers(1, &this->framebuffer);
 		glDeleteTextures(1, &this->tex_color);
+		glDeleteTextures(1, &this->tex_position);
+		glDeleteTextures(1, &this->tex_normal);
+		glDeleteTextures(1, &this->tex_reflection);
 	}
 
 	/// <summary>
@@ -94,13 +125,18 @@ public:
 		if (this->h < 0) {
 			this->h = global.screen_height;
 		}
-		
 
 		GenTextures();
 
 		glBindFramebuffer(GL_FRAMEBUFFER, this->framebuffer);
 		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, this->tex_color, 0);
+		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT1, GL_TEXTURE_2D, this->tex_position, 0);
+		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT2, GL_TEXTURE_2D, this->tex_normal, 0);
+		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT3, GL_TEXTURE_2D, this->tex_reflection, 0);
 		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, this->tex_depth, 0);
+
+		unsigned int attachments[4] = { GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1, GL_COLOR_ATTACHMENT2, GL_COLOR_ATTACHMENT3 };
+		glDrawBuffers(4, attachments);
 		//glFramebufferTexture2D(GL_FRAMEBUFFER, GL_STENCIL_ATTACHMENT, GL_TEXTURE_2D, this->tex_stencil, 0);
 
 		//create the renderbuffer
@@ -125,6 +161,30 @@ public:
 		return this->tex_color;
 	}
 
+	/// <summary>
+	/// Return the position texture.
+	/// </summary>
+	/// <returns>The color texture</returns>
+	GLuint GetTexPosition() {
+		return this->tex_position;
+	}
+
+
+	/// <summary>
+	/// Return the Normal texture.
+	/// </summary>
+	/// <returns>The color texture</returns>
+	GLuint GetTexNormal() {
+		return this->tex_normal;
+	}
+
+	/// <summary>
+	/// Return the Reflection texture.
+	/// </summary>
+	/// <returns>The color texture</returns>
+	GLuint GetTexReflection() {
+		return this->tex_reflection;
+	}
 
 	/// <summary>
 	/// Return the depth texture.
