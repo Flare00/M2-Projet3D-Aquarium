@@ -14,10 +14,12 @@
 #include <Script/MovementScript.hpp>
 #include "Scene.hpp"
 #include <Physics/Collider/BoundingBoxCollider.hpp>
+#include <Graphics/ReceiveCaustics.hpp>
 #include <Physics/GLPhysics/WaterPhysics.hpp>
 #include <Physics/Physics/Rigidbody.hpp>
 #include <Physics/Collider/SphereCollider.hpp>
 #include <IA/FishBank.hpp>
+#include <IA/FishRandom.hpp>
 #include <Engine/RaycastObject.hpp>
 
 /// <summary>
@@ -36,7 +38,7 @@ public:
 
 		IMaterial* waterMaterial = new MaterialPBR(glm::vec4(0.0, 0.66, 0.8, 0.7), 0.5f, 0.0f, 1.33f, true);
 		IMaterial* glassMaterial = new MaterialPBR(glm::vec4(1, 1, 1, 0.1), 0.0f, 0.0f, 1.5f, true);
-		IMaterial* baseAquariumMaterial = new MaterialPBR(glm::vec4(0.5, 0.5, 0.5, 1.0));
+		IMaterial* baseAquariumMaterial = new MaterialPBR(glm::vec4(1, 1, 1, 1.0));
 		IMaterial* ballMaterial = new MaterialPBR(glm::vec4(0.0, 1.0, 0.0, 1.0));
 
 		IMaterial* fishBankMaterial = new MaterialPBR(glm::vec4(1), 0.0f, 0.0f, 1.0f, true, textureFolder + "Fish/color.png");
@@ -122,6 +124,15 @@ public:
 		fishBank->addComponent(fish);
 		fishBank->addComponent(new FishBank(fish, fishBankSpline, 0.1, 2));
 
+		//Generate fish random
+
+		GameObject* fishRandom = new GameObject("Fish Random", aquarium);
+		ModelInstanced* fishR = ModelGenerator::QuadInstanced(fishBankMaterial, 2, 2, 0.25f, 0.25f);
+		fishRandom->addComponent(new Displayable(100));
+		fishRandom->addComponent(fishR);
+		fishRandom->addComponent(new FishRandom(fishR, glm::vec3(7,2.5,3.5), glm::vec3(0,-0.5,0)));
+
+		bottomAquarium->addComponent(new ReceiveCaustics());
 		//Change the aquarium position.
 		aquarium->GetTransform()->SetPosition(glm::vec3(0, -2, 2));
 	}

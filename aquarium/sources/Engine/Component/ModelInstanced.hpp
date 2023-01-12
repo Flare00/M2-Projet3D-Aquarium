@@ -24,7 +24,7 @@ public:
 	/// </summary>
 	struct DataInstanced
 	{
-		GLuint VAO, VBO[4], EBO;
+		GLuint VAO, VBO[5], EBO;
 		size_t sizeEBO = 0;
 	};
 
@@ -32,6 +32,7 @@ protected:
 	//The data of the model.
 	DataInstanced dataInstanced;
 	std::vector<glm::vec3> iPositions;
+	std::vector<glm::vec3> iColor;
 public:
 
 	/// <summary>
@@ -54,7 +55,7 @@ public:
 	~ModelInstanced()
 	{
 		glDeleteVertexArrays(1, &this->dataInstanced.VAO);
-		glDeleteBuffers(4, this->dataInstanced.VBO);
+		glDeleteBuffers(5, this->dataInstanced.VBO);
 		if (this->faces.size() > 0)
 		{
 			glDeleteBuffers(1, &this->dataInstanced.EBO);
@@ -67,7 +68,7 @@ public:
 	void GenerateBuffer() override
 	{
 		glGenVertexArrays(1, &this->dataInstanced.VAO);
-		glGenBuffers(4, this->dataInstanced.VBO);
+		glGenBuffers(5, this->dataInstanced.VBO);
 
 		glBindVertexArray(this->dataInstanced.VAO);
 
@@ -101,6 +102,16 @@ public:
 			glVertexAttribDivisor(3, 1);
 		}
 
+		if (this->iColor.size() > 0) {
+			glEnableVertexAttribArray(4);
+			glBindBuffer(GL_ARRAY_BUFFER, this->dataInstanced.VBO[4]);
+			glBufferData(GL_ARRAY_BUFFER, this->iColor.size() * sizeof(glm::vec3), &this->iColor[0], GL_DYNAMIC_DRAW);
+			glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE, 3*sizeof(float), (void*)0);
+
+			glBindBuffer(GL_ARRAY_BUFFER, 0);
+			glVertexAttribDivisor(4, 1);
+		}
+
 		if (this->faces.size() > 0)
 		{
 			std::vector<unsigned int> indices;
@@ -131,7 +142,6 @@ public:
 	/// </summary>
 	/// <param name="pts">The new position list</param>
 	void SetPositions(std::vector<glm::vec3> pts) {
-
 		if (iPositions.size() == 0) {
 			this->iPositions.insert(this->iPositions.begin(), pts.begin(), pts.end());
 			glEnableVertexAttribArray(3);
@@ -141,6 +151,17 @@ public:
 
 			glBindBuffer(GL_ARRAY_BUFFER, 0);
 			glVertexAttribDivisor(3, 1);
+
+			for (int i = 0, max = pts.size(); i < max; i++) {
+				iColor.push_back(pts[i]);
+			}
+			glEnableVertexAttribArray(4);
+			glBindBuffer(GL_ARRAY_BUFFER, this->dataInstanced.VBO[4]);
+			glBufferData(GL_ARRAY_BUFFER, this->iColor.size() * sizeof(glm::vec3), &this->iColor[0], GL_DYNAMIC_DRAW);
+			glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+
+			glBindBuffer(GL_ARRAY_BUFFER, 0);
+			glVertexAttribDivisor(4, 1);
 		}
 		else {
 			this->iPositions.clear();
@@ -152,8 +173,6 @@ public:
 			glBindBuffer(GL_ARRAY_BUFFER, this->dataInstanced.VBO[3]);
 			glBufferSubData(GL_ARRAY_BUFFER, 0, this->iPositions.size() * sizeof(glm::vec3), &this->iPositions[0]);
 		}
-
-		
 	}
 
 	/// <summary>

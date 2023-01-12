@@ -11,7 +11,7 @@
 #include <IA/Spline.hpp>
 #include <Engine/Tools/ModelGenerator.hpp>
 /// <summary>
-/// Fish bank system, using spring mass (to implement)
+/// Fish bank system, using spring mass 
 /// </summary>
 class FishBank : public Component, public EngineBehavior
 {
@@ -28,7 +28,7 @@ protected:
 	float distRepos;
 	double movementForce = 1.0;
 
-	float k = 1.0f;
+	float k = 0.5f;
 public:
 
 	/// <summary>
@@ -59,7 +59,6 @@ public:
 		}
 
 		this->fish->SetPositions(pos);
-
 	}
 
 	~FishBank() {
@@ -90,7 +89,9 @@ public:
 	/// </summary>
 	void UpdatePositions(double deltaT) {
 		std::vector<glm::vec3> positions = this->fish->GetPositions();
-		positions[0] = spline->Interpolate(this->avancement);
+		glm::vec3 tmp = spline->Interpolate(this->avancement);
+		glm::vec3 dir = tmp - positions[0];
+		positions[0] = tmp;
 		for (int i = 1, max = this->links.size(); i < max; i++) {
 			glm::vec3 force(0.0f);
 			for (int j = 0, maxJ = this->links[i].size(); j < maxJ; j++) {
@@ -100,6 +101,7 @@ public:
 			}
 			this->velocities[i] += force * (float)deltaT;
 			positions[i] += velocities[i] * (float)deltaT;
+			positions[i] += dir * 0.75f;
 		}
 
 

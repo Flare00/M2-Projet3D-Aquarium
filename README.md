@@ -33,7 +33,7 @@ Qwerty -- Azerty
 
 #### Étape 2 - Effet lumineux : --- Minimum à implémenter ---
 - [X] faire un système de lampe projeter (soleil / spot).
-- [ ] Caustics et God Rays.
+- [X] Caustics et/ou God Rays.
 - [ ] Ombre projeté.
 - [X] Réfraction/Réflexion GPU
 

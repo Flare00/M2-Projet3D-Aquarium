@@ -51,7 +51,7 @@ public:
 	/// <param name="P">Projection Matrix</param>
 	/// <param name="camPos">Camera position</param>
 	/// <param name="inWater">Is in water ?</param>
-	virtual void SetDataGPU(glm::mat4 M, glm::mat4 V, glm::mat4 P, glm::vec3 camPos, bool inWater, bool mainRender) {
+	virtual void SetDataGPU(glm::mat4 M, glm::mat4 V, glm::mat4 P, glm::vec3 camPos, bool inWater, bool mainRender, bool causticAffected) {
 		GLuint program = this->shader->GetProgram();
 		glUseProgram(program);
 

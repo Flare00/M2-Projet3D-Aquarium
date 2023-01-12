@@ -7,6 +7,7 @@ out vec4 FragColor;
 in vec3 Normal;
 in vec2 TexCoord;
 in vec4 PointCoord;
+in vec3 InstanceColor;
 
 // --- Structs ---
 
@@ -185,6 +186,8 @@ void main(){
 	c = c / (c+vec3(1.0));
 	c = pow(c, vec3(1.0/gamma));
 	FragColor = vec4(c, material.albedo.a);
+
+	FragColor = mix(FragColor, vec4(InstanceColor,1.0), 0.1);
 
 	/*float fog_maxdist = 2.0;
 	float fog_mindist = 0.1;

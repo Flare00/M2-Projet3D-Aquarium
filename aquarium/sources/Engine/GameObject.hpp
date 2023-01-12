@@ -216,6 +216,20 @@ public:
 	}
 
 	/// <summary>
+	/// Return the highest parent in the hierarchy
+	/// </summary>
+	/// <returns>The highest parent in the hierarchy</returns>
+	GameObject* GetParentRecursive()
+	{
+		if (this->parent == nullptr) {
+			return this;
+		}
+		else {
+			return this->parent->GetParentRecursive();
+		}
+	}
+
+	/// <summary>
 	/// Add a component to the gameobject, auto attach gameobject to this component.
 	/// </summary>
 	/// <param name="component">The component to add.</param>
@@ -256,7 +270,7 @@ public:
 	/// <typeparam name="T">The type of the components</typeparam>
 	/// <param name="activeOnly">Is components need to be active ?</param>
 	/// <returns>The list of components (may be empty)</returns>
-	template<class T>
+	template<typename T>
 	std::vector<T*> getComponentsByTypeRecursive(bool activeOnly = false)
 	{
 		if (this->active) {
@@ -288,6 +302,27 @@ public:
 		}
 		return res;
 	}
+
+
+	/// <summary>
+	/// Return first component by it's type, in this gameobject, or childrens (recursivly).
+	/// </summary>
+	/// <typeparam name="T">The type of the components</typeparam>
+	/// <param name="activeOnly">Is components need to be active ?</param>
+	/// <returns>The list of components (may be empty)</returns>
+	template<typename T>
+	T* getFirstComponentByTypeRecursive(bool activeOnly = false)
+	{
+		if (this->active) {
+			T* res = this->getFirstComponentByType<T>();
+			for (size_t i = 0, max = this->childs.size(); i < max && res == nullptr; i++) {
+				res = this->childs[i]->getFirstComponentByTypeRecursive<T>(activeOnly);
+			}
+			return res;
+		}
+		return nullptr;
+	}
+
 
 	/// <summary>
 	/// Get childs that does not have a certain component, not recursive.
@@ -346,7 +381,7 @@ public:
 	/// Remove a component by it's reference.
 	/// </summary>
 	/// <param name="comp">The reference to remove.</param>
-	void removeComponent(Component * comp) {
+	void removeComponent(Component* comp) {
 		int found = -1;
 		for (size_t i = 0, max = this->components.size(); i < max && found == -1; i++) {
 			if (this->components[i] == comp) {
@@ -420,7 +455,7 @@ public:
 	/// </summary>
 	/// <returns>The world position.</returns>
 	glm::vec3 GetPositionWithRecursiveMatrix() {
-		glm::vec4 pos = GetMatrixRecursive() * glm::vec4(0,0,0, 1.0);
+		glm::vec4 pos = GetMatrixRecursive() * glm::vec4(0, 0, 0, 1.0);
 		return glm::vec3(pos.x, pos.y, pos.z);
 	}
 

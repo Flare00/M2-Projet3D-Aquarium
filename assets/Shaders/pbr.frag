@@ -57,11 +57,15 @@ const int u_show_mode = 0; // 0 = PBR, 1 = Albedo, 2 = Albedo Map, 3 = Normal, 4
 const float PI = 3.14159265359;
 const float gamma = 2.2;
 
+
+//Pre render variables (for SSR)
 uniform int u_use_pre_render;
 uniform sampler2D t_pre_render;
 uniform sampler2D t_pre_position;
 uniform sampler2D t_pre_normal;
 
+uniform int u_use_caustics;
+uniform sampler2D t_caustics;
 
 // --- PBR Functions --- 
 vec3 getNormalFromMap()
@@ -203,29 +207,12 @@ void main(){
 
 	if(u_use_pre_render == 1 && Metal > 0.01){
 		vec3 incomingRay = normalize(PointCoord.xyz);
-		vec3 normal = normalize(-Norm);
+		vec3 normal = normalize(Norm);
         vec3 reflectedRay = reflect(incomingRay, normal);
         vec3 refractedRay = refract(incomingRay, normal, 1.33);
 
         float fresnel = mix(0.5, 1.0, pow(1.0 - dot(normal, -incomingRay), 3.0));
           
-        /*vec3 reflectedColor = getSurfaceRayColor(position, reflectedRay, underwaterColor);
-        vec3 refractedColor = getSurfaceRayColor(position, refractedRay, vec3(1.0)) * vec3(0.8, 1.0, 1.1);
-          
-        gl_FragColor = vec4(mix(reflectedColor, refractedColor, (1.0 - fresnel) * length(refractedRay)), 1.0);
-        vec3 reflectedRay = reflect(incomingRay, normal);
-        vec3 refractedRay = refract(incomingRay, normal, IOR_AIR / IOR_WATER);
-        float fresnel = mix(0.25, 1.0, pow(1.0 - dot(normal, -incomingRay), 3.0));
-          
-        vec3 reflectedColor = getSurfaceRayColor(position, reflectedRay, abovewaterColor);
-        vec3 refractedColor = getSurfaceRayColor(position, refractedRay, abovewaterColor);
-          
-        gl_FragColor = vec4(mix(refractedColor, reflectedColor, fresnel), 1.0);*/
-		//gAlbedo = Reflection(5,0.3,2,0.5);
-		/*vec4 vp = texture(t_pre_position, TexCoord);
-		vec4 vreflect = reflect(vp, vn);
-		vec4 vrefract = refract(vp, vn, 1.33);*/
-
 		vec4 refractColor = texture(t_pre_render, refractedRay.xy);
 		vec4 reflectColor = texture(t_pre_render, reflectedRay.xy);
 
@@ -233,6 +220,8 @@ void main(){
 		gAlbedo = mix(gAlbedo, mixed, Metal);
 	}
 
-	float fogFactor = clamp((fogDistance - 2.0f) / (1000.0f - 2.0f), 0.0, 1.0);
-	gAlbedo = mix(gAlbedo, vec4(0.5,0.5,0,1)  , fogFactor);
+	if(u_use_caustics == 1){
+		vec4 tmp = texture(t_caustics, TexCoord);
+		gAlbedo =mix(gAlbedo, vec4(tmp.xyz, 1.0f), 0.5);
+	}
 }

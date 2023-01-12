@@ -49,7 +49,7 @@ public:
 		std::vector<WaterPhysics*> waterPhysics = root->getComponentsByTypeRecursive<WaterPhysics>();
 
 
-		Render(camera, lights, elements, waterPhysics, preRender);
+		Render(camera, lights, elements, waterPhysics, preRender, root);
 	}
 	/// <summary>
 	/// Compute the graphics using a list of camera, lights, and Displayable elements.
@@ -65,9 +65,9 @@ public:
 	/// <param name="lights">List of lights in the scene</param>
 	/// <param name="elements">List of displayable element in the scene.</param>
 	/// <param name="waterPhysics">The water physics</param>
-	void Render(Camera* camera, std::vector<Light*> lights, std::vector<Displayable*> elements, std::vector<WaterPhysics*> waterPhysics, bool mainRender) {
+	void Render(Camera* camera, std::vector<Light*> lights, std::vector<Displayable*> elements, std::vector<WaterPhysics*> waterPhysics, bool mainRender, GameObject* root) {
 
-		glBindFramebuffer(GL_FRAMEBUFFER, mainRender ?  0  : camera->GetFrameBuffer());
+		glBindFramebuffer(GL_FRAMEBUFFER, mainRender ? 0 : camera->GetFrameBuffer());
 
 		//Update the camera Frustum
 		camera->UpdateFrustum();
@@ -95,14 +95,14 @@ public:
 		//Draw the elements
 		for (size_t indexElem = 0, nbElem = elements.size(); indexElem < nbElem; indexElem++) {
 			if (elements[indexElem]->IsAlwaysDraw()) {
-				Draw(camera, elements[indexElem], lights, isInWater, mainRender);
+				Draw(camera, elements[indexElem], lights, isInWater, mainRender, root);
 			}
 			else
 			{
 				BoundingBoxCollider frustumCollider = elements[indexElem]->GetGameObject()->getFirstComponentByType<Model>()->GetFrustumCollider();
 				if (camera->IsInView(frustumCollider.GetMinOriented(), frustumCollider.GetMaxOriented())) {
 					//printf("In View\n");
-					Draw(camera, elements[indexElem], lights, isInWater, mainRender);
+					Draw(camera, elements[indexElem], lights, isInWater, mainRender, root);
 				}
 			}
 		}
@@ -122,9 +122,9 @@ public:
 	/// <param name="cam">The camera</param>
 	/// <param name="element">The element to draw</param>
 	/// <param name="lights">The list of lights in the scene.</param>
-	void Draw(Camera* cam, Displayable* element, std::vector<Light*> lights, bool waterFog, bool mainRender) {
+	void Draw(Camera* cam, Displayable* element, std::vector<Light*> lights, bool waterFog, bool mainRender, GameObject* root) {
 		Model* model = element->GetGameObject()->getFirstComponentByType<Model>();
-		Draw(cam, element, model, lights, waterFog, mainRender);
+		Draw(cam, element, model, lights, waterFog, mainRender, root);
 	}
 
 	/// <summary>
@@ -134,7 +134,7 @@ public:
 	/// <param name="element">This displayable element to draw</param>
 	/// <param name="model">The model to draw</param>
 	/// <param name="lights">The list of lights in the scene</param>
-	void Draw(Camera* cam, Displayable* element, Model* model, std::vector<Light*> lights, bool waterFog, bool mainRender) {
+	void Draw(Camera* cam, Displayable* element, Model* model, std::vector<Light*> lights, bool waterFog, bool mainRender, GameObject* root) {
 
 		GameObject* go = element->GetGameObject();
 		if (go == nullptr) {
@@ -151,12 +151,16 @@ public:
 			renderMaterial = model->GetRenderMaterial();
 		}
 
-		renderMaterial->SetDataGPU(go->GetMatrixRecursive(), cam->GetView(), cam->GetProjection(), cam->GetPosition(), waterFog, mainRender);
+		bool caustics = renderMaterial->attachment->getFirstComponentByType<ReceiveCaustics>() != nullptr;
+
+
+
+		renderMaterial->SetDataGPU(go->GetMatrixRecursive(), cam->GetView(), cam->GetProjection(), cam->GetPosition(), waterFog, mainRender, caustics);
 		renderMaterial->SetLightGPU(lights);
 
 		if (mainRender) {
 			glUseProgram(renderMaterial->GetShader()->GetProgram());
-			Framebuffer * fb = cam->GetFramebufferObject();
+			Framebuffer* fb = cam->GetFramebufferObject();
 			if (fb != nullptr) {
 				glActiveTexture(GL_TEXTURE7);
 				glBindTexture(GL_TEXTURE_2D, fb->GetTexColor());
@@ -164,6 +168,16 @@ public:
 				glBindTexture(GL_TEXTURE_2D, fb->GetTexPosition());
 				glActiveTexture(GL_TEXTURE9);
 				glBindTexture(GL_TEXTURE_2D, fb->GetTexNormal());
+			}
+		}
+
+		if (caustics) {
+			glUseProgram(renderMaterial->GetShader()->GetProgram());
+			WaterPhysics* wp = root->getFirstComponentByTypeRecursive<WaterPhysics>();
+			if (wp != nullptr) {
+				int useCaustics = 1;
+				glActiveTexture(GL_TEXTURE10);
+				glBindTexture(GL_TEXTURE_2D, wp->GetCaustics());
 			}
 		}
 

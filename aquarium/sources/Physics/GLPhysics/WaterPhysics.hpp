@@ -31,13 +31,16 @@ protected:
 	};
 	Shader* physicShader; // the physic shader
 	Shader* dropShader; // the physic shader
+	Shader* causticShader; // the physic shader
 	Framebuffer framebuffer; // the framebuffer of this physic
+	Framebuffer causticFramebuffer; // the framebuffer of this physic
 	std::vector<Drop> drops; // list of drops to apply
 	int resolutionX, resolutionY; // the resolution of the texture
 	float invResX, invResY; // inverse of the resolution
 	glm::vec2 containerSize;
 	int frameForCapture = 5; // Debug element to capture what is going on.
 	int frameForCaptureCurrent = 6;
+
 
 	Model* quad; // the quad model to compute the physics
 public:
@@ -47,9 +50,10 @@ public:
 	/// <param name="resolutionX">The width of the texture</param>
 	/// <param name="resolutionY">The height of the texture</param>
 	/// <param name="containerSize">The size of the container, for computation.</param>
-	WaterPhysics(int resolutionX = 1024, int resolutionY = 1024, glm::vec2 containerSize= glm::vec2(1,1)) {
+	WaterPhysics(int resolutionX = 1024, int resolutionY = 1024, glm::vec2 containerSize = glm::vec2(1, 1)) {
 		this->physicShader = new Shader("Physics/water.vert", "Physics/water.frag");
 		this->dropShader = new Shader("Physics/water.vert", "Physics/drop.frag");
+		this->causticShader = new Shader("caustics.vert", "caustics.frag");
 
 		this->resolutionX = resolutionX;
 		this->resolutionY = resolutionY;
@@ -61,8 +65,9 @@ public:
 		float* data = new float[resolutionX * resolutionY * 4];
 
 		for (int i = 0, max = this->resolutionX * this->resolutionY * 4; i < max; i++) {
-			data[i] = (i%4 == 3 ? 1.0f : 0.0f);
+			data[i] = (i % 4 == 3 ? 1.0f : 0.0f);
 		}
+
 		glGenTextures(1, &this->texture);
 		glBindTexture(GL_TEXTURE_2D, this->texture);
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA16F, resolutionX, resolutionY, 0, GL_RGBA, GL_FLOAT, data);
@@ -80,6 +85,7 @@ public:
 	/// </summary>
 	void PostAttachment() override {
 		framebuffer.Generate(this->resolutionX, this->resolutionY, true);
+		causticFramebuffer.Generate(this->resolutionX*4, this->resolutionY*4);
 	}
 
 	/// <summary>
@@ -100,12 +106,20 @@ public:
 		if (glfwGetKey(global.global_window, GLFW_KEY_C) == GLFW_PRESS && frameForCaptureCurrent > frameForCapture) {
 			frameForCaptureCurrent = frameForCapture;
 		}
-		
-		dropCompute();
-		waterCompute(delta);
+
+		DropCompute();
+		WaterCompute(delta);
+		CausticsCompute(glm::normalize(glm::vec3(0, -1, 0)));
+
+		if (frameForCaptureCurrent <= frameForCapture) {
+			frameForCaptureCurrent--;
+		}
+
+		if (frameForCaptureCurrent < 0) {
+			frameForCaptureCurrent = frameForCapture + 1;
+		}
 	}
 
-	
 	/// <summary>
 	/// Return the heightmap (aka Color texture)
 	/// </summary>
@@ -123,53 +137,19 @@ public:
 		return this->containerSize;
 	}
 
-	private : 
-		void dropCompute() {
-			if (drops.size() > 0) {
-				//Bind framebuffer
-				glViewport(0, 0, this->framebuffer.GetWidth(), this->framebuffer.GetHeight());
-				glBindFramebuffer(GL_FRAMEBUFFER, this->framebuffer.GetFramebuffer());
-
-				glEnable(GL_DEPTH_TEST);
-				glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-				glClearColor(0, 0, 0, 1);
-
-				glUseProgram(dropShader->GetProgram());
-				//Set Data
-				glUniform1i(glGetUniformLocation(dropShader->GetProgram(), "tex"), 0);
-
-				// Set Drop
-			
-				glUniform2f(glGetUniformLocation(dropShader->GetProgram(), "center"), drops[0].pos.x, drops[0].pos.y);
-				glUniform1f(glGetUniformLocation(dropShader->GetProgram(), "radius"), drops[0].radius);
-				glUniform1f(glGetUniformLocation(dropShader->GetProgram(), "strength"), drops[0].strength);
-
-				//Bind Texture
-				glActiveTexture(GL_TEXTURE0);
-				glBindTexture(GL_TEXTURE_2D, this->texture);
-
-				//Draw Mesh
-				glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-				//glVertexPointer(3, GL_FLOAT, 0, &quad[0]);
-				//glDrawArrays(GL_TRIANGLES, 0, quad.size());
-
-				Model::Data mData = this->quad->GetData();
-				glBindVertexArray(mData.VAO);
-				glDrawElements(GL_TRIANGLES, mData.sizeEBO, GL_UNSIGNED_INT, 0);
-
-				glFlush();
-
-				glBindTexture(GL_TEXTURE_2D, this->texture);
-				glCopyTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, 0, 0, this->resolutionX, this->resolutionY);
-
-				//Release
-				glBindFramebuffer(GL_FRAMEBUFFER, 0);
-				glViewport(0, 0, global.screen_width, global.screen_height);
-
-				drops.erase(drops.begin());
-			}
-		}
-		void waterCompute(double delta) {
+	/// <summary>
+	/// Return the caustics color texture
+	/// </summary>
+	/// <returns>The caustics color texture</returns>
+	GLuint GetCaustics() {
+		return this->causticFramebuffer.GetTexColor();
+	}
+private:
+	/// <summary>
+	/// Compute the Drop water shader.
+	/// </summary>
+	void DropCompute() {
+		if (drops.size() > 0) {
 			//Bind framebuffer
 			glViewport(0, 0, this->framebuffer.GetWidth(), this->framebuffer.GetHeight());
 			glBindFramebuffer(GL_FRAMEBUFFER, this->framebuffer.GetFramebuffer());
@@ -178,11 +158,15 @@ public:
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 			glClearColor(0, 0, 0, 1);
 
-			glUseProgram(physicShader->GetProgram());
+			glUseProgram(dropShader->GetProgram());
 			//Set Data
-			glUniform1f(glGetUniformLocation(physicShader->GetProgram(), "deltaTime"), delta);
-			glUniform2f(glGetUniformLocation(physicShader->GetProgram(), "deltaMove"), invResX, invResY);
-			glUniform1i(glGetUniformLocation(physicShader->GetProgram(), "tex"), 0);
+			glUniform1i(glGetUniformLocation(dropShader->GetProgram(), "tex"), 0);
+
+			// Set Drop
+
+			glUniform2f(glGetUniformLocation(dropShader->GetProgram(), "center"), drops[0].pos.x, drops[0].pos.y);
+			glUniform1f(glGetUniformLocation(dropShader->GetProgram(), "radius"), drops[0].radius);
+			glUniform1f(glGetUniformLocation(dropShader->GetProgram(), "strength"), drops[0].strength);
 
 			//Bind Texture
 			glActiveTexture(GL_TEXTURE0);
@@ -197,30 +181,110 @@ public:
 			glBindVertexArray(mData.VAO);
 			glDrawElements(GL_TRIANGLES, mData.sizeEBO, GL_UNSIGNED_INT, 0);
 
-			if (frameForCaptureCurrent <= frameForCapture && frameForCaptureCurrent > 0) {
-				std::string name = "capture/" + std::to_string(frameForCapture - frameForCaptureCurrent) + ".1.png";
-				this->framebuffer.WriteTextureToFile(name);
-			}
-
-
 			glFlush();
 
 			glBindTexture(GL_TEXTURE_2D, this->texture);
 			glCopyTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, 0, 0, this->resolutionX, this->resolutionY);
 
-
-			if (frameForCaptureCurrent <= frameForCapture) {
-				frameForCaptureCurrent--;
-			}
-
-			if (frameForCaptureCurrent < 0) {
-				frameForCaptureCurrent = frameForCapture + 1;
-			}
-
 			//Release
 			glBindFramebuffer(GL_FRAMEBUFFER, 0);
 			glViewport(0, 0, global.screen_width, global.screen_height);
+
+			drops.erase(drops.begin());
 		}
+	}
+
+
+	/// <summary>
+	/// Compute the water animation shader.
+	/// </summary>
+	void WaterCompute(double delta) {
+		//Bind framebuffer
+		glViewport(0, 0, this->framebuffer.GetWidth(), this->framebuffer.GetHeight());
+		glBindFramebuffer(GL_FRAMEBUFFER, this->framebuffer.GetFramebuffer());
+
+		glEnable(GL_DEPTH_TEST);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		glClearColor(0, 0, 0, 1);
+
+		glUseProgram(physicShader->GetProgram());
+		//Set Data
+		glUniform1f(glGetUniformLocation(physicShader->GetProgram(), "deltaTime"), delta);
+		glUniform2f(glGetUniformLocation(physicShader->GetProgram(), "deltaMove"), invResX, invResY);
+		glUniform1i(glGetUniformLocation(physicShader->GetProgram(), "tex"), 0);
+
+		//Bind Texture
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, this->texture);
+
+		//Draw Mesh
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		//glVertexPointer(3, GL_FLOAT, 0, &quad[0]);
+		//glDrawArrays(GL_TRIANGLES, 0, quad.size());
+
+		Model::Data mData = this->quad->GetData();
+		glBindVertexArray(mData.VAO);
+		glDrawElements(GL_TRIANGLES, mData.sizeEBO, GL_UNSIGNED_INT, 0);
+
+		glFlush();
+
+		if (frameForCaptureCurrent <= frameForCapture && frameForCaptureCurrent > 0) {
+			std::string name = "capture/" + std::to_string(frameForCapture - frameForCaptureCurrent) + ".1.png";
+			this->framebuffer.WriteTextureToFile(name);
+		}
+
+		glBindTexture(GL_TEXTURE_2D, this->texture);
+		glCopyTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, 0, 0, this->resolutionX, this->resolutionY);
+
+		//Release
+		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+		glViewport(0, 0, global.screen_width, global.screen_height);
+	}
+
+	/// <summary>
+	/// Compute the caustics.
+	/// </summary>
+	/// <param name="lightDir">The light direction.</param>
+	void CausticsCompute(glm::vec3 lightDir) {
+		glViewport(0, 0, this->causticFramebuffer.GetWidth(), this->causticFramebuffer.GetHeight());
+		glBindFramebuffer(GL_FRAMEBUFFER, this->causticFramebuffer.GetFramebuffer());
+
+		glEnable(GL_DEPTH_TEST);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		glClearColor(0, 0, 0, 0);
+
+		glUseProgram(this->causticShader->GetProgram());
+
+		//Set numero to texture
+		glUniform1i(glGetUniformLocation(causticShader->GetProgram(), "waterData"), 0);
+
+		// Set Data
+		glUniform3f(glGetUniformLocation(causticShader->GetProgram(), "lightDirection"), lightDir.x, lightDir.y, lightDir.z);
+
+		//Bind Texture
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, this->texture);
+
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+
+		//Draw
+		Model::Data mData = this->quad->GetData();
+		glBindVertexArray(mData.VAO);
+		glDrawElements(GL_TRIANGLES, mData.sizeEBO, GL_UNSIGNED_INT, 0);
+
+		if (frameForCaptureCurrent <= frameForCapture && frameForCaptureCurrent > 0) {
+			std::string name = "capture/" + std::to_string(frameForCapture - frameForCaptureCurrent) + ".2.png";
+			this->causticFramebuffer.WriteTextureToFile(name);
+		}
+
+		glFlush();
+
+
+		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+		glViewport(0, 0, global.screen_width, global.screen_height);
+
+
+	}
 };
 
 #endif

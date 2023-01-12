@@ -32,7 +32,7 @@ void main(){
 
 	if(u_is_data_physics == 1 && aNormal.y == 1){
 		vec4 d = texture(p_data_physics, aTexCoord);
-		height += -d.r;
+		height += d.r;
 		PhysicsNorm = vec3(d.b, sqrt(1.0 - dot(d.ba, d.ba)), d.a);
 	}
 
