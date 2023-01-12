@@ -378,6 +378,13 @@ public:
 	}*/
 
 	/// <summary>
+	/// Return the Framebuffer object.
+	/// </summary>
+	/// <returns>The framebuffer object</returns>
+	Framebuffer* GetFramebufferObject() {
+		return &this->framebuffer;
+	}
+	/// <summary>
 	/// Return the position of the camera
 	/// </summary>
 	/// <returns>The position</returns>

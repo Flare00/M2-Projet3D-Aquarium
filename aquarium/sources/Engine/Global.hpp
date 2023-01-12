@@ -21,10 +21,12 @@ struct Global {
 	double fps_limit = 60.0;
 	double mouseX = 0.0;
 	double mouseY = 0.0;
+	bool raycastAsked = false;
 
 	double ScreenAspectRatio() {
 		return ((float)screen_width) / ((float)screen_height);
 	}
+
 };
 
 Global global;

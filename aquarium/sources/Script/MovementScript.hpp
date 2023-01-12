@@ -129,31 +129,9 @@ public:
 			}
 			if (leftClick) {
 				if (global.mouseX != this->lastXPos || global.mouseY != this->lastYPos) {
-					if(lastHittedGO == nullptr){
-						//Create a hit if hit something
-						//Graphics * g = engine->GetGraphics();
-
-						// The Idea here is to send a Ray Cast (or a Sphere Cast) to grab object or create drop on the water
-
-						//If the Gameobject is a camera we can use the depth stencil
-						Camera* camera = this->attachment->getFirstComponentByType<Camera>();
-						GameObject* hitted = nullptr;
-						if(camera != nullptr){
-							//hitted = graphics.RaycastStencil(camera, engine->GetActiveSceneRoot()->GetChildsWithoutComponentRecursive());
-						}
-						else {
-							// First we get the Mouse coordinate on the screen, here global.mouseX | Y
-							glm::vec4 coord = glm::vec4(global.mouseX / (double)global.screen_width, global.mouseY / (double)global.screen_height, 0, 1);
-							// Then we cast it to the 3D world coordinate
-							coord = coord * this->attachment->GetTransform()->getMatrix();
-							// Then we sent the ray that start with the 3D world coordinate and have the Object front vector as direction.
-							//hitted = engine->GetPhysicsEngine()->Raycast(engine->GetActiveSceneRoot()->GetChildsWithoutComponentRecursive(), glm::vec3(coord.x, coord.y, coord.z), this->attachment->GetTransform()->getFrontVector());
-						}
-					} else {
-						//Move the element if he have a grab function
-
-					}
+					
 				}
+				global.raycastAsked = true;
 			} else {
 				lastHittedGO = nullptr;
 			}

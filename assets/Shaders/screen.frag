@@ -11,9 +11,4 @@ void main()
 {
     vec4 col = texture(renderTexture, TexCoords).rgba;
     FragColor = col;
-    if(col.r > 1.0){
-        FragColor = vec4(0,1,0,1);
-    } else if (col.r > 2.0){
-        FragColor = vec4(0,0,1,1);
-    }
 } 

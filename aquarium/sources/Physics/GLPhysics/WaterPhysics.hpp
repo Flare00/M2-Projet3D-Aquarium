@@ -34,7 +34,7 @@ protected:
 	std::vector<Drop> drops; // list of drops to apply
 	int resolutionX, resolutionY; // the resolution of the texture
 	float invResX, invResY; // inverse of the resolution
-
+	glm::vec2 containerSize;
 	int frameForCapture = 5; // Debug element to capture what is going on.
 	int frameForCaptureCurrent = 6;
 
@@ -45,14 +45,15 @@ public:
 	/// </summary>
 	/// <param name="resolutionX">The width of the texture</param>
 	/// <param name="resolutionY">The height of the texture</param>
-	WaterPhysics(int resolutionX = 1024, int resolutionY = 1024) {
+	/// <param name="containerSize">The size of the container, for computation.</param>
+	WaterPhysics(int resolutionX = 1024, int resolutionY = 1024, glm::vec2 containerSize= glm::vec2(1,1)) {
 		this->physicShader = new Shader("Physics/water.vert", "Physics/water.frag");
 		this->resolutionX = resolutionX;
 		this->resolutionY = resolutionY;
 		this->invResX = 1.0f / (float)resolutionX;
 		this->invResY = 1.0f / (float)resolutionY;
 		this->quad = ModelGenerator::Quad(nullptr, resolutionX, resolutionY, 2, 2);
-
+		this->containerSize = containerSize;
 
 		float* data = new float[resolutionX * resolutionY * 4];
 
@@ -61,7 +62,7 @@ public:
 		}
 		glGenTextures(1, &this->texture);
 		glBindTexture(GL_TEXTURE_2D, this->texture);
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA16F, resolutionX, resolutionY, 0, GL_RGBA, GL_FLOAT, data);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA32F, resolutionX, resolutionY, 0, GL_RGBA, GL_FLOAT, data);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
@@ -184,6 +185,15 @@ public:
 	/// <returns>The heightmap</returns>
 	GLuint GetHeightmap() {
 		return this->framebuffer.GetTexColor();
+	}
+
+
+	/// <summary>
+	/// Return the container size
+	/// </summary>
+	/// <returns>the container size</returns>
+	glm::vec2 GetContainerSize() {
+		return this->containerSize;
 	}
 };
 

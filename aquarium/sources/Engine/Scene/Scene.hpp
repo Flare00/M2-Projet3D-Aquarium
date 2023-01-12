@@ -20,6 +20,9 @@ class Scene : public EngineBehavior
 public:
 	//The root gameobject.
 	GameObject* root = NULL;
+	std::vector<Camera*> renderCamera;
+	int activeCamera = 0;
+
 	//The id of the scene.
 	std::string id;
 

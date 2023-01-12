@@ -108,6 +108,7 @@ public:
 		glEnable(GL_DEPTH_TEST);
 		// Accept fragment if it closer to the camera than the former one
 		glDepthFunc(GL_LESS);
+		glDepthMask(GL_TRUE);
 
 
 
@@ -216,7 +217,17 @@ public:
 
 			GameObject* root = scenes[activeScene].GetRoot();
 			physics.Compute(deltaT, root);
-			graphics.Compute(root);
+			int activeCam = scenes[activeScene].activeCamera;
+			graphics.Compute(scenes[activeScene].renderCamera[activeCam], root , false);
+
+			//Do the raycast with
+			if (global.raycastAsked) {
+				double nx = (((double)global.mouseX * 2.0) / ((double)global.screen_width)) - 1.0;
+				double ny = 1- (((double)global.mouseY * 2.0) / ((double)global.screen_height));
+				Physics::RaycastHit rh = physics.Raycast(root, scenes[activeScene].renderCamera[activeCam], nx, ny);
+				physics.DoRaycastAction(rh);
+				global.raycastAsked = false;
+			}
 		}
 	}
 

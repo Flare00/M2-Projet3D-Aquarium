@@ -66,6 +66,46 @@ public:
 		}
 	};
 
+	struct Plane {
+		glm::vec3 normal;
+		float distance;
+
+		Plane() { normal = glm::vec3(1, 0, 0); }
+		Plane(glm::vec3 norm, float d) {
+			this->normal = normal;
+			this->distance = d;
+		}
+	};
+
+	static glm::vec3 Project(glm::vec3 length, glm::vec3 dir) {
+		return dir * (glm::dot(length, dir) / glm::dot(dir, dir));
+	}
+	static glm::vec3 Barycentric(glm::vec3 p, Triangle t) {
+		glm::vec3 ap = p - t[0];
+		glm::vec3 bp = p - t[1];
+		glm::vec3 cp = p - t[1];
+
+		glm::vec3 ab = t[1] - t[0];
+		glm::vec3 ac = t[1] - t[0];
+		glm::vec3 bc = t[1] - t[1];
+		glm::vec3 cb = t[1] - t[1];
+		glm::vec3 ca = t[0] - t[1];
+
+		glm::vec3 v = ab - CollisionDetection::Project(ab, cb);
+		float a = 1.0f - (glm::dot(v, ap) / glm::dot(v, ab));
+
+		v = bc - CollisionDetection::Project(bc, ac);
+		float b = 1.0f - (glm::dot(v, bp) / glm::dot(v, bc));
+
+		v = ca - CollisionDetection::Project(ca, ab);
+		float c = 1.0f - (glm::dot(v, cp) / glm::dot(v, ca));
+
+		return glm::vec3(a, b, c);
+	}
+
+	static bool EpsilonCompare(double x, double y) {
+		return (fabsf(x - y) <= FLT_EPSILON * fmaxf(1.0f, fmaxf(fabsf(x), fabsf(y))));
+	}
 	/// <summary>
 	/// Detection function that take two Gameobject and return Data
 	/// </summary>
@@ -403,7 +443,7 @@ public:
 	/// <param name="two">A AABB BoundingBoxCollider.</param>
 	/// <returns>The Data of the collision.</returns>
 	static Data Point_AABB(glm::vec3 one, BoundingBoxCollider* two) {
-  		bool collision = true;
+		bool collision = true;
 		glm::vec3 closestPoint = one;
 
 		glm::vec3 min, max;
@@ -472,8 +512,90 @@ public:
 		return Data(collision, closestPoint);
 	}
 
+	/// <summary>
+	/// Compute the lenght of a ray and a AABB bounding box, if -1 ray do not hit
+	/// </summary>
+	/// <param name="origin">Origin of the ray</param>
+	/// <param name="direction">Direction of the ray</param>
+	/// <param name="bb">Bounding box</param>
+	/// <returns>The lenght of the ray, if -1 : ray do not hit</returns>
+	static double Ray_AABB(glm::vec3 origin, glm::vec3 direction, BoundingBoxCollider* bb) {
+		double t1 = (bb->GetMin().x - origin.x) / (EpsilonCompare(direction.x, 0.0f) ? 0.00001f : direction.x);
+		double t2 = (bb->GetMax().x - origin.x) / (EpsilonCompare(direction.x, 0.0f) ? 0.00001f : direction.x);
+		double t3 = (bb->GetMin().y - origin.y) / (EpsilonCompare(direction.y, 0.0f) ? 0.00001f : direction.y);
+		double t4 = (bb->GetMax().y - origin.y) / (EpsilonCompare(direction.y, 0.0f) ? 0.00001f : direction.y);
+		double t5 = (bb->GetMin().z - origin.z) / (EpsilonCompare(direction.z, 0.0f) ? 0.00001f : direction.z);
+		double t6 = (bb->GetMax().z - origin.z) / (EpsilonCompare(direction.z, 0.0f) ? 0.00001f : direction.z);
+
+		double tmin = fmaxf(fmaxf(fminf(t1, t2), fminf(t3, t4)), fminf(t5, t6));
+		double tmax = fminf(fminf(fmaxf(t1, t2), fmaxf(t3, t4)), fmaxf(t5, t6));
+
+		if (tmax < 0 || tmin > tmax) {
+			return -1.0;
+		}
+
+		if (tmin < 0.0f) {
+			return tmax;
+		}
+
+		return tmin;
+	}
+
+	/// <summary>
+	/// Compute the lenght of a ray and a Plane, if -1 ray do not hit
+	/// </summary>
+	/// <param name="origin">Origin of the ray</param>
+	/// <param name="direction">Direction of the ray</param>
+	/// <param name="p">The plane</param>
+	/// <returns>The lenght of the ray, if -1 : ray do not hit</returns>
+	static double Ray_Plane(glm::vec3 origin, glm::vec3 direction, Plane p) {
+		double nd = glm::dot(direction, p.normal);
+		double on = glm::dot(origin, p.normal);
+
+		if (nd >= 0.0f) {
+			return -1.0f;
+		}
+
+		double t = (p.distance - on) / nd;
+
+		// t must be positive
+		if (t >= 0.0f) {
+
+			return t;
+		}
+
+		return -1.0f;
+	}
+
+	/// <summary>
+	/// Compute the lenght of a ray and a Triangle, if -1 ray do not hit
+	/// </summary>
+	/// <param name="origin">Origin of the ray</param>
+	/// <param name="direction">Direction of the ray</param>
+	/// <param name="t">The triangle</param>
+	/// <returns>The lenght of the ray, if -1 : ray do not hit</returns>
+	static double Ray_Triangle(glm::vec3 origin, glm::vec3 direction, Triangle t) {
+		glm::vec3 n = glm::normalize(glm::cross(t[1] - t[0], t[2] - t[0]));
+		Plane p(n, glm::dot(n, t[0]));
+		double val = CollisionDetection::Ray_Plane(origin, direction, p);
+		if (val < 0.0) {
+			return -1.0;
+		}
+
+		glm::vec3 barycentre = Barycentric(origin + (direction * (float)val), t);
+		if (barycentre.x >= 0.0f && barycentre.x <= 1.0f &&
+			barycentre.y >= 0.0f && barycentre.y <= 1.0f &&
+			barycentre.z >= 0.0f && barycentre.z <= 1.0f) {
+
+			return val;
+		}
+
+		return -1.0;
+	}
+
+
 	// --- Intervales ---
-	
+
 	/// <summary>
 	/// Get the Interval for axis overlap with a triangle and an axis.
 	/// </summary>
@@ -602,6 +724,7 @@ public:
 		glm::vec2 b = GetInterval(t2, axis);
 		return ((b.x <= a.y) && (a.x <= b.y));
 	}
+
 };
 
 #endif // !__COLLISION_DETECTION_HPP__

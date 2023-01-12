@@ -18,6 +18,7 @@
 #include <Physics/Physics/Rigidbody.hpp>
 #include <Physics/Collider/SphereCollider.hpp>
 #include <IA/FishBank.hpp>
+#include <Engine/RaycastObject.hpp>
 
 /// <summary>
 /// The aquarium Scene
@@ -43,11 +44,13 @@ public:
 
 		//Create the camera, and add the Movement script and Water affected tag.
 		GameObject* camera = new GameObject("Camera", this->root);
-		camera->addComponent(new Camera(Camera::Settings::perspective(global.ScreenAspectRatio())));
+		Camera* renCam = new Camera(Camera::Settings::perspective(global.ScreenAspectRatio()));
+		camera->addComponent(renCam);
 		camera->addComponent(new MovementScript());
 		camera->addComponent(new WaterAffected());
 		//change is start position.
 		camera->GetTransform()->SetPosition(glm::vec3(0,0,-2));
+		this->renderCamera.push_back(renCam);
 
 		//Add a point light to the scene.
 		GameObject* light = new GameObject("Light1", this->root);
@@ -103,8 +106,9 @@ public:
 		water->addComponent(new Displayable(10)); //cutom display priority, to show the water behind the glass.
 		water->addComponent(waterModel);
 		water->addComponent(new BoundingBoxCollider(waterModel->GetPoints()));
-		WaterPhysics* waterP = new WaterPhysics(512,256);
+		WaterPhysics* waterP = new WaterPhysics(512,256, glm::vec2(8,4));
 		water->addComponent(waterP);
+		water->addComponent(new RaycastObject());
 		water->GetTransform()->SetPosition(glm::vec3(0, 2.55,0));
 
 		//Add a drop

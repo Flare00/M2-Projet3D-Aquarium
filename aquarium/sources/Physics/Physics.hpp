@@ -31,14 +31,16 @@ public:
 		bool hit;
 		GameObject* obj;
 		glm::vec3 hitPosition;
-		int vertexIndex;
+		int nearestVertex;
+		double distance;
 
 
-		RaycastHit(bool hit, GameObject* obj, glm::vec3 hitPosition, int vertexIndex) {
+		RaycastHit(bool hit, GameObject* obj, glm::vec3 hitPosition, int vertexIndex, double distance = std::numeric_limits<double>::max()) {
 			this->hit = hit;
 			this->obj = obj;
 			this->hitPosition = hitPosition;
-			this->vertexIndex = vertexIndex;
+			this->nearestVertex = vertexIndex;
+			this->distance = distance;
 		}
 
 	};
@@ -56,6 +58,7 @@ protected:
 
 	//Octree* octree = nullptr; // Use way too much execution time and developpment time for this project.
 
+	float addDropCooldown = 0.0f;
 public:
 
 	/// <summary>
@@ -81,6 +84,7 @@ public:
 	/// <param name="root">Root gameobject of the scene, or another gameobject.</param>
 	/// <param name="nbStep">Number of computing steps for the physics.</param>
 	void Compute(double deltatime, GameObject* root, int nbStep = 1) {
+
 		this->Compute(deltatime, root->getComponentsByTypeRecursive<CPhysic>(), nbStep);
 	}
 
@@ -91,6 +95,7 @@ public:
 	/// <param name="elems">CPhysic elements for Physics Computing.</param>
 	/// <param name="nbStep">Number of computing steps for the physics.</param>
 	void Compute(double deltatime, std::vector<CPhysic*> elems, int nbStep = 1) {
+		addDropCooldown -= deltatime;
 		double stepDelta = deltatime / (double)nbStep;
 
 
@@ -121,14 +126,79 @@ public:
 	/// Send a Raycast using the physic system.
 	/// </summary>
 	/// <param name="elems">a root gameobject to compute collision.</param>
-	/// <param name="origin">Origin of the ray.</param>
-	/// <param name="direction">Direction of the ray.</param>
+	/// <param name="mainCamera">Main camera of the scene.</param>
+	/// <param name="screenX">Position X on the screen to start the ray.</param>
+	/// <param name="screenY">Position Y on the screen to start the ray.</param>
 	/// <returns>Return a RaycastHit object that contain hit informations</returns>
-	RaycastHit Raycast(GameObject * root, glm::vec3 origin, glm::vec3 direction) {
-		// Use the Depth/Stencil (maybe faster) ? Or use collision ?
+	RaycastHit Raycast(GameObject* root, Camera* camera, double x, double y) {
+
+		if (camera != nullptr) {
+			glBindFramebuffer(GL_FRAMEBUFFER, camera->GetFrameBuffer());
+			glm::mat4 invProj = glm::inverse(camera->GetProjection());
+
+			glm::vec4 rayStartN = glm::vec4(x, y, -1.0f, 1.0f);
+			glm::vec4 rayEndN = glm::vec4(x, y, 0.0f, 1.0f);
+			glm::vec4 rayStartWorld = invProj * rayStartN;
+
+			rayStartWorld /= rayStartWorld.w;
+			glm::vec4 rayEndWorld = invProj * rayEndN;
+			rayEndWorld /= rayEndWorld.w;
+
+			rayStartWorld = camera->attachment->GetMatrixRecursive() * rayStartWorld;
+			rayEndWorld = camera->attachment->GetMatrixRecursive() * rayEndWorld;
+
+			glm::vec3 rayStart = glm::vec3(rayStartWorld.x, rayStartWorld.y, rayStartWorld.z);
+			glm::vec3 rayEnd = glm::vec3(rayEndWorld.x, rayEndWorld.y, rayEndWorld.z);
+			glm::vec3 rayDirection = glm::normalize(rayEnd - rayStart);
+
+			printf("[%f, %f, %f]\n", rayStart[0], rayStart[1], rayStart[2]);
+			printf("[%f, %f, %f]\n", rayDirection[0], rayDirection[1], rayDirection[2]);
+
+			return Raycast(root, rayStart, rayDirection);
+		}
 
 		return RaycastHit(false, nullptr, glm::vec3(0), -1);
 	}
+
+	RaycastHit Raycast(GameObject* root, glm::vec3 origin, glm::vec3 dir) {
+		std::vector<RaycastObject*> ro = root->getComponentsByTypeRecursive<RaycastObject>();
+
+		RaycastHit res(false, nullptr, glm::vec3(0), -1);
+		for (size_t i = 0, max = ro.size(); i < max; i++) {
+			BoundingBoxCollider* bbc = ro[i]->attachment->getFirstComponentByType<BoundingBoxCollider>();
+			double val = -1;
+			int nearestVertex = -1;
+			if (bbc != nullptr) {
+				val = CollisionDetection::Ray_AABB(origin, dir, bbc);
+			}
+
+			if (val >= 0 && val < res.distance) {
+				res.distance = val;
+				res.hit = true;
+				res.obj = ro[i]->GetGameObject();
+				res.hitPosition = origin + (dir * (float)res.distance);
+			}
+		}
+
+		if (res.hit) {
+			Model* m = res.obj->getFirstComponentByType<Model>();
+			if (m != nullptr) {
+				std::vector<glm::vec3> pts = m->GetPoints();
+				unsigned int minPts = -1;
+				double minDist = std::numeric_limits<double>::max();
+				for (int i = 0, max = pts.size(); i < max; i++) {
+					double d = glm::distance(pts[i], res.hitPosition);
+					if (d < minDist) {
+						minPts = i;
+						minDist = d;
+					}
+				}
+				res.nearestVertex = minPts;
+			}
+		}
+		return res;
+	}
+
 
 	/*void AddGameObjectToOctree(GameObject* gameobject) {
 		octree->Insert(gameobject);
@@ -140,6 +210,24 @@ public:
 			AddGameObjectToOctreeRecursive(gameobject->getChilds()[i]);
 		}
 	}*/
+
+	void DoRaycastAction(RaycastHit hit) {
+		if (hit.hit) {
+			WaterPhysics* wp = hit.obj->getFirstComponentByType<WaterPhysics>();
+			if (wp != nullptr)
+			{
+				if (addDropCooldown < 0) {
+					//Trouver les coordonnée X et Y selon la position du vertex; (entre 0 et 1)
+					glm::vec size = wp->GetContainerSize();
+					glm::vec2 uv((hit.hitPosition.x + (size.x / 2.0)) / size.x, 1.0 -(hit.hitPosition.z + (size.y / 2.0)) / size.y);
+					printf("ADD [%f, %f]\n", uv.x, uv.y);
+
+					wp->AddDrop(uv, 0.05f, 0.01f);
+					addDropCooldown = 0.5;
+				}
+			}
+		}
+	}
 
 
 private:
