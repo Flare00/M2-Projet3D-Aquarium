@@ -95,6 +95,7 @@ public:
 	/// <param name="elems">CPhysic elements for Physics Computing.</param>
 	/// <param name="nbStep">Number of computing steps for the physics.</param>
 	void Compute(double deltatime, std::vector<CPhysic*> elems, int nbStep = 1) {
+		glDisable(GL_BLEND);
 		addDropCooldown -= deltatime;
 		double stepDelta = deltatime / (double)nbStep;
 
@@ -120,6 +121,7 @@ public:
 				}
 			}*/
 		}
+		glEnable(GL_BLEND);
 	}
 
 	/// <summary>
@@ -150,9 +152,6 @@ public:
 			glm::vec3 rayStart = glm::vec3(rayStartWorld.x, rayStartWorld.y, rayStartWorld.z);
 			glm::vec3 rayEnd = glm::vec3(rayEndWorld.x, rayEndWorld.y, rayEndWorld.z);
 			glm::vec3 rayDirection = glm::normalize(rayEnd - rayStart);
-
-			printf("[%f, %f, %f]\n", rayStart[0], rayStart[1], rayStart[2]);
-			printf("[%f, %f, %f]\n", rayDirection[0], rayDirection[1], rayDirection[2]);
 
 			return Raycast(root, rayStart, rayDirection);
 		}
@@ -218,11 +217,18 @@ public:
 			{
 				if (addDropCooldown < 0) {
 					//Trouver les coordonnée X et Y selon la position du vertex; (entre 0 et 1)
-					glm::vec size = wp->GetContainerSize();
-					glm::vec2 uv((hit.hitPosition.x + (size.x / 2.0)) / size.x, 1.0 -(hit.hitPosition.z + (size.y / 2.0)) / size.y);
-					printf("ADD [%f, %f]\n", uv.x, uv.y);
+					glm::vec2 size = wp->GetContainerSize();
+					glm::vec2 min = -size / 2.0f;
+					glm::vec2 max = size/ 2.0f;
 
-					wp->AddDrop(uv, 0.05f, 0.01f);
+					glm::vec3 hitPos = hit.hitPosition - hit.obj->GetPositionWithRecursiveMatrix();
+
+					glm::vec2 uv = (glm::vec2(hitPos.x, hitPos.z) - min) / (max - min);
+					uv.x = uv.x > 0.999 ? 0.999 : uv.x < 0.001 ? 0.001 : uv.x;
+					uv.y = uv.y > 0.999 ? 0.999 : uv.y < 0.001 ? 0.001 : uv.y;
+					//glm::vec2 uv((hit.hitPosition.x + (size.x / 2.0)) / size.x, 1.0 -(hit.hitPosition.z + (size.y / 2.0)) / size.y);
+
+					wp->AddDrop(uv, 0.02f, 1.0f);
 					addDropCooldown = 0.5;
 				}
 			}

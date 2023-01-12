@@ -565,12 +565,11 @@ public:
 	/// <summary>
 	/// Generate an multi layer Sphere with pointLink, without UV or Faces.
 	/// </summary>
-	/// <param name="out_linkage">List of linkage between points (output) ([n][m], n is the point, m is the point linked to the point n.)</param>
+	/// <param name="out_linkage">List of linkage between points (output) ([n][m], n is the point, m is the point linked to the point n.</param>
 	/// <param name="numberOfLayer">The number of layers, final size = distBetweenPoints * numberOfLayer</param>
-	/// <param name="distBetweenPoints">The distance between two point on the sphere</param>
-	/// <param name="linkSensibility">The sensibility of the link, used to compute the sphere of detection (radius = linkSensibility * distBetweenPoints) (Inferior to 1 : no link) </param>
+	/// <param name="dist">The distance between two point on the sphere</param>
 	/// <returns>The model of the Multi</returns>
-	static std::vector<glm::vec3> MultiLayerSphere(std::vector<std::vector<unsigned int>> & out_linkage, int numberOfLayer = 4, float distBetweenPoints = 0.2f, float linkSensibility = 1.5f) {
+	static std::vector<glm::vec3> MultiLayerSphere(std::vector<std::vector<size_t>>& out_linkage, int numberOfLayer = 4, float dist = 0.2f) {
 
 		double pi = glm::pi<double>();
 		double pi2 = pi * 2.0;
@@ -579,19 +578,18 @@ public:
 
 		//Ajoute le point centrale
 		pts.push_back(glm::vec3(0, 0, 0));
-		out_linkage.push_back(std::vector<unsigned int>());
+
 
 		for (int layer = 0; layer < numberOfLayer; layer++) {
 
-			float scale = (layer + 1) * distBetweenPoints;
+			float scale = (layer + 1) * dist;
 			float circon = 2 * pi * scale;
-			int nbPointCircon = (int)(circon / distBetweenPoints);
+			int nbPointCircon = (int)(circon / dist);
 			double pas = 1.0 / (double)nbPointCircon;
 			int pasP1 = pas + 1;
 
 			//Ajoute le 1er sommet
 			pts.push_back(glm::vec3(1, 0, 0) * scale);
-			out_linkage.push_back(std::vector<unsigned int>());
 
 			//Ajoute les points centraux selon le pas.
 			for (int i = 1; i < nbPointCircon; i++) {
@@ -602,27 +600,27 @@ public:
 					double y = glm::cos(parallele);
 					double z = sin(parallele) * sin(meridien);
 					pts.push_back(glm::vec3(x, y, z) * scale);
-
-					out_linkage.push_back(std::vector<unsigned int>());
-
 				}
 			}
 
 			//Ajoute le 2e sommet
 			pts.push_back(glm::vec3(-1, 0, 0) * scale);
-			out_linkage.push_back(std::vector<unsigned int>());
 
 		}
 
+		out_linkage.resize(pts.size());
 		//Lie les points entre eux par rapport à une sphere de "linkSensibility" fois la distance entre les points.
+		float minDist = dist - (dist / 20.0f);
+		float maxDist = dist + (dist / 20.0f);
 		for (size_t i = 0, max = pts.size(); i < max; i++) {
+
 			for (size_t j = i + 1; j < max; j++) {
-				if (glm::distance(pts[i], pts[j]) < linkSensibility * distBetweenPoints) {
+				float value = (glm::distance(pts[i], pts[j]) - minDist) / (maxDist - minDist);
+				if (value > 0 && value < 1) {
 					out_linkage[i].push_back(j);
 					out_linkage[j].push_back(i);
 				}
 			}
-
 		}
 
 		return pts;

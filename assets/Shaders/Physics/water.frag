@@ -4,12 +4,6 @@ const float PI = 3.141592;
 
 out vec4 color;
 
-struct Drop{
-    vec2 center;
-    float radius;
-    float strength;
-};
-
 in vec2 coord;
 
 uniform sampler2D tex;
@@ -17,21 +11,8 @@ uniform sampler2D tex;
 uniform float deltaTime;
 uniform vec2 deltaMove;
 
-uniform Drop drop;
-uniform int is_drop;
-
 void main(){
     vec4 data = texture(tex, coord);
-
-    data.a = 1.0f;
-    //data.r *= 1.0 - (deltaTime/2.0);
-    //Add drop
-    
-    if (is_drop == 1){
-        float d = max(0.0 , 1.0 - length(drop.center - coord) / drop.radius);
-        d = 0.5 - (0.5 * cos(d * PI));
-        data.r = d * drop.strength;
-    } 
 
 
     vec2 dx = vec2(deltaMove.x, 0.0);
@@ -54,7 +35,9 @@ void main(){
     // move the vertex along the velocity 
     data.r += data.g;
 
-    data.b = deltaMove.x;
+    vec3 ndx = vec3(deltaMove.x, texture(tex, vec2(coord.x + deltaMove.x, coord.y)).r - data.r, 0.0);
+    vec3 ndy = vec3(0.0, texture(tex, vec2(coord.x, coord.y + deltaMove.y)).r - data.r, deltaMove.y);
+    data.ba = normalize(cross(ndy, ndx)).xz;
 
     color = data;
 }

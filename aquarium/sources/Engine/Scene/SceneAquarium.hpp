@@ -112,7 +112,7 @@ public:
 		water->GetTransform()->SetPosition(glm::vec3(0, 2.55,0));
 
 		//Add a drop
-		waterP->AddDrop(glm::vec2(0.5, 0.5), 0.05f, 0.1f);
+		waterP->AddDrop(glm::vec2(0.5, 0.5), 0.05f, 5.0f);
 
 		//Generate the fish bank
 		Spline* fishBankSpline = new Spline(std::vector<glm::vec3>{glm::vec3(-2,-1,0), glm::vec3(3,-1.5,-1), glm::vec3(1,0.2,1), glm::vec3(0,0,0)});
@@ -120,7 +120,7 @@ public:
 		ModelInstanced* fish= ModelGenerator::QuadInstanced(fishBankMaterial, 2,2, 0.25f, 0.25f);
 		fishBank->addComponent(new Displayable(100));
 		fishBank->addComponent(fish);
-		fishBank->addComponent(new FishBank(fish, fishBankSpline, 0.1, 0.2, 2));
+		fishBank->addComponent(new FishBank(fish, fishBankSpline, 0.1, 2));
 
 		//Change the aquarium position.
 		aquarium->GetTransform()->SetPosition(glm::vec3(0, -2, 2));

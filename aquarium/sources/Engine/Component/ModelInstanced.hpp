@@ -163,6 +163,8 @@ public:
 	std::vector<glm::vec3> GetPositions() {
 		return this->iPositions;
 	}
+
+
 };
 
 #endif // !__MODEL_HPP__

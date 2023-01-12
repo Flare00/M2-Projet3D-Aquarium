@@ -30,11 +30,7 @@ void main(){
 	if(u_is_data_physics == 1 && aNormal.y == 1){
 		vec4 d = texture(p_data_physics, aTexCoord);
 		height += -d.r;
-
-		//Compute Normals
-		vec3 dxN = vec3(d.b, texture(p_data_physics, vec2(aTexCoord.x + d.b, aTexCoord.y)).r - d.r, 0.0);
-		vec3 dyN = vec3(0.0, texture(p_data_physics, vec2(aTexCoord.x, aTexCoord.y + d.b)).r - d.r, d.b);
-		PhysicsNorm = normalize(cross(dyN, dxN));
+		PhysicsNorm = vec3(d.b, sqrt(1.0 - dot(d.ba, d.ba)), d.a);
 	}
 
 	PointCoord = u_model * vec4(aPos.x, aPos.y + height, aPos.z, 1.0f);
