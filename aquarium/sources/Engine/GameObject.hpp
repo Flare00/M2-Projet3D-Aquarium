@@ -343,6 +343,23 @@ public:
 
 
 	/// <summary>
+	/// Remove a component by it's reference.
+	/// </summary>
+	/// <param name="comp">The reference to remove.</param>
+	void removeComponent(Component * comp) {
+		int found = -1;
+		for (size_t i = 0, max = this->components.size(); i < max && found == -1; i++) {
+			if (this->components[i] == comp) {
+				found = i;
+			}
+		}
+
+		removeComponent(found);
+	}
+
+
+
+	/// <summary>
 	/// Remove all components of a certain type, not recursive.
 	/// </summary>
 	/// <typeparam name="T">The type of the components to remove.</typeparam>

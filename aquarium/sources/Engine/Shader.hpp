@@ -41,6 +41,7 @@ public:
 protected:
 
 	std::string shaderFolder = "assets/Shaders/";
+	std::string name;
 	std::string vertexFilename, fragmentFilename, tesselationControlFilename, tesselationEvalFilename, geometryFilename; // Name of all shader files, even if it does not exist, to permit the reload in case of change / add / remove
 	std::string vertexData, fragmentData, tesselationControlData, tesselationEvalData, geometryData; // data of each shaders
 
@@ -57,6 +58,7 @@ public:
 	/// <param name="name">The name of the shader</param>
 	Shader(std::string name)
 	{
+		this->name = name;
 		this->vertexFilename = name + ".vert";
 		this->fragmentFilename = name + ".frag";
 		this->tesselationControlFilename = name + ".tess.control";
@@ -75,6 +77,7 @@ public:
 	/// <param name="tesselationEvalFilename">The tesselation Evaluation shader file name.</param>
 	/// <param name="geometryFilename">The Geometry shader file name.</param>
 	Shader(std::string vertexFilename, std::string fragmentFilename, std::string tesselationControlFilename = "", std::string tesselationEvalFilename = "", std::string geometryFilename = "") {
+		this->name = vertexFilename + "," + fragmentFilename + "," + tesselationControlFilename + "," + tesselationEvalFilename + "," + geometryFilename;
 		this->vertexFilename = vertexFilename;
 		this->fragmentFilename = fragmentFilename;
 		this->tesselationControlFilename = tesselationControlFilename;
@@ -303,7 +306,7 @@ protected:
 
 		glLinkProgram(this->program);
 
-		if (CheckIfLinked()) {
+		if (CheckIfLinked(this->name)) {
 			//CleanAfterLink();
 		}
 	}
@@ -348,19 +351,23 @@ protected:
 	/// Check if the program is properly linked.
 	/// </summary>
 	/// <returns>If the program is properly linked.</returns>
-	bool CheckIfLinked()
+	bool CheckIfLinked(std::string name)
 	{
 		GLint isLinked = 0;
 		glGetProgramiv(this->program, GL_LINK_STATUS, (int*)&isLinked);
 		if (isLinked == GL_FALSE)
 		{
-			printf("Linking failed.\n");
+			printf("%s Linking failed.\n", name.c_str());
 			GLint maxLength = 0;
 			glGetProgramiv(this->program, GL_INFO_LOG_LENGTH, &maxLength);
 
 			// The maxLength includes the NULL character
 			std::vector<GLchar> infoLog(maxLength);
 			glGetProgramInfoLog(this->program, maxLength, &maxLength, &infoLog[0]);
+
+			for (int i = 0; i < maxLength; i++) {
+				printf("%c", infoLog[i]);
+			}
 
 			// We don't need the program anymore.
 			glDeleteProgram(this->program);

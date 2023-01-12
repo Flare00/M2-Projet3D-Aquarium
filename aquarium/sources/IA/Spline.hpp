@@ -10,58 +10,86 @@
 class Spline {
 private:
 	std::vector<glm::vec3> points;
-
-public :
+	std::vector<float> keyframeTime;
+	float totalLength;
+	bool cyclic;
+public:
 	Spline() {}
-	Spline(std::vector<glm::vec3> points)
+	Spline(std::vector<glm::vec3> points, bool cyclic = true)
 	{
-		this->points = points 
-	}
-	
-	/// <summary>
-	/// Fonction d'interpolation de Catmull Rom
-	/// </summary>
-	/// <param name="t">Position de long de la spline</param>
-	/// <returns></returns>
-	glm::vec3 Interpolate(float t) {
-		//trouver l'index i
-		int i = (int)t; //floor;
-		t = t - floor;
+		this->points = points;
+		this->cyclic = cyclic;
 
-		size_t ptsSize = points.size();
-		// verifier si i est dans les limites
-		i = i % ptsSize;
-		if (i < 0) {
-			i = ptsSize - 1;
+		if (cyclic) {
+			this->points.push_back(points[0]);
+		}
+		else {
+			this->points.insert(this->points.begin(), this->points[0]);
+			this->points.push_back(points[points.size() - 1]);
 		}
 
-		//récupération des points pour l'interpolation
-		glm::vec3 p0 = points[(i - 1 + ptsSize) % ptsSize];
-		glm::vec3 p1 = points[i];
-		glm::vec3 p2 = points[(i + 1) % ptsSize];
-		glm::vec3 p3 = points[(i + 2) % ptsSize];
-
-		//Interpolation
-		return 0.5f * (2.0f * p1 + (p2 - p0) * t + (2.0f * p0 - 5.0f * p1 + 4.0f * p2 - p3) * t * t + (3.0f * p1 - p0 - 3.0f * p2 + p3) * t * t * t);
+		ComputeKeyframeTimes();
 	}
 
 	/// <summary>
-	/// Retourne la longueur de la spline.
+	/// Use a given progression to return the current points with his own progression.
 	/// </summary>
-	/// <returns>La longueur de la spline.</returns>
-	float Length() {
-		// Initialisez la longueur totale à 0
-		float length = 0.0f;
+	/// <param name="progression"></param>
+	/// <returns>Return the pair of points index and his progression</returns>
+	std::pair<size_t, float> FindSegment(float progression) {
+		size_t index = 0;
+		while (index < keyframeTime.size() - 2 && keyframeTime[index + 1] <= progression)
+			index++;
 
-		// Calculez la longueur entre chaque point de contrôle adjacent
-		for (size_t i = 0, max = points.size()-1; i < max; i++) {
-			glm::vec3 p0 = points[i];
-			glm::vec3 p1 = points[i + 1];
-			length += glm::length(p1 - p0);
+		if (cyclic) {
+			index = index % keyframeTime.size();
 		}
+		float time = (progression - keyframeTime[index]) / (keyframeTime[(index + 1) % keyframeTime.size()] - keyframeTime[index]);
 
-		// Retournez la longueur totale
-		return length;
+		return { index,time };
+	}
+
+	/// <summary>
+	/// Catmull-Rom function, give the current position on the spline using a progression value between 0 and 1.
+	/// </summary>
+	/// <param name="t">Progression on the spline (between 0 and 1)</param>
+	/// <returns>The 3D coordinate of the progression on the spline.</returns>
+	glm::vec3 Interpolate(float progression) {
+		auto [index, time] = FindSegment(progression);
+
+		if (cyclic) {
+			index = index % points.size();
+		}
+		else {
+			if (index == 0) index++;
+			if (index == points.size() - 1) index--;
+		}
+		return 0.5f * ((2.f * points[index]) + //Control Point 0
+			(-points[(index - 1 + points.size()) % points.size()] + points[(index + 1) % points.size()]) * time + //Control Point 1
+			(2.f * points[(index - 1 + points.size()) % points.size()] - 5.f * points[index] + 4.f * points[(index + 1) % points.size()] - points[(index + 2) % points.size()]) * time * time + //Control Point 2
+			(-points[(index - 1 + points.size()) % points.size()] + 3.f * points[index] - 3.f * points[(index + 1) % points.size()] + points[(index + 2) % points.size()]) * time * time * time); //Control Point 3
+	}
+
+	/// <summary>
+	/// Compute the Keyframe time of each point, based on the length of each segment.
+	/// </summary>
+	void ComputeKeyframeTimes() {
+		if (keyframeTime.size() != points.size())
+			keyframeTime.resize(points.size());
+
+		//Calcul la longueur total
+		totalLength = 0;
+		for (size_t i = 1; i < points.size(); i++)
+			totalLength += glm::length(points[i] - points[i - 1]);
+
+
+		//Calcul la longueur actuel et assigne au keyframeTime sa valeur entre 0 et 1.
+		double current_length = 0;
+		keyframeTime[0] = 0;
+		for (size_t i = 1; i < points.size(); i++) {
+			current_length += glm::length(points[i] - points[i - 1]);
+			keyframeTime[i] = current_length / totalLength;
+		}
 	}
 
 	/// <summary>
@@ -70,6 +98,7 @@ public :
 	/// <param name="point">The point to add</param>
 	void AddPoint(glm::vec3 point) {
 		points.push_back(point);
+		ComputeKeyframeTimes();
 	}
 
 	/// <summary>
@@ -85,7 +114,8 @@ public :
 	/// </summary>
 	/// <param name="points">The new list of points</param>
 	void SetPoints(std::vector<glm::vec3> points) {
-		this->points = points
+		this->points = points;
+		ComputeKeyframeTimes();
 	}
 
 	/// <summary>
@@ -94,6 +124,7 @@ public :
 	/// <param name="points">The index to remove</param>
 	void RemovePoint(int index) {
 		this->points.erase(this->points.begin() + index);
+		ComputeKeyframeTimes();
 	}
 
 	/// <summary>
@@ -101,6 +132,16 @@ public :
 	/// </summary>
 	void ClearPoints(int index) {
 		this->points.clear();
+		totalLength = 0;
+		keyframeTime.clear();
+	}
+
+	/// <summary>
+	/// Return the length of the 3D Spline
+	/// </summary>
+	/// <returns>the length of the 3D Spline.</returns>
+	float GetLength() {
+		return this->totalLength;
 	}
 };
 

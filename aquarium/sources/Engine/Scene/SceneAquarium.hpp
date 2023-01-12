@@ -17,6 +17,7 @@
 #include <Physics/GLPhysics/WaterPhysics.hpp>
 #include <Physics/Physics/Rigidbody.hpp>
 #include <Physics/Collider/SphereCollider.hpp>
+#include <IA/FishBank.hpp>
 
 /// <summary>
 /// The aquarium Scene
@@ -31,10 +32,14 @@ public:
 		//Create all the PBR materials needed.
 
 		IMaterial* pipeMaterial = (new MaterialPBR())->SetFolderData("Pipe", "png");
+
 		IMaterial* waterMaterial = new MaterialPBR(glm::vec4(0.0, 0.66, 0.8, 0.7), 0.0f, 0.0f, 1.33f, true);
 		IMaterial* glassMaterial = new MaterialPBR(glm::vec4(1, 1, 1, 0.1), 0.0f, 0.0f, 1.5f, true);
 		IMaterial* baseAquariumMaterial = new MaterialPBR(glm::vec4(0.5, 0.5, 0.5, 1.0));
 		IMaterial* ballMaterial = new MaterialPBR(glm::vec4(0.0, 1.0, 0.0, 1.0));
+
+		IMaterial* fishBankMaterial = new MaterialPBR(glm::vec4(1), 0.0f, 0.0f, 1.0f, true, textureFolder + "Fish/color.png");
+		fishBankMaterial->SetShader("Fish/fish");
 
 		//Create the camera, and add the Movement script and Water affected tag.
 		GameObject* camera = new GameObject("Camera", this->root);
@@ -95,7 +100,7 @@ public:
 		//Create Water of the aquarium, with the water physics.
 		GameObject* water = new GameObject("water", aquarium);
 		Model* waterModel = ModelGenerator::CubeWater(waterMaterial, 1024, 512, glm::vec3(8, 3, 4));
-		water->addComponent(new Displayable(100)); //cutom display priority, to show the water behind the glass.
+		water->addComponent(new Displayable(10)); //cutom display priority, to show the water behind the glass.
 		water->addComponent(waterModel);
 		water->addComponent(new BoundingBoxCollider(waterModel->GetPoints()));
 		WaterPhysics* waterP = new WaterPhysics(512,256);
@@ -105,9 +110,16 @@ public:
 		//Add a drop
 		waterP->AddDrop(glm::vec2(0.5, 0.5), 0.05f, 0.1f);
 
+		//Generate the fish bank
+		Spline* fishBankSpline = new Spline(std::vector<glm::vec3>{glm::vec3(-2,-1,0), glm::vec3(3,-1.5,-1), glm::vec3(1,0.2,1), glm::vec3(0,0,0)});
+		GameObject* fishBank = new GameObject("Fish Bank", aquarium);
+		ModelInstanced* fish= ModelGenerator::QuadInstanced(fishBankMaterial, 2,2, 0.25f, 0.25f);
+		fishBank->addComponent(new Displayable(100));
+		fishBank->addComponent(fish);
+		fishBank->addComponent(new FishBank(fish, fishBankSpline, 0.1, 0.2, 2));
+
 		//Change the aquarium position.
 		aquarium->GetTransform()->SetPosition(glm::vec3(0, -2, 2));
-
 	}
 
 };

@@ -101,14 +101,16 @@ public:
 	/// <param name="faces">List of the face of the model.</param>
 	/// <param name="uv">List of the uvs of the model.</param>
 	/// <param name="material">The material of the model.</param>
-	Model(std::vector<glm::vec3> pts, std::vector<glm::vec3> normals = std::vector<glm::vec3>(), std::vector<Face> faces = std::vector<Face>(), std::vector<glm::vec2> uv = std::vector<glm::vec2>(), IMaterial* material = new MaterialPBR()) {
+	Model(std::vector<glm::vec3> pts, std::vector<glm::vec3> normals = std::vector<glm::vec3>(), std::vector<Face> faces = std::vector<Face>(), std::vector<glm::vec2> uv = std::vector<glm::vec2>(), IMaterial* material = new MaterialPBR(), bool generate = true) {
 		this->points = pts;
 		this->normals = normals;
 		this->faces = faces;
 		this->uv = uv;
 		this->material = material;
 		ComputeFrustumCollider();
-		GenerateBuffer();
+		if (generate) {
+			GenerateBuffer();
+		}
 	}
 
 	/// <summary>
@@ -142,7 +144,7 @@ public:
 	/// <summary>
 	/// Generate the VAO, VBO and EBO buffers.
 	/// </summary>
-	void GenerateBuffer()
+	virtual void GenerateBuffer()
 	{
 		glGenVertexArrays(1, &this->data.VAO);
 		glGenBuffers(3, this->data.VBO);
@@ -151,7 +153,7 @@ public:
 
 		glEnableVertexAttribArray(0);
 		glBindBuffer(GL_ARRAY_BUFFER, this->data.VBO[0]);
-		glBufferData(GL_ARRAY_BUFFER, this->points.size() * sizeof(glm::vec3), &this->points[0], GL_STATIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, this->points.size() * sizeof(glm::vec3), &this->points[0], GL_DYNAMIC_DRAW);
 		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
 
 		if (this->normals.size() > 0)
@@ -237,6 +239,21 @@ public:
 	/// <returns>The point list</returns>
 	std::vector<glm::vec3> GetPoints() {
 		return this->points;
+	}
+
+	/// <summary>
+	/// Change the point list of the model.
+	/// </summary>
+	/// <param name="pts">The new point list</param>
+	void SetPoints(std::vector<glm::vec3> pts) {
+		this->points.clear();
+		this->points.insert(this->points.begin(), pts.begin(), pts.end());
+
+		this->frustumCollider.Update(pts);
+
+
+		glBindBuffer(GL_ARRAY_BUFFER, this->data.VBO[0]);
+		glBufferSubData(GL_ARRAY_BUFFER, 0, this->points.size() * sizeof(glm::vec3), &this->points[0]);
 	}
 
 	/// <summary>

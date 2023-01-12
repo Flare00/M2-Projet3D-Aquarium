@@ -112,7 +112,7 @@ public:
 
 
 		// Cull triangles which normal is not towards the camera
-		glEnable(GL_CULL_FACE);
+		glDisable(GL_CULL_FACE);
 		glCullFace(GL_BACK);
 
 		//for Tesselation
@@ -122,9 +122,20 @@ public:
 		glDisable(GL_FRAMEBUFFER_SRGB);
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+
+		if (!GLEW_ARB_geometry_shader4) {
+			// Affiche un message d'erreur
+			printf("GL_ARB_geometry_shader4 n'est pas disponible\n");
+			exit(1);
+		}
+		glEnable(GL_GEOMETRY_SHADER);
+
 		//glBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, GL_ONE, GL_ZERO);
 		// Setup mouse callback
 		glfwSetCursorPosCallback(global.global_window, cursorPositionCallback);
+
+
 
 		//Init Modules.
 		graphics.Init();

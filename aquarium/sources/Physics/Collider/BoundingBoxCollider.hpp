@@ -31,6 +31,14 @@ public:
 	/// </summary>
 	/// <param name="points">Points in 3D space</param>
 	BoundingBoxCollider(std::vector<glm::vec3> points) {
+		Update(points);
+	}
+
+	/// <summary>
+	/// Update the BoundingBox with new points
+	/// </summary>
+	/// <param name="points">The points used for the fitting</param>
+	void Update(std::vector<glm::vec3> points) {
 		glm::vec3 min = glm::vec3(DBL_MAX);
 		glm::vec3 max = glm::vec3(-DBL_MAX);
 		for (glm::vec3 p : points) {

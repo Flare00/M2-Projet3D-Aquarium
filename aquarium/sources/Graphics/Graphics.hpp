@@ -15,6 +15,7 @@
 #include <Engine/Global.hpp>
 #include <Physics/GLPhysics/WaterPhysics.hpp>
 #include <Physics/CollisionDetection.hpp>
+#include <IA/FishBank.hpp>
 
 /// <summary>
 /// The graphics Engine
@@ -156,6 +157,7 @@ public:
 	/// <param name="model">The model to draw</param>
 	/// <param name="lights">The list of lights in the scene</param>
 	void Draw(Camera* cam, Displayable * element, Model* model, std::vector<Light*> lights, bool waterFog = false) {
+
 		if(waterFog){
 			glEnable(GL_FOG);
 			GLfloat fogcolor[4] = {1.0, 0, 0, 1.0};
@@ -190,19 +192,32 @@ public:
 
 			glEnable(GL_DEPTH_TEST);
 		}*/
+
 		renderMaterial->SetDataGPU(go->GetMatrixRecursive(), cam->GetView(), cam->GetProjection(), cam->GetPosition(), waterFog);
 		renderMaterial->SetLightGPU(lights);
 
 		glUseProgram(renderMaterial->GetShader()->GetProgram());
 
-		if (global.wireframe)
+		if (global.wireframe) {
 			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-		else
+		}
+		else {
 			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		}
 
-		Model::Data mData = model->GetData();
-		glBindVertexArray(mData.VAO);
-		glDrawElements(GL_TRIANGLES, mData.sizeEBO, GL_UNSIGNED_INT, 0);
+
+		ModelInstanced* instanced = element->attachment->getFirstComponentByType<ModelInstanced>();
+		if (instanced != nullptr) {
+			ModelInstanced::DataInstanced mData = instanced->GetDataInstanced();
+
+			glBindVertexArray(mData.VAO);
+			glDrawElementsInstanced(GL_TRIANGLES, mData.sizeEBO, GL_UNSIGNED_INT, 0,instanced->GetPositions().size());
+		}
+		else {
+			Model::Data mData = model->GetData();
+			glBindVertexArray(mData.VAO);
+			glDrawElements(GL_TRIANGLES, mData.sizeEBO, GL_UNSIGNED_INT, 0);
+		}
 
 		glFlush();
 	}

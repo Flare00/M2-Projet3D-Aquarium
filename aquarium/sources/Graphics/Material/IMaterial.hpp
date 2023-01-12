@@ -90,5 +90,15 @@ public:
 	bool IsTransparent() {
 		return this->transparent;
 	}
+
+	/// <summary>
+	/// Change the current shaderfiles of the material.
+	/// </summary>
+	/// <param name="shadername">The name of the shader</param>
+	void SetShader(std::string shadername) {
+		if (shadername.size() > 0) {
+			this->shader = settedStdShaders.AddShader(shadername);
+		}
+	}
 };
 #endif // !__I_MATERIAL_HPP__

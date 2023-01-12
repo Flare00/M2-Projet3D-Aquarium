@@ -32,13 +32,13 @@ Qwerty -- Azerty
 - [ ] Faire un système pour interagir avec l'environnement avec la souris
 
 #### Étape 2 - Effet lumineux : --- Minimum à implémenter ---
-- [ ] faire un système de lampe projeter (soleil / spot).
+- [X] faire un système de lampe projeter (soleil / spot).
 - [ ] Caustics et God Rays.
 - [ ] Ombre projeté.
 - [ ] Utilisation du RayCast GPU (Réfraction/Réflexion). (?)
 
 #### Étape 3 - Ajout de vie :
-- [ ] Ajouter des poissons avec système de boids suivant une trajectoire / courant
+- [X] Ajouter des poissons avec système de boids suivant une trajectoire / courant
 - [ ] Ajouter des particules de bulles / planctons / autres
 - [ ] Ajout de plante bougeant avec l'eau et les poissons.
 - [ ] Ajout de bateau/sous-marin contrôlable.
