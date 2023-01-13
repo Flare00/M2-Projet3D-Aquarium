@@ -27,6 +27,7 @@
   <td id="projectalign">
    <div id="projectname">Aquarium
    </div>
+   <div id="projectbrief">Projet 3D de M2 : https://github.com/Flare00/M2-Projet3D-Aquarium</div>
   </td>
  </tr>
  </tbody>
@@ -147,6 +148,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:abb49369880cda073a74fb7aa8366ec22"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_game_object.html">GameObject</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_game_object.html#abb49369880cda073a74fb7aa8366ec22">getParent</a> ()</td></tr>
 <tr class="memdesc:abb49369880cda073a74fb7aa8366ec22"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the parent of the gameobject.  <br /></td></tr>
 <tr class="separator:abb49369880cda073a74fb7aa8366ec22"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a27a5f56050c8681aad7824a1bc9aa48e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_game_object.html">GameObject</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_game_object.html#a27a5f56050c8681aad7824a1bc9aa48e">GetParentRecursive</a> ()</td></tr>
+<tr class="memdesc:a27a5f56050c8681aad7824a1bc9aa48e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the highest parent in the hierarchy.  <br /></td></tr>
+<tr class="separator:a27a5f56050c8681aad7824a1bc9aa48e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a36ac8908e27f381d7d0578f027f175e9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_game_object.html#a36ac8908e27f381d7d0578f027f175e9">addComponent</a> (<a class="el" href="class_component.html">Component</a> *component)</td></tr>
 <tr class="memdesc:a36ac8908e27f381d7d0578f027f175e9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add a component to the gameobject, auto attach gameobject to this component.  <br /></td></tr>
 <tr class="separator:a36ac8908e27f381d7d0578f027f175e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -154,7 +158,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a36126eb16599b5bd0424fc0da4977214"><td class="memTemplItemLeft" align="right" valign="top">std::vector&lt; T * &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_game_object.html#a36126eb16599b5bd0424fc0da4977214">getComponentsByType</a> (bool activeOnly=false)</td></tr>
 <tr class="memdesc:a36126eb16599b5bd0424fc0da4977214"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return all components by their type, this gameobject only.  <br /></td></tr>
 <tr class="separator:a36126eb16599b5bd0424fc0da4977214"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aad76d5e0017f0500b99431a8699176d8"><td class="memTemplParams" colspan="2">template&lt;class T &gt; </td></tr>
+<tr class="memitem:aad76d5e0017f0500b99431a8699176d8"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
 <tr class="memitem:aad76d5e0017f0500b99431a8699176d8"><td class="memTemplItemLeft" align="right" valign="top">std::vector&lt; T * &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_game_object.html#aad76d5e0017f0500b99431a8699176d8">getComponentsByTypeRecursive</a> (bool activeOnly=false)</td></tr>
 <tr class="memdesc:aad76d5e0017f0500b99431a8699176d8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return all components by their type, this gameobject, and all children (recursivly).  <br /></td></tr>
 <tr class="separator:aad76d5e0017f0500b99431a8699176d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -162,6 +166,10 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a64736fde0dabc50892357d75479dff73"><td class="memTemplItemLeft" align="right" valign="top">T *&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_game_object.html#a64736fde0dabc50892357d75479dff73">getFirstComponentByType</a> ()</td></tr>
 <tr class="memdesc:a64736fde0dabc50892357d75479dff73"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the first component by his type.  <br /></td></tr>
 <tr class="separator:a64736fde0dabc50892357d75479dff73"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af3a9bf93c672a4aad1328e58907511e8"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:af3a9bf93c672a4aad1328e58907511e8"><td class="memTemplItemLeft" align="right" valign="top">T *&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_game_object.html#af3a9bf93c672a4aad1328e58907511e8">getFirstComponentByTypeRecursive</a> (bool activeOnly=false)</td></tr>
+<tr class="memdesc:af3a9bf93c672a4aad1328e58907511e8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return first component by it's type, in this gameobject, or childrens (recursivly).  <br /></td></tr>
+<tr class="separator:af3a9bf93c672a4aad1328e58907511e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a314494780b8329535d2255dc00f8bd4a"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
 <tr class="memitem:a314494780b8329535d2255dc00f8bd4a"><td class="memTemplItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="class_game_object.html">GameObject</a> * &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_game_object.html#a314494780b8329535d2255dc00f8bd4a">GetChildsWithoutComponent</a> ()</td></tr>
 <tr class="memdesc:a314494780b8329535d2255dc00f8bd4a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get childs that does not have a certain component, not recursive.  <br /></td></tr>
@@ -173,6 +181,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aedd32399c7d74f4769304440bb9af949"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_game_object.html#aedd32399c7d74f4769304440bb9af949">removeComponent</a> (int id)</td></tr>
 <tr class="memdesc:aedd32399c7d74f4769304440bb9af949"><td class="mdescLeft">&#160;</td><td class="mdescRight">Remove a component by it's index position.  <br /></td></tr>
 <tr class="separator:aedd32399c7d74f4769304440bb9af949"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5b2b584b592823815c059ab56ac377ba"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_game_object.html#a5b2b584b592823815c059ab56ac377ba">removeComponent</a> (<a class="el" href="class_component.html">Component</a> *comp)</td></tr>
+<tr class="memdesc:a5b2b584b592823815c059ab56ac377ba"><td class="mdescLeft">&#160;</td><td class="mdescRight">Remove a component by it's reference.  <br /></td></tr>
+<tr class="separator:a5b2b584b592823815c059ab56ac377ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a65ec224e6d074bf2d90ed9fcbf06ce5f"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
 <tr class="memitem:a65ec224e6d074bf2d90ed9fcbf06ce5f"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_game_object.html#a65ec224e6d074bf2d90ed9fcbf06ce5f">removeComponentsByType</a> ()</td></tr>
 <tr class="memdesc:a65ec224e6d074bf2d90ed9fcbf06ce5f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Remove all components of a certain type, not recursive.  <br /></td></tr>
@@ -198,6 +209,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a3f8f6419ad85fe79dd10b958f9b3c68e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_game_object.html#a3f8f6419ad85fe79dd10b958f9b3c68e">SetHasCustomCollider</a> (bool customCollider)</td></tr>
 <tr class="memdesc:a3f8f6419ad85fe79dd10b958f9b3c68e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set if has a custom collider.  <br /></td></tr>
 <tr class="separator:a3f8f6419ad85fe79dd10b958f9b3c68e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a69b8f6ffe839e09eb0a0fea12659847d"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_game_object.html#a69b8f6ffe839e09eb0a0fea12659847d">IsActive</a> ()</td></tr>
+<tr class="memdesc:a69b8f6ffe839e09eb0a0fea12659847d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return if the Gameobject is active.  <br /></td></tr>
+<tr class="separator:a69b8f6ffe839e09eb0a0fea12659847d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac4563b37097f8d587a6fa1a028007c38"><td class="memItemLeft" align="right" valign="top">int_fast8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_game_object.html#ac4563b37097f8d587a6fa1a028007c38">GetLayer</a> ()</td></tr>
 <tr class="memdesc:ac4563b37097f8d587a6fa1a028007c38"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the layer information.  <br /></td></tr>
 <tr class="separator:ac4563b37097f8d587a6fa1a028007c38"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -672,7 +686,7 @@ template&lt;typename T &gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;class T &gt; </div>
+template&lt;typename T &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -742,6 +756,49 @@ template&lt;typename T &gt; </div>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The component (if exist, else NULL)</dd></dl>
+
+</div>
+</div>
+<a id="af3a9bf93c672a4aad1328e58907511e8" name="af3a9bf93c672a4aad1328e58907511e8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af3a9bf93c672a4aad1328e58907511e8">&#9670;&#160;</a></span>getFirstComponentByTypeRecursive()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">T * GameObject::getFirstComponentByTypeRecursive </td>
+          <td>(</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>activeOnly</em> = <code>false</code></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Return first component by it's type, in this gameobject, or childrens (recursivly). </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>The type of the components</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">activeOnly</td><td>Is components need to be active ?</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The list of components (may be empty)</dd></dl>
 
 </div>
 </div>
@@ -854,6 +911,34 @@ template&lt;typename T &gt; </div>
 
 <p>Return the parent of the gameobject. </p>
 <dl class="section return"><dt>Returns</dt><dd></dd></dl>
+
+</div>
+</div>
+<a id="a27a5f56050c8681aad7824a1bc9aa48e" name="a27a5f56050c8681aad7824a1bc9aa48e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a27a5f56050c8681aad7824a1bc9aa48e">&#9670;&#160;</a></span>GetParentRecursive()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_game_object.html">GameObject</a> * GameObject::GetParentRecursive </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Return the highest parent in the hierarchy. </p>
+<dl class="section return"><dt>Returns</dt><dd>The highest parent in the hierarchy</dd></dl>
 
 </div>
 </div>
@@ -997,6 +1082,34 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
+<a id="a69b8f6ffe839e09eb0a0fea12659847d" name="a69b8f6ffe839e09eb0a0fea12659847d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a69b8f6ffe839e09eb0a0fea12659847d">&#9670;&#160;</a></span>IsActive()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool GameObject::IsActive </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Return if the Gameobject is active. </p>
+<dl class="section return"><dt>Returns</dt><dd>If is active</dd></dl>
+
+</div>
+</div>
 <a id="a821faf3883a437da8abb3577eb65c36d" name="a821faf3883a437da8abb3577eb65c36d"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a821faf3883a437da8abb3577eb65c36d">&#9670;&#160;</a></span>isId()</h2>
 
@@ -1100,8 +1213,42 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
+<a id="a5b2b584b592823815c059ab56ac377ba" name="a5b2b584b592823815c059ab56ac377ba"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5b2b584b592823815c059ab56ac377ba">&#9670;&#160;</a></span>removeComponent() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void GameObject::removeComponent </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_component.html">Component</a> *&#160;</td>
+          <td class="paramname"><em>comp</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Remove a component by it's reference. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">comp</td><td>The reference to remove.</td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a id="aedd32399c7d74f4769304440bb9af949" name="aedd32399c7d74f4769304440bb9af949"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aedd32399c7d74f4769304440bb9af949">&#9670;&#160;</a></span>removeComponent()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#aedd32399c7d74f4769304440bb9af949">&#9670;&#160;</a></span>removeComponent() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">

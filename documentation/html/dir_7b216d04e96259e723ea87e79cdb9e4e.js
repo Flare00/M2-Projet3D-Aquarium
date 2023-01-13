@@ -7,5 +7,6 @@ var dir_7b216d04e96259e723ea87e79cdb9e4e =
     [ "Framebuffer.hpp", "_framebuffer_8hpp_source.html", null ],
     [ "Graphics.hpp", "_graphics_8hpp_source.html", null ],
     [ "Light.hpp", "_light_8hpp_source.html", null ],
+    [ "ReceiveCaustics.hpp", "_receive_caustics_8hpp_source.html", null ],
     [ "WaterAffected.hpp", "_water_affected_8hpp_source.html", null ]
 ];

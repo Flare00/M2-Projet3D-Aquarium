@@ -27,6 +27,7 @@
   <td id="projectalign">
    <div id="projectname">Aquarium
    </div>
+   <div id="projectbrief">Projet 3D de M2 : https://github.com/Flare00/M2-Projet3D-Aquarium</div>
   </td>
  </tr>
  </tbody>
@@ -95,14 +96,13 @@ $(document).ready(function(){initNavTree('class_graphics.html',''); initResizabl
 
 <p>This is the complete list of members for <a class="el" href="class_graphics.html">Graphics</a>, including all inherited members.</p>
 <table class="directory">
-  <tr class="even"><td class="entry"><a class="el" href="class_graphics.html#a93b7491efdbefb8340fce1c2fbc81a6e">Compute</a>(GameObject *root)</td><td class="entry"><a class="el" href="class_graphics.html">Graphics</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="class_graphics.html#ae1a00beba88bcc28f56ba2542c7560bb">Compute</a>(std::vector&lt; Camera * &gt; cameras, std::vector&lt; Light * &gt; lights, std::vector&lt; Displayable * &gt; elements)</td><td class="entry"><a class="el" href="class_graphics.html">Graphics</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="class_graphics.html#a9950c8565f551a4305da4b44e68129aa">Draw</a>(Camera *cam, Displayable *element, std::vector&lt; Light * &gt; lights)</td><td class="entry"><a class="el" href="class_graphics.html">Graphics</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="class_graphics.html#af33a12deccd25c8e31f79ae73e13be2c">Draw</a>(Camera *cam, Displayable *element, Model *model, std::vector&lt; Light * &gt; lights)</td><td class="entry"><a class="el" href="class_graphics.html">Graphics</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>Graphics</b>() (defined in <a class="el" href="class_graphics.html">Graphics</a>)</td><td class="entry"><a class="el" href="class_graphics.html">Graphics</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="class_graphics.html#aa5cca3799f830d61c298c1b5e7f87774">Init</a>()</td><td class="entry"><a class="el" href="class_graphics.html">Graphics</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="class_graphics.html#ac64f906ef591d4d4fab8b52407ddc80c">RaycastStencil</a>(Camera *camera, std::vector&lt; GameObject * &gt; elems)</td><td class="entry"><a class="el" href="class_graphics.html">Graphics</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr bgcolor="#f0f0f0" class="odd"><td class="entry"><b>~Graphics</b>() (defined in <a class="el" href="class_graphics.html">Graphics</a>)</td><td class="entry"><a class="el" href="class_graphics.html">Graphics</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_graphics.html#abeea79a89f5a1d03bdc31fbc0a87661a">Compute</a>(Camera *camera, GameObject *root, bool preRender)</td><td class="entry"><a class="el" href="class_graphics.html">Graphics</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="class_graphics.html#a25a497ec28cc3015f0782812664c50df">Draw</a>(Camera *cam, Displayable *element, std::vector&lt; Light * &gt; lights, bool waterFog, bool mainRender, GameObject *root)</td><td class="entry"><a class="el" href="class_graphics.html">Graphics</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_graphics.html#af00128b00a7715cce96abc5afbb08df3">Draw</a>(Camera *cam, Displayable *element, Model *model, std::vector&lt; Light * &gt; lights, bool waterFog, bool mainRender, GameObject *root)</td><td class="entry"><a class="el" href="class_graphics.html">Graphics</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr bgcolor="#f0f0f0" class="odd"><td class="entry"><b>Graphics</b>() (defined in <a class="el" href="class_graphics.html">Graphics</a>)</td><td class="entry"><a class="el" href="class_graphics.html">Graphics</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_graphics.html#aa5cca3799f830d61c298c1b5e7f87774">Init</a>()</td><td class="entry"><a class="el" href="class_graphics.html">Graphics</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="class_graphics.html#aac88c74211b7ad1ff5ec642c42647f20">Render</a>(Camera *camera, std::vector&lt; Light * &gt; lights, std::vector&lt; Displayable * &gt; elements, std::vector&lt; WaterPhysics * &gt; waterPhysics, bool mainRender, GameObject *root)</td><td class="entry"><a class="el" href="class_graphics.html">Graphics</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>~Graphics</b>() (defined in <a class="el" href="class_graphics.html">Graphics</a>)</td><td class="entry"><a class="el" href="class_graphics.html">Graphics</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
 </table></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

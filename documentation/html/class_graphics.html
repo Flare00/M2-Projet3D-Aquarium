@@ -27,6 +27,7 @@
   <td id="projectalign">
    <div id="projectname">Aquarium
    </div>
+   <div id="projectbrief">Projet 3D de M2 : https://github.com/Flare00/M2-Projet3D-Aquarium</div>
   </td>
  </tr>
  </tbody>
@@ -90,7 +91,6 @@ $(document).ready(function(){initNavTree('class_graphics.html',''); initResizabl
 
 <div class="header">
   <div class="summary">
-<a href="#nested-classes">Classes</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="class_graphics-members.html">List of all members</a>  </div>
   <div class="headertitle"><div class="title">Graphics Class Reference</div></div>
@@ -108,27 +108,24 @@ Public Member Functions</h2></td></tr>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>Init</b> ()</td></tr>
 <tr class="memdesc:aa5cca3799f830d61c298c1b5e7f87774"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize the <a class="el" href="class_graphics.html" title="The graphics Engine.">Graphics</a>. <br /></td></tr>
 <tr class="separator:aa5cca3799f830d61c298c1b5e7f87774"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a93b7491efdbefb8340fce1c2fbc81a6e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_graphics.html#a93b7491efdbefb8340fce1c2fbc81a6e">Compute</a> (<a class="el" href="class_game_object.html">GameObject</a> *root)</td></tr>
-<tr class="memdesc:a93b7491efdbefb8340fce1c2fbc81a6e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute the graphics using the root object of the scene, extracting all informations.  <br /></td></tr>
-<tr class="separator:a93b7491efdbefb8340fce1c2fbc81a6e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae1a00beba88bcc28f56ba2542c7560bb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_graphics.html#ae1a00beba88bcc28f56ba2542c7560bb">Compute</a> (std::vector&lt; <a class="el" href="class_camera.html">Camera</a> * &gt; cameras, std::vector&lt; <a class="el" href="class_light.html">Light</a> * &gt; lights, std::vector&lt; <a class="el" href="class_displayable.html">Displayable</a> * &gt; elements)</td></tr>
-<tr class="memdesc:ae1a00beba88bcc28f56ba2542c7560bb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute the graphics using a list of camera, lights, and <a class="el" href="class_displayable.html" title="A Displayable Component, with priority, to draw elements on screen.">Displayable</a> elements.  <br /></td></tr>
-<tr class="separator:ae1a00beba88bcc28f56ba2542c7560bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9950c8565f551a4305da4b44e68129aa"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_graphics.html#a9950c8565f551a4305da4b44e68129aa">Draw</a> (<a class="el" href="class_camera.html">Camera</a> *cam, <a class="el" href="class_displayable.html">Displayable</a> *element, std::vector&lt; <a class="el" href="class_light.html">Light</a> * &gt; lights)</td></tr>
-<tr class="memdesc:a9950c8565f551a4305da4b44e68129aa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Draw an element to a <a class="el" href="class_camera.html" title="Camera Object to draw the scene.">Camera</a>.  <br /></td></tr>
-<tr class="separator:a9950c8565f551a4305da4b44e68129aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af33a12deccd25c8e31f79ae73e13be2c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_graphics.html#af33a12deccd25c8e31f79ae73e13be2c">Draw</a> (<a class="el" href="class_camera.html">Camera</a> *cam, <a class="el" href="class_displayable.html">Displayable</a> *element, <a class="el" href="class_model.html">Model</a> *model, std::vector&lt; <a class="el" href="class_light.html">Light</a> * &gt; lights)</td></tr>
-<tr class="memdesc:af33a12deccd25c8e31f79ae73e13be2c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Draw an element to the camera, with a specific model of him.  <br /></td></tr>
-<tr class="separator:af33a12deccd25c8e31f79ae73e13be2c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac64f906ef591d4d4fab8b52407ddc80c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_game_object.html">GameObject</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_graphics.html#ac64f906ef591d4d4fab8b52407ddc80c">RaycastStencil</a> (<a class="el" href="class_camera.html">Camera</a> *camera, std::vector&lt; <a class="el" href="class_game_object.html">GameObject</a> * &gt; elems)</td></tr>
-<tr class="memdesc:ac64f906ef591d4d4fab8b52407ddc80c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Raycast using the stencil, not implemented yet.  <br /></td></tr>
-<tr class="separator:ac64f906ef591d4d4fab8b52407ddc80c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abeea79a89f5a1d03bdc31fbc0a87661a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_graphics.html#abeea79a89f5a1d03bdc31fbc0a87661a">Compute</a> (<a class="el" href="class_camera.html">Camera</a> *camera, <a class="el" href="class_game_object.html">GameObject</a> *root, bool preRender)</td></tr>
+<tr class="memdesc:abeea79a89f5a1d03bdc31fbc0a87661a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute the graphics using render and raycast camera, and the root object of the scene, extracting informations.  <br /></td></tr>
+<tr class="separator:abeea79a89f5a1d03bdc31fbc0a87661a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aac88c74211b7ad1ff5ec642c42647f20"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_graphics.html#aac88c74211b7ad1ff5ec642c42647f20">Render</a> (<a class="el" href="class_camera.html">Camera</a> *camera, std::vector&lt; <a class="el" href="class_light.html">Light</a> * &gt; lights, std::vector&lt; <a class="el" href="class_displayable.html">Displayable</a> * &gt; elements, std::vector&lt; <a class="el" href="class_water_physics.html">WaterPhysics</a> * &gt; waterPhysics, bool mainRender, <a class="el" href="class_game_object.html">GameObject</a> *root)</td></tr>
+<tr class="memdesc:aac88c74211b7ad1ff5ec642c42647f20"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute the graphics using a list of camera, lights, and <a class="el" href="class_displayable.html" title="A Displayable Component, with priority, to draw elements on screen.">Displayable</a> elements.  <br /></td></tr>
+<tr class="separator:aac88c74211b7ad1ff5ec642c42647f20"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a25a497ec28cc3015f0782812664c50df"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_graphics.html#a25a497ec28cc3015f0782812664c50df">Draw</a> (<a class="el" href="class_camera.html">Camera</a> *cam, <a class="el" href="class_displayable.html">Displayable</a> *element, std::vector&lt; <a class="el" href="class_light.html">Light</a> * &gt; lights, bool waterFog, bool mainRender, <a class="el" href="class_game_object.html">GameObject</a> *root)</td></tr>
+<tr class="memdesc:a25a497ec28cc3015f0782812664c50df"><td class="mdescLeft">&#160;</td><td class="mdescRight">Draw an element to a <a class="el" href="class_camera.html" title="Camera Object to draw the scene.">Camera</a>.  <br /></td></tr>
+<tr class="separator:a25a497ec28cc3015f0782812664c50df"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af00128b00a7715cce96abc5afbb08df3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_graphics.html#af00128b00a7715cce96abc5afbb08df3">Draw</a> (<a class="el" href="class_camera.html">Camera</a> *cam, <a class="el" href="class_displayable.html">Displayable</a> *element, <a class="el" href="class_model.html">Model</a> *model, std::vector&lt; <a class="el" href="class_light.html">Light</a> * &gt; lights, bool waterFog, bool mainRender, <a class="el" href="class_game_object.html">GameObject</a> *root)</td></tr>
+<tr class="memdesc:af00128b00a7715cce96abc5afbb08df3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Draw an element to the camera, with a specific model of him.  <br /></td></tr>
+<tr class="separator:af00128b00a7715cce96abc5afbb08df3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>The graphics <a class="el" href="class_engine.html" title="The 3D Engine with graphics and Simple Physics.">Engine</a>. </p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a id="a93b7491efdbefb8340fce1c2fbc81a6e" name="a93b7491efdbefb8340fce1c2fbc81a6e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a93b7491efdbefb8340fce1c2fbc81a6e">&#9670;&#160;</a></span>Compute() <span class="overload">[1/2]</span></h2>
+<a id="abeea79a89f5a1d03bdc31fbc0a87661a" name="abeea79a89f5a1d03bdc31fbc0a87661a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abeea79a89f5a1d03bdc31fbc0a87661a">&#9670;&#160;</a></span>Compute()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -139,54 +136,20 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>Init</b> ()</td></tr>
         <tr>
           <td class="memname">void Graphics::Compute </td>
           <td>(</td>
+          <td class="paramtype"><a class="el" href="class_camera.html">Camera</a> *&#160;</td>
+          <td class="paramname"><em>camera</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
           <td class="paramtype"><a class="el" href="class_game_object.html">GameObject</a> *&#160;</td>
-          <td class="paramname"><em>root</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Compute the graphics using the root object of the scene, extracting all informations. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">root</td><td>The root Gameobject of the scene.</td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<a id="ae1a00beba88bcc28f56ba2542c7560bb" name="ae1a00beba88bcc28f56ba2542c7560bb"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae1a00beba88bcc28f56ba2542c7560bb">&#9670;&#160;</a></span>Compute() <span class="overload">[2/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void Graphics::Compute </td>
-          <td>(</td>
-          <td class="paramtype">std::vector&lt; <a class="el" href="class_camera.html">Camera</a> * &gt;&#160;</td>
-          <td class="paramname"><em>cameras</em>, </td>
+          <td class="paramname"><em>root</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">std::vector&lt; <a class="el" href="class_light.html">Light</a> * &gt;&#160;</td>
-          <td class="paramname"><em>lights</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::vector&lt; <a class="el" href="class_displayable.html">Displayable</a> * &gt;&#160;</td>
-          <td class="paramname"><em>elements</em>&#160;</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>preRender</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -201,20 +164,20 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>Init</b> ()</td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Compute the graphics using a list of camera, lights, and <a class="el" href="class_displayable.html" title="A Displayable Component, with priority, to draw elements on screen.">Displayable</a> elements. </p>
+<p>Compute the graphics using render and raycast camera, and the root object of the scene, extracting informations. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">cameras</td><td>List of camera in the scene</td></tr>
-    <tr><td class="paramname">lights</td><td>List of lights in the scene</td></tr>
-    <tr><td class="paramname">elements</td><td>List of displayable element in the scene.</td></tr>
+    <tr><td class="paramname">render_camera</td><td>The render camera</td></tr>
+    <tr><td class="paramname">raycast_camera</td><td>The raycast camera</td></tr>
+    <tr><td class="paramname">root</td><td>The root gameobject</td></tr>
   </table>
   </dd>
 </dl>
 
 </div>
 </div>
-<a id="af33a12deccd25c8e31f79ae73e13be2c" name="af33a12deccd25c8e31f79ae73e13be2c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af33a12deccd25c8e31f79ae73e13be2c">&#9670;&#160;</a></span>Draw() <span class="overload">[1/2]</span></h2>
+<a id="af00128b00a7715cce96abc5afbb08df3" name="af00128b00a7715cce96abc5afbb08df3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af00128b00a7715cce96abc5afbb08df3">&#9670;&#160;</a></span>Draw() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -244,7 +207,25 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>Init</b> ()</td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">std::vector&lt; <a class="el" href="class_light.html">Light</a> * &gt;&#160;</td>
-          <td class="paramname"><em>lights</em>&#160;</td>
+          <td class="paramname"><em>lights</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>waterFog</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>mainRender</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_game_object.html">GameObject</a> *&#160;</td>
+          <td class="paramname"><em>root</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -272,8 +253,8 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>Init</b> ()</td></tr>
 
 </div>
 </div>
-<a id="a9950c8565f551a4305da4b44e68129aa" name="a9950c8565f551a4305da4b44e68129aa"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9950c8565f551a4305da4b44e68129aa">&#9670;&#160;</a></span>Draw() <span class="overload">[2/2]</span></h2>
+<a id="a25a497ec28cc3015f0782812664c50df" name="a25a497ec28cc3015f0782812664c50df"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a25a497ec28cc3015f0782812664c50df">&#9670;&#160;</a></span>Draw() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -297,7 +278,25 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>Init</b> ()</td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">std::vector&lt; <a class="el" href="class_light.html">Light</a> * &gt;&#160;</td>
-          <td class="paramname"><em>lights</em>&#160;</td>
+          <td class="paramname"><em>lights</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>waterFog</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>mainRender</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_game_object.html">GameObject</a> *&#160;</td>
+          <td class="paramname"><em>root</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -324,8 +323,8 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>Init</b> ()</td></tr>
 
 </div>
 </div>
-<a id="ac64f906ef591d4d4fab8b52407ddc80c" name="ac64f906ef591d4d4fab8b52407ddc80c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac64f906ef591d4d4fab8b52407ddc80c">&#9670;&#160;</a></span>RaycastStencil()</h2>
+<a id="aac88c74211b7ad1ff5ec642c42647f20" name="aac88c74211b7ad1ff5ec642c42647f20"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aac88c74211b7ad1ff5ec642c42647f20">&#9670;&#160;</a></span>Render()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -334,7 +333,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>Init</b> ()</td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="class_game_object.html">GameObject</a> * Graphics::RaycastStencil </td>
+          <td class="memname">void Graphics::Render </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="class_camera.html">Camera</a> *&#160;</td>
           <td class="paramname"><em>camera</em>, </td>
@@ -342,8 +341,32 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>Init</b> ()</td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">std::vector&lt; <a class="el" href="class_game_object.html">GameObject</a> * &gt;&#160;</td>
-          <td class="paramname"><em>elems</em>&#160;</td>
+          <td class="paramtype">std::vector&lt; <a class="el" href="class_light.html">Light</a> * &gt;&#160;</td>
+          <td class="paramname"><em>lights</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::vector&lt; <a class="el" href="class_displayable.html">Displayable</a> * &gt;&#160;</td>
+          <td class="paramname"><em>elements</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::vector&lt; <a class="el" href="class_water_physics.html">WaterPhysics</a> * &gt;&#160;</td>
+          <td class="paramname"><em>waterPhysics</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>mainRender</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_game_object.html">GameObject</a> *&#160;</td>
+          <td class="paramname"><em>root</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -358,15 +381,25 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>Init</b> ()</td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Raycast using the stencil, not implemented yet. </p>
+<p>Compute the graphics using a list of camera, lights, and <a class="el" href="class_displayable.html" title="A Displayable Component, with priority, to draw elements on screen.">Displayable</a> elements. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">camera</td><td>The camera</td></tr>
-    <tr><td class="paramname">elems</td><td>The elements</td></tr>
+    <tr><td class="paramname">cameras</td><td>List of camera in the scene</td></tr>
+    <tr><td class="paramname">lights</td><td>List of lights in the scene</td></tr>
+    <tr><td class="paramname">elements</td><td>List of displayable element in the scene.</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>Return the hitted object.</dd></dl>
+<p>Compute the graphics using a render and raycast camera, lights, and <a class="el" href="class_displayable.html" title="A Displayable Component, with priority, to draw elements on screen.">Displayable</a> elements, and the water physics.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">camera</td><td>The camera to render</td></tr>
+    <tr><td class="paramname">lights</td><td>List of lights in the scene</td></tr>
+    <tr><td class="paramname">elements</td><td>List of displayable element in the scene.</td></tr>
+    <tr><td class="paramname">waterPhysics</td><td>The water physics</td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>

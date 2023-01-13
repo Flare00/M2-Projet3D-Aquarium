@@ -7,7 +7,7 @@ var class_material_p_b_r =
     [ "SetAlbedo", "class_material_p_b_r.html#a1ce65719c488601a3409105ea26ac747", null ],
     [ "SetAlbedoMapFile", "class_material_p_b_r.html#a904643c6fa53ed3b6e5fa3e5d1b0c4c8", null ],
     [ "SetAOMapFile", "class_material_p_b_r.html#afc693e7bc1206f903bd96a855704f19a", null ],
-    [ "SetDataGPU", "class_material_p_b_r.html#a6329408c93661f4d6cb648da739ba7ee", null ],
+    [ "SetDataGPU", "class_material_p_b_r.html#afcd86a76dbaba0aa00062334f24ca851", null ],
     [ "SetFolderData", "class_material_p_b_r.html#ab69c6116e5a71194522866014f1db6eb", null ],
     [ "SetHeightMapFile", "class_material_p_b_r.html#a494ea1c17b931cc3e7cfc78d4da0486c", null ],
     [ "SetMetallic", "class_material_p_b_r.html#a7e916883e9e6aa78ab4650ab505aea51", null ],

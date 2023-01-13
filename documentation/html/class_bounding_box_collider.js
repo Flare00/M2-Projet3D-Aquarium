@@ -8,5 +8,7 @@ var class_bounding_box_collider =
     [ "GetMax", "class_bounding_box_collider.html#a29f8eed6b24b83fc95325e03a6bd5777", null ],
     [ "GetMaxOriented", "class_bounding_box_collider.html#a75374e01a7629e40ecb912f302beffce", null ],
     [ "GetMin", "class_bounding_box_collider.html#afc7f50fe69f327dbca55c01efb87887f", null ],
-    [ "GetMinOriented", "class_bounding_box_collider.html#a584cceb7243acc7ad1d7198ce2894bd6", null ]
+    [ "GetMinMax", "class_bounding_box_collider.html#a9d3eac3c629b473ceeb288ab7f7b8f70", null ],
+    [ "GetMinOriented", "class_bounding_box_collider.html#a584cceb7243acc7ad1d7198ce2894bd6", null ],
+    [ "Update", "class_bounding_box_collider.html#aaa628005bc3ee0f1cbbaf51d4a80fcac", null ]
 ];

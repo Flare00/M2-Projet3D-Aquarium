@@ -27,6 +27,7 @@
   <td id="projectalign">
    <div id="projectname">Aquarium
    </div>
+   <div id="projectbrief">Projet 3D de M2 : https://github.com/Flare00/M2-Projet3D-Aquarium</div>
   </td>
  </tr>
  </tbody>
@@ -109,11 +110,12 @@ $(document).ready(function(){initNavTree('class_material.html',''); initResizabl
   <tr class="odd"><td class="entry"><a class="el" href="class_component.html#abdee4fff9395fbe31f926377385cdab5">PostAttachment</a>()</td><td class="entry"><a class="el" href="class_component.html">Component</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="class_component.html#aa1d536baf09af2dbc56aae342e4e5c60">SetActive</a>(bool active)</td><td class="entry"><a class="el" href="class_component.html">Component</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
   <tr class="odd"><td class="entry"><a class="el" href="class_material.html#afbf85ddd70eff17bd75314d38a26d3c7">SetColor</a>(glm::vec4 color)</td><td class="entry"><a class="el" href="class_material.html">Material</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="class_material.html#a86fa064f8d6589f329dd3f766810e546">SetDataGPU</a>(glm::mat4 M, glm::mat4 V, glm::mat4 P, glm::vec3 camPos, bool inWater) override</td><td class="entry"><a class="el" href="class_material.html">Material</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_material.html#a687c407f40f371aff8b38e274c09e647">SetDataGPU</a>(glm::mat4 M, glm::mat4 V, glm::mat4 P, glm::vec3 camPos, bool inWater, bool mainRender, bool caustics) override</td><td class="entry"><a class="el" href="class_material.html">Material</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
   <tr class="odd"><td class="entry"><a class="el" href="class_i_material.html#ae521cbbe99d810831802bc7d6cbac0e8">SetLightGPU</a>(std::vector&lt; Light * &gt; lights)</td><td class="entry"><a class="el" href="class_i_material.html">IMaterial</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>shader</b> (defined in <a class="el" href="class_i_material.html">IMaterial</a>)</td><td class="entry"><a class="el" href="class_i_material.html">IMaterial</a></td><td class="entry"><span class="mlabel">protected</span></td></tr>
-  <tr bgcolor="#f0f0f0" class="odd"><td class="entry"><b>transparent</b> (defined in <a class="el" href="class_i_material.html">IMaterial</a>)</td><td class="entry"><a class="el" href="class_i_material.html">IMaterial</a></td><td class="entry"><span class="mlabel">protected</span></td></tr>
-  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>~Component</b>() (defined in <a class="el" href="class_component.html">Component</a>)</td><td class="entry"><a class="el" href="class_component.html">Component</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_i_material.html#a5be1d0119ce3e5841bf5253a455b72c1">SetShader</a>(std::string shadername)</td><td class="entry"><a class="el" href="class_i_material.html">IMaterial</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr bgcolor="#f0f0f0" class="odd"><td class="entry"><b>shader</b> (defined in <a class="el" href="class_i_material.html">IMaterial</a>)</td><td class="entry"><a class="el" href="class_i_material.html">IMaterial</a></td><td class="entry"><span class="mlabel">protected</span></td></tr>
+  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>transparent</b> (defined in <a class="el" href="class_i_material.html">IMaterial</a>)</td><td class="entry"><a class="el" href="class_i_material.html">IMaterial</a></td><td class="entry"><span class="mlabel">protected</span></td></tr>
+  <tr bgcolor="#f0f0f0" class="odd"><td class="entry"><b>~Component</b>() (defined in <a class="el" href="class_component.html">Component</a>)</td><td class="entry"><a class="el" href="class_component.html">Component</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
 </table></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

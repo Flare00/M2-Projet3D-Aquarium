@@ -27,6 +27,7 @@
   <td id="projectalign">
    <div id="projectname">Aquarium
    </div>
+   <div id="projectbrief">Projet 3D de M2 : https://github.com/Flare00/M2-Projet3D-Aquarium</div>
   </td>
  </tr>
  </tbody>
@@ -174,122 +175,158 @@ $(document).ready(function(){initNavTree('_model_8hpp_source.html',''); initResi
 <div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span> </div>
 <div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span><span class="keyword">public</span>:</div>
 <div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span> </div>
-<div class="line"><a id="l00104" name="l00104"></a><span class="lineno"><a class="line" href="class_model.html#a144c9e325d1345a465c9a33c65240208">  104</a></span>    <a class="code hl_function" href="class_model.html#a144c9e325d1345a465c9a33c65240208">Model</a>(std::vector&lt;glm::vec3&gt; pts, std::vector&lt;glm::vec3&gt; normals = std::vector&lt;glm::vec3&gt;(), std::vector&lt;Face&gt; faces = std::vector&lt;Face&gt;(), std::vector&lt;glm::vec2&gt; uv = std::vector&lt;glm::vec2&gt;(), <a class="code hl_class" href="class_i_material.html">IMaterial</a>* material = <span class="keyword">new</span> <a class="code hl_class" href="class_material_p_b_r.html">MaterialPBR</a>()) {</div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno"><a class="line" href="class_model.html#ace7f29bda2deb5fbaa7912e89decfc01">  104</a></span>    <a class="code hl_function" href="class_model.html#ace7f29bda2deb5fbaa7912e89decfc01">Model</a>(std::vector&lt;glm::vec3&gt; pts, std::vector&lt;glm::vec3&gt; normals = std::vector&lt;glm::vec3&gt;(), std::vector&lt;Face&gt; faces = std::vector&lt;Face&gt;(), std::vector&lt;glm::vec2&gt; uv = std::vector&lt;glm::vec2&gt;(), <a class="code hl_class" href="class_i_material.html">IMaterial</a>* material = <span class="keyword">new</span> <a class="code hl_class" href="class_material_p_b_r.html">MaterialPBR</a>(), <span class="keywordtype">bool</span> generate = <span class="keyword">true</span>) {</div>
 <div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>        this-&gt;points = pts;</div>
 <div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>        this-&gt;normals = normals;</div>
 <div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>        this-&gt;faces = faces;</div>
 <div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>        this-&gt;uv = uv;</div>
 <div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>        this-&gt;material = material;</div>
 <div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>        <a class="code hl_function" href="class_model.html#a46b3bb350b2a0106394c52213cf325b7">ComputeFrustumCollider</a>();</div>
-<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>        <a class="code hl_function" href="class_model.html#a4bb2cb26349f06d749a86a3e9424cb6d">GenerateBuffer</a>();</div>
-<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>    }</div>
-<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span> </div>
-<div class="line"><a id="l00117" name="l00117"></a><span class="lineno"><a class="line" href="class_model.html#a6b788b8f1606bcc12764e743ce345fe7">  117</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_model.html#a6b788b8f1606bcc12764e743ce345fe7">PostAttachment</a>()<span class="keyword"> override </span>{</div>
-<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>        this-&gt;attachment-&gt;<a class="code hl_function" href="class_game_object.html#a36ac8908e27f381d7d0578f027f175e9">addComponent</a>(material);</div>
-<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>        this-&gt;attachment-&gt;<a class="code hl_function" href="class_game_object.html#a36ac8908e27f381d7d0578f027f175e9">addComponent</a>(&amp;frustumCollider);</div>
-<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>    }</div>
-<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span> </div>
-<div class="line"><a id="l00125" name="l00125"></a><span class="lineno"><a class="line" href="class_model.html#ad6ebd2062a0b823db841a0b88baac4c0">  125</a></span>    <a class="code hl_function" href="class_model.html#ad6ebd2062a0b823db841a0b88baac4c0">~Model</a>()</div>
-<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span>    {</div>
-<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span>        glDeleteVertexArrays(1, &amp;this-&gt;data.VAO);</div>
-<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>        glDeleteBuffers(3, this-&gt;data.VBO);</div>
-<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span>        <span class="keywordflow">if</span> (this-&gt;faces.size() &gt; 0)</div>
-<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span>        {</div>
-<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>            glDeleteBuffers(1, &amp;this-&gt;data.EBO);</div>
-<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span>        }</div>
-<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span>    }</div>
-<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span> </div>
-<div class="line"><a id="l00138" name="l00138"></a><span class="lineno"><a class="line" href="class_model.html#a46b3bb350b2a0106394c52213cf325b7">  138</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_model.html#a46b3bb350b2a0106394c52213cf325b7">ComputeFrustumCollider</a>() {</div>
-<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span>        this-&gt;frustumCollider = <a class="code hl_class" href="class_bounding_box_collider.html">BoundingBoxCollider</a>(this-&gt;points);</div>
-<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span>    }</div>
-<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span> </div>
-<div class="line"><a id="l00145" name="l00145"></a><span class="lineno"><a class="line" href="class_model.html#a4bb2cb26349f06d749a86a3e9424cb6d">  145</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_model.html#a4bb2cb26349f06d749a86a3e9424cb6d">GenerateBuffer</a>()</div>
-<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span>    {</div>
-<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span>        glGenVertexArrays(1, &amp;this-&gt;data.VAO);</div>
-<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span>        glGenBuffers(3, this-&gt;data.VBO);</div>
-<div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span> </div>
-<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span>        glBindVertexArray(this-&gt;data.VAO);</div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>        <span class="keywordflow">if</span> (generate) {</div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>            <a class="code hl_function" href="class_model.html#a23fa9966aaa72f4f931b18c189cdf68d">GenerateBuffer</a>();</div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>        }</div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>    }</div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span> </div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno"><a class="line" href="class_model.html#a6b788b8f1606bcc12764e743ce345fe7">  119</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_model.html#a6b788b8f1606bcc12764e743ce345fe7">PostAttachment</a>()<span class="keyword"> override </span>{</div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>        this-&gt;attachment-&gt;<a class="code hl_function" href="class_game_object.html#a36ac8908e27f381d7d0578f027f175e9">addComponent</a>(material);</div>
+<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span>        this-&gt;attachment-&gt;<a class="code hl_function" href="class_game_object.html#a36ac8908e27f381d7d0578f027f175e9">addComponent</a>(&amp;frustumCollider);</div>
+<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>    }</div>
+<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span> </div>
+<div class="line"><a id="l00127" name="l00127"></a><span class="lineno"><a class="line" href="class_model.html#ad6ebd2062a0b823db841a0b88baac4c0">  127</a></span>    <a class="code hl_function" href="class_model.html#ad6ebd2062a0b823db841a0b88baac4c0">~Model</a>()</div>
+<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>    {</div>
+<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span>        glDeleteVertexArrays(1, &amp;this-&gt;data.VAO);</div>
+<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span>        glDeleteBuffers(3, this-&gt;data.VBO);</div>
+<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>        <span class="keywordflow">if</span> (this-&gt;faces.size() &gt; 0)</div>
+<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span>        {</div>
+<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span>            glDeleteBuffers(1, &amp;this-&gt;data.EBO);</div>
+<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span>        }</div>
+<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span>    }</div>
+<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span> </div>
+<div class="line"><a id="l00140" name="l00140"></a><span class="lineno"><a class="line" href="class_model.html#a46b3bb350b2a0106394c52213cf325b7">  140</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_model.html#a46b3bb350b2a0106394c52213cf325b7">ComputeFrustumCollider</a>() {</div>
+<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span>        this-&gt;frustumCollider = <a class="code hl_class" href="class_bounding_box_collider.html">BoundingBoxCollider</a>(this-&gt;points);</div>
+<div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span>    }</div>
+<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span> </div>
+<div class="line"><a id="l00147" name="l00147"></a><span class="lineno"><a class="line" href="class_model.html#a23fa9966aaa72f4f931b18c189cdf68d">  147</a></span>    <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="class_model.html#a23fa9966aaa72f4f931b18c189cdf68d">GenerateBuffer</a>()</div>
+<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span>    {</div>
+<div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span>        glGenVertexArrays(1, &amp;this-&gt;data.VAO);</div>
+<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span>        glGenBuffers(3, this-&gt;data.VBO);</div>
 <div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span> </div>
-<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span>        glEnableVertexAttribArray(0);</div>
-<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span>        glBindBuffer(GL_ARRAY_BUFFER, this-&gt;data.VBO[0]);</div>
-<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span>        glBufferData(GL_ARRAY_BUFFER, this-&gt;points.size() * <span class="keyword">sizeof</span>(glm::vec3), &amp;this-&gt;points[0], GL_STATIC_DRAW);</div>
-<div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span>        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (<span class="keywordtype">void</span>*)0);</div>
-<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span> </div>
-<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span>        <span class="keywordflow">if</span> (this-&gt;normals.size() &gt; 0)</div>
-<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span>        {</div>
-<div class="line"><a id="l00159" name="l00159"></a><span class="lineno">  159</span>            glEnableVertexAttribArray(1);</div>
-<div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span>            glBindBuffer(GL_ARRAY_BUFFER, this-&gt;data.VBO[1]);</div>
-<div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span>            glBufferData(GL_ARRAY_BUFFER, this-&gt;normals.size() * <span class="keyword">sizeof</span>(glm::vec3), &amp;this-&gt;normals[0], GL_STATIC_DRAW);</div>
-<div class="line"><a id="l00162" name="l00162"></a><span class="lineno">  162</span>            glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, (<span class="keywordtype">void</span>*)0);</div>
-<div class="line"><a id="l00163" name="l00163"></a><span class="lineno">  163</span>        }</div>
-<div class="line"><a id="l00164" name="l00164"></a><span class="lineno">  164</span> </div>
-<div class="line"><a id="l00165" name="l00165"></a><span class="lineno">  165</span>        <span class="keywordflow">if</span> (this-&gt;uv.size() &gt; 0) {</div>
-<div class="line"><a id="l00166" name="l00166"></a><span class="lineno">  166</span>            glEnableVertexAttribArray(2);</div>
-<div class="line"><a id="l00167" name="l00167"></a><span class="lineno">  167</span>            glBindBuffer(GL_ARRAY_BUFFER, this-&gt;data.VBO[2]);</div>
-<div class="line"><a id="l00168" name="l00168"></a><span class="lineno">  168</span>            glBufferData(GL_ARRAY_BUFFER, this-&gt;uv.size() * <span class="keyword">sizeof</span>(glm::vec2), &amp;this-&gt;uv[0], GL_STATIC_DRAW);</div>
-<div class="line"><a id="l00169" name="l00169"></a><span class="lineno">  169</span>            glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 0, (<span class="keywordtype">void</span>*)0);</div>
-<div class="line"><a id="l00170" name="l00170"></a><span class="lineno">  170</span>        }</div>
-<div class="line"><a id="l00171" name="l00171"></a><span class="lineno">  171</span> </div>
-<div class="line"><a id="l00172" name="l00172"></a><span class="lineno">  172</span>        <span class="keywordflow">if</span> (this-&gt;faces.size() &gt; 0)</div>
-<div class="line"><a id="l00173" name="l00173"></a><span class="lineno">  173</span>        {</div>
-<div class="line"><a id="l00174" name="l00174"></a><span class="lineno">  174</span>            std::vector&lt;unsigned int&gt; indices;</div>
-<div class="line"><a id="l00175" name="l00175"></a><span class="lineno">  175</span>            <span class="keywordflow">for</span> (<a class="code hl_struct" href="struct_model_1_1_face.html">Face</a> f : this-&gt;faces) {</div>
-<div class="line"><a id="l00176" name="l00176"></a><span class="lineno">  176</span>                std::vector&lt;unsigned int&gt; tmp = f.ToTriangleVector();</div>
-<div class="line"><a id="l00177" name="l00177"></a><span class="lineno">  177</span>                indices.insert(indices.end(), tmp.begin(), tmp.end());</div>
-<div class="line"><a id="l00178" name="l00178"></a><span class="lineno">  178</span>            }</div>
-<div class="line"><a id="l00179" name="l00179"></a><span class="lineno">  179</span>            glGenBuffers(1, &amp;this-&gt;data.EBO);</div>
-<div class="line"><a id="l00180" name="l00180"></a><span class="lineno">  180</span>            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this-&gt;data.EBO);</div>
-<div class="line"><a id="l00181" name="l00181"></a><span class="lineno">  181</span> </div>
-<div class="line"><a id="l00182" name="l00182"></a><span class="lineno">  182</span>            glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * <span class="keyword">sizeof</span>(<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span>), &amp;indices[0], GL_STATIC_DRAW);</div>
-<div class="line"><a id="l00183" name="l00183"></a><span class="lineno">  183</span>            this-&gt;data.sizeEBO = indices.size();</div>
-<div class="line"><a id="l00184" name="l00184"></a><span class="lineno">  184</span>        }</div>
-<div class="line"><a id="l00185" name="l00185"></a><span class="lineno">  185</span> </div>
-<div class="line"><a id="l00186" name="l00186"></a><span class="lineno">  186</span>        this-&gt;generated = <span class="keyword">true</span>;</div>
-<div class="line"><a id="l00187" name="l00187"></a><span class="lineno">  187</span>    }</div>
-<div class="line"><a id="l00188" name="l00188"></a><span class="lineno">  188</span> </div>
-<div class="line"><a id="l00193" name="l00193"></a><span class="lineno"><a class="line" href="class_model.html#af5e8563b083790a112e4ee31b73e206f">  193</a></span>    <a class="code hl_struct" href="struct_model_1_1_data.html">Data</a> <a class="code hl_function" href="class_model.html#af5e8563b083790a112e4ee31b73e206f">GetData</a>() {</div>
-<div class="line"><a id="l00194" name="l00194"></a><span class="lineno">  194</span>        <span class="keywordflow">return</span> this-&gt;data;</div>
-<div class="line"><a id="l00195" name="l00195"></a><span class="lineno">  195</span>    }</div>
-<div class="line"><a id="l00196" name="l00196"></a><span class="lineno">  196</span> </div>
-<div class="line"><a id="l00201" name="l00201"></a><span class="lineno"><a class="line" href="class_model.html#ac1e7679077a3c685d03016dd180bc2f8">  201</a></span>    <a class="code hl_class" href="class_shader.html">Shader</a>* <a class="code hl_function" href="class_model.html#ac1e7679077a3c685d03016dd180bc2f8">GetShader</a>() {</div>
-<div class="line"><a id="l00202" name="l00202"></a><span class="lineno">  202</span>        <span class="keywordflow">return</span> this-&gt;material-&gt;<a class="code hl_function" href="class_i_material.html#a7a4370310deea44e2e5f5a9b287502a0">GetShader</a>();</div>
-<div class="line"><a id="l00203" name="l00203"></a><span class="lineno">  203</span>    }</div>
-<div class="line"><a id="l00204" name="l00204"></a><span class="lineno">  204</span> </div>
-<div class="line"><a id="l00209" name="l00209"></a><span class="lineno"><a class="line" href="class_model.html#afbfe0bb21ba3aabc90538597fd93f2ef">  209</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_model.html#afbfe0bb21ba3aabc90538597fd93f2ef">SetMaterial</a>(<a class="code hl_class" href="class_material_p_b_r.html">MaterialPBR</a>* material) {</div>
-<div class="line"><a id="l00210" name="l00210"></a><span class="lineno">  210</span>        <span class="keywordflow">if</span> (this-&gt;material != <span class="keyword">nullptr</span>) {</div>
-<div class="line"><a id="l00211" name="l00211"></a><span class="lineno">  211</span>            <span class="keyword">delete</span>(this-&gt;material);</div>
-<div class="line"><a id="l00212" name="l00212"></a><span class="lineno">  212</span>            this-&gt;material = <span class="keyword">nullptr</span>;</div>
-<div class="line"><a id="l00213" name="l00213"></a><span class="lineno">  213</span>        }</div>
-<div class="line"><a id="l00214" name="l00214"></a><span class="lineno">  214</span>        this-&gt;material = material;</div>
-<div class="line"><a id="l00215" name="l00215"></a><span class="lineno">  215</span>    }</div>
-<div class="line"><a id="l00216" name="l00216"></a><span class="lineno">  216</span> </div>
-<div class="line"><a id="l00221" name="l00221"></a><span class="lineno"><a class="line" href="class_model.html#addc28eba5208d4bf32e724b7f3f22686">  221</a></span>    <a class="code hl_class" href="class_i_material.html">IMaterial</a>* <a class="code hl_function" href="class_model.html#addc28eba5208d4bf32e724b7f3f22686">GetRenderMaterial</a>() {</div>
-<div class="line"><a id="l00222" name="l00222"></a><span class="lineno">  222</span>        <span class="keywordflow">return</span> this-&gt;material;</div>
-<div class="line"><a id="l00223" name="l00223"></a><span class="lineno">  223</span>    }</div>
-<div class="line"><a id="l00224" name="l00224"></a><span class="lineno">  224</span> </div>
-<div class="line"><a id="l00229" name="l00229"></a><span class="lineno"><a class="line" href="class_model.html#af9c33244c438066278c8dea000380985">  229</a></span>    <a class="code hl_class" href="class_bounding_box_collider.html">BoundingBoxCollider</a> <a class="code hl_function" href="class_model.html#af9c33244c438066278c8dea000380985">GetFrustumCollider</a>() {</div>
-<div class="line"><a id="l00230" name="l00230"></a><span class="lineno">  230</span>        <span class="keywordflow">return</span> this-&gt;frustumCollider;</div>
-<div class="line"><a id="l00231" name="l00231"></a><span class="lineno">  231</span>    }</div>
-<div class="line"><a id="l00232" name="l00232"></a><span class="lineno">  232</span>};</div>
-<div class="line"><a id="l00233" name="l00233"></a><span class="lineno">  233</span> </div>
-<div class="line"><a id="l00234" name="l00234"></a><span class="lineno">  234</span><span class="preprocessor">#endif </span><span class="comment">// !__MODEL_HPP__</span></div>
+<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span>        glBindVertexArray(this-&gt;data.VAO);</div>
+<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span> </div>
+<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span>        glEnableVertexAttribArray(0);</div>
+<div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span>        glBindBuffer(GL_ARRAY_BUFFER, this-&gt;data.VBO[0]);</div>
+<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span>        glBufferData(GL_ARRAY_BUFFER, this-&gt;points.size() * <span class="keyword">sizeof</span>(glm::vec3), &amp;this-&gt;points[0], GL_DYNAMIC_DRAW);</div>
+<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span>        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (<span class="keywordtype">void</span>*)0);</div>
+<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span> </div>
+<div class="line"><a id="l00159" name="l00159"></a><span class="lineno">  159</span>        <span class="keywordflow">if</span> (this-&gt;normals.size() &gt; 0)</div>
+<div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span>        {</div>
+<div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span>            glEnableVertexAttribArray(1);</div>
+<div class="line"><a id="l00162" name="l00162"></a><span class="lineno">  162</span>            glBindBuffer(GL_ARRAY_BUFFER, this-&gt;data.VBO[1]);</div>
+<div class="line"><a id="l00163" name="l00163"></a><span class="lineno">  163</span>            glBufferData(GL_ARRAY_BUFFER, this-&gt;normals.size() * <span class="keyword">sizeof</span>(glm::vec3), &amp;this-&gt;normals[0], GL_STATIC_DRAW);</div>
+<div class="line"><a id="l00164" name="l00164"></a><span class="lineno">  164</span>            glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, (<span class="keywordtype">void</span>*)0);</div>
+<div class="line"><a id="l00165" name="l00165"></a><span class="lineno">  165</span>        }</div>
+<div class="line"><a id="l00166" name="l00166"></a><span class="lineno">  166</span> </div>
+<div class="line"><a id="l00167" name="l00167"></a><span class="lineno">  167</span>        <span class="keywordflow">if</span> (this-&gt;uv.size() &gt; 0) {</div>
+<div class="line"><a id="l00168" name="l00168"></a><span class="lineno">  168</span>            glEnableVertexAttribArray(2);</div>
+<div class="line"><a id="l00169" name="l00169"></a><span class="lineno">  169</span>            glBindBuffer(GL_ARRAY_BUFFER, this-&gt;data.VBO[2]);</div>
+<div class="line"><a id="l00170" name="l00170"></a><span class="lineno">  170</span>            glBufferData(GL_ARRAY_BUFFER, this-&gt;uv.size() * <span class="keyword">sizeof</span>(glm::vec2), &amp;this-&gt;uv[0], GL_STATIC_DRAW);</div>
+<div class="line"><a id="l00171" name="l00171"></a><span class="lineno">  171</span>            glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 0, (<span class="keywordtype">void</span>*)0);</div>
+<div class="line"><a id="l00172" name="l00172"></a><span class="lineno">  172</span>        }</div>
+<div class="line"><a id="l00173" name="l00173"></a><span class="lineno">  173</span> </div>
+<div class="line"><a id="l00174" name="l00174"></a><span class="lineno">  174</span>        <span class="keywordflow">if</span> (this-&gt;faces.size() &gt; 0)</div>
+<div class="line"><a id="l00175" name="l00175"></a><span class="lineno">  175</span>        {</div>
+<div class="line"><a id="l00176" name="l00176"></a><span class="lineno">  176</span>            std::vector&lt;unsigned int&gt; indices;</div>
+<div class="line"><a id="l00177" name="l00177"></a><span class="lineno">  177</span>            <span class="keywordflow">for</span> (<a class="code hl_struct" href="struct_model_1_1_face.html">Face</a> f : this-&gt;faces) {</div>
+<div class="line"><a id="l00178" name="l00178"></a><span class="lineno">  178</span>                std::vector&lt;unsigned int&gt; tmp = f.ToTriangleVector();</div>
+<div class="line"><a id="l00179" name="l00179"></a><span class="lineno">  179</span>                indices.insert(indices.end(), tmp.begin(), tmp.end());</div>
+<div class="line"><a id="l00180" name="l00180"></a><span class="lineno">  180</span>            }</div>
+<div class="line"><a id="l00181" name="l00181"></a><span class="lineno">  181</span>            glGenBuffers(1, &amp;this-&gt;data.EBO);</div>
+<div class="line"><a id="l00182" name="l00182"></a><span class="lineno">  182</span>            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this-&gt;data.EBO);</div>
+<div class="line"><a id="l00183" name="l00183"></a><span class="lineno">  183</span> </div>
+<div class="line"><a id="l00184" name="l00184"></a><span class="lineno">  184</span>            glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * <span class="keyword">sizeof</span>(<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span>), &amp;indices[0], GL_STATIC_DRAW);</div>
+<div class="line"><a id="l00185" name="l00185"></a><span class="lineno">  185</span>            this-&gt;data.sizeEBO = indices.size();</div>
+<div class="line"><a id="l00186" name="l00186"></a><span class="lineno">  186</span>        }</div>
+<div class="line"><a id="l00187" name="l00187"></a><span class="lineno">  187</span> </div>
+<div class="line"><a id="l00188" name="l00188"></a><span class="lineno">  188</span>        this-&gt;generated = <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00189" name="l00189"></a><span class="lineno">  189</span>    }</div>
+<div class="line"><a id="l00190" name="l00190"></a><span class="lineno">  190</span> </div>
+<div class="line"><a id="l00195" name="l00195"></a><span class="lineno"><a class="line" href="class_model.html#af5e8563b083790a112e4ee31b73e206f">  195</a></span>    <a class="code hl_struct" href="struct_model_1_1_data.html">Data</a> <a class="code hl_function" href="class_model.html#af5e8563b083790a112e4ee31b73e206f">GetData</a>() {</div>
+<div class="line"><a id="l00196" name="l00196"></a><span class="lineno">  196</span>        <span class="keywordflow">return</span> this-&gt;data;</div>
+<div class="line"><a id="l00197" name="l00197"></a><span class="lineno">  197</span>    }</div>
+<div class="line"><a id="l00198" name="l00198"></a><span class="lineno">  198</span> </div>
+<div class="line"><a id="l00203" name="l00203"></a><span class="lineno"><a class="line" href="class_model.html#ac1e7679077a3c685d03016dd180bc2f8">  203</a></span>    <a class="code hl_class" href="class_shader.html">Shader</a>* <a class="code hl_function" href="class_model.html#ac1e7679077a3c685d03016dd180bc2f8">GetShader</a>() {</div>
+<div class="line"><a id="l00204" name="l00204"></a><span class="lineno">  204</span>        <span class="keywordflow">return</span> this-&gt;material-&gt;<a class="code hl_function" href="class_i_material.html#a7a4370310deea44e2e5f5a9b287502a0">GetShader</a>();</div>
+<div class="line"><a id="l00205" name="l00205"></a><span class="lineno">  205</span>    }</div>
+<div class="line"><a id="l00206" name="l00206"></a><span class="lineno">  206</span> </div>
+<div class="line"><a id="l00211" name="l00211"></a><span class="lineno"><a class="line" href="class_model.html#afbfe0bb21ba3aabc90538597fd93f2ef">  211</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_model.html#afbfe0bb21ba3aabc90538597fd93f2ef">SetMaterial</a>(<a class="code hl_class" href="class_material_p_b_r.html">MaterialPBR</a>* material) {</div>
+<div class="line"><a id="l00212" name="l00212"></a><span class="lineno">  212</span>        <span class="keywordflow">if</span> (this-&gt;material != <span class="keyword">nullptr</span>) {</div>
+<div class="line"><a id="l00213" name="l00213"></a><span class="lineno">  213</span>            <span class="keyword">delete</span>(this-&gt;material);</div>
+<div class="line"><a id="l00214" name="l00214"></a><span class="lineno">  214</span>            this-&gt;material = <span class="keyword">nullptr</span>;</div>
+<div class="line"><a id="l00215" name="l00215"></a><span class="lineno">  215</span>        }</div>
+<div class="line"><a id="l00216" name="l00216"></a><span class="lineno">  216</span>        this-&gt;material = material;</div>
+<div class="line"><a id="l00217" name="l00217"></a><span class="lineno">  217</span>    }</div>
+<div class="line"><a id="l00218" name="l00218"></a><span class="lineno">  218</span> </div>
+<div class="line"><a id="l00223" name="l00223"></a><span class="lineno"><a class="line" href="class_model.html#addc28eba5208d4bf32e724b7f3f22686">  223</a></span>    <a class="code hl_class" href="class_i_material.html">IMaterial</a>* <a class="code hl_function" href="class_model.html#addc28eba5208d4bf32e724b7f3f22686">GetRenderMaterial</a>() {</div>
+<div class="line"><a id="l00224" name="l00224"></a><span class="lineno">  224</span>        <span class="keywordflow">return</span> this-&gt;material;</div>
+<div class="line"><a id="l00225" name="l00225"></a><span class="lineno">  225</span>    }</div>
+<div class="line"><a id="l00226" name="l00226"></a><span class="lineno">  226</span> </div>
+<div class="line"><a id="l00231" name="l00231"></a><span class="lineno"><a class="line" href="class_model.html#af9c33244c438066278c8dea000380985">  231</a></span>    <a class="code hl_class" href="class_bounding_box_collider.html">BoundingBoxCollider</a> <a class="code hl_function" href="class_model.html#af9c33244c438066278c8dea000380985">GetFrustumCollider</a>() {</div>
+<div class="line"><a id="l00232" name="l00232"></a><span class="lineno">  232</span>        <span class="keywordflow">return</span> this-&gt;frustumCollider;</div>
+<div class="line"><a id="l00233" name="l00233"></a><span class="lineno">  233</span>    }</div>
+<div class="line"><a id="l00234" name="l00234"></a><span class="lineno">  234</span> </div>
+<div class="line"><a id="l00235" name="l00235"></a><span class="lineno">  235</span> </div>
+<div class="line"><a id="l00240" name="l00240"></a><span class="lineno"><a class="line" href="class_model.html#a3605ce2bb131a3183f76d5cd0865f127">  240</a></span>    std::vector&lt;glm::vec3&gt; <a class="code hl_function" href="class_model.html#a3605ce2bb131a3183f76d5cd0865f127">GetPoints</a>() {</div>
+<div class="line"><a id="l00241" name="l00241"></a><span class="lineno">  241</span>        <span class="keywordflow">return</span> this-&gt;points;</div>
+<div class="line"><a id="l00242" name="l00242"></a><span class="lineno">  242</span>    }</div>
+<div class="line"><a id="l00243" name="l00243"></a><span class="lineno">  243</span> </div>
+<div class="line"><a id="l00248" name="l00248"></a><span class="lineno"><a class="line" href="class_model.html#a208205e74dca3094d7fe6538ee32a02b">  248</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_model.html#a208205e74dca3094d7fe6538ee32a02b">SetPoints</a>(std::vector&lt;glm::vec3&gt; pts) {</div>
+<div class="line"><a id="l00249" name="l00249"></a><span class="lineno">  249</span>        this-&gt;points.clear();</div>
+<div class="line"><a id="l00250" name="l00250"></a><span class="lineno">  250</span>        this-&gt;points.insert(this-&gt;points.begin(), pts.begin(), pts.end());</div>
+<div class="line"><a id="l00251" name="l00251"></a><span class="lineno">  251</span> </div>
+<div class="line"><a id="l00252" name="l00252"></a><span class="lineno">  252</span>        this-&gt;frustumCollider.<a class="code hl_function" href="class_bounding_box_collider.html#aaa628005bc3ee0f1cbbaf51d4a80fcac">Update</a>(pts);</div>
+<div class="line"><a id="l00253" name="l00253"></a><span class="lineno">  253</span> </div>
+<div class="line"><a id="l00254" name="l00254"></a><span class="lineno">  254</span> </div>
+<div class="line"><a id="l00255" name="l00255"></a><span class="lineno">  255</span>        glBindBuffer(GL_ARRAY_BUFFER, this-&gt;data.VBO[0]);</div>
+<div class="line"><a id="l00256" name="l00256"></a><span class="lineno">  256</span>        glBufferSubData(GL_ARRAY_BUFFER, 0, this-&gt;points.size() * <span class="keyword">sizeof</span>(glm::vec3), &amp;this-&gt;points[0]);</div>
+<div class="line"><a id="l00257" name="l00257"></a><span class="lineno">  257</span>    }</div>
+<div class="line"><a id="l00258" name="l00258"></a><span class="lineno">  258</span> </div>
+<div class="line"><a id="l00263" name="l00263"></a><span class="lineno"><a class="line" href="class_model.html#ac92df1720882aac58f5fb942c73fd294">  263</a></span>    std::vector&lt;glm::vec3&gt; <a class="code hl_function" href="class_model.html#ac92df1720882aac58f5fb942c73fd294">GetNormales</a>() {</div>
+<div class="line"><a id="l00264" name="l00264"></a><span class="lineno">  264</span>        <span class="keywordflow">return</span> this-&gt;normals;</div>
+<div class="line"><a id="l00265" name="l00265"></a><span class="lineno">  265</span>    }</div>
+<div class="line"><a id="l00266" name="l00266"></a><span class="lineno">  266</span> </div>
+<div class="line"><a id="l00271" name="l00271"></a><span class="lineno"><a class="line" href="class_model.html#ac1b647fb7c167a639725a54ba409a60e">  271</a></span>    std::vector&lt;glm::vec2&gt; <a class="code hl_function" href="class_model.html#ac1b647fb7c167a639725a54ba409a60e">GetUVs</a>() {</div>
+<div class="line"><a id="l00272" name="l00272"></a><span class="lineno">  272</span>        <span class="keywordflow">return</span> this-&gt;uv;</div>
+<div class="line"><a id="l00273" name="l00273"></a><span class="lineno">  273</span>    }</div>
+<div class="line"><a id="l00274" name="l00274"></a><span class="lineno">  274</span> </div>
+<div class="line"><a id="l00279" name="l00279"></a><span class="lineno"><a class="line" href="class_model.html#a864c4deb2d3d26959469a5deaca0267e">  279</a></span>    std::vector&lt;Face&gt; <a class="code hl_function" href="class_model.html#a864c4deb2d3d26959469a5deaca0267e">GetFaces</a>() {</div>
+<div class="line"><a id="l00280" name="l00280"></a><span class="lineno">  280</span>        <span class="keywordflow">return</span> this-&gt;faces;</div>
+<div class="line"><a id="l00281" name="l00281"></a><span class="lineno">  281</span>    }</div>
+<div class="line"><a id="l00282" name="l00282"></a><span class="lineno">  282</span>};</div>
+<div class="line"><a id="l00283" name="l00283"></a><span class="lineno">  283</span> </div>
+<div class="line"><a id="l00284" name="l00284"></a><span class="lineno">  284</span><span class="preprocessor">#endif </span><span class="comment">// !__MODEL_HPP__</span></div>
 <div class="ttc" id="aclass_bounding_box_collider_html"><div class="ttname"><a href="class_bounding_box_collider.html">BoundingBoxCollider</a></div><div class="ttdoc">A Bounding Box collider. (AABB and OBB)</div><div class="ttdef"><b>Definition:</b> BoundingBoxCollider.hpp:12</div></div>
+<div class="ttc" id="aclass_bounding_box_collider_html_aaa628005bc3ee0f1cbbaf51d4a80fcac"><div class="ttname"><a href="class_bounding_box_collider.html#aaa628005bc3ee0f1cbbaf51d4a80fcac">BoundingBoxCollider::Update</a></div><div class="ttdeci">void Update(std::vector&lt; glm::vec3 &gt; points)</div><div class="ttdoc">Update the BoundingBox with new points.</div><div class="ttdef"><b>Definition:</b> BoundingBoxCollider.hpp:41</div></div>
 <div class="ttc" id="aclass_component_html"><div class="ttname"><a href="class_component.html">Component</a></div><div class="ttdoc">A component that is attached to an Gameobject.</div><div class="ttdef"><b>Definition:</b> Component.hpp:9</div></div>
-<div class="ttc" id="aclass_game_object_html_a36ac8908e27f381d7d0578f027f175e9"><div class="ttname"><a href="class_game_object.html#a36ac8908e27f381d7d0578f027f175e9">GameObject::addComponent</a></div><div class="ttdeci">void addComponent(Component *component)</div><div class="ttdoc">Add a component to the gameobject, auto attach gameobject to this component.</div><div class="ttdef"><b>Definition:</b> GameObject.hpp:222</div></div>
+<div class="ttc" id="aclass_game_object_html_a36ac8908e27f381d7d0578f027f175e9"><div class="ttname"><a href="class_game_object.html#a36ac8908e27f381d7d0578f027f175e9">GameObject::addComponent</a></div><div class="ttdeci">void addComponent(Component *component)</div><div class="ttdoc">Add a component to the gameobject, auto attach gameobject to this component.</div><div class="ttdef"><b>Definition:</b> GameObject.hpp:236</div></div>
 <div class="ttc" id="aclass_i_material_html"><div class="ttname"><a href="class_i_material.html">IMaterial</a></div><div class="ttdoc">Material Interface for drawing.</div><div class="ttdef"><b>Definition:</b> IMaterial.hpp:17</div></div>
 <div class="ttc" id="aclass_i_material_html_a7a4370310deea44e2e5f5a9b287502a0"><div class="ttname"><a href="class_i_material.html#a7a4370310deea44e2e5f5a9b287502a0">IMaterial::GetShader</a></div><div class="ttdeci">Shader * GetShader()</div><div class="ttdoc">Return the shader.</div><div class="ttdef"><b>Definition:</b> IMaterial.hpp:42</div></div>
-<div class="ttc" id="aclass_material_p_b_r_html"><div class="ttname"><a href="class_material_p_b_r.html">MaterialPBR</a></div><div class="ttdoc">Material for PBR drawing.</div><div class="ttdef"><b>Definition:</b> MaterialPBR.hpp:16</div></div>
+<div class="ttc" id="aclass_material_p_b_r_html"><div class="ttname"><a href="class_material_p_b_r.html">MaterialPBR</a></div><div class="ttdoc">Material for PBR drawing.</div><div class="ttdef"><b>Definition:</b> MaterialPBR.hpp:17</div></div>
 <div class="ttc" id="aclass_model_html"><div class="ttname"><a href="class_model.html">Model</a></div><div class="ttdoc">Model component, for graphical.</div><div class="ttdef"><b>Definition:</b> Model.hpp:20</div></div>
-<div class="ttc" id="aclass_model_html_a144c9e325d1345a465c9a33c65240208"><div class="ttname"><a href="class_model.html#a144c9e325d1345a465c9a33c65240208">Model::Model</a></div><div class="ttdeci">Model(std::vector&lt; glm::vec3 &gt; pts, std::vector&lt; glm::vec3 &gt; normals=std::vector&lt; glm::vec3 &gt;(), std::vector&lt; Face &gt; faces=std::vector&lt; Face &gt;(), std::vector&lt; glm::vec2 &gt; uv=std::vector&lt; glm::vec2 &gt;(), IMaterial *material=new MaterialPBR())</div><div class="ttdoc">Constructor of the Model.</div><div class="ttdef"><b>Definition:</b> Model.hpp:104</div></div>
-<div class="ttc" id="aclass_model_html_a46b3bb350b2a0106394c52213cf325b7"><div class="ttname"><a href="class_model.html#a46b3bb350b2a0106394c52213cf325b7">Model::ComputeFrustumCollider</a></div><div class="ttdeci">void ComputeFrustumCollider()</div><div class="ttdoc">Compute the frustum collider for frustum computing.</div><div class="ttdef"><b>Definition:</b> Model.hpp:138</div></div>
-<div class="ttc" id="aclass_model_html_a4bb2cb26349f06d749a86a3e9424cb6d"><div class="ttname"><a href="class_model.html#a4bb2cb26349f06d749a86a3e9424cb6d">Model::GenerateBuffer</a></div><div class="ttdeci">void GenerateBuffer()</div><div class="ttdoc">Generate the VAO, VBO and EBO buffers.</div><div class="ttdef"><b>Definition:</b> Model.hpp:145</div></div>
-<div class="ttc" id="aclass_model_html_a6b788b8f1606bcc12764e743ce345fe7"><div class="ttname"><a href="class_model.html#a6b788b8f1606bcc12764e743ce345fe7">Model::PostAttachment</a></div><div class="ttdeci">void PostAttachment() override</div><div class="ttdoc">Function called after the Gameobject attachement was set, automatically add the linked component.</div><div class="ttdef"><b>Definition:</b> Model.hpp:117</div></div>
-<div class="ttc" id="aclass_model_html_ac1e7679077a3c685d03016dd180bc2f8"><div class="ttname"><a href="class_model.html#ac1e7679077a3c685d03016dd180bc2f8">Model::GetShader</a></div><div class="ttdeci">Shader * GetShader()</div><div class="ttdoc">Return the shader of the material.</div><div class="ttdef"><b>Definition:</b> Model.hpp:201</div></div>
-<div class="ttc" id="aclass_model_html_ad6ebd2062a0b823db841a0b88baac4c0"><div class="ttname"><a href="class_model.html#ad6ebd2062a0b823db841a0b88baac4c0">Model::~Model</a></div><div class="ttdeci">~Model()</div><div class="ttdoc">Destructor that automaticalle free the arrays and buffers.</div><div class="ttdef"><b>Definition:</b> Model.hpp:125</div></div>
-<div class="ttc" id="aclass_model_html_addc28eba5208d4bf32e724b7f3f22686"><div class="ttname"><a href="class_model.html#addc28eba5208d4bf32e724b7f3f22686">Model::GetRenderMaterial</a></div><div class="ttdeci">IMaterial * GetRenderMaterial()</div><div class="ttdoc">Return the Material of the object.</div><div class="ttdef"><b>Definition:</b> Model.hpp:221</div></div>
-<div class="ttc" id="aclass_model_html_af5e8563b083790a112e4ee31b73e206f"><div class="ttname"><a href="class_model.html#af5e8563b083790a112e4ee31b73e206f">Model::GetData</a></div><div class="ttdeci">Data GetData()</div><div class="ttdoc">Return the graphicals data of the object.</div><div class="ttdef"><b>Definition:</b> Model.hpp:193</div></div>
-<div class="ttc" id="aclass_model_html_af9c33244c438066278c8dea000380985"><div class="ttname"><a href="class_model.html#af9c33244c438066278c8dea000380985">Model::GetFrustumCollider</a></div><div class="ttdeci">BoundingBoxCollider GetFrustumCollider()</div><div class="ttdoc">Return the Frustum Collider of the object.</div><div class="ttdef"><b>Definition:</b> Model.hpp:229</div></div>
-<div class="ttc" id="aclass_model_html_afbfe0bb21ba3aabc90538597fd93f2ef"><div class="ttname"><a href="class_model.html#afbfe0bb21ba3aabc90538597fd93f2ef">Model::SetMaterial</a></div><div class="ttdeci">void SetMaterial(MaterialPBR *material)</div><div class="ttdoc">Set the Material of the object.</div><div class="ttdef"><b>Definition:</b> Model.hpp:209</div></div>
+<div class="ttc" id="aclass_model_html_a208205e74dca3094d7fe6538ee32a02b"><div class="ttname"><a href="class_model.html#a208205e74dca3094d7fe6538ee32a02b">Model::SetPoints</a></div><div class="ttdeci">void SetPoints(std::vector&lt; glm::vec3 &gt; pts)</div><div class="ttdoc">Change the point list of the model.</div><div class="ttdef"><b>Definition:</b> Model.hpp:248</div></div>
+<div class="ttc" id="aclass_model_html_a23fa9966aaa72f4f931b18c189cdf68d"><div class="ttname"><a href="class_model.html#a23fa9966aaa72f4f931b18c189cdf68d">Model::GenerateBuffer</a></div><div class="ttdeci">virtual void GenerateBuffer()</div><div class="ttdoc">Generate the VAO, VBO and EBO buffers.</div><div class="ttdef"><b>Definition:</b> Model.hpp:147</div></div>
+<div class="ttc" id="aclass_model_html_a3605ce2bb131a3183f76d5cd0865f127"><div class="ttname"><a href="class_model.html#a3605ce2bb131a3183f76d5cd0865f127">Model::GetPoints</a></div><div class="ttdeci">std::vector&lt; glm::vec3 &gt; GetPoints()</div><div class="ttdoc">Return the point list of the model.</div><div class="ttdef"><b>Definition:</b> Model.hpp:240</div></div>
+<div class="ttc" id="aclass_model_html_a46b3bb350b2a0106394c52213cf325b7"><div class="ttname"><a href="class_model.html#a46b3bb350b2a0106394c52213cf325b7">Model::ComputeFrustumCollider</a></div><div class="ttdeci">void ComputeFrustumCollider()</div><div class="ttdoc">Compute the frustum collider for frustum computing.</div><div class="ttdef"><b>Definition:</b> Model.hpp:140</div></div>
+<div class="ttc" id="aclass_model_html_a6b788b8f1606bcc12764e743ce345fe7"><div class="ttname"><a href="class_model.html#a6b788b8f1606bcc12764e743ce345fe7">Model::PostAttachment</a></div><div class="ttdeci">void PostAttachment() override</div><div class="ttdoc">Function called after the Gameobject attachement was set, automatically add the linked component.</div><div class="ttdef"><b>Definition:</b> Model.hpp:119</div></div>
+<div class="ttc" id="aclass_model_html_a864c4deb2d3d26959469a5deaca0267e"><div class="ttname"><a href="class_model.html#a864c4deb2d3d26959469a5deaca0267e">Model::GetFaces</a></div><div class="ttdeci">std::vector&lt; Face &gt; GetFaces()</div><div class="ttdoc">Return the face list of the model.</div><div class="ttdef"><b>Definition:</b> Model.hpp:279</div></div>
+<div class="ttc" id="aclass_model_html_ac1b647fb7c167a639725a54ba409a60e"><div class="ttname"><a href="class_model.html#ac1b647fb7c167a639725a54ba409a60e">Model::GetUVs</a></div><div class="ttdeci">std::vector&lt; glm::vec2 &gt; GetUVs()</div><div class="ttdoc">Return the uv list of the model.</div><div class="ttdef"><b>Definition:</b> Model.hpp:271</div></div>
+<div class="ttc" id="aclass_model_html_ac1e7679077a3c685d03016dd180bc2f8"><div class="ttname"><a href="class_model.html#ac1e7679077a3c685d03016dd180bc2f8">Model::GetShader</a></div><div class="ttdeci">Shader * GetShader()</div><div class="ttdoc">Return the shader of the material.</div><div class="ttdef"><b>Definition:</b> Model.hpp:203</div></div>
+<div class="ttc" id="aclass_model_html_ac92df1720882aac58f5fb942c73fd294"><div class="ttname"><a href="class_model.html#ac92df1720882aac58f5fb942c73fd294">Model::GetNormales</a></div><div class="ttdeci">std::vector&lt; glm::vec3 &gt; GetNormales()</div><div class="ttdoc">Return the normal list of the model.</div><div class="ttdef"><b>Definition:</b> Model.hpp:263</div></div>
+<div class="ttc" id="aclass_model_html_ace7f29bda2deb5fbaa7912e89decfc01"><div class="ttname"><a href="class_model.html#ace7f29bda2deb5fbaa7912e89decfc01">Model::Model</a></div><div class="ttdeci">Model(std::vector&lt; glm::vec3 &gt; pts, std::vector&lt; glm::vec3 &gt; normals=std::vector&lt; glm::vec3 &gt;(), std::vector&lt; Face &gt; faces=std::vector&lt; Face &gt;(), std::vector&lt; glm::vec2 &gt; uv=std::vector&lt; glm::vec2 &gt;(), IMaterial *material=new MaterialPBR(), bool generate=true)</div><div class="ttdoc">Constructor of the Model.</div><div class="ttdef"><b>Definition:</b> Model.hpp:104</div></div>
+<div class="ttc" id="aclass_model_html_ad6ebd2062a0b823db841a0b88baac4c0"><div class="ttname"><a href="class_model.html#ad6ebd2062a0b823db841a0b88baac4c0">Model::~Model</a></div><div class="ttdeci">~Model()</div><div class="ttdoc">Destructor that automaticalle free the arrays and buffers.</div><div class="ttdef"><b>Definition:</b> Model.hpp:127</div></div>
+<div class="ttc" id="aclass_model_html_addc28eba5208d4bf32e724b7f3f22686"><div class="ttname"><a href="class_model.html#addc28eba5208d4bf32e724b7f3f22686">Model::GetRenderMaterial</a></div><div class="ttdeci">IMaterial * GetRenderMaterial()</div><div class="ttdoc">Return the Material of the object.</div><div class="ttdef"><b>Definition:</b> Model.hpp:223</div></div>
+<div class="ttc" id="aclass_model_html_af5e8563b083790a112e4ee31b73e206f"><div class="ttname"><a href="class_model.html#af5e8563b083790a112e4ee31b73e206f">Model::GetData</a></div><div class="ttdeci">Data GetData()</div><div class="ttdoc">Return the graphicals data of the object.</div><div class="ttdef"><b>Definition:</b> Model.hpp:195</div></div>
+<div class="ttc" id="aclass_model_html_af9c33244c438066278c8dea000380985"><div class="ttname"><a href="class_model.html#af9c33244c438066278c8dea000380985">Model::GetFrustumCollider</a></div><div class="ttdeci">BoundingBoxCollider GetFrustumCollider()</div><div class="ttdoc">Return the Frustum Collider of the object.</div><div class="ttdef"><b>Definition:</b> Model.hpp:231</div></div>
+<div class="ttc" id="aclass_model_html_afbfe0bb21ba3aabc90538597fd93f2ef"><div class="ttname"><a href="class_model.html#afbfe0bb21ba3aabc90538597fd93f2ef">Model::SetMaterial</a></div><div class="ttdeci">void SetMaterial(MaterialPBR *material)</div><div class="ttdoc">Set the Material of the object.</div><div class="ttdef"><b>Definition:</b> Model.hpp:211</div></div>
 <div class="ttc" id="aclass_shader_html"><div class="ttname"><a href="class_shader.html">Shader</a></div><div class="ttdoc">GPU shader program.</div><div class="ttdef"><b>Definition:</b> Shader.hpp:15</div></div>
 <div class="ttc" id="astruct_model_1_1_data_html"><div class="ttname"><a href="struct_model_1_1_data.html">Model::Data</a></div><div class="ttdoc">Graphics data of this object, (Vertex Array, Vertex Buffer, Element Buffer)</div><div class="ttdef"><b>Definition:</b> Model.hpp:70</div></div>
 <div class="ttc" id="astruct_model_1_1_face_html"><div class="ttname"><a href="struct_model_1_1_face.html">Model::Face</a></div><div class="ttdoc">A Face data structure, Triangle or Quad.</div><div class="ttdef"><b>Definition:</b> Model.hpp:26</div></div>

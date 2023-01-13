@@ -27,6 +27,7 @@
   <td id="projectalign">
    <div id="projectname">Aquarium
    </div>
+   <div id="projectbrief">Projet 3D de M2 : https://github.com/Flare00/M2-Projet3D-Aquarium</div>
   </td>
  </tr>
  </tbody>
@@ -112,108 +113,214 @@ $(document).ready(function(){initNavTree('_physics_8hpp_source.html',''); initRe
 <div class="line"><a id="l00031" name="l00031"></a><span class="lineno"><a class="line" href="struct_physics_1_1_raycast_hit.html#aa8aca81a6db7c94aaba3795e5b6a1d96">   31</a></span>        <span class="keywordtype">bool</span> <a class="code hl_variable" href="struct_physics_1_1_raycast_hit.html#aa8aca81a6db7c94aaba3795e5b6a1d96">hit</a>;</div>
 <div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>        <a class="code hl_class" href="class_game_object.html">GameObject</a>* obj;</div>
 <div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>        glm::vec3 hitPosition;</div>
-<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>        <span class="keywordtype">int</span> vertexIndex;</div>
-<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span> </div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>        <span class="keywordtype">int</span> nearestVertex;</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>        <span class="keywordtype">double</span> distance;</div>
 <div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span> </div>
-<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>        <a class="code hl_struct" href="struct_physics_1_1_raycast_hit.html">RaycastHit</a>(<span class="keywordtype">bool</span> <a class="code hl_variable" href="struct_physics_1_1_raycast_hit.html#aa8aca81a6db7c94aaba3795e5b6a1d96">hit</a>, <a class="code hl_class" href="class_game_object.html">GameObject</a>* obj, glm::vec3 hitPosition, <span class="keywordtype">int</span> vertexIndex) {</div>
-<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>            this-&gt;hit = <a class="code hl_variable" href="struct_physics_1_1_raycast_hit.html#aa8aca81a6db7c94aaba3795e5b6a1d96">hit</a>;</div>
-<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>            this-&gt;obj = obj;</div>
-<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>            this-&gt;hitPosition = hitPosition;</div>
-<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>            this-&gt;vertexIndex = vertexIndex;</div>
-<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>        }</div>
-<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span> </div>
-<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>    };</div>
-<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span><span class="keyword">protected</span>:</div>
-<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span> </div>
-<div class="line"><a id="l00050" name="l00050"></a><span class="lineno"><a class="line" href="class_physics.html#a831d01c43fb2edd3f361ed5a31ed0054">   50</a></span>    uint_fast32_t <a class="code hl_variable" href="class_physics.html#a831d01c43fb2edd3f361ed5a31ed0054">layerCollisionMatrix</a>[32];</div>
-<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span> </div>
-<div class="line"><a id="l00055" name="l00055"></a><span class="lineno"><a class="line" href="class_physics.html#ad9aa5400e52130c935b047c662ee5875">   55</a></span>    <a class="code hl_class" href="class_collision_detection.html">CollisionDetection</a> <a class="code hl_variable" href="class_physics.html#ad9aa5400e52130c935b047c662ee5875">detection</a>;</div>
-<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span> </div>
-<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>    <span class="comment">//Octree* octree = nullptr; // Use way too much execution time and developpment time for this project.</span></div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span> </div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>        <a class="code hl_struct" href="struct_physics_1_1_raycast_hit.html">RaycastHit</a>(<span class="keywordtype">bool</span> <a class="code hl_variable" href="struct_physics_1_1_raycast_hit.html#aa8aca81a6db7c94aaba3795e5b6a1d96">hit</a>, <a class="code hl_class" href="class_game_object.html">GameObject</a>* obj, glm::vec3 hitPosition, <span class="keywordtype">int</span> vertexIndex, <span class="keywordtype">double</span> distance = std::numeric_limits&lt;double&gt;::max()) {</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>            this-&gt;hit = <a class="code hl_variable" href="struct_physics_1_1_raycast_hit.html#aa8aca81a6db7c94aaba3795e5b6a1d96">hit</a>;</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>            this-&gt;obj = obj;</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>            this-&gt;hitPosition = hitPosition;</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>            this-&gt;nearestVertex = vertexIndex;</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>            this-&gt;distance = distance;</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>        }</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span> </div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>    };</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span><span class="keyword">protected</span>:</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span> </div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno"><a class="line" href="class_physics.html#a831d01c43fb2edd3f361ed5a31ed0054">   52</a></span>    uint_fast32_t <a class="code hl_variable" href="class_physics.html#a831d01c43fb2edd3f361ed5a31ed0054">layerCollisionMatrix</a>[32];</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span> </div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno"><a class="line" href="class_physics.html#ad9aa5400e52130c935b047c662ee5875">   57</a></span>    <a class="code hl_class" href="class_collision_detection.html">CollisionDetection</a> <a class="code hl_variable" href="class_physics.html#ad9aa5400e52130c935b047c662ee5875">detection</a>;</div>
 <div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span> </div>
-<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>    <span class="comment">//Octree* octree = nullptr; // Use way too much execution time and developpment time for this project.</span></div>
 <div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span> </div>
-<div class="line"><a id="l00064" name="l00064"></a><span class="lineno"><a class="line" href="class_physics.html#a4b2ebc0a344f04f48d227c72f0d0fbda">   64</a></span>    <a class="code hl_function" href="class_physics.html#a4b2ebc0a344f04f48d227c72f0d0fbda">Physics</a>()</div>
-<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>    {</div>
-<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>        <span class="comment">//octree = new Octree(glm::vec3(0), octreeSize);</span></div>
-<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>        <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; 32; i++) {</div>
-<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>            <a class="code hl_variable" href="class_physics.html#a831d01c43fb2edd3f361ed5a31ed0054">layerCollisionMatrix</a>[i] = ~(0 &amp; 0);</div>
-<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>        }</div>
-<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>    }</div>
-<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span> </div>
-<div class="line"><a id="l00075" name="l00075"></a><span class="lineno"><a class="line" href="class_physics.html#a975f1bc2b76a4c85ceafdb38b3256750">   75</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_physics.html#a975f1bc2b76a4c85ceafdb38b3256750">Init</a>() {}</div>
-<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span> </div>
-<div class="line"><a id="l00083" name="l00083"></a><span class="lineno"><a class="line" href="class_physics.html#ab6872f4c6e2bb5edb7582a68e150f445">   83</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_physics.html#ab6872f4c6e2bb5edb7582a68e150f445">Compute</a>(<span class="keywordtype">double</span> deltatime, <a class="code hl_class" href="class_game_object.html">GameObject</a>* root, <span class="keywordtype">int</span> nbStep = 1) {</div>
-<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>        this-&gt;<a class="code hl_function" href="class_physics.html#ab6872f4c6e2bb5edb7582a68e150f445">Compute</a>(deltatime, root-&gt;<a class="code hl_function" href="class_game_object.html#aad76d5e0017f0500b99431a8699176d8">getComponentsByTypeRecursive</a>&lt;<a class="code hl_class" href="class_c_physic.html">CPhysic</a>&gt;(), nbStep);</div>
-<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>    }</div>
-<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span> </div>
-<div class="line"><a id="l00093" name="l00093"></a><span class="lineno"><a class="line" href="class_physics.html#af97755801ad217e27f5563e98f8f5e4d">   93</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_physics.html#af97755801ad217e27f5563e98f8f5e4d">Compute</a>(<span class="keywordtype">double</span> deltatime, std::vector&lt;CPhysic*&gt; elems, <span class="keywordtype">int</span> nbStep = 1) {</div>
-<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>        <span class="keywordtype">double</span> stepDelta = deltatime / (double)nbStep;</div>
-<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span> </div>
-<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span> </div>
-<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>        <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; nbStep; i++) {</div>
-<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>            <span class="keywordtype">double</span> currentStep = stepDelta * ((double)(i + 1));</div>
-<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span> </div>
-<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>            <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> j = 0, max = elems.size(); j &lt; max; j++) {</div>
-<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>                elems[j]-&gt;Compute(currentStep);</div>
-<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>            }</div>
-<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span> </div>
-<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>            <span class="comment">/*octree-&gt;Refresh(octree);</span></div>
-<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span><span class="comment">            std::vector&lt;OctreeCollisionPossibility&gt; octreePossibility = octree-&gt;GetAllCollisionPossibility();</span></div>
-<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span><span class="comment">            for (size_t j = 0, max = octreePossibility.size(); j &lt; max; j++) {</span></div>
-<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span><span class="comment">                std::vector&lt;GameObject*&gt; possibility = octreePossibility[j].possibleCollisions;</span></div>
-<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span><span class="comment">                for (int k = 0, maxK = possibility.size(); k &lt; maxK; k++) {</span></div>
-<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span><span class="comment">                    for (int l = k + 1; l &lt; maxK; l++) {</span></div>
-<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span><span class="comment">                        // test collision between k et l.</span></div>
-<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span><span class="comment">                        if (IsPhysicsBetweenLayers(possibility[k]-&gt;GetLayer(), possibility[l]-&gt;GetLayer())) {</span></div>
-<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span><span class="comment">                            CollisionDetection::Data data = detection.Detection(possibility[k], possibility[l]);</span></div>
-<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span><span class="comment">                        }</span></div>
-<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span><span class="comment">                    }</span></div>
-<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span><span class="comment">                }</span></div>
-<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span><span class="comment">            }*/</span></div>
-<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>        }</div>
-<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>    }</div>
-<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span> </div>
-<div class="line"><a id="l00127" name="l00127"></a><span class="lineno"><a class="line" href="class_physics.html#a306c9f73aa2318ac173f804f344a40c3">  127</a></span>    <a class="code hl_struct" href="struct_physics_1_1_raycast_hit.html">RaycastHit</a> <a class="code hl_function" href="class_physics.html#a306c9f73aa2318ac173f804f344a40c3">Raycast</a>(<a class="code hl_class" href="class_game_object.html">GameObject</a> * root, glm::vec3 origin, glm::vec3 direction) {</div>
-<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>        <span class="comment">// Use the Depth/Stencil (maybe faster) ? Or use collision ?</span></div>
-<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span> </div>
-<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span>        <span class="keywordflow">return</span> <a class="code hl_struct" href="struct_physics_1_1_raycast_hit.html">RaycastHit</a>(<span class="keyword">false</span>, <span class="keyword">nullptr</span>, glm::vec3(0), -1);</div>
-<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>    }</div>
-<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span> </div>
-<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span>    <span class="comment">/*void AddGameObjectToOctree(GameObject* gameobject) {</span></div>
-<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span><span class="comment">        octree-&gt;Insert(gameobject);</span></div>
-<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span><span class="comment">    }</span></div>
-<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span><span class="comment"></span> </div>
-<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span><span class="comment">    void AddGameObjectToOctreeRecursive(GameObject* gameobject) {</span></div>
-<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span><span class="comment">        octree-&gt;Insert(gameobject);</span></div>
-<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span><span class="comment">        for (int i = gameobject-&gt;getChilds().size() - 1; i &lt;= 0; i++) {</span></div>
-<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span><span class="comment">            AddGameObjectToOctreeRecursive(gameobject-&gt;getChilds()[i]);</span></div>
-<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span><span class="comment">        }</span></div>
-<div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span><span class="comment">    }*/</span></div>
-<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span> </div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>    <span class="keywordtype">float</span> addDropCooldown = 0.0f;</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span> </div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno"><a class="line" href="class_physics.html#a4b2ebc0a344f04f48d227c72f0d0fbda">   67</a></span>    <a class="code hl_function" href="class_physics.html#a4b2ebc0a344f04f48d227c72f0d0fbda">Physics</a>()</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>    {</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>        <span class="comment">//octree = new Octree(glm::vec3(0), octreeSize);</span></div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>        <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; 32; i++) {</div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>            <a class="code hl_variable" href="class_physics.html#a831d01c43fb2edd3f361ed5a31ed0054">layerCollisionMatrix</a>[i] = ~(0 &amp; 0);</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>        }</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>    }</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span> </div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno"><a class="line" href="class_physics.html#a975f1bc2b76a4c85ceafdb38b3256750">   78</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_physics.html#a975f1bc2b76a4c85ceafdb38b3256750">Init</a>() {}</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span> </div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno"><a class="line" href="class_physics.html#ab6872f4c6e2bb5edb7582a68e150f445">   86</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_physics.html#ab6872f4c6e2bb5edb7582a68e150f445">Compute</a>(<span class="keywordtype">double</span> deltatime, <a class="code hl_class" href="class_game_object.html">GameObject</a>* root, <span class="keywordtype">int</span> nbStep = 1) {</div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span> </div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>        this-&gt;<a class="code hl_function" href="class_physics.html#ab6872f4c6e2bb5edb7582a68e150f445">Compute</a>(deltatime, root-&gt;<a class="code hl_function" href="class_game_object.html#aad76d5e0017f0500b99431a8699176d8">getComponentsByTypeRecursive</a>&lt;<a class="code hl_class" href="class_c_physic.html">CPhysic</a>&gt;(), nbStep);</div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>    }</div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span> </div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno"><a class="line" href="class_physics.html#af97755801ad217e27f5563e98f8f5e4d">   97</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_physics.html#af97755801ad217e27f5563e98f8f5e4d">Compute</a>(<span class="keywordtype">double</span> deltatime, std::vector&lt;CPhysic*&gt; elems, <span class="keywordtype">int</span> nbStep = 1) {</div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>        glDisable(GL_BLEND);</div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>        addDropCooldown -= deltatime;</div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>        <span class="keywordtype">double</span> stepDelta = deltatime / (double)nbStep;</div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span> </div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span> </div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>        <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; nbStep; i++) {</div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>            <span class="keywordtype">double</span> currentStep = stepDelta * ((double)(i + 1));</div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span> </div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>            <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> j = 0, max = elems.size(); j &lt; max; j++) {</div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>                elems[j]-&gt;Compute(currentStep);</div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>            }</div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span> </div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>            <span class="comment">/*octree-&gt;Refresh(octree);</span></div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span><span class="comment">            std::vector&lt;OctreeCollisionPossibility&gt; octreePossibility = octree-&gt;GetAllCollisionPossibility();</span></div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span><span class="comment">            for (size_t j = 0, max = octreePossibility.size(); j &lt; max; j++) {</span></div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span><span class="comment">                std::vector&lt;GameObject*&gt; possibility = octreePossibility[j].possibleCollisions;</span></div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span><span class="comment">                for (int k = 0, maxK = possibility.size(); k &lt; maxK; k++) {</span></div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span><span class="comment">                    for (int l = k + 1; l &lt; maxK; l++) {</span></div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span><span class="comment">                        // test collision between k et l.</span></div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span><span class="comment">                        if (IsPhysicsBetweenLayers(possibility[k]-&gt;GetLayer(), possibility[l]-&gt;GetLayer())) {</span></div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span><span class="comment">                            CollisionDetection::Data data = detection.Detection(possibility[k], possibility[l]);</span></div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span><span class="comment">                        }</span></div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span><span class="comment">                    }</span></div>
+<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span><span class="comment">                }</span></div>
+<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span><span class="comment">            }*/</span></div>
+<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span>        }</div>
+<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>        glEnable(GL_BLEND);</div>
+<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span>    }</div>
+<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span> </div>
+<div class="line"><a id="l00135" name="l00135"></a><span class="lineno"><a class="line" href="class_physics.html#ae596fbd4e508a88f72c4248a147d6037">  135</a></span>    <a class="code hl_struct" href="struct_physics_1_1_raycast_hit.html">RaycastHit</a> <a class="code hl_function" href="class_physics.html#ae596fbd4e508a88f72c4248a147d6037">Raycast</a>(<a class="code hl_class" href="class_game_object.html">GameObject</a>* root, <a class="code hl_class" href="class_camera.html">Camera</a>* camera, <span class="keywordtype">double</span> x, <span class="keywordtype">double</span> y) {</div>
+<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span> </div>
+<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span>        <span class="keywordflow">if</span> (camera != <span class="keyword">nullptr</span>) {</div>
+<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span>            glBindFramebuffer(GL_FRAMEBUFFER, camera-&gt;<a class="code hl_function" href="class_camera.html#aa52ad4af59347c92ebb162471cba1934">GetFrameBuffer</a>());</div>
+<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span>            glm::mat4 invProj = glm::inverse(camera-&gt;<a class="code hl_function" href="class_camera.html#a57821a53306289b0f63050b43b57fa0a">GetProjection</a>());</div>
+<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span> </div>
+<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span>            glm::vec4 rayStartN = glm::vec4(x, y, -1.0f, 1.0f);</div>
+<div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span>            glm::vec4 rayEndN = glm::vec4(x, y, 0.0f, 1.0f);</div>
+<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span>            glm::vec4 rayStartWorld = invProj * rayStartN;</div>
 <div class="line"><a id="l00144" name="l00144"></a><span class="lineno">  144</span> </div>
-<div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span><span class="keyword">private</span>:</div>
-<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span> </div>
-<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span>    <span class="keywordtype">bool</span> IsPhysicsBetweenLayers(uint_fast8_t l1, uint_fast8_t l2) {</div>
-<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span>        uint_fast32_t v = <a class="code hl_variable" href="class_physics.html#a831d01c43fb2edd3f361ed5a31ed0054">layerCollisionMatrix</a>[l1];</div>
-<div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span>        <span class="keywordflow">return</span> (v &amp; (1 &lt;&lt; l2)) &gt; 0;</div>
-<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span>    }</div>
-<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span>};</div>
+<div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span>            rayStartWorld /= rayStartWorld.w;</div>
+<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span>            glm::vec4 rayEndWorld = invProj * rayEndN;</div>
+<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span>            rayEndWorld /= rayEndWorld.w;</div>
+<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span> </div>
+<div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span>            rayStartWorld = camera-&gt;attachment-&gt;<a class="code hl_function" href="class_game_object.html#a89cca5b53120a1d19239fc73ff76bf4e">GetMatrixRecursive</a>() * rayStartWorld;</div>
+<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span>            rayEndWorld = camera-&gt;attachment-&gt;<a class="code hl_function" href="class_game_object.html#a89cca5b53120a1d19239fc73ff76bf4e">GetMatrixRecursive</a>() * rayEndWorld;</div>
+<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span> </div>
+<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span>            glm::vec3 rayStart = glm::vec3(rayStartWorld.x, rayStartWorld.y, rayStartWorld.z);</div>
+<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span>            glm::vec3 rayEnd = glm::vec3(rayEndWorld.x, rayEndWorld.y, rayEndWorld.z);</div>
+<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span>            glm::vec3 rayDirection = glm::normalize(rayEnd - rayStart);</div>
+<div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span> </div>
+<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span>            <span class="keywordflow">return</span> <a class="code hl_function" href="class_physics.html#ae596fbd4e508a88f72c4248a147d6037">Raycast</a>(root, rayStart, rayDirection);</div>
+<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span>        }</div>
 <div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span> </div>
-<div class="line"><a id="l00159" name="l00159"></a><span class="lineno">  159</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00159" name="l00159"></a><span class="lineno">  159</span>        <span class="keywordflow">return</span> <a class="code hl_struct" href="struct_physics_1_1_raycast_hit.html">RaycastHit</a>(<span class="keyword">false</span>, <span class="keyword">nullptr</span>, glm::vec3(0), -1);</div>
+<div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span>    }</div>
+<div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span> </div>
+<div class="line"><a id="l00162" name="l00162"></a><span class="lineno">  162</span>    RaycastHit <a class="code hl_function" href="class_physics.html#ae596fbd4e508a88f72c4248a147d6037">Raycast</a>(<a class="code hl_class" href="class_game_object.html">GameObject</a>* root, glm::vec3 origin, glm::vec3 dir) {</div>
+<div class="line"><a id="l00163" name="l00163"></a><span class="lineno">  163</span>        std::vector&lt;RaycastObject*&gt; ro = root-&gt;<a class="code hl_function" href="class_game_object.html#aad76d5e0017f0500b99431a8699176d8">getComponentsByTypeRecursive</a>&lt;<a class="code hl_class" href="class_raycast_object.html">RaycastObject</a>&gt;();</div>
+<div class="line"><a id="l00164" name="l00164"></a><span class="lineno">  164</span> </div>
+<div class="line"><a id="l00165" name="l00165"></a><span class="lineno">  165</span>        RaycastHit res(<span class="keyword">false</span>, <span class="keyword">nullptr</span>, glm::vec3(0), -1);</div>
+<div class="line"><a id="l00166" name="l00166"></a><span class="lineno">  166</span>        <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0, max = ro.size(); i &lt; max; i++) {</div>
+<div class="line"><a id="l00167" name="l00167"></a><span class="lineno">  167</span>            <a class="code hl_class" href="class_bounding_box_collider.html">BoundingBoxCollider</a>* bbc = ro[i]-&gt;attachment-&gt;<a class="code hl_function" href="class_game_object.html#a64736fde0dabc50892357d75479dff73">getFirstComponentByType</a>&lt;<a class="code hl_class" href="class_bounding_box_collider.html">BoundingBoxCollider</a>&gt;();</div>
+<div class="line"><a id="l00168" name="l00168"></a><span class="lineno">  168</span>            <span class="keywordtype">double</span> val = -1;</div>
+<div class="line"><a id="l00169" name="l00169"></a><span class="lineno">  169</span>            <span class="keywordtype">int</span> nearestVertex = -1;</div>
+<div class="line"><a id="l00170" name="l00170"></a><span class="lineno">  170</span>            <span class="keywordflow">if</span> (bbc != <span class="keyword">nullptr</span>) {</div>
+<div class="line"><a id="l00171" name="l00171"></a><span class="lineno">  171</span>                val = <a class="code hl_function" href="class_collision_detection.html#a95ea7e315304fb314d8c8e613f96ab0a">CollisionDetection::Ray_AABB</a>(origin, dir, bbc);</div>
+<div class="line"><a id="l00172" name="l00172"></a><span class="lineno">  172</span>            }</div>
+<div class="line"><a id="l00173" name="l00173"></a><span class="lineno">  173</span> </div>
+<div class="line"><a id="l00174" name="l00174"></a><span class="lineno">  174</span>            <span class="keywordflow">if</span> (val &gt;= 0 &amp;&amp; val &lt; res.distance) {</div>
+<div class="line"><a id="l00175" name="l00175"></a><span class="lineno">  175</span>                res.distance = val;</div>
+<div class="line"><a id="l00176" name="l00176"></a><span class="lineno">  176</span>                res.hit = <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00177" name="l00177"></a><span class="lineno">  177</span>                res.obj = ro[i]-&gt;GetGameObject();</div>
+<div class="line"><a id="l00178" name="l00178"></a><span class="lineno">  178</span>                res.hitPosition = origin + (dir * (float)res.distance);</div>
+<div class="line"><a id="l00179" name="l00179"></a><span class="lineno">  179</span>            }</div>
+<div class="line"><a id="l00180" name="l00180"></a><span class="lineno">  180</span>        }</div>
+<div class="line"><a id="l00181" name="l00181"></a><span class="lineno">  181</span> </div>
+<div class="line"><a id="l00182" name="l00182"></a><span class="lineno">  182</span>        <span class="keywordflow">if</span> (res.hit) {</div>
+<div class="line"><a id="l00183" name="l00183"></a><span class="lineno">  183</span>            <a class="code hl_class" href="class_model.html">Model</a>* m = res.obj-&gt;getFirstComponentByType&lt;<a class="code hl_class" href="class_model.html">Model</a>&gt;();</div>
+<div class="line"><a id="l00184" name="l00184"></a><span class="lineno">  184</span>            <span class="keywordflow">if</span> (m != <span class="keyword">nullptr</span>) {</div>
+<div class="line"><a id="l00185" name="l00185"></a><span class="lineno">  185</span>                std::vector&lt;glm::vec3&gt; pts = m-&gt;<a class="code hl_function" href="class_model.html#a3605ce2bb131a3183f76d5cd0865f127">GetPoints</a>();</div>
+<div class="line"><a id="l00186" name="l00186"></a><span class="lineno">  186</span>                <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> minPts = -1;</div>
+<div class="line"><a id="l00187" name="l00187"></a><span class="lineno">  187</span>                <span class="keywordtype">double</span> minDist = std::numeric_limits&lt;double&gt;::max();</div>
+<div class="line"><a id="l00188" name="l00188"></a><span class="lineno">  188</span>                <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0, max = pts.size(); i &lt; max; i++) {</div>
+<div class="line"><a id="l00189" name="l00189"></a><span class="lineno">  189</span>                    <span class="keywordtype">double</span> d = glm::distance(pts[i], res.hitPosition);</div>
+<div class="line"><a id="l00190" name="l00190"></a><span class="lineno">  190</span>                    <span class="keywordflow">if</span> (d &lt; minDist) {</div>
+<div class="line"><a id="l00191" name="l00191"></a><span class="lineno">  191</span>                        minPts = i;</div>
+<div class="line"><a id="l00192" name="l00192"></a><span class="lineno">  192</span>                        minDist = d;</div>
+<div class="line"><a id="l00193" name="l00193"></a><span class="lineno">  193</span>                    }</div>
+<div class="line"><a id="l00194" name="l00194"></a><span class="lineno">  194</span>                }</div>
+<div class="line"><a id="l00195" name="l00195"></a><span class="lineno">  195</span>                res.nearestVertex = minPts;</div>
+<div class="line"><a id="l00196" name="l00196"></a><span class="lineno">  196</span>            }</div>
+<div class="line"><a id="l00197" name="l00197"></a><span class="lineno">  197</span>        }</div>
+<div class="line"><a id="l00198" name="l00198"></a><span class="lineno">  198</span>        <span class="keywordflow">return</span> res;</div>
+<div class="line"><a id="l00199" name="l00199"></a><span class="lineno">  199</span>    }</div>
+<div class="line"><a id="l00200" name="l00200"></a><span class="lineno">  200</span> </div>
+<div class="line"><a id="l00201" name="l00201"></a><span class="lineno">  201</span> </div>
+<div class="line"><a id="l00202" name="l00202"></a><span class="lineno">  202</span>    <span class="comment">/*void AddGameObjectToOctree(GameObject* gameobject) {</span></div>
+<div class="line"><a id="l00203" name="l00203"></a><span class="lineno">  203</span><span class="comment">        octree-&gt;Insert(gameobject);</span></div>
+<div class="line"><a id="l00204" name="l00204"></a><span class="lineno">  204</span><span class="comment">    }</span></div>
+<div class="line"><a id="l00205" name="l00205"></a><span class="lineno">  205</span><span class="comment"></span> </div>
+<div class="line"><a id="l00206" name="l00206"></a><span class="lineno">  206</span><span class="comment">    void AddGameObjectToOctreeRecursive(GameObject* gameobject) {</span></div>
+<div class="line"><a id="l00207" name="l00207"></a><span class="lineno">  207</span><span class="comment">        octree-&gt;Insert(gameobject);</span></div>
+<div class="line"><a id="l00208" name="l00208"></a><span class="lineno">  208</span><span class="comment">        for (int i = gameobject-&gt;getChilds().size() - 1; i &lt;= 0; i++) {</span></div>
+<div class="line"><a id="l00209" name="l00209"></a><span class="lineno">  209</span><span class="comment">            AddGameObjectToOctreeRecursive(gameobject-&gt;getChilds()[i]);</span></div>
+<div class="line"><a id="l00210" name="l00210"></a><span class="lineno">  210</span><span class="comment">        }</span></div>
+<div class="line"><a id="l00211" name="l00211"></a><span class="lineno">  211</span><span class="comment">    }*/</span></div>
+<div class="line"><a id="l00212" name="l00212"></a><span class="lineno">  212</span> </div>
+<div class="line"><a id="l00213" name="l00213"></a><span class="lineno">  213</span>    <span class="keywordtype">void</span> DoRaycastAction(RaycastHit hit) {</div>
+<div class="line"><a id="l00214" name="l00214"></a><span class="lineno">  214</span>        <span class="keywordflow">if</span> (hit.hit) {</div>
+<div class="line"><a id="l00215" name="l00215"></a><span class="lineno">  215</span>            <a class="code hl_class" href="class_water_physics.html">WaterPhysics</a>* wp = hit.obj-&gt;getFirstComponentByType&lt;<a class="code hl_class" href="class_water_physics.html">WaterPhysics</a>&gt;();</div>
+<div class="line"><a id="l00216" name="l00216"></a><span class="lineno">  216</span>            <span class="keywordflow">if</span> (wp != <span class="keyword">nullptr</span>)</div>
+<div class="line"><a id="l00217" name="l00217"></a><span class="lineno">  217</span>            {</div>
+<div class="line"><a id="l00218" name="l00218"></a><span class="lineno">  218</span>                <span class="keywordflow">if</span> (addDropCooldown &lt; 0) {</div>
+<div class="line"><a id="l00219" name="l00219"></a><span class="lineno">  219</span>                    <span class="comment">//Trouver les coordonnée X et Y selon la position du vertex; (entre 0 et 1)</span></div>
+<div class="line"><a id="l00220" name="l00220"></a><span class="lineno">  220</span>                    glm::vec2 size = wp-&gt;<a class="code hl_function" href="class_water_physics.html#a7097e9f898602ed3f68ce7b0863e8526">GetContainerSize</a>();</div>
+<div class="line"><a id="l00221" name="l00221"></a><span class="lineno">  221</span>                    glm::vec2 min = -size / 2.0f;</div>
+<div class="line"><a id="l00222" name="l00222"></a><span class="lineno">  222</span>                    glm::vec2 max = size/ 2.0f;</div>
+<div class="line"><a id="l00223" name="l00223"></a><span class="lineno">  223</span> </div>
+<div class="line"><a id="l00224" name="l00224"></a><span class="lineno">  224</span>                    glm::vec3 hitPos = hit.hitPosition - hit.obj-&gt;GetPositionWithRecursiveMatrix();</div>
+<div class="line"><a id="l00225" name="l00225"></a><span class="lineno">  225</span> </div>
+<div class="line"><a id="l00226" name="l00226"></a><span class="lineno">  226</span>                    glm::vec2 uv = (glm::vec2(hitPos.x, hitPos.z) - min) / (max - min);</div>
+<div class="line"><a id="l00227" name="l00227"></a><span class="lineno">  227</span>                    uv.x = uv.x &gt; 0.999 ? 0.999 : uv.x &lt; 0.001 ? 0.001 : uv.x;</div>
+<div class="line"><a id="l00228" name="l00228"></a><span class="lineno">  228</span>                    uv.y = uv.y &gt; 0.999 ? 0.999 : uv.y &lt; 0.001 ? 0.001 : uv.y;</div>
+<div class="line"><a id="l00229" name="l00229"></a><span class="lineno">  229</span>                    <span class="comment">//glm::vec2 uv((hit.hitPosition.x + (size.x / 2.0)) / size.x, 1.0 -(hit.hitPosition.z + (size.y / 2.0)) / size.y);</span></div>
+<div class="line"><a id="l00230" name="l00230"></a><span class="lineno">  230</span> </div>
+<div class="line"><a id="l00231" name="l00231"></a><span class="lineno">  231</span>                    wp-&gt;<a class="code hl_function" href="class_water_physics.html#a96616218ba38ecbba860e05415cfea84">AddDrop</a>(uv, 0.02f, 1.0f);</div>
+<div class="line"><a id="l00232" name="l00232"></a><span class="lineno">  232</span>                    addDropCooldown = 0.1;</div>
+<div class="line"><a id="l00233" name="l00233"></a><span class="lineno">  233</span>                }</div>
+<div class="line"><a id="l00234" name="l00234"></a><span class="lineno">  234</span>            }</div>
+<div class="line"><a id="l00235" name="l00235"></a><span class="lineno">  235</span>        }</div>
+<div class="line"><a id="l00236" name="l00236"></a><span class="lineno">  236</span>    }</div>
+<div class="line"><a id="l00237" name="l00237"></a><span class="lineno">  237</span> </div>
+<div class="line"><a id="l00238" name="l00238"></a><span class="lineno">  238</span> </div>
+<div class="line"><a id="l00239" name="l00239"></a><span class="lineno">  239</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00240" name="l00240"></a><span class="lineno">  240</span> </div>
+<div class="line"><a id="l00247" name="l00247"></a><span class="lineno">  247</span>    <span class="keywordtype">bool</span> IsPhysicsBetweenLayers(uint_fast8_t l1, uint_fast8_t l2) {</div>
+<div class="line"><a id="l00248" name="l00248"></a><span class="lineno">  248</span>        uint_fast32_t v = <a class="code hl_variable" href="class_physics.html#a831d01c43fb2edd3f361ed5a31ed0054">layerCollisionMatrix</a>[l1];</div>
+<div class="line"><a id="l00249" name="l00249"></a><span class="lineno">  249</span>        <span class="keywordflow">return</span> (v &amp; (1 &lt;&lt; l2)) &gt; 0;</div>
+<div class="line"><a id="l00250" name="l00250"></a><span class="lineno">  250</span>    }</div>
+<div class="line"><a id="l00251" name="l00251"></a><span class="lineno">  251</span>};</div>
+<div class="line"><a id="l00252" name="l00252"></a><span class="lineno">  252</span> </div>
+<div class="line"><a id="l00253" name="l00253"></a><span class="lineno">  253</span><span class="preprocessor">#endif</span></div>
+<div class="ttc" id="aclass_bounding_box_collider_html"><div class="ttname"><a href="class_bounding_box_collider.html">BoundingBoxCollider</a></div><div class="ttdoc">A Bounding Box collider. (AABB and OBB)</div><div class="ttdef"><b>Definition:</b> BoundingBoxCollider.hpp:12</div></div>
 <div class="ttc" id="aclass_c_physic_html"><div class="ttname"><a href="class_c_physic.html">CPhysic</a></div><div class="ttdoc">A standard Compute Physics, using CPU.</div><div class="ttdef"><b>Definition:</b> CPhysic.hpp:11</div></div>
+<div class="ttc" id="aclass_camera_html"><div class="ttname"><a href="class_camera.html">Camera</a></div><div class="ttdoc">Camera Object to draw the scene.</div><div class="ttdef"><b>Definition:</b> Camera.hpp:17</div></div>
+<div class="ttc" id="aclass_camera_html_a57821a53306289b0f63050b43b57fa0a"><div class="ttname"><a href="class_camera.html#a57821a53306289b0f63050b43b57fa0a">Camera::GetProjection</a></div><div class="ttdeci">glm::mat4 GetProjection()</div><div class="ttdoc">Return the projection matrix.</div><div class="ttdef"><b>Definition:</b> Camera.hpp:206</div></div>
+<div class="ttc" id="aclass_camera_html_aa52ad4af59347c92ebb162471cba1934"><div class="ttname"><a href="class_camera.html#aa52ad4af59347c92ebb162471cba1934">Camera::GetFrameBuffer</a></div><div class="ttdeci">GLuint GetFrameBuffer()</div><div class="ttdoc">Return the Framebuffer of the camera.</div><div class="ttdef"><b>Definition:</b> Camera.hpp:357</div></div>
 <div class="ttc" id="aclass_collision_detection_html"><div class="ttname"><a href="class_collision_detection.html">CollisionDetection</a></div><div class="ttdoc">Collision detection tools.</div><div class="ttdef"><b>Definition:</b> CollisionDetection.hpp:13</div></div>
+<div class="ttc" id="aclass_collision_detection_html_a95ea7e315304fb314d8c8e613f96ab0a"><div class="ttname"><a href="class_collision_detection.html#a95ea7e315304fb314d8c8e613f96ab0a">CollisionDetection::Ray_AABB</a></div><div class="ttdeci">static double Ray_AABB(glm::vec3 origin, glm::vec3 direction, BoundingBoxCollider *bb)</div><div class="ttdoc">Compute the lenght of a ray and a AABB bounding box, if -1 ray do not hit.</div><div class="ttdef"><b>Definition:</b> CollisionDetection.hpp:522</div></div>
 <div class="ttc" id="aclass_game_object_html"><div class="ttname"><a href="class_game_object.html">GameObject</a></div><div class="ttdoc">The Gameobject class, used by the engine as key element.</div><div class="ttdef"><b>Definition:</b> GameObject.hpp:16</div></div>
-<div class="ttc" id="aclass_game_object_html_aad76d5e0017f0500b99431a8699176d8"><div class="ttname"><a href="class_game_object.html#aad76d5e0017f0500b99431a8699176d8">GameObject::getComponentsByTypeRecursive</a></div><div class="ttdeci">std::vector&lt; T * &gt; getComponentsByTypeRecursive(bool activeOnly=false)</div><div class="ttdoc">Return all components by their type, this gameobject, and all children (recursivly).</div><div class="ttdef"><b>Definition:</b> GameObject.hpp:260</div></div>
+<div class="ttc" id="aclass_game_object_html_a64736fde0dabc50892357d75479dff73"><div class="ttname"><a href="class_game_object.html#a64736fde0dabc50892357d75479dff73">GameObject::getFirstComponentByType</a></div><div class="ttdeci">T * getFirstComponentByType()</div><div class="ttdoc">Get the first component by his type.</div><div class="ttdef"><b>Definition:</b> GameObject.hpp:295</div></div>
+<div class="ttc" id="aclass_game_object_html_a89cca5b53120a1d19239fc73ff76bf4e"><div class="ttname"><a href="class_game_object.html#a89cca5b53120a1d19239fc73ff76bf4e">GameObject::GetMatrixRecursive</a></div><div class="ttdeci">glm::mat4 GetMatrixRecursive()</div><div class="ttdoc">Get The Transformation matrix, with all parents Transformation matrix applied to it.</div><div class="ttdef"><b>Definition:</b> GameObject.hpp:435</div></div>
+<div class="ttc" id="aclass_game_object_html_aad76d5e0017f0500b99431a8699176d8"><div class="ttname"><a href="class_game_object.html#aad76d5e0017f0500b99431a8699176d8">GameObject::getComponentsByTypeRecursive</a></div><div class="ttdeci">std::vector&lt; T * &gt; getComponentsByTypeRecursive(bool activeOnly=false)</div><div class="ttdoc">Return all components by their type, this gameobject, and all children (recursivly).</div><div class="ttdef"><b>Definition:</b> GameObject.hpp:274</div></div>
+<div class="ttc" id="aclass_model_html"><div class="ttname"><a href="class_model.html">Model</a></div><div class="ttdoc">Model component, for graphical.</div><div class="ttdef"><b>Definition:</b> Model.hpp:20</div></div>
+<div class="ttc" id="aclass_model_html_a3605ce2bb131a3183f76d5cd0865f127"><div class="ttname"><a href="class_model.html#a3605ce2bb131a3183f76d5cd0865f127">Model::GetPoints</a></div><div class="ttdeci">std::vector&lt; glm::vec3 &gt; GetPoints()</div><div class="ttdoc">Return the point list of the model.</div><div class="ttdef"><b>Definition:</b> Model.hpp:240</div></div>
 <div class="ttc" id="aclass_physics_html"><div class="ttname"><a href="class_physics.html">Physics</a></div><div class="ttdoc">Physics engine.</div><div class="ttdef"><b>Definition:</b> Physics.hpp:17</div></div>
-<div class="ttc" id="aclass_physics_html_a306c9f73aa2318ac173f804f344a40c3"><div class="ttname"><a href="class_physics.html#a306c9f73aa2318ac173f804f344a40c3">Physics::Raycast</a></div><div class="ttdeci">RaycastHit Raycast(GameObject *root, glm::vec3 origin, glm::vec3 direction)</div><div class="ttdoc">Send a Raycast using the physic system.</div><div class="ttdef"><b>Definition:</b> Physics.hpp:127</div></div>
-<div class="ttc" id="aclass_physics_html_a4b2ebc0a344f04f48d227c72f0d0fbda"><div class="ttname"><a href="class_physics.html#a4b2ebc0a344f04f48d227c72f0d0fbda">Physics::Physics</a></div><div class="ttdeci">Physics()</div><div class="ttdoc">Physics System using in the engine.</div><div class="ttdef"><b>Definition:</b> Physics.hpp:64</div></div>
-<div class="ttc" id="aclass_physics_html_a831d01c43fb2edd3f361ed5a31ed0054"><div class="ttname"><a href="class_physics.html#a831d01c43fb2edd3f361ed5a31ed0054">Physics::layerCollisionMatrix</a></div><div class="ttdeci">uint_fast32_t layerCollisionMatrix[32]</div><div class="ttdoc">Layer collision matrix, store if an element collide with another one, using binary,...</div><div class="ttdef"><b>Definition:</b> Physics.hpp:50</div></div>
-<div class="ttc" id="aclass_physics_html_a975f1bc2b76a4c85ceafdb38b3256750"><div class="ttname"><a href="class_physics.html#a975f1bc2b76a4c85ceafdb38b3256750">Physics::Init</a></div><div class="ttdeci">void Init()</div><div class="ttdoc">Init the physics system.</div><div class="ttdef"><b>Definition:</b> Physics.hpp:75</div></div>
-<div class="ttc" id="aclass_physics_html_ab6872f4c6e2bb5edb7582a68e150f445"><div class="ttname"><a href="class_physics.html#ab6872f4c6e2bb5edb7582a68e150f445">Physics::Compute</a></div><div class="ttdeci">void Compute(double deltatime, GameObject *root, int nbStep=1)</div><div class="ttdoc">Compute the physics for a scene, with a root Gameobject.</div><div class="ttdef"><b>Definition:</b> Physics.hpp:83</div></div>
-<div class="ttc" id="aclass_physics_html_ad9aa5400e52130c935b047c662ee5875"><div class="ttname"><a href="class_physics.html#ad9aa5400e52130c935b047c662ee5875">Physics::detection</a></div><div class="ttdeci">CollisionDetection detection</div><div class="ttdoc">Utility to detect collision between two ICollider.</div><div class="ttdef"><b>Definition:</b> Physics.hpp:55</div></div>
-<div class="ttc" id="aclass_physics_html_af97755801ad217e27f5563e98f8f5e4d"><div class="ttname"><a href="class_physics.html#af97755801ad217e27f5563e98f8f5e4d">Physics::Compute</a></div><div class="ttdeci">void Compute(double deltatime, std::vector&lt; CPhysic * &gt; elems, int nbStep=1)</div><div class="ttdoc">Compute the physics for a scene, with a CPhysic object list.</div><div class="ttdef"><b>Definition:</b> Physics.hpp:93</div></div>
+<div class="ttc" id="aclass_physics_html_a4b2ebc0a344f04f48d227c72f0d0fbda"><div class="ttname"><a href="class_physics.html#a4b2ebc0a344f04f48d227c72f0d0fbda">Physics::Physics</a></div><div class="ttdeci">Physics()</div><div class="ttdoc">Physics System using in the engine.</div><div class="ttdef"><b>Definition:</b> Physics.hpp:67</div></div>
+<div class="ttc" id="aclass_physics_html_a831d01c43fb2edd3f361ed5a31ed0054"><div class="ttname"><a href="class_physics.html#a831d01c43fb2edd3f361ed5a31ed0054">Physics::layerCollisionMatrix</a></div><div class="ttdeci">uint_fast32_t layerCollisionMatrix[32]</div><div class="ttdoc">Layer collision matrix, store if an element collide with another one, using binary,...</div><div class="ttdef"><b>Definition:</b> Physics.hpp:52</div></div>
+<div class="ttc" id="aclass_physics_html_a975f1bc2b76a4c85ceafdb38b3256750"><div class="ttname"><a href="class_physics.html#a975f1bc2b76a4c85ceafdb38b3256750">Physics::Init</a></div><div class="ttdeci">void Init()</div><div class="ttdoc">Init the physics system.</div><div class="ttdef"><b>Definition:</b> Physics.hpp:78</div></div>
+<div class="ttc" id="aclass_physics_html_ab6872f4c6e2bb5edb7582a68e150f445"><div class="ttname"><a href="class_physics.html#ab6872f4c6e2bb5edb7582a68e150f445">Physics::Compute</a></div><div class="ttdeci">void Compute(double deltatime, GameObject *root, int nbStep=1)</div><div class="ttdoc">Compute the physics for a scene, with a root Gameobject.</div><div class="ttdef"><b>Definition:</b> Physics.hpp:86</div></div>
+<div class="ttc" id="aclass_physics_html_ad9aa5400e52130c935b047c662ee5875"><div class="ttname"><a href="class_physics.html#ad9aa5400e52130c935b047c662ee5875">Physics::detection</a></div><div class="ttdeci">CollisionDetection detection</div><div class="ttdoc">Utility to detect collision between two ICollider.</div><div class="ttdef"><b>Definition:</b> Physics.hpp:57</div></div>
+<div class="ttc" id="aclass_physics_html_ae596fbd4e508a88f72c4248a147d6037"><div class="ttname"><a href="class_physics.html#ae596fbd4e508a88f72c4248a147d6037">Physics::Raycast</a></div><div class="ttdeci">RaycastHit Raycast(GameObject *root, Camera *camera, double x, double y)</div><div class="ttdoc">Send a Raycast using the physic system.</div><div class="ttdef"><b>Definition:</b> Physics.hpp:135</div></div>
+<div class="ttc" id="aclass_physics_html_af97755801ad217e27f5563e98f8f5e4d"><div class="ttname"><a href="class_physics.html#af97755801ad217e27f5563e98f8f5e4d">Physics::Compute</a></div><div class="ttdeci">void Compute(double deltatime, std::vector&lt; CPhysic * &gt; elems, int nbStep=1)</div><div class="ttdoc">Compute the physics for a scene, with a CPhysic object list.</div><div class="ttdef"><b>Definition:</b> Physics.hpp:97</div></div>
+<div class="ttc" id="aclass_raycast_object_html"><div class="ttname"><a href="class_raycast_object.html">RaycastObject</a></div><div class="ttdef"><b>Definition:</b> RaycastObject.hpp:5</div></div>
 <div class="ttc" id="aclass_setted_shaders_html"><div class="ttname"><a href="class_setted_shaders.html">SettedShaders</a></div><div class="ttdoc">List all setted shader for a Scene.</div><div class="ttdef"><b>Definition:</b> SettedShaders.hpp:12</div></div>
+<div class="ttc" id="aclass_water_physics_html"><div class="ttname"><a href="class_water_physics.html">WaterPhysics</a></div><div class="ttdoc">The water physics Inherit GLPhysic.</div><div class="ttdef"><b>Definition:</b> WaterPhysics.hpp:17</div></div>
+<div class="ttc" id="aclass_water_physics_html_a7097e9f898602ed3f68ce7b0863e8526"><div class="ttname"><a href="class_water_physics.html#a7097e9f898602ed3f68ce7b0863e8526">WaterPhysics::GetContainerSize</a></div><div class="ttdeci">glm::vec2 GetContainerSize()</div><div class="ttdoc">Return the container size.</div><div class="ttdef"><b>Definition:</b> WaterPhysics.hpp:136</div></div>
+<div class="ttc" id="aclass_water_physics_html_a96616218ba38ecbba860e05415cfea84"><div class="ttname"><a href="class_water_physics.html#a96616218ba38ecbba860e05415cfea84">WaterPhysics::AddDrop</a></div><div class="ttdeci">void AddDrop(glm::vec2 pos, float radius, float strength)</div><div class="ttdoc">Add a drop to the physics.</div><div class="ttdef"><b>Definition:</b> WaterPhysics.hpp:97</div></div>
 <div class="ttc" id="astruct_physics_1_1_raycast_hit_html"><div class="ttname"><a href="struct_physics_1_1_raycast_hit.html">Physics::RaycastHit</a></div><div class="ttdoc">Raycast Hit data.</div><div class="ttdef"><b>Definition:</b> Physics.hpp:23</div></div>
 <div class="ttc" id="astruct_physics_1_1_raycast_hit_html_aa8aca81a6db7c94aaba3795e5b6a1d96"><div class="ttname"><a href="struct_physics_1_1_raycast_hit.html#aa8aca81a6db7c94aaba3795e5b6a1d96">Physics::RaycastHit::hit</a></div><div class="ttdeci">bool hit</div><div class="ttdoc">A RaycastHit data object, to handle raycast.</div><div class="ttdef"><b>Definition:</b> Physics.hpp:31</div></div>
 </div><!-- fragment --></div><!-- contents -->

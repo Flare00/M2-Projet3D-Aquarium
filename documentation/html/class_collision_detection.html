@@ -27,6 +27,7 @@
   <td id="projectalign">
    <div id="projectname">Aquarium
    </div>
+   <div id="projectbrief">Projet 3D de M2 : https://github.com/Flare00/M2-Projet3D-Aquarium</div>
   </td>
  </tr>
  </tbody>
@@ -92,7 +93,7 @@ $(document).ready(function(){initNavTree('class_collision_detection.html',''); i
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
 <a href="#pub-types">Public Types</a> &#124;
-<a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pub-static-methods">Static Public Member Functions</a> &#124;
 <a href="class_collision_detection-members.html">List of all members</a>  </div>
   <div class="headertitle"><div class="title">CollisionDetection Class Reference</div></div>
 </div><!--header-->
@@ -108,6 +109,8 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_collision_detection_1_1_data.html">Data</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="struct_collision_detection_1_1_data.html" title="Data of a collisions.">Data</a> of a collisions.  <a href="struct_collision_detection_1_1_data.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_collision_detection_1_1_plane.html">Plane</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_collision_detection_1_1_triangle.html">Triangle</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A triangle object with 3 glm::vec3 as point.  <a href="struct_collision_detection_1_1_triangle.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -122,89 +125,107 @@ Public Types</h2></td></tr>
 <tr class="memdesc:a38f85e71c824a16cfffb0bcf3172870c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Bounding Box mode for the BoudingBoxCollider. <br /></td></tr>
 <tr class="separator:a38f85e71c824a16cfffb0bcf3172870c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
-Public Member Functions</h2></td></tr>
-<tr class="memitem:af3d4a92162323a6e6f20399aa3aea341"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_collision_detection_1_1_data.html">Data</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_collision_detection.html#af3d4a92162323a6e6f20399aa3aea341">Detection</a> (<a class="el" href="class_game_object.html">GameObject</a> *one, <a class="el" href="class_game_object.html">GameObject</a> *two)</td></tr>
-<tr class="memdesc:af3d4a92162323a6e6f20399aa3aea341"><td class="mdescLeft">&#160;</td><td class="mdescRight">Detection function that take two Gameobject and return <a class="el" href="struct_collision_detection_1_1_data.html" title="Data of a collisions.">Data</a>.  <br /></td></tr>
-<tr class="separator:af3d4a92162323a6e6f20399aa3aea341"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a65f057e158fabbdb46e8f90f29a3d45f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_collision_detection_1_1_data.html">Data</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_collision_detection.html#a65f057e158fabbdb46e8f90f29a3d45f">Detection</a> (<a class="el" href="class_bounding_box_collider.html">BoundingBoxCollider</a> *one, <a class="el" href="class_i_collider.html">ICollider</a> *two)</td></tr>
-<tr class="memdesc:a65f057e158fabbdb46e8f90f29a3d45f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Detection function that take One <a class="el" href="class_bounding_box_collider.html" title="A Bounding Box collider. (AABB and OBB)">BoundingBoxCollider</a> and one <a class="el" href="class_i_collider.html" title="Collider abstract class for BoundingBoxCollider and SphereCollider.">ICollider</a>.  <br /></td></tr>
-<tr class="separator:a65f057e158fabbdb46e8f90f29a3d45f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abc522dec59a820d1efa463f6482c9e98"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_collision_detection_1_1_data.html">Data</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_collision_detection.html#abc522dec59a820d1efa463f6482c9e98">Detection</a> (<a class="el" href="class_sphere_collider.html">SphereCollider</a> *one, <a class="el" href="class_i_collider.html">ICollider</a> *two)</td></tr>
-<tr class="memdesc:abc522dec59a820d1efa463f6482c9e98"><td class="mdescLeft">&#160;</td><td class="mdescRight">Detection function that take One <a class="el" href="class_sphere_collider.html" title="A Sphere collider.">SphereCollider</a> and one <a class="el" href="class_i_collider.html" title="Collider abstract class for BoundingBoxCollider and SphereCollider.">ICollider</a>.  <br /></td></tr>
-<tr class="separator:abc522dec59a820d1efa463f6482c9e98"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a70abfc36f181843581b37e0df8a9e98a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_collision_detection_1_1_data.html">Data</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_collision_detection.html#a70abfc36f181843581b37e0df8a9e98a">Detection</a> (<a class="el" href="class_bounding_box_collider.html">BoundingBoxCollider</a> *one, <a class="el" href="class_bounding_box_collider.html">BoundingBoxCollider</a> *two, <a class="el" href="class_collision_detection.html#a38f85e71c824a16cfffb0bcf3172870c">BBMode</a> mode)</td></tr>
-<tr class="memdesc:a70abfc36f181843581b37e0df8a9e98a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Detection function that take two <a class="el" href="class_bounding_box_collider.html" title="A Bounding Box collider. (AABB and OBB)">BoundingBoxCollider</a> and one BBMode.  <br /></td></tr>
-<tr class="separator:a70abfc36f181843581b37e0df8a9e98a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2e089c0e768259bed10604c7ada2617b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_collision_detection_1_1_data.html">Data</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_collision_detection.html#a2e089c0e768259bed10604c7ada2617b">Detection</a> (<a class="el" href="class_sphere_collider.html">SphereCollider</a> *one, <a class="el" href="class_bounding_box_collider.html">BoundingBoxCollider</a> *two, bool oriented)</td></tr>
-<tr class="memdesc:a2e089c0e768259bed10604c7ada2617b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Detection function that take One <a class="el" href="class_sphere_collider.html" title="A Sphere collider.">SphereCollider</a> and one <a class="el" href="class_bounding_box_collider.html" title="A Bounding Box collider. (AABB and OBB)">BoundingBoxCollider</a> oriented or not.  <br /></td></tr>
-<tr class="separator:a2e089c0e768259bed10604c7ada2617b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adf4c4ae27da005553acb961850709372"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_collision_detection_1_1_data.html">Data</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_collision_detection.html#adf4c4ae27da005553acb961850709372">Detection</a> (glm::vec3 one, <a class="el" href="class_bounding_box_collider.html">BoundingBoxCollider</a> *two, bool oriented)</td></tr>
-<tr class="memdesc:adf4c4ae27da005553acb961850709372"><td class="mdescLeft">&#160;</td><td class="mdescRight">Detection function that take One Point and one <a class="el" href="class_bounding_box_collider.html" title="A Bounding Box collider. (AABB and OBB)">BoundingBoxCollider</a> oriented or not.  <br /></td></tr>
-<tr class="separator:adf4c4ae27da005553acb961850709372"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a150ca7964ce46de1b75d132da41bab5a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_collision_detection_1_1_data.html">Data</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_collision_detection.html#a150ca7964ce46de1b75d132da41bab5a">Detection</a> (glm::vec3 one, <a class="el" href="class_sphere_collider.html">SphereCollider</a> *two)</td></tr>
-<tr class="memdesc:a150ca7964ce46de1b75d132da41bab5a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Detection function that take One Point and one <a class="el" href="class_sphere_collider.html" title="A Sphere collider.">SphereCollider</a> .  <br /></td></tr>
-<tr class="separator:a150ca7964ce46de1b75d132da41bab5a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ade3f246c6ec5b5cddb1d6047974715f6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_collision_detection_1_1_data.html">Data</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_collision_detection.html#ade3f246c6ec5b5cddb1d6047974715f6">Detection</a> (<a class="el" href="class_sphere_collider.html">SphereCollider</a> *one, <a class="el" href="class_sphere_collider.html">SphereCollider</a> *two)</td></tr>
-<tr class="memdesc:ade3f246c6ec5b5cddb1d6047974715f6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Detection function that take two <a class="el" href="class_sphere_collider.html" title="A Sphere collider.">SphereCollider</a>.  <br /></td></tr>
-<tr class="separator:ade3f246c6ec5b5cddb1d6047974715f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa6157f6086e6a18ac96e787b3d5389c9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_collision_detection_1_1_data.html">Data</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_collision_detection.html#aa6157f6086e6a18ac96e787b3d5389c9">AABB_AABB</a> (<a class="el" href="class_bounding_box_collider.html">BoundingBoxCollider</a> *one, <a class="el" href="class_bounding_box_collider.html">BoundingBoxCollider</a> *two)</td></tr>
-<tr class="memdesc:aa6157f6086e6a18ac96e787b3d5389c9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute collision for two AABB Bounding box.  <br /></td></tr>
-<tr class="separator:aa6157f6086e6a18ac96e787b3d5389c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abf66a62fb9723764b03894d8614a5da3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_collision_detection_1_1_data.html">Data</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_collision_detection.html#abf66a62fb9723764b03894d8614a5da3">OBB_OBB</a> (<a class="el" href="class_bounding_box_collider.html">BoundingBoxCollider</a> *one, <a class="el" href="class_bounding_box_collider.html">BoundingBoxCollider</a> *two)</td></tr>
-<tr class="memdesc:abf66a62fb9723764b03894d8614a5da3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute collision for two OBB Bounding box.  <br /></td></tr>
-<tr class="separator:abf66a62fb9723764b03894d8614a5da3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2f7e9b3d6e0d49d03bdae05fd5dc637d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_collision_detection_1_1_data.html">Data</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_collision_detection.html#a2f7e9b3d6e0d49d03bdae05fd5dc637d">AABB_OBB</a> (<a class="el" href="class_bounding_box_collider.html">BoundingBoxCollider</a> *one, <a class="el" href="class_bounding_box_collider.html">BoundingBoxCollider</a> *two)</td></tr>
-<tr class="memdesc:a2f7e9b3d6e0d49d03bdae05fd5dc637d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute collision for a AABB Bounding box and a OBB Bounding box (in that order).  <br /></td></tr>
-<tr class="separator:a2f7e9b3d6e0d49d03bdae05fd5dc637d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a997bbf8757ea9191ed1bbba788aa4213"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_collision_detection_1_1_data.html">Data</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_collision_detection.html#a997bbf8757ea9191ed1bbba788aa4213">OBB_AABB</a> (<a class="el" href="class_bounding_box_collider.html">BoundingBoxCollider</a> *one, <a class="el" href="class_bounding_box_collider.html">BoundingBoxCollider</a> *two)</td></tr>
-<tr class="memdesc:a997bbf8757ea9191ed1bbba788aa4213"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute collision for a OBB Bounding box and a AABB Bounding box (in that order).  <br /></td></tr>
-<tr class="separator:a997bbf8757ea9191ed1bbba788aa4213"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5d94f6608d020fd38f2eefe61017ad4b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_collision_detection_1_1_data.html">Data</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_collision_detection.html#a5d94f6608d020fd38f2eefe61017ad4b">AABB_Sphere</a> (<a class="el" href="class_bounding_box_collider.html">BoundingBoxCollider</a> *one, <a class="el" href="class_sphere_collider.html">SphereCollider</a> *two)</td></tr>
-<tr class="memdesc:a5d94f6608d020fd38f2eefe61017ad4b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute collision for a AABB Bounding box and a Sphere.  <br /></td></tr>
-<tr class="separator:a5d94f6608d020fd38f2eefe61017ad4b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a451b23f1b8e92c8ba6f4f41c369be91b"><td class="memItemLeft" align="right" valign="top"><a id="a451b23f1b8e92c8ba6f4f41c369be91b" name="a451b23f1b8e92c8ba6f4f41c369be91b"></a>
-<a class="el" href="struct_collision_detection_1_1_data.html">Data</a>&#160;</td><td class="memItemRight" valign="bottom"><b>Sphere_AABB</b> (<a class="el" href="class_sphere_collider.html">SphereCollider</a> *one, <a class="el" href="class_bounding_box_collider.html">BoundingBoxCollider</a> *two)</td></tr>
-<tr class="separator:a451b23f1b8e92c8ba6f4f41c369be91b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae18afc458ef75c50d70141711e45ff69"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_collision_detection_1_1_data.html">Data</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_collision_detection.html#ae18afc458ef75c50d70141711e45ff69">OBB_Sphere</a> (<a class="el" href="class_bounding_box_collider.html">BoundingBoxCollider</a> *one, <a class="el" href="class_sphere_collider.html">SphereCollider</a> *two)</td></tr>
-<tr class="memdesc:ae18afc458ef75c50d70141711e45ff69"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute collision for a OBB Bounding box and a Sphere.  <br /></td></tr>
-<tr class="separator:ae18afc458ef75c50d70141711e45ff69"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3a48245c56025d50436cf46da882bbd2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_collision_detection_1_1_data.html">Data</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_collision_detection.html#a3a48245c56025d50436cf46da882bbd2">Sphere_OBB</a> (<a class="el" href="class_sphere_collider.html">SphereCollider</a> *one, <a class="el" href="class_bounding_box_collider.html">BoundingBoxCollider</a> *two)</td></tr>
-<tr class="memdesc:a3a48245c56025d50436cf46da882bbd2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute collision for a Sphere and a OBB Bounding box.  <br /></td></tr>
-<tr class="separator:a3a48245c56025d50436cf46da882bbd2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6456c3b8beb7e18a26137ad97a19875b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_collision_detection_1_1_data.html">Data</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_collision_detection.html#a6456c3b8beb7e18a26137ad97a19875b">Sphere_Sphere</a> (<a class="el" href="class_sphere_collider.html">SphereCollider</a> *one, <a class="el" href="class_sphere_collider.html">SphereCollider</a> *two)</td></tr>
-<tr class="memdesc:a6456c3b8beb7e18a26137ad97a19875b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute collision for two Sphere.  <br /></td></tr>
-<tr class="separator:a6456c3b8beb7e18a26137ad97a19875b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a58291d4761d3837742afadcac36c4960"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_collision_detection_1_1_data.html">Data</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_collision_detection.html#a58291d4761d3837742afadcac36c4960">Point_AABB</a> (glm::vec3 one, <a class="el" href="class_bounding_box_collider.html">BoundingBoxCollider</a> *two)</td></tr>
-<tr class="memdesc:a58291d4761d3837742afadcac36c4960"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute collision for a point and a AABB Bounding box .  <br /></td></tr>
-<tr class="separator:a58291d4761d3837742afadcac36c4960"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6246345b1795ba635c84512802bf4d1a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_collision_detection_1_1_data.html">Data</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_collision_detection.html#a6246345b1795ba635c84512802bf4d1a">Point_OBB</a> (glm::vec3 one, <a class="el" href="class_bounding_box_collider.html">BoundingBoxCollider</a> *two)</td></tr>
-<tr class="memdesc:a6246345b1795ba635c84512802bf4d1a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute collision for a point and a OBB Bounding box .  <br /></td></tr>
-<tr class="separator:a6246345b1795ba635c84512802bf4d1a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab7442f867456aff2a0b94858c5fd5902"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_collision_detection_1_1_data.html">Data</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_collision_detection.html#ab7442f867456aff2a0b94858c5fd5902">Point_Sphere</a> (glm::vec3 one, <a class="el" href="class_sphere_collider.html">SphereCollider</a> *two)</td></tr>
-<tr class="memdesc:ab7442f867456aff2a0b94858c5fd5902"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute collision for a point and a Sphere.  <br /></td></tr>
-<tr class="separator:ab7442f867456aff2a0b94858c5fd5902"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae216210be00c1921a156ee1928487810"><td class="memItemLeft" align="right" valign="top">glm::vec2&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_collision_detection.html#ae216210be00c1921a156ee1928487810">GetInterval</a> (<a class="el" href="struct_collision_detection_1_1_triangle.html">Triangle</a> t, glm::vec3 axis)</td></tr>
-<tr class="memdesc:ae216210be00c1921a156ee1928487810"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the Interval for axis overlap with a triangle and an axis.  <br /></td></tr>
-<tr class="separator:ae216210be00c1921a156ee1928487810"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a57c51b0b4e79143728d0535ee5f68181"><td class="memItemLeft" align="right" valign="top">glm::vec2&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_collision_detection.html#a57c51b0b4e79143728d0535ee5f68181">GetInterval</a> (<a class="el" href="class_bounding_box_collider.html">BoundingBoxCollider</a> *one, glm::vec3 axis, bool oriented)</td></tr>
-<tr class="memdesc:a57c51b0b4e79143728d0535ee5f68181"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the Interval for axis overlap with a BoundingBox oriented or not and an axis.  <br /></td></tr>
-<tr class="separator:a57c51b0b4e79143728d0535ee5f68181"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2adb70cfeeaa225d86fc081c4ed036cc"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_collision_detection.html#a2adb70cfeeaa225d86fc081c4ed036cc">AxisOverlap</a> (<a class="el" href="class_bounding_box_collider.html">BoundingBoxCollider</a> *one, <a class="el" href="class_bounding_box_collider.html">BoundingBoxCollider</a> *two, glm::vec3 axis, <a class="el" href="class_collision_detection.html#a38f85e71c824a16cfffb0bcf3172870c">BBMode</a> mode)</td></tr>
-<tr class="memdesc:a2adb70cfeeaa225d86fc081c4ed036cc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute the axis overlap between two Bounding box.  <br /></td></tr>
-<tr class="separator:a2adb70cfeeaa225d86fc081c4ed036cc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a64221467de0204557e3e871d862f2b00"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_collision_detection.html#a64221467de0204557e3e871d862f2b00">AxisOverlap</a> (<a class="el" href="class_bounding_box_collider.html">BoundingBoxCollider</a> *bb, <a class="el" href="struct_collision_detection_1_1_triangle.html">Triangle</a> t, glm::vec3 axis, bool oriented)</td></tr>
-<tr class="memdesc:a64221467de0204557e3e871d862f2b00"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute the axis overlap between a Bounding box and a triangle.  <br /></td></tr>
-<tr class="separator:a64221467de0204557e3e871d862f2b00"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8846fac6cb8c296e0c4fe8e826499469"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_collision_detection.html#a8846fac6cb8c296e0c4fe8e826499469">AxisOverlap</a> (<a class="el" href="struct_collision_detection_1_1_triangle.html">Triangle</a> t1, <a class="el" href="struct_collision_detection_1_1_triangle.html">Triangle</a> t2, glm::vec3 axis)</td></tr>
-<tr class="memdesc:a8846fac6cb8c296e0c4fe8e826499469"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute the axis overlap between a Bounding box and a triangle.  <br /></td></tr>
-<tr class="separator:a8846fac6cb8c296e0c4fe8e826499469"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
+Static Public Member Functions</h2></td></tr>
+<tr class="memitem:ae4fb78d93a173944471029136ad45a43"><td class="memItemLeft" align="right" valign="top"><a id="ae4fb78d93a173944471029136ad45a43" name="ae4fb78d93a173944471029136ad45a43"></a>
+static glm::vec3&#160;</td><td class="memItemRight" valign="bottom"><b>Project</b> (glm::vec3 length, glm::vec3 dir)</td></tr>
+<tr class="separator:ae4fb78d93a173944471029136ad45a43"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6d8d7487aa2d1fd2bf32a268c0e40229"><td class="memItemLeft" align="right" valign="top"><a id="a6d8d7487aa2d1fd2bf32a268c0e40229" name="a6d8d7487aa2d1fd2bf32a268c0e40229"></a>
+static glm::vec3&#160;</td><td class="memItemRight" valign="bottom"><b>Barycentric</b> (glm::vec3 p, <a class="el" href="struct_collision_detection_1_1_triangle.html">Triangle</a> t)</td></tr>
+<tr class="separator:a6d8d7487aa2d1fd2bf32a268c0e40229"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a26ad58af4e143622beadad405b274fa1"><td class="memItemLeft" align="right" valign="top"><a id="a26ad58af4e143622beadad405b274fa1" name="a26ad58af4e143622beadad405b274fa1"></a>
+static bool&#160;</td><td class="memItemRight" valign="bottom"><b>EpsilonCompare</b> (double x, double y)</td></tr>
+<tr class="separator:a26ad58af4e143622beadad405b274fa1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac736a3dfabd763fe16e861842aa76b3c"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="struct_collision_detection_1_1_data.html">Data</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_collision_detection.html#ac736a3dfabd763fe16e861842aa76b3c">Detection</a> (<a class="el" href="class_game_object.html">GameObject</a> *one, <a class="el" href="class_game_object.html">GameObject</a> *two)</td></tr>
+<tr class="memdesc:ac736a3dfabd763fe16e861842aa76b3c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Detection function that take two Gameobject and return <a class="el" href="struct_collision_detection_1_1_data.html" title="Data of a collisions.">Data</a>.  <br /></td></tr>
+<tr class="separator:ac736a3dfabd763fe16e861842aa76b3c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7b947c96d53b2d3bb3f43cedc87f553f"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="struct_collision_detection_1_1_data.html">Data</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_collision_detection.html#a7b947c96d53b2d3bb3f43cedc87f553f">Detection</a> (<a class="el" href="class_bounding_box_collider.html">BoundingBoxCollider</a> *one, <a class="el" href="class_i_collider.html">ICollider</a> *two)</td></tr>
+<tr class="memdesc:a7b947c96d53b2d3bb3f43cedc87f553f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Detection function that take One <a class="el" href="class_bounding_box_collider.html" title="A Bounding Box collider. (AABB and OBB)">BoundingBoxCollider</a> and one <a class="el" href="class_i_collider.html" title="Collider abstract class for BoundingBoxCollider and SphereCollider.">ICollider</a>.  <br /></td></tr>
+<tr class="separator:a7b947c96d53b2d3bb3f43cedc87f553f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a807cf8bf1dc3049dca7bdd1a063b8902"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="struct_collision_detection_1_1_data.html">Data</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_collision_detection.html#a807cf8bf1dc3049dca7bdd1a063b8902">Detection</a> (<a class="el" href="class_sphere_collider.html">SphereCollider</a> *one, <a class="el" href="class_i_collider.html">ICollider</a> *two)</td></tr>
+<tr class="memdesc:a807cf8bf1dc3049dca7bdd1a063b8902"><td class="mdescLeft">&#160;</td><td class="mdescRight">Detection function that take One <a class="el" href="class_sphere_collider.html" title="A Sphere collider.">SphereCollider</a> and one <a class="el" href="class_i_collider.html" title="Collider abstract class for BoundingBoxCollider and SphereCollider.">ICollider</a>.  <br /></td></tr>
+<tr class="separator:a807cf8bf1dc3049dca7bdd1a063b8902"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6f96d0ef41745f8f85c1aa72eead7a22"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="struct_collision_detection_1_1_data.html">Data</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_collision_detection.html#a6f96d0ef41745f8f85c1aa72eead7a22">Detection</a> (<a class="el" href="class_bounding_box_collider.html">BoundingBoxCollider</a> *one, <a class="el" href="class_bounding_box_collider.html">BoundingBoxCollider</a> *two, <a class="el" href="class_collision_detection.html#a38f85e71c824a16cfffb0bcf3172870c">BBMode</a> mode)</td></tr>
+<tr class="memdesc:a6f96d0ef41745f8f85c1aa72eead7a22"><td class="mdescLeft">&#160;</td><td class="mdescRight">Detection function that take two <a class="el" href="class_bounding_box_collider.html" title="A Bounding Box collider. (AABB and OBB)">BoundingBoxCollider</a> and one BBMode.  <br /></td></tr>
+<tr class="separator:a6f96d0ef41745f8f85c1aa72eead7a22"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa0a454450cdc52ad9014b118c0ddf026"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="struct_collision_detection_1_1_data.html">Data</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_collision_detection.html#aa0a454450cdc52ad9014b118c0ddf026">Detection</a> (<a class="el" href="class_sphere_collider.html">SphereCollider</a> *one, <a class="el" href="class_bounding_box_collider.html">BoundingBoxCollider</a> *two, bool oriented)</td></tr>
+<tr class="memdesc:aa0a454450cdc52ad9014b118c0ddf026"><td class="mdescLeft">&#160;</td><td class="mdescRight">Detection function that take One <a class="el" href="class_sphere_collider.html" title="A Sphere collider.">SphereCollider</a> and one <a class="el" href="class_bounding_box_collider.html" title="A Bounding Box collider. (AABB and OBB)">BoundingBoxCollider</a> oriented or not.  <br /></td></tr>
+<tr class="separator:aa0a454450cdc52ad9014b118c0ddf026"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac4cf7ad01382ffb7b936fcc430f73f22"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="struct_collision_detection_1_1_data.html">Data</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_collision_detection.html#ac4cf7ad01382ffb7b936fcc430f73f22">Detection</a> (glm::vec3 one, <a class="el" href="class_bounding_box_collider.html">BoundingBoxCollider</a> *two, bool oriented)</td></tr>
+<tr class="memdesc:ac4cf7ad01382ffb7b936fcc430f73f22"><td class="mdescLeft">&#160;</td><td class="mdescRight">Detection function that take One Point and one <a class="el" href="class_bounding_box_collider.html" title="A Bounding Box collider. (AABB and OBB)">BoundingBoxCollider</a> oriented or not.  <br /></td></tr>
+<tr class="separator:ac4cf7ad01382ffb7b936fcc430f73f22"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abb9bffc076cb1c18a36130cc493e2adc"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="struct_collision_detection_1_1_data.html">Data</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_collision_detection.html#abb9bffc076cb1c18a36130cc493e2adc">Detection</a> (glm::vec3 one, <a class="el" href="class_sphere_collider.html">SphereCollider</a> *two)</td></tr>
+<tr class="memdesc:abb9bffc076cb1c18a36130cc493e2adc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Detection function that take One Point and one <a class="el" href="class_sphere_collider.html" title="A Sphere collider.">SphereCollider</a> .  <br /></td></tr>
+<tr class="separator:abb9bffc076cb1c18a36130cc493e2adc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6fb4054a6c339463f3db44af6f7c1bf5"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="struct_collision_detection_1_1_data.html">Data</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_collision_detection.html#a6fb4054a6c339463f3db44af6f7c1bf5">Detection</a> (<a class="el" href="class_sphere_collider.html">SphereCollider</a> *one, <a class="el" href="class_sphere_collider.html">SphereCollider</a> *two)</td></tr>
+<tr class="memdesc:a6fb4054a6c339463f3db44af6f7c1bf5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Detection function that take two <a class="el" href="class_sphere_collider.html" title="A Sphere collider.">SphereCollider</a>.  <br /></td></tr>
+<tr class="separator:a6fb4054a6c339463f3db44af6f7c1bf5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5bd818ad838dfd4917055d3216084fc3"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="struct_collision_detection_1_1_data.html">Data</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_collision_detection.html#a5bd818ad838dfd4917055d3216084fc3">AABB_AABB</a> (<a class="el" href="class_bounding_box_collider.html">BoundingBoxCollider</a> *one, <a class="el" href="class_bounding_box_collider.html">BoundingBoxCollider</a> *two)</td></tr>
+<tr class="memdesc:a5bd818ad838dfd4917055d3216084fc3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute collision for two AABB Bounding box.  <br /></td></tr>
+<tr class="separator:a5bd818ad838dfd4917055d3216084fc3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afa6bf66de1fca3c494c912585d5d2a7c"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="struct_collision_detection_1_1_data.html">Data</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_collision_detection.html#afa6bf66de1fca3c494c912585d5d2a7c">OBB_OBB</a> (<a class="el" href="class_bounding_box_collider.html">BoundingBoxCollider</a> *one, <a class="el" href="class_bounding_box_collider.html">BoundingBoxCollider</a> *two)</td></tr>
+<tr class="memdesc:afa6bf66de1fca3c494c912585d5d2a7c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute collision for two OBB Bounding box.  <br /></td></tr>
+<tr class="separator:afa6bf66de1fca3c494c912585d5d2a7c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2c292af9cab1533bae071b0595dcc356"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="struct_collision_detection_1_1_data.html">Data</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_collision_detection.html#a2c292af9cab1533bae071b0595dcc356">AABB_OBB</a> (<a class="el" href="class_bounding_box_collider.html">BoundingBoxCollider</a> *one, <a class="el" href="class_bounding_box_collider.html">BoundingBoxCollider</a> *two)</td></tr>
+<tr class="memdesc:a2c292af9cab1533bae071b0595dcc356"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute collision for a AABB Bounding box and a OBB Bounding box (in that order).  <br /></td></tr>
+<tr class="separator:a2c292af9cab1533bae071b0595dcc356"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6f897a338752edc983ea9919a8dcea22"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="struct_collision_detection_1_1_data.html">Data</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_collision_detection.html#a6f897a338752edc983ea9919a8dcea22">OBB_AABB</a> (<a class="el" href="class_bounding_box_collider.html">BoundingBoxCollider</a> *one, <a class="el" href="class_bounding_box_collider.html">BoundingBoxCollider</a> *two)</td></tr>
+<tr class="memdesc:a6f897a338752edc983ea9919a8dcea22"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute collision for a OBB Bounding box and a AABB Bounding box (in that order).  <br /></td></tr>
+<tr class="separator:a6f897a338752edc983ea9919a8dcea22"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae9f6261c3a63e04531c496aacdfee5ef"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="struct_collision_detection_1_1_data.html">Data</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_collision_detection.html#ae9f6261c3a63e04531c496aacdfee5ef">AABB_Sphere</a> (<a class="el" href="class_bounding_box_collider.html">BoundingBoxCollider</a> *one, <a class="el" href="class_sphere_collider.html">SphereCollider</a> *two)</td></tr>
+<tr class="memdesc:ae9f6261c3a63e04531c496aacdfee5ef"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute collision for a AABB Bounding box and a Sphere.  <br /></td></tr>
+<tr class="separator:ae9f6261c3a63e04531c496aacdfee5ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1779b2a81bc7cf98e020dbc1d529a216"><td class="memItemLeft" align="right" valign="top"><a id="a1779b2a81bc7cf98e020dbc1d529a216" name="a1779b2a81bc7cf98e020dbc1d529a216"></a>
+static <a class="el" href="struct_collision_detection_1_1_data.html">Data</a>&#160;</td><td class="memItemRight" valign="bottom"><b>Sphere_AABB</b> (<a class="el" href="class_sphere_collider.html">SphereCollider</a> *one, <a class="el" href="class_bounding_box_collider.html">BoundingBoxCollider</a> *two)</td></tr>
+<tr class="separator:a1779b2a81bc7cf98e020dbc1d529a216"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9377018068b6df16672bd502705b99e9"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="struct_collision_detection_1_1_data.html">Data</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_collision_detection.html#a9377018068b6df16672bd502705b99e9">OBB_Sphere</a> (<a class="el" href="class_bounding_box_collider.html">BoundingBoxCollider</a> *one, <a class="el" href="class_sphere_collider.html">SphereCollider</a> *two)</td></tr>
+<tr class="memdesc:a9377018068b6df16672bd502705b99e9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute collision for a OBB Bounding box and a Sphere.  <br /></td></tr>
+<tr class="separator:a9377018068b6df16672bd502705b99e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0a6a947f3f7e39200a1f23d2d5ec7b24"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="struct_collision_detection_1_1_data.html">Data</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_collision_detection.html#a0a6a947f3f7e39200a1f23d2d5ec7b24">Sphere_OBB</a> (<a class="el" href="class_sphere_collider.html">SphereCollider</a> *one, <a class="el" href="class_bounding_box_collider.html">BoundingBoxCollider</a> *two)</td></tr>
+<tr class="memdesc:a0a6a947f3f7e39200a1f23d2d5ec7b24"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute collision for a Sphere and a OBB Bounding box.  <br /></td></tr>
+<tr class="separator:a0a6a947f3f7e39200a1f23d2d5ec7b24"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad1f7a6b4303bec606b86359f1ad46c74"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="struct_collision_detection_1_1_data.html">Data</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_collision_detection.html#ad1f7a6b4303bec606b86359f1ad46c74">Sphere_Sphere</a> (<a class="el" href="class_sphere_collider.html">SphereCollider</a> *one, <a class="el" href="class_sphere_collider.html">SphereCollider</a> *two)</td></tr>
+<tr class="memdesc:ad1f7a6b4303bec606b86359f1ad46c74"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute collision for two Sphere.  <br /></td></tr>
+<tr class="separator:ad1f7a6b4303bec606b86359f1ad46c74"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab8f9a7c6a804299ee01c3b5bd76584c6"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="struct_collision_detection_1_1_data.html">Data</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_collision_detection.html#ab8f9a7c6a804299ee01c3b5bd76584c6">Point_AABB</a> (glm::vec3 one, <a class="el" href="class_bounding_box_collider.html">BoundingBoxCollider</a> *two)</td></tr>
+<tr class="memdesc:ab8f9a7c6a804299ee01c3b5bd76584c6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute collision for a point and a AABB Bounding box .  <br /></td></tr>
+<tr class="separator:ab8f9a7c6a804299ee01c3b5bd76584c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a49b79c016e049269334933abd1f9cea2"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="struct_collision_detection_1_1_data.html">Data</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_collision_detection.html#a49b79c016e049269334933abd1f9cea2">Point_OBB</a> (glm::vec3 one, <a class="el" href="class_bounding_box_collider.html">BoundingBoxCollider</a> *two)</td></tr>
+<tr class="memdesc:a49b79c016e049269334933abd1f9cea2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute collision for a point and a OBB Bounding box .  <br /></td></tr>
+<tr class="separator:a49b79c016e049269334933abd1f9cea2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3e3aadabf59bfb4cd198cf732ae1e68a"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="struct_collision_detection_1_1_data.html">Data</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_collision_detection.html#a3e3aadabf59bfb4cd198cf732ae1e68a">Point_Sphere</a> (glm::vec3 one, <a class="el" href="class_sphere_collider.html">SphereCollider</a> *two)</td></tr>
+<tr class="memdesc:a3e3aadabf59bfb4cd198cf732ae1e68a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute collision for a point and a Sphere.  <br /></td></tr>
+<tr class="separator:a3e3aadabf59bfb4cd198cf732ae1e68a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a95ea7e315304fb314d8c8e613f96ab0a"><td class="memItemLeft" align="right" valign="top">static double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_collision_detection.html#a95ea7e315304fb314d8c8e613f96ab0a">Ray_AABB</a> (glm::vec3 origin, glm::vec3 direction, <a class="el" href="class_bounding_box_collider.html">BoundingBoxCollider</a> *bb)</td></tr>
+<tr class="memdesc:a95ea7e315304fb314d8c8e613f96ab0a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute the lenght of a ray and a AABB bounding box, if -1 ray do not hit.  <br /></td></tr>
+<tr class="separator:a95ea7e315304fb314d8c8e613f96ab0a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a105a7dda6bbd19a31b27ad3e819f2fb4"><td class="memItemLeft" align="right" valign="top">static double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_collision_detection.html#a105a7dda6bbd19a31b27ad3e819f2fb4">Ray_Plane</a> (glm::vec3 origin, glm::vec3 direction, <a class="el" href="struct_collision_detection_1_1_plane.html">Plane</a> p)</td></tr>
+<tr class="memdesc:a105a7dda6bbd19a31b27ad3e819f2fb4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute the lenght of a ray and a <a class="el" href="struct_collision_detection_1_1_plane.html">Plane</a>, if -1 ray do not hit.  <br /></td></tr>
+<tr class="separator:a105a7dda6bbd19a31b27ad3e819f2fb4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acb25ebc030377c9626cfc2e8bafc5be7"><td class="memItemLeft" align="right" valign="top">static double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_collision_detection.html#acb25ebc030377c9626cfc2e8bafc5be7">Ray_Triangle</a> (glm::vec3 origin, glm::vec3 direction, <a class="el" href="struct_collision_detection_1_1_triangle.html">Triangle</a> t)</td></tr>
+<tr class="memdesc:acb25ebc030377c9626cfc2e8bafc5be7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute the lenght of a ray and a <a class="el" href="struct_collision_detection_1_1_triangle.html" title="A triangle object with 3 glm::vec3 as point.">Triangle</a>, if -1 ray do not hit.  <br /></td></tr>
+<tr class="separator:acb25ebc030377c9626cfc2e8bafc5be7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af421aa99b52e7e4e01aa5136baa07cac"><td class="memItemLeft" align="right" valign="top">static glm::vec2&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_collision_detection.html#af421aa99b52e7e4e01aa5136baa07cac">GetInterval</a> (<a class="el" href="struct_collision_detection_1_1_triangle.html">Triangle</a> t, glm::vec3 axis)</td></tr>
+<tr class="memdesc:af421aa99b52e7e4e01aa5136baa07cac"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the Interval for axis overlap with a triangle and an axis.  <br /></td></tr>
+<tr class="separator:af421aa99b52e7e4e01aa5136baa07cac"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acf68d196d02f19b291496f9ecc773de3"><td class="memItemLeft" align="right" valign="top">static glm::vec2&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_collision_detection.html#acf68d196d02f19b291496f9ecc773de3">GetInterval</a> (<a class="el" href="class_bounding_box_collider.html">BoundingBoxCollider</a> *one, glm::vec3 axis, bool oriented)</td></tr>
+<tr class="memdesc:acf68d196d02f19b291496f9ecc773de3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the Interval for axis overlap with a BoundingBox oriented or not and an axis.  <br /></td></tr>
+<tr class="separator:acf68d196d02f19b291496f9ecc773de3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a767cec8377adb73498bde509575e6230"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_collision_detection.html#a767cec8377adb73498bde509575e6230">AxisOverlap</a> (<a class="el" href="class_bounding_box_collider.html">BoundingBoxCollider</a> *one, <a class="el" href="class_bounding_box_collider.html">BoundingBoxCollider</a> *two, glm::vec3 axis, <a class="el" href="class_collision_detection.html#a38f85e71c824a16cfffb0bcf3172870c">BBMode</a> mode)</td></tr>
+<tr class="memdesc:a767cec8377adb73498bde509575e6230"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute the axis overlap between two Bounding box.  <br /></td></tr>
+<tr class="separator:a767cec8377adb73498bde509575e6230"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a394dac0cc8abdab4e46cec4cf774b23b"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_collision_detection.html#a394dac0cc8abdab4e46cec4cf774b23b">AxisOverlap</a> (<a class="el" href="class_bounding_box_collider.html">BoundingBoxCollider</a> *bb, <a class="el" href="struct_collision_detection_1_1_triangle.html">Triangle</a> t, glm::vec3 axis, bool oriented)</td></tr>
+<tr class="memdesc:a394dac0cc8abdab4e46cec4cf774b23b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute the axis overlap between a Bounding box and a triangle.  <br /></td></tr>
+<tr class="separator:a394dac0cc8abdab4e46cec4cf774b23b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a25068b24b9eb680b3d9f2dcd926a47a1"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_collision_detection.html#a25068b24b9eb680b3d9f2dcd926a47a1">AxisOverlap</a> (<a class="el" href="struct_collision_detection_1_1_triangle.html">Triangle</a> t1, <a class="el" href="struct_collision_detection_1_1_triangle.html">Triangle</a> t2, glm::vec3 axis)</td></tr>
+<tr class="memdesc:a25068b24b9eb680b3d9f2dcd926a47a1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute the axis overlap between a Bounding box and a triangle.  <br /></td></tr>
+<tr class="separator:a25068b24b9eb680b3d9f2dcd926a47a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Collision detection tools. </p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a id="aa6157f6086e6a18ac96e787b3d5389c9" name="aa6157f6086e6a18ac96e787b3d5389c9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa6157f6086e6a18ac96e787b3d5389c9">&#9670;&#160;</a></span>AABB_AABB()</h2>
+<a id="a5bd818ad838dfd4917055d3216084fc3" name="a5bd818ad838dfd4917055d3216084fc3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5bd818ad838dfd4917055d3216084fc3">&#9670;&#160;</a></span>AABB_AABB()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -213,7 +234,7 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="struct_collision_detection_1_1_data.html">Data</a> CollisionDetection::AABB_AABB </td>
+          <td class="memname">static <a class="el" href="struct_collision_detection_1_1_data.html">Data</a> CollisionDetection::AABB_AABB </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="class_bounding_box_collider.html">BoundingBoxCollider</a> *&#160;</td>
           <td class="paramname"><em>one</em>, </td>
@@ -232,7 +253,7 @@ Public Member Functions</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -249,8 +270,8 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a2f7e9b3d6e0d49d03bdae05fd5dc637d" name="a2f7e9b3d6e0d49d03bdae05fd5dc637d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2f7e9b3d6e0d49d03bdae05fd5dc637d">&#9670;&#160;</a></span>AABB_OBB()</h2>
+<a id="a2c292af9cab1533bae071b0595dcc356" name="a2c292af9cab1533bae071b0595dcc356"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2c292af9cab1533bae071b0595dcc356">&#9670;&#160;</a></span>AABB_OBB()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -259,7 +280,7 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="struct_collision_detection_1_1_data.html">Data</a> CollisionDetection::AABB_OBB </td>
+          <td class="memname">static <a class="el" href="struct_collision_detection_1_1_data.html">Data</a> CollisionDetection::AABB_OBB </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="class_bounding_box_collider.html">BoundingBoxCollider</a> *&#160;</td>
           <td class="paramname"><em>one</em>, </td>
@@ -278,7 +299,7 @@ Public Member Functions</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -295,8 +316,8 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a5d94f6608d020fd38f2eefe61017ad4b" name="a5d94f6608d020fd38f2eefe61017ad4b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5d94f6608d020fd38f2eefe61017ad4b">&#9670;&#160;</a></span>AABB_Sphere()</h2>
+<a id="ae9f6261c3a63e04531c496aacdfee5ef" name="ae9f6261c3a63e04531c496aacdfee5ef"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae9f6261c3a63e04531c496aacdfee5ef">&#9670;&#160;</a></span>AABB_Sphere()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -305,7 +326,7 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="struct_collision_detection_1_1_data.html">Data</a> CollisionDetection::AABB_Sphere </td>
+          <td class="memname">static <a class="el" href="struct_collision_detection_1_1_data.html">Data</a> CollisionDetection::AABB_Sphere </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="class_bounding_box_collider.html">BoundingBoxCollider</a> *&#160;</td>
           <td class="paramname"><em>one</em>, </td>
@@ -324,7 +345,7 @@ Public Member Functions</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -341,8 +362,8 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a64221467de0204557e3e871d862f2b00" name="a64221467de0204557e3e871d862f2b00"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a64221467de0204557e3e871d862f2b00">&#9670;&#160;</a></span>AxisOverlap() <span class="overload">[1/3]</span></h2>
+<a id="a394dac0cc8abdab4e46cec4cf774b23b" name="a394dac0cc8abdab4e46cec4cf774b23b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a394dac0cc8abdab4e46cec4cf774b23b">&#9670;&#160;</a></span>AxisOverlap() <span class="overload">[1/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -351,7 +372,7 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">bool CollisionDetection::AxisOverlap </td>
+          <td class="memname">static bool CollisionDetection::AxisOverlap </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="class_bounding_box_collider.html">BoundingBoxCollider</a> *&#160;</td>
           <td class="paramname"><em>bb</em>, </td>
@@ -382,7 +403,7 @@ Public Member Functions</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -401,8 +422,8 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a2adb70cfeeaa225d86fc081c4ed036cc" name="a2adb70cfeeaa225d86fc081c4ed036cc"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2adb70cfeeaa225d86fc081c4ed036cc">&#9670;&#160;</a></span>AxisOverlap() <span class="overload">[2/3]</span></h2>
+<a id="a767cec8377adb73498bde509575e6230" name="a767cec8377adb73498bde509575e6230"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a767cec8377adb73498bde509575e6230">&#9670;&#160;</a></span>AxisOverlap() <span class="overload">[2/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -411,7 +432,7 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">bool CollisionDetection::AxisOverlap </td>
+          <td class="memname">static bool CollisionDetection::AxisOverlap </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="class_bounding_box_collider.html">BoundingBoxCollider</a> *&#160;</td>
           <td class="paramname"><em>one</em>, </td>
@@ -442,7 +463,7 @@ Public Member Functions</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -461,8 +482,8 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a8846fac6cb8c296e0c4fe8e826499469" name="a8846fac6cb8c296e0c4fe8e826499469"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8846fac6cb8c296e0c4fe8e826499469">&#9670;&#160;</a></span>AxisOverlap() <span class="overload">[3/3]</span></h2>
+<a id="a25068b24b9eb680b3d9f2dcd926a47a1" name="a25068b24b9eb680b3d9f2dcd926a47a1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a25068b24b9eb680b3d9f2dcd926a47a1">&#9670;&#160;</a></span>AxisOverlap() <span class="overload">[3/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -471,7 +492,7 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">bool CollisionDetection::AxisOverlap </td>
+          <td class="memname">static bool CollisionDetection::AxisOverlap </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="struct_collision_detection_1_1_triangle.html">Triangle</a>&#160;</td>
           <td class="paramname"><em>t1</em>, </td>
@@ -496,7 +517,7 @@ Public Member Functions</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -514,8 +535,8 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a70abfc36f181843581b37e0df8a9e98a" name="a70abfc36f181843581b37e0df8a9e98a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a70abfc36f181843581b37e0df8a9e98a">&#9670;&#160;</a></span>Detection() <span class="overload">[1/8]</span></h2>
+<a id="a6f96d0ef41745f8f85c1aa72eead7a22" name="a6f96d0ef41745f8f85c1aa72eead7a22"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6f96d0ef41745f8f85c1aa72eead7a22">&#9670;&#160;</a></span>Detection() <span class="overload">[1/8]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -524,7 +545,7 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="struct_collision_detection_1_1_data.html">Data</a> CollisionDetection::Detection </td>
+          <td class="memname">static <a class="el" href="struct_collision_detection_1_1_data.html">Data</a> CollisionDetection::Detection </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="class_bounding_box_collider.html">BoundingBoxCollider</a> *&#160;</td>
           <td class="paramname"><em>one</em>, </td>
@@ -549,7 +570,7 @@ Public Member Functions</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -567,8 +588,8 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a65f057e158fabbdb46e8f90f29a3d45f" name="a65f057e158fabbdb46e8f90f29a3d45f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a65f057e158fabbdb46e8f90f29a3d45f">&#9670;&#160;</a></span>Detection() <span class="overload">[2/8]</span></h2>
+<a id="a7b947c96d53b2d3bb3f43cedc87f553f" name="a7b947c96d53b2d3bb3f43cedc87f553f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7b947c96d53b2d3bb3f43cedc87f553f">&#9670;&#160;</a></span>Detection() <span class="overload">[2/8]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -577,7 +598,7 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="struct_collision_detection_1_1_data.html">Data</a> CollisionDetection::Detection </td>
+          <td class="memname">static <a class="el" href="struct_collision_detection_1_1_data.html">Data</a> CollisionDetection::Detection </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="class_bounding_box_collider.html">BoundingBoxCollider</a> *&#160;</td>
           <td class="paramname"><em>one</em>, </td>
@@ -596,7 +617,7 @@ Public Member Functions</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -613,8 +634,8 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="af3d4a92162323a6e6f20399aa3aea341" name="af3d4a92162323a6e6f20399aa3aea341"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af3d4a92162323a6e6f20399aa3aea341">&#9670;&#160;</a></span>Detection() <span class="overload">[3/8]</span></h2>
+<a id="ac736a3dfabd763fe16e861842aa76b3c" name="ac736a3dfabd763fe16e861842aa76b3c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac736a3dfabd763fe16e861842aa76b3c">&#9670;&#160;</a></span>Detection() <span class="overload">[3/8]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -623,7 +644,7 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="struct_collision_detection_1_1_data.html">Data</a> CollisionDetection::Detection </td>
+          <td class="memname">static <a class="el" href="struct_collision_detection_1_1_data.html">Data</a> CollisionDetection::Detection </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="class_game_object.html">GameObject</a> *&#160;</td>
           <td class="paramname"><em>one</em>, </td>
@@ -642,7 +663,7 @@ Public Member Functions</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -659,8 +680,8 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="adf4c4ae27da005553acb961850709372" name="adf4c4ae27da005553acb961850709372"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#adf4c4ae27da005553acb961850709372">&#9670;&#160;</a></span>Detection() <span class="overload">[4/8]</span></h2>
+<a id="ac4cf7ad01382ffb7b936fcc430f73f22" name="ac4cf7ad01382ffb7b936fcc430f73f22"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac4cf7ad01382ffb7b936fcc430f73f22">&#9670;&#160;</a></span>Detection() <span class="overload">[4/8]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -669,7 +690,7 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="struct_collision_detection_1_1_data.html">Data</a> CollisionDetection::Detection </td>
+          <td class="memname">static <a class="el" href="struct_collision_detection_1_1_data.html">Data</a> CollisionDetection::Detection </td>
           <td>(</td>
           <td class="paramtype">glm::vec3&#160;</td>
           <td class="paramname"><em>one</em>, </td>
@@ -694,7 +715,7 @@ Public Member Functions</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -712,8 +733,8 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a150ca7964ce46de1b75d132da41bab5a" name="a150ca7964ce46de1b75d132da41bab5a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a150ca7964ce46de1b75d132da41bab5a">&#9670;&#160;</a></span>Detection() <span class="overload">[5/8]</span></h2>
+<a id="abb9bffc076cb1c18a36130cc493e2adc" name="abb9bffc076cb1c18a36130cc493e2adc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abb9bffc076cb1c18a36130cc493e2adc">&#9670;&#160;</a></span>Detection() <span class="overload">[5/8]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -722,7 +743,7 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="struct_collision_detection_1_1_data.html">Data</a> CollisionDetection::Detection </td>
+          <td class="memname">static <a class="el" href="struct_collision_detection_1_1_data.html">Data</a> CollisionDetection::Detection </td>
           <td>(</td>
           <td class="paramtype">glm::vec3&#160;</td>
           <td class="paramname"><em>one</em>, </td>
@@ -741,7 +762,7 @@ Public Member Functions</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -758,8 +779,8 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a2e089c0e768259bed10604c7ada2617b" name="a2e089c0e768259bed10604c7ada2617b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2e089c0e768259bed10604c7ada2617b">&#9670;&#160;</a></span>Detection() <span class="overload">[6/8]</span></h2>
+<a id="aa0a454450cdc52ad9014b118c0ddf026" name="aa0a454450cdc52ad9014b118c0ddf026"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa0a454450cdc52ad9014b118c0ddf026">&#9670;&#160;</a></span>Detection() <span class="overload">[6/8]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -768,7 +789,7 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="struct_collision_detection_1_1_data.html">Data</a> CollisionDetection::Detection </td>
+          <td class="memname">static <a class="el" href="struct_collision_detection_1_1_data.html">Data</a> CollisionDetection::Detection </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="class_sphere_collider.html">SphereCollider</a> *&#160;</td>
           <td class="paramname"><em>one</em>, </td>
@@ -793,7 +814,7 @@ Public Member Functions</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -811,8 +832,8 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="abc522dec59a820d1efa463f6482c9e98" name="abc522dec59a820d1efa463f6482c9e98"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abc522dec59a820d1efa463f6482c9e98">&#9670;&#160;</a></span>Detection() <span class="overload">[7/8]</span></h2>
+<a id="a807cf8bf1dc3049dca7bdd1a063b8902" name="a807cf8bf1dc3049dca7bdd1a063b8902"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a807cf8bf1dc3049dca7bdd1a063b8902">&#9670;&#160;</a></span>Detection() <span class="overload">[7/8]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -821,7 +842,7 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="struct_collision_detection_1_1_data.html">Data</a> CollisionDetection::Detection </td>
+          <td class="memname">static <a class="el" href="struct_collision_detection_1_1_data.html">Data</a> CollisionDetection::Detection </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="class_sphere_collider.html">SphereCollider</a> *&#160;</td>
           <td class="paramname"><em>one</em>, </td>
@@ -840,7 +861,7 @@ Public Member Functions</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -857,8 +878,8 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="ade3f246c6ec5b5cddb1d6047974715f6" name="ade3f246c6ec5b5cddb1d6047974715f6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ade3f246c6ec5b5cddb1d6047974715f6">&#9670;&#160;</a></span>Detection() <span class="overload">[8/8]</span></h2>
+<a id="a6fb4054a6c339463f3db44af6f7c1bf5" name="a6fb4054a6c339463f3db44af6f7c1bf5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6fb4054a6c339463f3db44af6f7c1bf5">&#9670;&#160;</a></span>Detection() <span class="overload">[8/8]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -867,7 +888,7 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="struct_collision_detection_1_1_data.html">Data</a> CollisionDetection::Detection </td>
+          <td class="memname">static <a class="el" href="struct_collision_detection_1_1_data.html">Data</a> CollisionDetection::Detection </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="class_sphere_collider.html">SphereCollider</a> *&#160;</td>
           <td class="paramname"><em>one</em>, </td>
@@ -886,7 +907,7 @@ Public Member Functions</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -903,8 +924,8 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a57c51b0b4e79143728d0535ee5f68181" name="a57c51b0b4e79143728d0535ee5f68181"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a57c51b0b4e79143728d0535ee5f68181">&#9670;&#160;</a></span>GetInterval() <span class="overload">[1/2]</span></h2>
+<a id="acf68d196d02f19b291496f9ecc773de3" name="acf68d196d02f19b291496f9ecc773de3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acf68d196d02f19b291496f9ecc773de3">&#9670;&#160;</a></span>GetInterval() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -913,7 +934,7 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">glm::vec2 CollisionDetection::GetInterval </td>
+          <td class="memname">static glm::vec2 CollisionDetection::GetInterval </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="class_bounding_box_collider.html">BoundingBoxCollider</a> *&#160;</td>
           <td class="paramname"><em>one</em>, </td>
@@ -938,7 +959,7 @@ Public Member Functions</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -956,8 +977,8 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="ae216210be00c1921a156ee1928487810" name="ae216210be00c1921a156ee1928487810"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae216210be00c1921a156ee1928487810">&#9670;&#160;</a></span>GetInterval() <span class="overload">[2/2]</span></h2>
+<a id="af421aa99b52e7e4e01aa5136baa07cac" name="af421aa99b52e7e4e01aa5136baa07cac"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af421aa99b52e7e4e01aa5136baa07cac">&#9670;&#160;</a></span>GetInterval() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -966,7 +987,7 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">glm::vec2 CollisionDetection::GetInterval </td>
+          <td class="memname">static glm::vec2 CollisionDetection::GetInterval </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="struct_collision_detection_1_1_triangle.html">Triangle</a>&#160;</td>
           <td class="paramname"><em>t</em>, </td>
@@ -985,7 +1006,7 @@ Public Member Functions</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -1002,8 +1023,8 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a997bbf8757ea9191ed1bbba788aa4213" name="a997bbf8757ea9191ed1bbba788aa4213"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a997bbf8757ea9191ed1bbba788aa4213">&#9670;&#160;</a></span>OBB_AABB()</h2>
+<a id="a6f897a338752edc983ea9919a8dcea22" name="a6f897a338752edc983ea9919a8dcea22"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6f897a338752edc983ea9919a8dcea22">&#9670;&#160;</a></span>OBB_AABB()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1012,7 +1033,7 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="struct_collision_detection_1_1_data.html">Data</a> CollisionDetection::OBB_AABB </td>
+          <td class="memname">static <a class="el" href="struct_collision_detection_1_1_data.html">Data</a> CollisionDetection::OBB_AABB </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="class_bounding_box_collider.html">BoundingBoxCollider</a> *&#160;</td>
           <td class="paramname"><em>one</em>, </td>
@@ -1031,7 +1052,7 @@ Public Member Functions</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -1048,8 +1069,8 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="abf66a62fb9723764b03894d8614a5da3" name="abf66a62fb9723764b03894d8614a5da3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abf66a62fb9723764b03894d8614a5da3">&#9670;&#160;</a></span>OBB_OBB()</h2>
+<a id="afa6bf66de1fca3c494c912585d5d2a7c" name="afa6bf66de1fca3c494c912585d5d2a7c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afa6bf66de1fca3c494c912585d5d2a7c">&#9670;&#160;</a></span>OBB_OBB()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1058,7 +1079,7 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="struct_collision_detection_1_1_data.html">Data</a> CollisionDetection::OBB_OBB </td>
+          <td class="memname">static <a class="el" href="struct_collision_detection_1_1_data.html">Data</a> CollisionDetection::OBB_OBB </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="class_bounding_box_collider.html">BoundingBoxCollider</a> *&#160;</td>
           <td class="paramname"><em>one</em>, </td>
@@ -1077,7 +1098,7 @@ Public Member Functions</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -1094,8 +1115,8 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="ae18afc458ef75c50d70141711e45ff69" name="ae18afc458ef75c50d70141711e45ff69"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae18afc458ef75c50d70141711e45ff69">&#9670;&#160;</a></span>OBB_Sphere()</h2>
+<a id="a9377018068b6df16672bd502705b99e9" name="a9377018068b6df16672bd502705b99e9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9377018068b6df16672bd502705b99e9">&#9670;&#160;</a></span>OBB_Sphere()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1104,7 +1125,7 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="struct_collision_detection_1_1_data.html">Data</a> CollisionDetection::OBB_Sphere </td>
+          <td class="memname">static <a class="el" href="struct_collision_detection_1_1_data.html">Data</a> CollisionDetection::OBB_Sphere </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="class_bounding_box_collider.html">BoundingBoxCollider</a> *&#160;</td>
           <td class="paramname"><em>one</em>, </td>
@@ -1123,7 +1144,7 @@ Public Member Functions</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -1140,8 +1161,8 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a58291d4761d3837742afadcac36c4960" name="a58291d4761d3837742afadcac36c4960"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a58291d4761d3837742afadcac36c4960">&#9670;&#160;</a></span>Point_AABB()</h2>
+<a id="ab8f9a7c6a804299ee01c3b5bd76584c6" name="ab8f9a7c6a804299ee01c3b5bd76584c6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab8f9a7c6a804299ee01c3b5bd76584c6">&#9670;&#160;</a></span>Point_AABB()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1150,7 +1171,7 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="struct_collision_detection_1_1_data.html">Data</a> CollisionDetection::Point_AABB </td>
+          <td class="memname">static <a class="el" href="struct_collision_detection_1_1_data.html">Data</a> CollisionDetection::Point_AABB </td>
           <td>(</td>
           <td class="paramtype">glm::vec3&#160;</td>
           <td class="paramname"><em>one</em>, </td>
@@ -1169,7 +1190,7 @@ Public Member Functions</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -1186,8 +1207,8 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a6246345b1795ba635c84512802bf4d1a" name="a6246345b1795ba635c84512802bf4d1a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6246345b1795ba635c84512802bf4d1a">&#9670;&#160;</a></span>Point_OBB()</h2>
+<a id="a49b79c016e049269334933abd1f9cea2" name="a49b79c016e049269334933abd1f9cea2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a49b79c016e049269334933abd1f9cea2">&#9670;&#160;</a></span>Point_OBB()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1196,7 +1217,7 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="struct_collision_detection_1_1_data.html">Data</a> CollisionDetection::Point_OBB </td>
+          <td class="memname">static <a class="el" href="struct_collision_detection_1_1_data.html">Data</a> CollisionDetection::Point_OBB </td>
           <td>(</td>
           <td class="paramtype">glm::vec3&#160;</td>
           <td class="paramname"><em>one</em>, </td>
@@ -1215,7 +1236,7 @@ Public Member Functions</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -1232,8 +1253,8 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="ab7442f867456aff2a0b94858c5fd5902" name="ab7442f867456aff2a0b94858c5fd5902"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab7442f867456aff2a0b94858c5fd5902">&#9670;&#160;</a></span>Point_Sphere()</h2>
+<a id="a3e3aadabf59bfb4cd198cf732ae1e68a" name="a3e3aadabf59bfb4cd198cf732ae1e68a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3e3aadabf59bfb4cd198cf732ae1e68a">&#9670;&#160;</a></span>Point_Sphere()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1242,7 +1263,7 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="struct_collision_detection_1_1_data.html">Data</a> CollisionDetection::Point_Sphere </td>
+          <td class="memname">static <a class="el" href="struct_collision_detection_1_1_data.html">Data</a> CollisionDetection::Point_Sphere </td>
           <td>(</td>
           <td class="paramtype">glm::vec3&#160;</td>
           <td class="paramname"><em>one</em>, </td>
@@ -1261,7 +1282,7 @@ Public Member Functions</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -1278,8 +1299,8 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a3a48245c56025d50436cf46da882bbd2" name="a3a48245c56025d50436cf46da882bbd2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3a48245c56025d50436cf46da882bbd2">&#9670;&#160;</a></span>Sphere_OBB()</h2>
+<a id="a95ea7e315304fb314d8c8e613f96ab0a" name="a95ea7e315304fb314d8c8e613f96ab0a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a95ea7e315304fb314d8c8e613f96ab0a">&#9670;&#160;</a></span>Ray_AABB()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1288,7 +1309,166 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="struct_collision_detection_1_1_data.html">Data</a> CollisionDetection::Sphere_OBB </td>
+          <td class="memname">static double CollisionDetection::Ray_AABB </td>
+          <td>(</td>
+          <td class="paramtype">glm::vec3&#160;</td>
+          <td class="paramname"><em>origin</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">glm::vec3&#160;</td>
+          <td class="paramname"><em>direction</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_bounding_box_collider.html">BoundingBoxCollider</a> *&#160;</td>
+          <td class="paramname"><em>bb</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Compute the lenght of a ray and a AABB bounding box, if -1 ray do not hit. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">origin</td><td>Origin of the ray</td></tr>
+    <tr><td class="paramname">direction</td><td>Direction of the ray</td></tr>
+    <tr><td class="paramname">bb</td><td>Bounding box</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The lenght of the ray, if -1 : ray do not hit</dd></dl>
+
+</div>
+</div>
+<a id="a105a7dda6bbd19a31b27ad3e819f2fb4" name="a105a7dda6bbd19a31b27ad3e819f2fb4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a105a7dda6bbd19a31b27ad3e819f2fb4">&#9670;&#160;</a></span>Ray_Plane()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static double CollisionDetection::Ray_Plane </td>
+          <td>(</td>
+          <td class="paramtype">glm::vec3&#160;</td>
+          <td class="paramname"><em>origin</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">glm::vec3&#160;</td>
+          <td class="paramname"><em>direction</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="struct_collision_detection_1_1_plane.html">Plane</a>&#160;</td>
+          <td class="paramname"><em>p</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Compute the lenght of a ray and a <a class="el" href="struct_collision_detection_1_1_plane.html">Plane</a>, if -1 ray do not hit. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">origin</td><td>Origin of the ray</td></tr>
+    <tr><td class="paramname">direction</td><td>Direction of the ray</td></tr>
+    <tr><td class="paramname">p</td><td>The plane</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The lenght of the ray, if -1 : ray do not hit</dd></dl>
+
+</div>
+</div>
+<a id="acb25ebc030377c9626cfc2e8bafc5be7" name="acb25ebc030377c9626cfc2e8bafc5be7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acb25ebc030377c9626cfc2e8bafc5be7">&#9670;&#160;</a></span>Ray_Triangle()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static double CollisionDetection::Ray_Triangle </td>
+          <td>(</td>
+          <td class="paramtype">glm::vec3&#160;</td>
+          <td class="paramname"><em>origin</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">glm::vec3&#160;</td>
+          <td class="paramname"><em>direction</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="struct_collision_detection_1_1_triangle.html">Triangle</a>&#160;</td>
+          <td class="paramname"><em>t</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Compute the lenght of a ray and a <a class="el" href="struct_collision_detection_1_1_triangle.html" title="A triangle object with 3 glm::vec3 as point.">Triangle</a>, if -1 ray do not hit. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">origin</td><td>Origin of the ray</td></tr>
+    <tr><td class="paramname">direction</td><td>Direction of the ray</td></tr>
+    <tr><td class="paramname">t</td><td>The triangle</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The lenght of the ray, if -1 : ray do not hit</dd></dl>
+
+</div>
+</div>
+<a id="a0a6a947f3f7e39200a1f23d2d5ec7b24" name="a0a6a947f3f7e39200a1f23d2d5ec7b24"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0a6a947f3f7e39200a1f23d2d5ec7b24">&#9670;&#160;</a></span>Sphere_OBB()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static <a class="el" href="struct_collision_detection_1_1_data.html">Data</a> CollisionDetection::Sphere_OBB </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="class_sphere_collider.html">SphereCollider</a> *&#160;</td>
           <td class="paramname"><em>one</em>, </td>
@@ -1307,7 +1487,7 @@ Public Member Functions</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -1324,8 +1504,8 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a6456c3b8beb7e18a26137ad97a19875b" name="a6456c3b8beb7e18a26137ad97a19875b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6456c3b8beb7e18a26137ad97a19875b">&#9670;&#160;</a></span>Sphere_Sphere()</h2>
+<a id="ad1f7a6b4303bec606b86359f1ad46c74" name="ad1f7a6b4303bec606b86359f1ad46c74"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad1f7a6b4303bec606b86359f1ad46c74">&#9670;&#160;</a></span>Sphere_Sphere()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1334,7 +1514,7 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="struct_collision_detection_1_1_data.html">Data</a> CollisionDetection::Sphere_Sphere </td>
+          <td class="memname">static <a class="el" href="struct_collision_detection_1_1_data.html">Data</a> CollisionDetection::Sphere_Sphere </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="class_sphere_collider.html">SphereCollider</a> *&#160;</td>
           <td class="paramname"><em>one</em>, </td>
@@ -1353,7 +1533,7 @@ Public Member Functions</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">

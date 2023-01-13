@@ -12,6 +12,7 @@ var class_camera =
     [ "GetColorTexture", "class_camera.html#a408abb15ea2839638f173ff9c3b39240", null ],
     [ "GetDepthTexture", "class_camera.html#a71676a888926991fca8b441db12a21bf", null ],
     [ "GetFrameBuffer", "class_camera.html#aa52ad4af59347c92ebb162471cba1934", null ],
+    [ "GetFramebufferObject", "class_camera.html#a18864763d16698fd96cc54fc8002b16f", null ],
     [ "GetFrustumPlaneState", "class_camera.html#abeab6a99b31221b3a1d9f05793761e52", null ],
     [ "GetPosition", "class_camera.html#a7166b8466c94d0b5c127fc74c7881beb", null ],
     [ "GetProjection", "class_camera.html#a57821a53306289b0f63050b43b57fa0a", null ],

@@ -27,6 +27,7 @@
   <td id="projectalign">
    <div id="projectname">Aquarium
    </div>
+   <div id="projectbrief">Projet 3D de M2 : https://github.com/Flare00/M2-Projet3D-Aquarium</div>
   </td>
  </tr>
  </tbody>
@@ -125,9 +126,15 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>Init</b> ()</td></tr>
 <tr class="memitem:af97755801ad217e27f5563e98f8f5e4d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_physics.html#af97755801ad217e27f5563e98f8f5e4d">Compute</a> (double deltatime, std::vector&lt; <a class="el" href="class_c_physic.html">CPhysic</a> * &gt; elems, int nbStep=1)</td></tr>
 <tr class="memdesc:af97755801ad217e27f5563e98f8f5e4d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute the physics for a scene, with a <a class="el" href="class_c_physic.html" title="A standard Compute Physics, using CPU.">CPhysic</a> object list.  <br /></td></tr>
 <tr class="separator:af97755801ad217e27f5563e98f8f5e4d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a306c9f73aa2318ac173f804f344a40c3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_physics_1_1_raycast_hit.html">RaycastHit</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_physics.html#a306c9f73aa2318ac173f804f344a40c3">Raycast</a> (<a class="el" href="class_game_object.html">GameObject</a> *root, glm::vec3 origin, glm::vec3 direction)</td></tr>
-<tr class="memdesc:a306c9f73aa2318ac173f804f344a40c3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Send a Raycast using the physic system.  <br /></td></tr>
-<tr class="separator:a306c9f73aa2318ac173f804f344a40c3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae596fbd4e508a88f72c4248a147d6037"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_physics_1_1_raycast_hit.html">RaycastHit</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_physics.html#ae596fbd4e508a88f72c4248a147d6037">Raycast</a> (<a class="el" href="class_game_object.html">GameObject</a> *root, <a class="el" href="class_camera.html">Camera</a> *camera, double x, double y)</td></tr>
+<tr class="memdesc:ae596fbd4e508a88f72c4248a147d6037"><td class="mdescLeft">&#160;</td><td class="mdescRight">Send a Raycast using the physic system.  <br /></td></tr>
+<tr class="separator:ae596fbd4e508a88f72c4248a147d6037"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af213eed426bf85b644d97d3e22c3876a"><td class="memItemLeft" align="right" valign="top"><a id="af213eed426bf85b644d97d3e22c3876a" name="af213eed426bf85b644d97d3e22c3876a"></a>
+<a class="el" href="struct_physics_1_1_raycast_hit.html">RaycastHit</a>&#160;</td><td class="memItemRight" valign="bottom"><b>Raycast</b> (<a class="el" href="class_game_object.html">GameObject</a> *root, glm::vec3 origin, glm::vec3 dir)</td></tr>
+<tr class="separator:af213eed426bf85b644d97d3e22c3876a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abd012f809d5ec0438142cb0b42c509de"><td class="memItemLeft" align="right" valign="top"><a id="abd012f809d5ec0438142cb0b42c509de" name="abd012f809d5ec0438142cb0b42c509de"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>DoRaycastAction</b> (<a class="el" href="struct_physics_1_1_raycast_hit.html">RaycastHit</a> hit)</td></tr>
+<tr class="separator:abd012f809d5ec0438142cb0b42c509de"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-attribs" name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
@@ -139,6 +146,9 @@ uint_fast32_t&#160;</td><td class="memItemRight" valign="bottom"><b>layerCollisi
 <a class="el" href="class_collision_detection.html">CollisionDetection</a>&#160;</td><td class="memItemRight" valign="bottom"><b>detection</b></td></tr>
 <tr class="memdesc:ad9aa5400e52130c935b047c662ee5875"><td class="mdescLeft">&#160;</td><td class="mdescRight">Utility to detect collision between two <a class="el" href="class_i_collider.html" title="Collider abstract class for BoundingBoxCollider and SphereCollider.">ICollider</a>. <br /></td></tr>
 <tr class="separator:ad9aa5400e52130c935b047c662ee5875"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa9d0820b0115105aefc904c20d5296ff"><td class="memItemLeft" align="right" valign="top"><a id="aa9d0820b0115105aefc904c20d5296ff" name="aa9d0820b0115105aefc904c20d5296ff"></a>
+float&#160;</td><td class="memItemRight" valign="bottom"><b>addDropCooldown</b> = 0.0f</td></tr>
+<tr class="separator:aa9d0820b0115105aefc904c20d5296ff"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p><a class="el" href="class_physics.html" title="Physics engine.">Physics</a> engine. </p>
@@ -247,8 +257,8 @@ uint_fast32_t&#160;</td><td class="memItemRight" valign="bottom"><b>layerCollisi
 
 </div>
 </div>
-<a id="a306c9f73aa2318ac173f804f344a40c3" name="a306c9f73aa2318ac173f804f344a40c3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a306c9f73aa2318ac173f804f344a40c3">&#9670;&#160;</a></span>Raycast()</h2>
+<a id="ae596fbd4e508a88f72c4248a147d6037" name="ae596fbd4e508a88f72c4248a147d6037"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae596fbd4e508a88f72c4248a147d6037">&#9670;&#160;</a></span>Raycast()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -265,14 +275,20 @@ uint_fast32_t&#160;</td><td class="memItemRight" valign="bottom"><b>layerCollisi
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">glm::vec3&#160;</td>
-          <td class="paramname"><em>origin</em>, </td>
+          <td class="paramtype"><a class="el" href="class_camera.html">Camera</a> *&#160;</td>
+          <td class="paramname"><em>camera</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">glm::vec3&#160;</td>
-          <td class="paramname"><em>direction</em>&#160;</td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>y</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -291,8 +307,9 @@ uint_fast32_t&#160;</td><td class="memItemRight" valign="bottom"><b>layerCollisi
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">elems</td><td>a root gameobject to compute collision.</td></tr>
-    <tr><td class="paramname">origin</td><td>Origin of the ray.</td></tr>
-    <tr><td class="paramname">direction</td><td>Direction of the ray.</td></tr>
+    <tr><td class="paramname">mainCamera</td><td>Main camera of the scene.</td></tr>
+    <tr><td class="paramname">screenX</td><td>Position X on the screen to start the ray.</td></tr>
+    <tr><td class="paramname">screenY</td><td>Position Y on the screen to start the ray.</td></tr>
   </table>
   </dd>
 </dl>

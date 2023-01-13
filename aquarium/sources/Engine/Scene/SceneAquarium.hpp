@@ -27,6 +27,8 @@
 /// </summary>
 class SceneAquarium : public Scene
 {
+private :
+
 public:
 	SceneAquarium(std::string id) : Scene(id) {
 		//Create the root object.
@@ -48,7 +50,6 @@ public:
 		GameObject* camera = new GameObject("Camera", this->root);
 		Camera* renCam = new Camera(Camera::Settings::perspective(global.ScreenAspectRatio()));
 		camera->addComponent(renCam);
-		camera->addComponent(new MovementScript());
 		camera->addComponent(new WaterAffected());
 		//change is start position.
 		camera->GetTransform()->SetPosition(glm::vec3(0,0,-2));
@@ -114,7 +115,7 @@ public:
 		water->GetTransform()->SetPosition(glm::vec3(0, 2.55,0));
 
 		//Add a drop
-		waterP->AddDrop(glm::vec2(0.5, 0.5), 0.05f, 5.0f);
+		//waterP->AddDrop(glm::vec2(0.5, 0.5), 0.05f, 5.0f);
 
 		//Generate the fish bank
 		Spline* fishBankSpline = new Spline(std::vector<glm::vec3>{glm::vec3(-2,-1,0), glm::vec3(3,-1.5,-1), glm::vec3(1,0.2,1), glm::vec3(0,0,0)});
@@ -126,7 +127,7 @@ public:
 
 		//Generate fish random
 
-		GameObject* fishRandom = new GameObject("Fish Random", aquarium);
+		GameObject * fishRandom = new GameObject("Fish Random", aquarium);
 		ModelInstanced* fishR = ModelGenerator::QuadInstanced(fishBankMaterial, 2, 2, 0.25f, 0.25f);
 		fishRandom->addComponent(new Displayable(100));
 		fishRandom->addComponent(fishR);
@@ -135,7 +136,13 @@ public:
 		bottomAquarium->addComponent(new ReceiveCaustics());
 		//Change the aquarium position.
 		aquarium->GetTransform()->SetPosition(glm::vec3(0, -2, 2));
+
+		camera->addComponent(new MovementScript({fishBank, fishRandom}));
+
 	}
+
+
+
 
 };
 

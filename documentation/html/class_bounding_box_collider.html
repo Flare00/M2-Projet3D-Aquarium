@@ -27,6 +27,7 @@
   <td id="projectalign">
    <div id="projectname">Aquarium
    </div>
+   <div id="projectbrief">Projet 3D de M2 : https://github.com/Flare00/M2-Projet3D-Aquarium</div>
   </td>
  </tr>
  </tbody>
@@ -120,12 +121,18 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ae90c10c7c668afbcf14c5fed01270e7c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_bounding_box_collider.html#ae90c10c7c668afbcf14c5fed01270e7c">BoundingBoxCollider</a> (std::vector&lt; glm::vec3 &gt; points)</td></tr>
 <tr class="memdesc:ae90c10c7c668afbcf14c5fed01270e7c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a bounding box, with a list of points.  <br /></td></tr>
 <tr class="separator:ae90c10c7c668afbcf14c5fed01270e7c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaa628005bc3ee0f1cbbaf51d4a80fcac"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_bounding_box_collider.html#aaa628005bc3ee0f1cbbaf51d4a80fcac">Update</a> (std::vector&lt; glm::vec3 &gt; points)</td></tr>
+<tr class="memdesc:aaa628005bc3ee0f1cbbaf51d4a80fcac"><td class="mdescLeft">&#160;</td><td class="mdescRight">Update the BoundingBox with new points.  <br /></td></tr>
+<tr class="separator:aaa628005bc3ee0f1cbbaf51d4a80fcac"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afc7f50fe69f327dbca55c01efb87887f"><td class="memItemLeft" align="right" valign="top">glm::vec3&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_bounding_box_collider.html#afc7f50fe69f327dbca55c01efb87887f">GetMin</a> ()</td></tr>
 <tr class="memdesc:afc7f50fe69f327dbca55c01efb87887f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the Min value for AABB.  <br /></td></tr>
 <tr class="separator:afc7f50fe69f327dbca55c01efb87887f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a29f8eed6b24b83fc95325e03a6bd5777"><td class="memItemLeft" align="right" valign="top">glm::vec3&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_bounding_box_collider.html#a29f8eed6b24b83fc95325e03a6bd5777">GetMax</a> ()</td></tr>
 <tr class="memdesc:a29f8eed6b24b83fc95325e03a6bd5777"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the Max value for AABB.  <br /></td></tr>
 <tr class="separator:a29f8eed6b24b83fc95325e03a6bd5777"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9d3eac3c629b473ceeb288ab7f7b8f70"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_bounding_box_collider.html#a9d3eac3c629b473ceeb288ab7f7b8f70">GetMinMax</a> (glm::vec3 &amp;min, glm::vec3 &amp;max)</td></tr>
+<tr class="memdesc:a9d3eac3c629b473ceeb288ab7f7b8f70"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute Min and Max of the bounding box (faster than calling GetMin then GetMax)  <br /></td></tr>
+<tr class="separator:a9d3eac3c629b473ceeb288ab7f7b8f70"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a584cceb7243acc7ad1d7198ce2894bd6"><td class="memItemLeft" align="right" valign="top">glm::vec3&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_bounding_box_collider.html#a584cceb7243acc7ad1d7198ce2894bd6">GetMinOriented</a> ()</td></tr>
 <tr class="memdesc:a584cceb7243acc7ad1d7198ce2894bd6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the Min value for OBB.  <br /></td></tr>
 <tr class="separator:a584cceb7243acc7ad1d7198ce2894bd6"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -457,6 +464,51 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>active</b> = true</td
 
 </div>
 </div>
+<a id="a9d3eac3c629b473ceeb288ab7f7b8f70" name="a9d3eac3c629b473ceeb288ab7f7b8f70"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9d3eac3c629b473ceeb288ab7f7b8f70">&#9670;&#160;</a></span>GetMinMax()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void BoundingBoxCollider::GetMinMax </td>
+          <td>(</td>
+          <td class="paramtype">glm::vec3 &amp;&#160;</td>
+          <td class="paramname"><em>min</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">glm::vec3 &amp;&#160;</td>
+          <td class="paramname"><em>max</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Compute Min and Max of the bounding box (faster than calling GetMin then GetMax) </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">min</td><td>the Min result</td></tr>
+    <tr><td class="paramname">max</td><td>the Max result</td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a id="a584cceb7243acc7ad1d7198ce2894bd6" name="a584cceb7243acc7ad1d7198ce2894bd6"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a584cceb7243acc7ad1d7198ce2894bd6">&#9670;&#160;</a></span>GetMinOriented()</h2>
 
@@ -482,6 +534,40 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>active</b> = true</td
 
 <p>Return the Min value for OBB. </p>
 <dl class="section return"><dt>Returns</dt><dd>the Min value for OBB</dd></dl>
+
+</div>
+</div>
+<a id="aaa628005bc3ee0f1cbbaf51d4a80fcac" name="aaa628005bc3ee0f1cbbaf51d4a80fcac"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaa628005bc3ee0f1cbbaf51d4a80fcac">&#9670;&#160;</a></span>Update()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void BoundingBoxCollider::Update </td>
+          <td>(</td>
+          <td class="paramtype">std::vector&lt; glm::vec3 &gt;&#160;</td>
+          <td class="paramname"><em>points</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Update the BoundingBox with new points. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">points</td><td>The points used for the fitting</td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>

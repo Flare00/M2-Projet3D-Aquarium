@@ -9,6 +9,9 @@ var class_framebuffer =
     [ "GetRenderbuffer", "class_framebuffer.html#a5c276303fc3c1db6e6e10ee0038f2a37", null ],
     [ "GetTexColor", "class_framebuffer.html#a44da2670a80dfc15cb0a857fe7b92cf8", null ],
     [ "GetTexDepth", "class_framebuffer.html#aa473bfadfcd7c241126f23426423968b", null ],
+    [ "GetTexNormal", "class_framebuffer.html#a8bd8761486bd948978fc55705e06fd87", null ],
+    [ "GetTexPosition", "class_framebuffer.html#a5e55a39c5bbe7f43514aece6db2c000d", null ],
+    [ "GetTexReflection", "class_framebuffer.html#ad96cd930396d556b3988db1a31992381", null ],
     [ "GetWidth", "class_framebuffer.html#a1762fe1f8527dc74e2fd6341c9a84136", null ],
     [ "WriteTextureToFile", "class_framebuffer.html#a221a756539999fec09022f254b658188", null ]
 ];

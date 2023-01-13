@@ -27,6 +27,7 @@
   <td id="projectalign">
    <div id="projectname">Aquarium
    </div>
+   <div id="projectbrief">Projet 3D de M2 : https://github.com/Flare00/M2-Projet3D-Aquarium</div>
   </td>
  </tr>
  </tbody>
@@ -104,9 +105,9 @@ $(document).ready(function(){initNavTree('struct_physics_1_1_raycast_hit.html','
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:af81ba0b05dc8a1a9c06332f0c51230aa"><td class="memItemLeft" align="right" valign="top"><a id="af81ba0b05dc8a1a9c06332f0c51230aa" name="af81ba0b05dc8a1a9c06332f0c51230aa"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>RaycastHit</b> (bool <a class="el" href="struct_physics_1_1_raycast_hit.html#aa8aca81a6db7c94aaba3795e5b6a1d96">hit</a>, <a class="el" href="class_game_object.html">GameObject</a> *obj, glm::vec3 hitPosition, int vertexIndex)</td></tr>
-<tr class="separator:af81ba0b05dc8a1a9c06332f0c51230aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acd3bb82c05ca209d79cb0ef9c303dfc3"><td class="memItemLeft" align="right" valign="top"><a id="acd3bb82c05ca209d79cb0ef9c303dfc3" name="acd3bb82c05ca209d79cb0ef9c303dfc3"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>RaycastHit</b> (bool <a class="el" href="struct_physics_1_1_raycast_hit.html#aa8aca81a6db7c94aaba3795e5b6a1d96">hit</a>, <a class="el" href="class_game_object.html">GameObject</a> *obj, glm::vec3 hitPosition, int vertexIndex, double distance=std::numeric_limits&lt; double &gt;::max())</td></tr>
+<tr class="separator:acd3bb82c05ca209d79cb0ef9c303dfc3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
@@ -119,9 +120,12 @@ Public Attributes</h2></td></tr>
 <tr class="memitem:a79f5b574cf6c3bfa50c00936adef8c4d"><td class="memItemLeft" align="right" valign="top"><a id="a79f5b574cf6c3bfa50c00936adef8c4d" name="a79f5b574cf6c3bfa50c00936adef8c4d"></a>
 glm::vec3&#160;</td><td class="memItemRight" valign="bottom"><b>hitPosition</b></td></tr>
 <tr class="separator:a79f5b574cf6c3bfa50c00936adef8c4d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afa4f13d5ca23b737eaafbd378462b4c8"><td class="memItemLeft" align="right" valign="top"><a id="afa4f13d5ca23b737eaafbd378462b4c8" name="afa4f13d5ca23b737eaafbd378462b4c8"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><b>vertexIndex</b></td></tr>
-<tr class="separator:afa4f13d5ca23b737eaafbd378462b4c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a04220d2b76938e59e18a18149774df89"><td class="memItemLeft" align="right" valign="top"><a id="a04220d2b76938e59e18a18149774df89" name="a04220d2b76938e59e18a18149774df89"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>nearestVertex</b></td></tr>
+<tr class="separator:a04220d2b76938e59e18a18149774df89"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5d4753508a8232dce3b4f0230a65613e"><td class="memItemLeft" align="right" valign="top"><a id="a5d4753508a8232dce3b4f0230a65613e" name="a5d4753508a8232dce3b4f0230a65613e"></a>
+double&#160;</td><td class="memItemRight" valign="bottom"><b>distance</b></td></tr>
+<tr class="separator:a5d4753508a8232dce3b4f0230a65613e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Raycast Hit data. </p>

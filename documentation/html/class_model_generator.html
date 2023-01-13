@@ -27,6 +27,7 @@
   <td id="projectalign">
    <div id="projectname">Aquarium
    </div>
+   <div id="projectbrief">Projet 3D de M2 : https://github.com/Flare00/M2-Projet3D-Aquarium</div>
   </td>
  </tr>
  </tbody>
@@ -115,6 +116,9 @@ Static Public Member Functions</h2></td></tr>
 <tr class="memitem:a54120dd49bfbeb583c21b5a39cf59d4d"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="class_model.html">Model</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_model_generator.html#a54120dd49bfbeb583c21b5a39cf59d4d">Quad</a> (<a class="el" href="class_i_material.html">IMaterial</a> *material=new <a class="el" href="class_material_p_b_r.html">MaterialPBR</a>(), int resX=2, int resZ=2, float sizeX=1, float sizeZ=1, bool center=true)</td></tr>
 <tr class="memdesc:a54120dd49bfbeb583c21b5a39cf59d4d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generate a Quad.  <br /></td></tr>
 <tr class="separator:a54120dd49bfbeb583c21b5a39cf59d4d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a92a25f5eebdda6d499817e8faeb77662"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="class_model_instanced.html">ModelInstanced</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_model_generator.html#a92a25f5eebdda6d499817e8faeb77662">QuadInstanced</a> (<a class="el" href="class_i_material.html">IMaterial</a> *material=new <a class="el" href="class_material_p_b_r.html">MaterialPBR</a>(), int resX=2, int resZ=2, float sizeX=1, float sizeZ=1, bool center=true)</td></tr>
+<tr class="memdesc:a92a25f5eebdda6d499817e8faeb77662"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generate a Quad for instanciation.  <br /></td></tr>
+<tr class="separator:a92a25f5eebdda6d499817e8faeb77662"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9d77bd3cc536baba9ecf96a2d6959052"><td class="memItemLeft" align="right" valign="top">static std::vector&lt; glm::vec3 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_model_generator.html#a9d77bd3cc536baba9ecf96a2d6959052">QuadPoints</a> (int resX=2, int resZ=2, float sizeX=1, float sizeZ=1, bool center=true)</td></tr>
 <tr class="memdesc:a9d77bd3cc536baba9ecf96a2d6959052"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generate a Quad without faces.  <br /></td></tr>
 <tr class="separator:a9d77bd3cc536baba9ecf96a2d6959052"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -127,6 +131,9 @@ Static Public Member Functions</h2></td></tr>
 <tr class="memitem:acf70c3c703cca5a5dec57ccfb75a3a57"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="class_model.html">Model</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_model_generator.html#acf70c3c703cca5a5dec57ccfb75a3a57">CubeWater</a> (<a class="el" href="class_i_material.html">IMaterial</a> *material=new <a class="el" href="class_material_p_b_r.html">MaterialPBR</a>(), int resX=2, int resZ=2, glm::vec3 size=glm::vec3(1.0f), bool center=true)</td></tr>
 <tr class="memdesc:acf70c3c703cca5a5dec57ccfb75a3a57"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generate a Cube for the water simulation.  <br /></td></tr>
 <tr class="separator:acf70c3c703cca5a5dec57ccfb75a3a57"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1d360de94aaa8feb521e10b97ca6a3e1"><td class="memItemLeft" align="right" valign="top">static std::vector&lt; glm::vec3 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_model_generator.html#a1d360de94aaa8feb521e10b97ca6a3e1">MultiLayerSphere</a> (std::vector&lt; std::vector&lt; size_t &gt; &gt; &amp;out_linkage, int numberOfLayer=4, float dist=0.2f)</td></tr>
+<tr class="memdesc:a1d360de94aaa8feb521e10b97ca6a3e1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generate an multi layer Sphere with pointLink, without UV or Faces.  <br /></td></tr>
+<tr class="separator:a1d360de94aaa8feb521e10b97ca6a3e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p><a class="el" href="class_tools.html" title="A tools class for different operations.">Tools</a> to generate Models. </p>
@@ -311,6 +318,59 @@ Static Public Member Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="a1d360de94aaa8feb521e10b97ca6a3e1" name="a1d360de94aaa8feb521e10b97ca6a3e1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1d360de94aaa8feb521e10b97ca6a3e1">&#9670;&#160;</a></span>MultiLayerSphere()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static std::vector&lt; glm::vec3 &gt; ModelGenerator::MultiLayerSphere </td>
+          <td>(</td>
+          <td class="paramtype">std::vector&lt; std::vector&lt; size_t &gt; &gt; &amp;&#160;</td>
+          <td class="paramname"><em>out_linkage</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>numberOfLayer</em> = <code>4</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>dist</em> = <code>0.2f</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Generate an multi layer Sphere with pointLink, without UV or Faces. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">out_linkage</td><td>List of linkage between points (output) ([n][m], n is the point, m is the point linked to the point n.</td></tr>
+    <tr><td class="paramname">numberOfLayer</td><td>The number of layers, final size = distBetweenPoints * numberOfLayer</td></tr>
+    <tr><td class="paramname">dist</td><td>The distance between two point on the sphere</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The model of the Multi</dd></dl>
+
+</div>
+</div>
 <a id="a54120dd49bfbeb583c21b5a39cf59d4d" name="a54120dd49bfbeb583c21b5a39cf59d4d"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a54120dd49bfbeb583c21b5a39cf59d4d">&#9670;&#160;</a></span>Quad()</h2>
 
@@ -370,6 +430,80 @@ Static Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Generate a Quad. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">material</td><td>The material.</td></tr>
+    <tr><td class="paramname">resX</td><td>Resolution X of the quad</td></tr>
+    <tr><td class="paramname">resZ</td><td>Resolution Z of the quad</td></tr>
+    <tr><td class="paramname">sizeX</td><td>The Size on X axis of the quad</td></tr>
+    <tr><td class="paramname">sizeZ</td><td>The Size on Z axis of the quad</td></tr>
+    <tr><td class="paramname">center</td><td>is the origin is centered in the model ?</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The generated model.</dd></dl>
+
+</div>
+</div>
+<a id="a92a25f5eebdda6d499817e8faeb77662" name="a92a25f5eebdda6d499817e8faeb77662"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a92a25f5eebdda6d499817e8faeb77662">&#9670;&#160;</a></span>QuadInstanced()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static <a class="el" href="class_model_instanced.html">ModelInstanced</a> * ModelGenerator::QuadInstanced </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_i_material.html">IMaterial</a> *&#160;</td>
+          <td class="paramname"><em>material</em> = <code>new&#160;<a class="el" href="class_material_p_b_r.html">MaterialPBR</a>()</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>resX</em> = <code>2</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>resZ</em> = <code>2</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>sizeX</em> = <code>1</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>sizeZ</em> = <code>1</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>center</em> = <code>true</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Generate a Quad for instanciation. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">material</td><td>The material.</td></tr>

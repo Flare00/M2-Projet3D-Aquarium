@@ -27,6 +27,7 @@
   <td id="projectalign">
    <div id="projectname">Aquarium
    </div>
+   <div id="projectbrief">Projet 3D de M2 : https://github.com/Flare00/M2-Projet3D-Aquarium</div>
   </td>
  </tr>
  </tbody>
@@ -192,154 +193,183 @@ $(document).ready(function(){initNavTree('_engine_8hpp_source.html',''); initRes
 <div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>        glEnable(GL_DEPTH_TEST);</div>
 <div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>        <span class="comment">// Accept fragment if it closer to the camera than the former one</span></div>
 <div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>        glDepthFunc(GL_LESS);</div>
-<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span> </div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>        glDepthMask(GL_TRUE);</div>
 <div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span> </div>
 <div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span> </div>
-<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>        <span class="comment">// Cull triangles which normal is not towards the camera</span></div>
-<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>        glEnable(GL_CULL_FACE);</div>
-<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>        glCullFace(GL_BACK);</div>
-<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span> </div>
-<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>        <span class="comment">//for Tesselation</span></div>
-<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>        glPatchParameteri(GL_PATCH_VERTICES, 4);</div>
-<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span> </div>
-<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span>        glEnable(GL_TEXTURE_2D);</div>
-<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>        glEnable(GL_FRAMEBUFFER_SRGB);</div>
-<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span>        glEnable(GL_BLEND);</div>
-<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>        <span class="comment">//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);</span></div>
-<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span>        glBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, GL_ONE, GL_ZERO);</div>
-<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span>        <span class="comment">// Setup mouse callback</span></div>
-<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span>        glfwSetCursorPosCallback(global.global_window, cursorPositionCallback);</div>
-<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span> </div>
-<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span>        <span class="comment">//Init Modules.</span></div>
-<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span>        graphics.<a class="code hl_function" href="class_graphics.html#aa5cca3799f830d61c298c1b5e7f87774">Init</a>();</div>
-<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>        physics.<a class="code hl_function" href="class_physics.html#a975f1bc2b76a4c85ceafdb38b3256750">Init</a>();</div>
-<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span> </div>
-<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span>        <span class="keywordflow">return</span> 0;</div>
-<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span>    }</div>
-<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span> </div>
-<div class="line"><a id="l00139" name="l00139"></a><span class="lineno"><a class="line" href="class_engine.html#ad4bf6d2b3b407a08470c6b8d8a6a11f6">  139</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_engine.html#ad4bf6d2b3b407a08470c6b8d8a6a11f6">InitScenes</a>() {</div>
-<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span>        scenes.push_back(<a class="code hl_class" href="class_scene_aquarium.html">SceneAquarium</a>(<span class="stringliteral">&quot;Aquarium 3D&quot;</span>));</div>
-<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span>        activeScene = 0;</div>
-<div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span> </div>
-<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span>        nbScene = scenes.size();</div>
-<div class="line"><a id="l00144" name="l00144"></a><span class="lineno">  144</span>        <span class="keywordflow">if</span> (activeScene &gt;= 0 &amp;&amp; activeScene &lt; nbScene) {</div>
-<div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span>            scenes[activeScene].start();</div>
-<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span>            <span class="comment">//physics.AddGameObjectToOctreeRecursive(scenes[activeScene].GetRoot());</span></div>
-<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span>        }</div>
-<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span>    }</div>
-<div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span> </div>
-<div class="line"><a id="l00153" name="l00153"></a><span class="lineno"><a class="line" href="class_engine.html#ac41a57673413c2932ed33eaafd49321b">  153</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_engine.html#ac41a57673413c2932ed33eaafd49321b">MainLoop</a>() {</div>
-<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span>        <span class="keywordtype">double</span> lastFrame = 0.0f;</div>
-<div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span>        <span class="keywordtype">double</span> currentFrame = glfwGetTime();</div>
-<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span>        <span class="keywordtype">double</span> deltaTime = currentFrame - lastFrame;</div>
-<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span>        lastFrame = currentFrame;</div>
-<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span>        <span class="keywordtype">double</span> sumDelta = 0.0;</div>
-<div class="line"><a id="l00159" name="l00159"></a><span class="lineno">  159</span> </div>
-<div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span>        <span class="keywordflow">do</span> {</div>
-<div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span>            <span class="keywordflow">if</span> (glfwGetKey(global.global_window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {</div>
-<div class="line"><a id="l00162" name="l00162"></a><span class="lineno">  162</span>                global.close_asked = <span class="keyword">true</span>;</div>
-<div class="line"><a id="l00163" name="l00163"></a><span class="lineno">  163</span>            }</div>
-<div class="line"><a id="l00164" name="l00164"></a><span class="lineno">  164</span> </div>
-<div class="line"><a id="l00165" name="l00165"></a><span class="lineno">  165</span>            <span class="keywordtype">double</span> currentFrame = glfwGetTime();</div>
-<div class="line"><a id="l00166" name="l00166"></a><span class="lineno">  166</span>            deltaTime = currentFrame - lastFrame;</div>
-<div class="line"><a id="l00167" name="l00167"></a><span class="lineno">  167</span>            lastFrame = currentFrame;</div>
-<div class="line"><a id="l00168" name="l00168"></a><span class="lineno">  168</span>            sumDelta += deltaTime;</div>
-<div class="line"><a id="l00169" name="l00169"></a><span class="lineno">  169</span> </div>
-<div class="line"><a id="l00170" name="l00170"></a><span class="lineno">  170</span>            <span class="keywordflow">if</span> (sumDelta &gt;= 1.0 / (global.fps_limit)) {</div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span> </div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>        <span class="comment">// Cull triangles which normal is not towards the camera</span></div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>        glDisable(GL_CULL_FACE);</div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>        glCullFace(GL_BACK);</div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span> </div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>        <span class="comment">//for Tesselation</span></div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>        glPatchParameteri(GL_PATCH_VERTICES, 4);</div>
+<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span> </div>
+<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>        glEnable(GL_TEXTURE_2D);</div>
+<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span>        glDisable(GL_FRAMEBUFFER_SRGB);</div>
+<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>        glEnable(GL_BLEND);</div>
+<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span>        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);</div>
+<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span> </div>
+<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span> </div>
+<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>        <span class="keywordflow">if</span> (!GLEW_ARB_geometry_shader4) {</div>
+<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span>            <span class="comment">// Affiche un message d&#39;erreur</span></div>
+<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span>            printf(<span class="stringliteral">&quot;GL_ARB_geometry_shader4 n&#39;est pas disponible\n&quot;</span>);</div>
+<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>            exit(1);</div>
+<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span>        }</div>
+<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span>        glEnable(GL_GEOMETRY_SHADER);</div>
+<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span> </div>
+<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span>        <span class="comment">//glBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, GL_ONE, GL_ZERO);</span></div>
+<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span>        <span class="comment">// Setup mouse callback</span></div>
+<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span>        glfwSetCursorPosCallback(global.global_window, cursorPositionCallback);</div>
+<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span> </div>
+<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span> </div>
+<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span> </div>
+<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span>        <span class="comment">//Init Modules.</span></div>
+<div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span>        graphics.<a class="code hl_function" href="class_graphics.html#aa5cca3799f830d61c298c1b5e7f87774">Init</a>();</div>
+<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span>        physics.<a class="code hl_function" href="class_physics.html#a975f1bc2b76a4c85ceafdb38b3256750">Init</a>();</div>
+<div class="line"><a id="l00144" name="l00144"></a><span class="lineno">  144</span> </div>
+<div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span>        <span class="keywordflow">return</span> 0;</div>
+<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span>    }</div>
+<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span> </div>
+<div class="line"><a id="l00151" name="l00151"></a><span class="lineno"><a class="line" href="class_engine.html#ad4bf6d2b3b407a08470c6b8d8a6a11f6">  151</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_engine.html#ad4bf6d2b3b407a08470c6b8d8a6a11f6">InitScenes</a>() {</div>
+<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span>        scenes.push_back(<a class="code hl_class" href="class_scene_aquarium.html">SceneAquarium</a>(<span class="stringliteral">&quot;Aquarium 3D&quot;</span>));</div>
+<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span>        activeScene = 0;</div>
+<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span> </div>
+<div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span>        nbScene = scenes.size();</div>
+<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span>        <span class="keywordflow">if</span> (activeScene &gt;= 0 &amp;&amp; activeScene &lt; nbScene) {</div>
+<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span>            scenes[activeScene].start();</div>
+<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span>            <span class="comment">//physics.AddGameObjectToOctreeRecursive(scenes[activeScene].GetRoot());</span></div>
+<div class="line"><a id="l00159" name="l00159"></a><span class="lineno">  159</span>        }</div>
+<div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span>    }</div>
+<div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span> </div>
+<div class="line"><a id="l00165" name="l00165"></a><span class="lineno"><a class="line" href="class_engine.html#ac41a57673413c2932ed33eaafd49321b">  165</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_engine.html#ac41a57673413c2932ed33eaafd49321b">MainLoop</a>() {</div>
+<div class="line"><a id="l00166" name="l00166"></a><span class="lineno">  166</span>        <span class="keywordtype">double</span> lastFrame = 0.0f;</div>
+<div class="line"><a id="l00167" name="l00167"></a><span class="lineno">  167</span>        <span class="keywordtype">double</span> currentFrame = glfwGetTime();</div>
+<div class="line"><a id="l00168" name="l00168"></a><span class="lineno">  168</span>        <span class="keywordtype">double</span> deltaTime = currentFrame - lastFrame;</div>
+<div class="line"><a id="l00169" name="l00169"></a><span class="lineno">  169</span>        lastFrame = currentFrame;</div>
+<div class="line"><a id="l00170" name="l00170"></a><span class="lineno">  170</span>        <span class="keywordtype">double</span> sumDelta = 0.0;</div>
 <div class="line"><a id="l00171" name="l00171"></a><span class="lineno">  171</span> </div>
-<div class="line"><a id="l00172" name="l00172"></a><span class="lineno">  172</span>                std::string titre = <span class="stringliteral">&quot;Moteur - &quot;</span>;</div>
-<div class="line"><a id="l00173" name="l00173"></a><span class="lineno">  173</span>                titre += std::to_string((<span class="keywordtype">int</span>)((1.0 / sumDelta) + 0.1));</div>
-<div class="line"><a id="l00174" name="l00174"></a><span class="lineno">  174</span>                glfwSetWindowTitle(global.global_window, titre.c_str());</div>
-<div class="line"><a id="l00175" name="l00175"></a><span class="lineno">  175</span> </div>
-<div class="line"><a id="l00176" name="l00176"></a><span class="lineno">  176</span>                <a class="code hl_function" href="class_engine.html#a079437b790fec6ece72e07b4aa92d58a">Loop</a>(sumDelta);</div>
-<div class="line"><a id="l00177" name="l00177"></a><span class="lineno">  177</span> </div>
-<div class="line"><a id="l00178" name="l00178"></a><span class="lineno">  178</span>                glfwSwapBuffers(global.global_window);</div>
-<div class="line"><a id="l00179" name="l00179"></a><span class="lineno">  179</span>                glfwPollEvents();</div>
-<div class="line"><a id="l00180" name="l00180"></a><span class="lineno">  180</span>                sumDelta = 0.0f;</div>
-<div class="line"><a id="l00181" name="l00181"></a><span class="lineno">  181</span>            }</div>
-<div class="line"><a id="l00182" name="l00182"></a><span class="lineno">  182</span> </div>
-<div class="line"><a id="l00183" name="l00183"></a><span class="lineno">  183</span>        } <span class="keywordflow">while</span> (!global.close_asked &amp;&amp; glfwWindowShouldClose(global.global_window) == 0);</div>
-<div class="line"><a id="l00184" name="l00184"></a><span class="lineno">  184</span>    }</div>
-<div class="line"><a id="l00185" name="l00185"></a><span class="lineno">  185</span> </div>
-<div class="line"><a id="l00190" name="l00190"></a><span class="lineno"><a class="line" href="class_engine.html#a079437b790fec6ece72e07b4aa92d58a">  190</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_engine.html#a079437b790fec6ece72e07b4aa92d58a">Loop</a>(<span class="keywordtype">double</span> deltaT) {</div>
-<div class="line"><a id="l00191" name="l00191"></a><span class="lineno">  191</span>        <span class="keywordflow">if</span> (activeScene &gt;= 0 &amp;&amp; activeScene &lt; nbScene) {</div>
-<div class="line"><a id="l00192" name="l00192"></a><span class="lineno">  192</span>            reloadWait -= deltaT;</div>
-<div class="line"><a id="l00193" name="l00193"></a><span class="lineno">  193</span>            wireframeWait -= deltaT;</div>
-<div class="line"><a id="l00194" name="l00194"></a><span class="lineno">  194</span>            <span class="keywordflow">if</span> (glfwGetKey(global.global_window, GLFW_KEY_R) == GLFW_PRESS &amp;&amp; reloadWait &lt; 0) {</div>
-<div class="line"><a id="l00195" name="l00195"></a><span class="lineno">  195</span>                scenes[activeScene].ReloadShaders();</div>
-<div class="line"><a id="l00196" name="l00196"></a><span class="lineno">  196</span>                reloadWait = 0.5;</div>
-<div class="line"><a id="l00197" name="l00197"></a><span class="lineno">  197</span>            }</div>
-<div class="line"><a id="l00198" name="l00198"></a><span class="lineno">  198</span> </div>
-<div class="line"><a id="l00199" name="l00199"></a><span class="lineno">  199</span>            <span class="keywordflow">if</span> (glfwGetKey(global.global_window, GLFW_KEY_Z) == GLFW_PRESS &amp;&amp; wireframeWait &lt; 0) {</div>
-<div class="line"><a id="l00200" name="l00200"></a><span class="lineno">  200</span>                global.wireframe = !global.wireframe;</div>
-<div class="line"><a id="l00201" name="l00201"></a><span class="lineno">  201</span>                wireframeWait = 0.5;</div>
-<div class="line"><a id="l00202" name="l00202"></a><span class="lineno">  202</span>            }</div>
-<div class="line"><a id="l00203" name="l00203"></a><span class="lineno">  203</span> </div>
-<div class="line"><a id="l00204" name="l00204"></a><span class="lineno">  204</span>            scenes[activeScene].loop(deltaT);</div>
-<div class="line"><a id="l00205" name="l00205"></a><span class="lineno">  205</span> </div>
-<div class="line"><a id="l00206" name="l00206"></a><span class="lineno">  206</span>            <a class="code hl_class" href="class_game_object.html">GameObject</a>* root = scenes[activeScene].GetRoot();</div>
-<div class="line"><a id="l00207" name="l00207"></a><span class="lineno">  207</span>            physics.<a class="code hl_function" href="class_physics.html#ab6872f4c6e2bb5edb7582a68e150f445">Compute</a>(deltaT, root);</div>
-<div class="line"><a id="l00208" name="l00208"></a><span class="lineno">  208</span>            graphics.<a class="code hl_function" href="class_graphics.html#a93b7491efdbefb8340fce1c2fbc81a6e">Compute</a>(root);</div>
-<div class="line"><a id="l00209" name="l00209"></a><span class="lineno">  209</span>        }</div>
-<div class="line"><a id="l00210" name="l00210"></a><span class="lineno">  210</span>    }</div>
-<div class="line"><a id="l00211" name="l00211"></a><span class="lineno">  211</span> </div>
-<div class="line"><a id="l00215" name="l00215"></a><span class="lineno"><a class="line" href="class_engine.html#a6de6bd38d06f2a0d5e669dcc59622825">  215</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_engine.html#a6de6bd38d06f2a0d5e669dcc59622825">Terminate</a>() {</div>
-<div class="line"><a id="l00216" name="l00216"></a><span class="lineno">  216</span>        glfwTerminate();</div>
-<div class="line"><a id="l00217" name="l00217"></a><span class="lineno">  217</span>    }</div>
-<div class="line"><a id="l00218" name="l00218"></a><span class="lineno">  218</span> </div>
-<div class="line"><a id="l00223" name="l00223"></a><span class="lineno"><a class="line" href="class_engine.html#ae31206a294a4d9f8b76b0de3134eb185">  223</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_engine.html#ae31206a294a4d9f8b76b0de3134eb185">ChangeScene</a>(<span class="keywordtype">size_t</span> scene_number) {</div>
-<div class="line"><a id="l00224" name="l00224"></a><span class="lineno">  224</span>        <span class="keywordflow">if</span> (scene_number &gt;= 0 &amp;&amp; scene_number &lt; nbScene) {</div>
-<div class="line"><a id="l00225" name="l00225"></a><span class="lineno">  225</span>            scenes[activeScene].stop();</div>
-<div class="line"><a id="l00226" name="l00226"></a><span class="lineno">  226</span>            activeScene = scene_number;</div>
-<div class="line"><a id="l00227" name="l00227"></a><span class="lineno">  227</span>            scenes[activeScene].start();</div>
-<div class="line"><a id="l00228" name="l00228"></a><span class="lineno">  228</span>        }</div>
-<div class="line"><a id="l00229" name="l00229"></a><span class="lineno">  229</span>    }</div>
-<div class="line"><a id="l00230" name="l00230"></a><span class="lineno">  230</span> </div>
-<div class="line"><a id="l00235" name="l00235"></a><span class="lineno"><a class="line" href="class_engine.html#a441dab07d4f47ffbd9ef9ef9259dc36a">  235</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_engine.html#a441dab07d4f47ffbd9ef9ef9259dc36a">ChangeScene</a>(std::string scene_id) {</div>
-<div class="line"><a id="l00236" name="l00236"></a><span class="lineno">  236</span>        <span class="keywordtype">size_t</span> index = -1;</div>
-<div class="line"><a id="l00237" name="l00237"></a><span class="lineno">  237</span>        <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0, max = scenes.size(); i &lt; max &amp;&amp; index == -1; i++) {</div>
-<div class="line"><a id="l00238" name="l00238"></a><span class="lineno">  238</span>            <span class="keywordflow">if</span> (scenes[i].<span class="keywordtype">id</span> == scene_id) {</div>
-<div class="line"><a id="l00239" name="l00239"></a><span class="lineno">  239</span>                index = i;</div>
-<div class="line"><a id="l00240" name="l00240"></a><span class="lineno">  240</span>            }</div>
-<div class="line"><a id="l00241" name="l00241"></a><span class="lineno">  241</span>        }</div>
-<div class="line"><a id="l00242" name="l00242"></a><span class="lineno">  242</span>        this-&gt;<a class="code hl_function" href="class_engine.html#ae31206a294a4d9f8b76b0de3134eb185">ChangeScene</a>(index);</div>
-<div class="line"><a id="l00243" name="l00243"></a><span class="lineno">  243</span>    }</div>
-<div class="line"><a id="l00244" name="l00244"></a><span class="lineno">  244</span> </div>
-<div class="line"><a id="l00249" name="l00249"></a><span class="lineno"><a class="line" href="class_engine.html#ad1d171c2f145dfc807f714339271b35d">  249</a></span>    <a class="code hl_class" href="class_game_object.html">GameObject</a>* <a class="code hl_function" href="class_engine.html#ad1d171c2f145dfc807f714339271b35d">GetActiveSceneRoot</a>() {</div>
-<div class="line"><a id="l00250" name="l00250"></a><span class="lineno">  250</span>        <span class="keywordflow">return</span> this-&gt;scenes[activeScene].GetRoot();</div>
-<div class="line"><a id="l00251" name="l00251"></a><span class="lineno">  251</span>    }</div>
-<div class="line"><a id="l00252" name="l00252"></a><span class="lineno">  252</span> </div>
-<div class="line"><a id="l00253" name="l00253"></a><span class="lineno">  253</span> </div>
-<div class="line"><a id="l00258" name="l00258"></a><span class="lineno"><a class="line" href="class_engine.html#a2b924b6ecf9b799ea8f9580086e648e4">  258</a></span>    <a class="code hl_class" href="class_graphics.html">Graphics</a>* <a class="code hl_function" href="class_engine.html#a2b924b6ecf9b799ea8f9580086e648e4">GetGraphics</a>() {</div>
-<div class="line"><a id="l00259" name="l00259"></a><span class="lineno">  259</span>        <span class="keywordflow">return</span> &amp;this-&gt;graphics;</div>
-<div class="line"><a id="l00260" name="l00260"></a><span class="lineno">  260</span>    }</div>
-<div class="line"><a id="l00261" name="l00261"></a><span class="lineno">  261</span> </div>
-<div class="line"><a id="l00266" name="l00266"></a><span class="lineno"><a class="line" href="class_engine.html#a362698667cfd8292d2f5083d5c61fef6">  266</a></span>    <a class="code hl_class" href="class_physics.html">Physics</a>* <a class="code hl_function" href="class_engine.html#a362698667cfd8292d2f5083d5c61fef6">GetPhysics</a>() {</div>
-<div class="line"><a id="l00267" name="l00267"></a><span class="lineno">  267</span>        <span class="keywordflow">return</span> &amp;this-&gt;physics;</div>
-<div class="line"><a id="l00268" name="l00268"></a><span class="lineno">  268</span>    }</div>
-<div class="line"><a id="l00269" name="l00269"></a><span class="lineno">  269</span>};</div>
-<div class="line"><a id="l00270" name="l00270"></a><span class="lineno">  270</span> </div>
-<div class="line"><a id="l00271" name="l00271"></a><span class="lineno">  271</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00172" name="l00172"></a><span class="lineno">  172</span>        <span class="keywordflow">do</span> {</div>
+<div class="line"><a id="l00173" name="l00173"></a><span class="lineno">  173</span>            <span class="keywordflow">if</span> (glfwGetKey(global.global_window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {</div>
+<div class="line"><a id="l00174" name="l00174"></a><span class="lineno">  174</span>                global.close_asked = <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00175" name="l00175"></a><span class="lineno">  175</span>            }</div>
+<div class="line"><a id="l00176" name="l00176"></a><span class="lineno">  176</span> </div>
+<div class="line"><a id="l00177" name="l00177"></a><span class="lineno">  177</span>            <span class="keywordtype">double</span> currentFrame = glfwGetTime();</div>
+<div class="line"><a id="l00178" name="l00178"></a><span class="lineno">  178</span>            deltaTime = currentFrame - lastFrame;</div>
+<div class="line"><a id="l00179" name="l00179"></a><span class="lineno">  179</span>            lastFrame = currentFrame;</div>
+<div class="line"><a id="l00180" name="l00180"></a><span class="lineno">  180</span>            sumDelta += deltaTime;</div>
+<div class="line"><a id="l00181" name="l00181"></a><span class="lineno">  181</span> </div>
+<div class="line"><a id="l00182" name="l00182"></a><span class="lineno">  182</span>            <span class="keywordflow">if</span> (sumDelta &gt;= 1.0 / (global.fps_limit)) {</div>
+<div class="line"><a id="l00183" name="l00183"></a><span class="lineno">  183</span> </div>
+<div class="line"><a id="l00184" name="l00184"></a><span class="lineno">  184</span>                std::string titre = <span class="stringliteral">&quot;Moteur - &quot;</span>;</div>
+<div class="line"><a id="l00185" name="l00185"></a><span class="lineno">  185</span>                titre += std::to_string((<span class="keywordtype">int</span>)((1.0 / sumDelta) + 0.1));</div>
+<div class="line"><a id="l00186" name="l00186"></a><span class="lineno">  186</span>                glfwSetWindowTitle(global.global_window, titre.c_str());</div>
+<div class="line"><a id="l00187" name="l00187"></a><span class="lineno">  187</span> </div>
+<div class="line"><a id="l00188" name="l00188"></a><span class="lineno">  188</span>                <a class="code hl_function" href="class_engine.html#a079437b790fec6ece72e07b4aa92d58a">Loop</a>(sumDelta);</div>
+<div class="line"><a id="l00189" name="l00189"></a><span class="lineno">  189</span> </div>
+<div class="line"><a id="l00190" name="l00190"></a><span class="lineno">  190</span>                glfwSwapBuffers(global.global_window);</div>
+<div class="line"><a id="l00191" name="l00191"></a><span class="lineno">  191</span>                glfwPollEvents();</div>
+<div class="line"><a id="l00192" name="l00192"></a><span class="lineno">  192</span>                sumDelta = 0.0f;</div>
+<div class="line"><a id="l00193" name="l00193"></a><span class="lineno">  193</span>            }</div>
+<div class="line"><a id="l00194" name="l00194"></a><span class="lineno">  194</span> </div>
+<div class="line"><a id="l00195" name="l00195"></a><span class="lineno">  195</span>        } <span class="keywordflow">while</span> (!global.close_asked &amp;&amp; glfwWindowShouldClose(global.global_window) == 0);</div>
+<div class="line"><a id="l00196" name="l00196"></a><span class="lineno">  196</span>    }</div>
+<div class="line"><a id="l00197" name="l00197"></a><span class="lineno">  197</span> </div>
+<div class="line"><a id="l00202" name="l00202"></a><span class="lineno"><a class="line" href="class_engine.html#a079437b790fec6ece72e07b4aa92d58a">  202</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_engine.html#a079437b790fec6ece72e07b4aa92d58a">Loop</a>(<span class="keywordtype">double</span> deltaT) {</div>
+<div class="line"><a id="l00203" name="l00203"></a><span class="lineno">  203</span>        <span class="keywordflow">if</span> (activeScene &gt;= 0 &amp;&amp; activeScene &lt; nbScene) {</div>
+<div class="line"><a id="l00204" name="l00204"></a><span class="lineno">  204</span>            reloadWait -= deltaT;</div>
+<div class="line"><a id="l00205" name="l00205"></a><span class="lineno">  205</span>            wireframeWait -= deltaT;</div>
+<div class="line"><a id="l00206" name="l00206"></a><span class="lineno">  206</span>            <span class="keywordflow">if</span> (glfwGetKey(global.global_window, GLFW_KEY_R) == GLFW_PRESS &amp;&amp; reloadWait &lt; 0) {</div>
+<div class="line"><a id="l00207" name="l00207"></a><span class="lineno">  207</span>                scenes[activeScene].ReloadShaders();</div>
+<div class="line"><a id="l00208" name="l00208"></a><span class="lineno">  208</span>                reloadWait = 0.5;</div>
+<div class="line"><a id="l00209" name="l00209"></a><span class="lineno">  209</span>            }</div>
+<div class="line"><a id="l00210" name="l00210"></a><span class="lineno">  210</span> </div>
+<div class="line"><a id="l00211" name="l00211"></a><span class="lineno">  211</span>            <span class="keywordflow">if</span> (glfwGetKey(global.global_window, GLFW_KEY_Z) == GLFW_PRESS &amp;&amp; wireframeWait &lt; 0) {</div>
+<div class="line"><a id="l00212" name="l00212"></a><span class="lineno">  212</span>                global.wireframe = !global.wireframe;</div>
+<div class="line"><a id="l00213" name="l00213"></a><span class="lineno">  213</span>                wireframeWait = 0.5;</div>
+<div class="line"><a id="l00214" name="l00214"></a><span class="lineno">  214</span>            }</div>
+<div class="line"><a id="l00215" name="l00215"></a><span class="lineno">  215</span> </div>
+<div class="line"><a id="l00216" name="l00216"></a><span class="lineno">  216</span> </div>
+<div class="line"><a id="l00217" name="l00217"></a><span class="lineno">  217</span>                (&amp; scenes[activeScene])-&gt;loop(deltaT);</div>
+<div class="line"><a id="l00218" name="l00218"></a><span class="lineno">  218</span>            </div>
+<div class="line"><a id="l00219" name="l00219"></a><span class="lineno">  219</span> </div>
+<div class="line"><a id="l00220" name="l00220"></a><span class="lineno">  220</span>            <a class="code hl_class" href="class_game_object.html">GameObject</a>* root = scenes[activeScene].GetRoot();</div>
+<div class="line"><a id="l00221" name="l00221"></a><span class="lineno">  221</span>            physics.<a class="code hl_function" href="class_physics.html#ab6872f4c6e2bb5edb7582a68e150f445">Compute</a>(deltaT, root);</div>
+<div class="line"><a id="l00222" name="l00222"></a><span class="lineno">  222</span>            <span class="keywordtype">int</span> activeCam = scenes[activeScene].activeCamera;</div>
+<div class="line"><a id="l00223" name="l00223"></a><span class="lineno">  223</span> </div>
+<div class="line"><a id="l00224" name="l00224"></a><span class="lineno">  224</span>            graphics.<a class="code hl_function" href="class_graphics.html#abeea79a89f5a1d03bdc31fbc0a87661a">Compute</a>(scenes[activeScene].renderCamera[activeCam], root, <span class="keyword">false</span>);</div>
+<div class="line"><a id="l00225" name="l00225"></a><span class="lineno">  225</span>            glFlush();</div>
+<div class="line"><a id="l00226" name="l00226"></a><span class="lineno">  226</span>            graphics.<a class="code hl_function" href="class_graphics.html#abeea79a89f5a1d03bdc31fbc0a87661a">Compute</a>(scenes[activeScene].renderCamera[activeCam], root , <span class="keyword">true</span>);</div>
+<div class="line"><a id="l00227" name="l00227"></a><span class="lineno">  227</span> </div>
+<div class="line"><a id="l00228" name="l00228"></a><span class="lineno">  228</span>            <span class="comment">//Do the raycast with</span></div>
+<div class="line"><a id="l00229" name="l00229"></a><span class="lineno">  229</span>            <span class="keywordflow">if</span> (global.raycastAsked) {</div>
+<div class="line"><a id="l00230" name="l00230"></a><span class="lineno">  230</span>                <span class="keywordtype">double</span> nx = (((double)global.mouseX * 2.0) / ((double)global.screen_width)) - 1.0;</div>
+<div class="line"><a id="l00231" name="l00231"></a><span class="lineno">  231</span>                <span class="keywordtype">double</span> ny = 1- (((double)global.mouseY * 2.0) / ((double)global.screen_height));</div>
+<div class="line"><a id="l00232" name="l00232"></a><span class="lineno">  232</span>                <a class="code hl_struct" href="struct_physics_1_1_raycast_hit.html">Physics::RaycastHit</a> rh = physics.<a class="code hl_function" href="class_physics.html#ae596fbd4e508a88f72c4248a147d6037">Raycast</a>(root, scenes[activeScene].renderCamera[activeCam], nx, ny);</div>
+<div class="line"><a id="l00233" name="l00233"></a><span class="lineno">  233</span>                physics.DoRaycastAction(rh);</div>
+<div class="line"><a id="l00234" name="l00234"></a><span class="lineno">  234</span>                global.raycastAsked = <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00235" name="l00235"></a><span class="lineno">  235</span>            }</div>
+<div class="line"><a id="l00236" name="l00236"></a><span class="lineno">  236</span>        }</div>
+<div class="line"><a id="l00237" name="l00237"></a><span class="lineno">  237</span>    }</div>
+<div class="line"><a id="l00238" name="l00238"></a><span class="lineno">  238</span> </div>
+<div class="line"><a id="l00242" name="l00242"></a><span class="lineno"><a class="line" href="class_engine.html#a6de6bd38d06f2a0d5e669dcc59622825">  242</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_engine.html#a6de6bd38d06f2a0d5e669dcc59622825">Terminate</a>() {</div>
+<div class="line"><a id="l00243" name="l00243"></a><span class="lineno">  243</span>        glfwTerminate();</div>
+<div class="line"><a id="l00244" name="l00244"></a><span class="lineno">  244</span>    }</div>
+<div class="line"><a id="l00245" name="l00245"></a><span class="lineno">  245</span> </div>
+<div class="line"><a id="l00250" name="l00250"></a><span class="lineno"><a class="line" href="class_engine.html#ae31206a294a4d9f8b76b0de3134eb185">  250</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_engine.html#ae31206a294a4d9f8b76b0de3134eb185">ChangeScene</a>(<span class="keywordtype">size_t</span> scene_number) {</div>
+<div class="line"><a id="l00251" name="l00251"></a><span class="lineno">  251</span>        <span class="keywordflow">if</span> (scene_number &gt;= 0 &amp;&amp; scene_number &lt; nbScene) {</div>
+<div class="line"><a id="l00252" name="l00252"></a><span class="lineno">  252</span>            scenes[activeScene].stop();</div>
+<div class="line"><a id="l00253" name="l00253"></a><span class="lineno">  253</span>            activeScene = scene_number;</div>
+<div class="line"><a id="l00254" name="l00254"></a><span class="lineno">  254</span>            scenes[activeScene].start();</div>
+<div class="line"><a id="l00255" name="l00255"></a><span class="lineno">  255</span>        }</div>
+<div class="line"><a id="l00256" name="l00256"></a><span class="lineno">  256</span>    }</div>
+<div class="line"><a id="l00257" name="l00257"></a><span class="lineno">  257</span> </div>
+<div class="line"><a id="l00262" name="l00262"></a><span class="lineno"><a class="line" href="class_engine.html#a441dab07d4f47ffbd9ef9ef9259dc36a">  262</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="class_engine.html#a441dab07d4f47ffbd9ef9ef9259dc36a">ChangeScene</a>(std::string scene_id) {</div>
+<div class="line"><a id="l00263" name="l00263"></a><span class="lineno">  263</span>        <span class="keywordtype">size_t</span> index = -1;</div>
+<div class="line"><a id="l00264" name="l00264"></a><span class="lineno">  264</span>        <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0, max = scenes.size(); i &lt; max &amp;&amp; index == -1; i++) {</div>
+<div class="line"><a id="l00265" name="l00265"></a><span class="lineno">  265</span>            <span class="keywordflow">if</span> (scenes[i].<span class="keywordtype">id</span> == scene_id) {</div>
+<div class="line"><a id="l00266" name="l00266"></a><span class="lineno">  266</span>                index = i;</div>
+<div class="line"><a id="l00267" name="l00267"></a><span class="lineno">  267</span>            }</div>
+<div class="line"><a id="l00268" name="l00268"></a><span class="lineno">  268</span>        }</div>
+<div class="line"><a id="l00269" name="l00269"></a><span class="lineno">  269</span>        this-&gt;<a class="code hl_function" href="class_engine.html#ae31206a294a4d9f8b76b0de3134eb185">ChangeScene</a>(index);</div>
+<div class="line"><a id="l00270" name="l00270"></a><span class="lineno">  270</span>    }</div>
+<div class="line"><a id="l00271" name="l00271"></a><span class="lineno">  271</span> </div>
+<div class="line"><a id="l00276" name="l00276"></a><span class="lineno"><a class="line" href="class_engine.html#ad1d171c2f145dfc807f714339271b35d">  276</a></span>    <a class="code hl_class" href="class_game_object.html">GameObject</a>* <a class="code hl_function" href="class_engine.html#ad1d171c2f145dfc807f714339271b35d">GetActiveSceneRoot</a>() {</div>
+<div class="line"><a id="l00277" name="l00277"></a><span class="lineno">  277</span>        <span class="keywordflow">return</span> this-&gt;scenes[activeScene].GetRoot();</div>
+<div class="line"><a id="l00278" name="l00278"></a><span class="lineno">  278</span>    }</div>
+<div class="line"><a id="l00279" name="l00279"></a><span class="lineno">  279</span> </div>
+<div class="line"><a id="l00280" name="l00280"></a><span class="lineno">  280</span> </div>
+<div class="line"><a id="l00285" name="l00285"></a><span class="lineno"><a class="line" href="class_engine.html#a2b924b6ecf9b799ea8f9580086e648e4">  285</a></span>    <a class="code hl_class" href="class_graphics.html">Graphics</a>* <a class="code hl_function" href="class_engine.html#a2b924b6ecf9b799ea8f9580086e648e4">GetGraphics</a>() {</div>
+<div class="line"><a id="l00286" name="l00286"></a><span class="lineno">  286</span>        <span class="keywordflow">return</span> &amp;this-&gt;graphics;</div>
+<div class="line"><a id="l00287" name="l00287"></a><span class="lineno">  287</span>    }</div>
+<div class="line"><a id="l00288" name="l00288"></a><span class="lineno">  288</span> </div>
+<div class="line"><a id="l00293" name="l00293"></a><span class="lineno"><a class="line" href="class_engine.html#a362698667cfd8292d2f5083d5c61fef6">  293</a></span>    <a class="code hl_class" href="class_physics.html">Physics</a>* <a class="code hl_function" href="class_engine.html#a362698667cfd8292d2f5083d5c61fef6">GetPhysics</a>() {</div>
+<div class="line"><a id="l00294" name="l00294"></a><span class="lineno">  294</span>        <span class="keywordflow">return</span> &amp;this-&gt;physics;</div>
+<div class="line"><a id="l00295" name="l00295"></a><span class="lineno">  295</span>    }</div>
+<div class="line"><a id="l00296" name="l00296"></a><span class="lineno">  296</span>};</div>
+<div class="line"><a id="l00297" name="l00297"></a><span class="lineno">  297</span> </div>
+<div class="line"><a id="l00298" name="l00298"></a><span class="lineno">  298</span><span class="preprocessor">#endif</span></div>
 <div class="ttc" id="aclass_engine_html"><div class="ttname"><a href="class_engine.html">Engine</a></div><div class="ttdoc">The 3D Engine with graphics and Simple Physics.</div><div class="ttdef"><b>Definition:</b> Engine.hpp:20</div></div>
 <div class="ttc" id="aclass_engine_html_a06a6f68eb3160edaa2a3cc43da137364"><div class="ttname"><a href="class_engine.html#a06a6f68eb3160edaa2a3cc43da137364">Engine::Init</a></div><div class="ttdeci">int Init()</div><div class="ttdoc">The Engine Initialisation (With OpenGL);.</div><div class="ttdef"><b>Definition:</b> Engine.hpp:52</div></div>
-<div class="ttc" id="aclass_engine_html_a079437b790fec6ece72e07b4aa92d58a"><div class="ttname"><a href="class_engine.html#a079437b790fec6ece72e07b4aa92d58a">Engine::Loop</a></div><div class="ttdeci">void Loop(double deltaT)</div><div class="ttdoc">The Active Scene loop, called by MainLoop.</div><div class="ttdef"><b>Definition:</b> Engine.hpp:190</div></div>
-<div class="ttc" id="aclass_engine_html_a2b924b6ecf9b799ea8f9580086e648e4"><div class="ttname"><a href="class_engine.html#a2b924b6ecf9b799ea8f9580086e648e4">Engine::GetGraphics</a></div><div class="ttdeci">Graphics * GetGraphics()</div><div class="ttdoc">Return the Graphics system.</div><div class="ttdef"><b>Definition:</b> Engine.hpp:258</div></div>
-<div class="ttc" id="aclass_engine_html_a362698667cfd8292d2f5083d5c61fef6"><div class="ttname"><a href="class_engine.html#a362698667cfd8292d2f5083d5c61fef6">Engine::GetPhysics</a></div><div class="ttdeci">Physics * GetPhysics()</div><div class="ttdoc">Return the Physics system.</div><div class="ttdef"><b>Definition:</b> Engine.hpp:266</div></div>
-<div class="ttc" id="aclass_engine_html_a441dab07d4f47ffbd9ef9ef9259dc36a"><div class="ttname"><a href="class_engine.html#a441dab07d4f47ffbd9ef9ef9259dc36a">Engine::ChangeScene</a></div><div class="ttdeci">void ChangeScene(std::string scene_id)</div><div class="ttdoc">Change the active scene, by it's ID.</div><div class="ttdef"><b>Definition:</b> Engine.hpp:235</div></div>
-<div class="ttc" id="aclass_engine_html_a6de6bd38d06f2a0d5e669dcc59622825"><div class="ttname"><a href="class_engine.html#a6de6bd38d06f2a0d5e669dcc59622825">Engine::Terminate</a></div><div class="ttdeci">void Terminate()</div><div class="ttdoc">Terminate the engine.</div><div class="ttdef"><b>Definition:</b> Engine.hpp:215</div></div>
+<div class="ttc" id="aclass_engine_html_a079437b790fec6ece72e07b4aa92d58a"><div class="ttname"><a href="class_engine.html#a079437b790fec6ece72e07b4aa92d58a">Engine::Loop</a></div><div class="ttdeci">void Loop(double deltaT)</div><div class="ttdoc">The Active Scene loop, called by MainLoop.</div><div class="ttdef"><b>Definition:</b> Engine.hpp:202</div></div>
+<div class="ttc" id="aclass_engine_html_a2b924b6ecf9b799ea8f9580086e648e4"><div class="ttname"><a href="class_engine.html#a2b924b6ecf9b799ea8f9580086e648e4">Engine::GetGraphics</a></div><div class="ttdeci">Graphics * GetGraphics()</div><div class="ttdoc">Return the Graphics system.</div><div class="ttdef"><b>Definition:</b> Engine.hpp:285</div></div>
+<div class="ttc" id="aclass_engine_html_a362698667cfd8292d2f5083d5c61fef6"><div class="ttname"><a href="class_engine.html#a362698667cfd8292d2f5083d5c61fef6">Engine::GetPhysics</a></div><div class="ttdeci">Physics * GetPhysics()</div><div class="ttdoc">Return the Physics system.</div><div class="ttdef"><b>Definition:</b> Engine.hpp:293</div></div>
+<div class="ttc" id="aclass_engine_html_a441dab07d4f47ffbd9ef9ef9259dc36a"><div class="ttname"><a href="class_engine.html#a441dab07d4f47ffbd9ef9ef9259dc36a">Engine::ChangeScene</a></div><div class="ttdeci">void ChangeScene(std::string scene_id)</div><div class="ttdoc">Change the active scene, by it's ID.</div><div class="ttdef"><b>Definition:</b> Engine.hpp:262</div></div>
+<div class="ttc" id="aclass_engine_html_a6de6bd38d06f2a0d5e669dcc59622825"><div class="ttname"><a href="class_engine.html#a6de6bd38d06f2a0d5e669dcc59622825">Engine::Terminate</a></div><div class="ttdeci">void Terminate()</div><div class="ttdoc">Terminate the engine.</div><div class="ttdef"><b>Definition:</b> Engine.hpp:242</div></div>
 <div class="ttc" id="aclass_engine_html_a8ef7030a089ecb30bbfcb9e43094717a"><div class="ttname"><a href="class_engine.html#a8ef7030a089ecb30bbfcb9e43094717a">Engine::~Engine</a></div><div class="ttdeci">~Engine()</div><div class="ttdoc">Destructor calling terminate automatically.</div><div class="ttdef"><b>Definition:</b> Engine.hpp:46</div></div>
-<div class="ttc" id="aclass_engine_html_ac41a57673413c2932ed33eaafd49321b"><div class="ttname"><a href="class_engine.html#ac41a57673413c2932ed33eaafd49321b">Engine::MainLoop</a></div><div class="ttdeci">void MainLoop()</div><div class="ttdoc">The Main Loop using GLFW events and calling Loop.</div><div class="ttdef"><b>Definition:</b> Engine.hpp:153</div></div>
-<div class="ttc" id="aclass_engine_html_ad1d171c2f145dfc807f714339271b35d"><div class="ttname"><a href="class_engine.html#ad1d171c2f145dfc807f714339271b35d">Engine::GetActiveSceneRoot</a></div><div class="ttdeci">GameObject * GetActiveSceneRoot()</div><div class="ttdoc">Return the Active Scene Root Gameobject.</div><div class="ttdef"><b>Definition:</b> Engine.hpp:249</div></div>
-<div class="ttc" id="aclass_engine_html_ad4bf6d2b3b407a08470c6b8d8a6a11f6"><div class="ttname"><a href="class_engine.html#ad4bf6d2b3b407a08470c6b8d8a6a11f6">Engine::InitScenes</a></div><div class="ttdeci">void InitScenes()</div><div class="ttdoc">The Scenes Initialization.</div><div class="ttdef"><b>Definition:</b> Engine.hpp:139</div></div>
-<div class="ttc" id="aclass_engine_html_ae31206a294a4d9f8b76b0de3134eb185"><div class="ttname"><a href="class_engine.html#ae31206a294a4d9f8b76b0de3134eb185">Engine::ChangeScene</a></div><div class="ttdeci">void ChangeScene(size_t scene_number)</div><div class="ttdoc">Change the active scene by is index position.</div><div class="ttdef"><b>Definition:</b> Engine.hpp:223</div></div>
+<div class="ttc" id="aclass_engine_html_ac41a57673413c2932ed33eaafd49321b"><div class="ttname"><a href="class_engine.html#ac41a57673413c2932ed33eaafd49321b">Engine::MainLoop</a></div><div class="ttdeci">void MainLoop()</div><div class="ttdoc">The Main Loop using GLFW events and calling Loop.</div><div class="ttdef"><b>Definition:</b> Engine.hpp:165</div></div>
+<div class="ttc" id="aclass_engine_html_ad1d171c2f145dfc807f714339271b35d"><div class="ttname"><a href="class_engine.html#ad1d171c2f145dfc807f714339271b35d">Engine::GetActiveSceneRoot</a></div><div class="ttdeci">GameObject * GetActiveSceneRoot()</div><div class="ttdoc">Return the Active Scene Root Gameobject.</div><div class="ttdef"><b>Definition:</b> Engine.hpp:276</div></div>
+<div class="ttc" id="aclass_engine_html_ad4bf6d2b3b407a08470c6b8d8a6a11f6"><div class="ttname"><a href="class_engine.html#ad4bf6d2b3b407a08470c6b8d8a6a11f6">Engine::InitScenes</a></div><div class="ttdeci">void InitScenes()</div><div class="ttdoc">The Scenes Initialization.</div><div class="ttdef"><b>Definition:</b> Engine.hpp:151</div></div>
+<div class="ttc" id="aclass_engine_html_ae31206a294a4d9f8b76b0de3134eb185"><div class="ttname"><a href="class_engine.html#ae31206a294a4d9f8b76b0de3134eb185">Engine::ChangeScene</a></div><div class="ttdeci">void ChangeScene(size_t scene_number)</div><div class="ttdoc">Change the active scene by is index position.</div><div class="ttdef"><b>Definition:</b> Engine.hpp:250</div></div>
 <div class="ttc" id="aclass_game_object_html"><div class="ttname"><a href="class_game_object.html">GameObject</a></div><div class="ttdoc">The Gameobject class, used by the engine as key element.</div><div class="ttdef"><b>Definition:</b> GameObject.hpp:16</div></div>
-<div class="ttc" id="aclass_graphics_html"><div class="ttname"><a href="class_graphics.html">Graphics</a></div><div class="ttdoc">The graphics Engine.</div><div class="ttdef"><b>Definition:</b> Graphics.hpp:20</div></div>
-<div class="ttc" id="aclass_graphics_html_a93b7491efdbefb8340fce1c2fbc81a6e"><div class="ttname"><a href="class_graphics.html#a93b7491efdbefb8340fce1c2fbc81a6e">Graphics::Compute</a></div><div class="ttdeci">void Compute(GameObject *root)</div><div class="ttdoc">Compute the graphics using the root object of the scene, extracting all informations.</div><div class="ttdef"><b>Definition:</b> Graphics.hpp:57</div></div>
-<div class="ttc" id="aclass_graphics_html_aa5cca3799f830d61c298c1b5e7f87774"><div class="ttname"><a href="class_graphics.html#aa5cca3799f830d61c298c1b5e7f87774">Graphics::Init</a></div><div class="ttdeci">void Init()</div><div class="ttdoc">Initialize the Graphics.</div><div class="ttdef"><b>Definition:</b> Graphics.hpp:44</div></div>
+<div class="ttc" id="aclass_graphics_html"><div class="ttname"><a href="class_graphics.html">Graphics</a></div><div class="ttdoc">The graphics Engine.</div><div class="ttdef"><b>Definition:</b> Graphics.hpp:24</div></div>
+<div class="ttc" id="aclass_graphics_html_aa5cca3799f830d61c298c1b5e7f87774"><div class="ttname"><a href="class_graphics.html#aa5cca3799f830d61c298c1b5e7f87774">Graphics::Init</a></div><div class="ttdeci">void Init()</div><div class="ttdoc">Initialize the Graphics.</div><div class="ttdef"><b>Definition:</b> Graphics.hpp:36</div></div>
+<div class="ttc" id="aclass_graphics_html_abeea79a89f5a1d03bdc31fbc0a87661a"><div class="ttname"><a href="class_graphics.html#abeea79a89f5a1d03bdc31fbc0a87661a">Graphics::Compute</a></div><div class="ttdeci">void Compute(Camera *camera, GameObject *root, bool preRender)</div><div class="ttdoc">Compute the graphics using render and raycast camera, and the root object of the scene,...</div><div class="ttdef"><b>Definition:</b> Graphics.hpp:45</div></div>
 <div class="ttc" id="aclass_physics_html"><div class="ttname"><a href="class_physics.html">Physics</a></div><div class="ttdoc">Physics engine.</div><div class="ttdef"><b>Definition:</b> Physics.hpp:17</div></div>
-<div class="ttc" id="aclass_physics_html_a975f1bc2b76a4c85ceafdb38b3256750"><div class="ttname"><a href="class_physics.html#a975f1bc2b76a4c85ceafdb38b3256750">Physics::Init</a></div><div class="ttdeci">void Init()</div><div class="ttdoc">Init the physics system.</div><div class="ttdef"><b>Definition:</b> Physics.hpp:75</div></div>
-<div class="ttc" id="aclass_physics_html_ab6872f4c6e2bb5edb7582a68e150f445"><div class="ttname"><a href="class_physics.html#ab6872f4c6e2bb5edb7582a68e150f445">Physics::Compute</a></div><div class="ttdeci">void Compute(double deltatime, GameObject *root, int nbStep=1)</div><div class="ttdoc">Compute the physics for a scene, with a root Gameobject.</div><div class="ttdef"><b>Definition:</b> Physics.hpp:83</div></div>
-<div class="ttc" id="aclass_scene_aquarium_html"><div class="ttname"><a href="class_scene_aquarium.html">SceneAquarium</a></div><div class="ttdoc">The aquarium Scene.</div><div class="ttdef"><b>Definition:</b> SceneAquarium.hpp:25</div></div>
+<div class="ttc" id="aclass_physics_html_a975f1bc2b76a4c85ceafdb38b3256750"><div class="ttname"><a href="class_physics.html#a975f1bc2b76a4c85ceafdb38b3256750">Physics::Init</a></div><div class="ttdeci">void Init()</div><div class="ttdoc">Init the physics system.</div><div class="ttdef"><b>Definition:</b> Physics.hpp:78</div></div>
+<div class="ttc" id="aclass_physics_html_ab6872f4c6e2bb5edb7582a68e150f445"><div class="ttname"><a href="class_physics.html#ab6872f4c6e2bb5edb7582a68e150f445">Physics::Compute</a></div><div class="ttdeci">void Compute(double deltatime, GameObject *root, int nbStep=1)</div><div class="ttdoc">Compute the physics for a scene, with a root Gameobject.</div><div class="ttdef"><b>Definition:</b> Physics.hpp:86</div></div>
+<div class="ttc" id="aclass_physics_html_ae596fbd4e508a88f72c4248a147d6037"><div class="ttname"><a href="class_physics.html#ae596fbd4e508a88f72c4248a147d6037">Physics::Raycast</a></div><div class="ttdeci">RaycastHit Raycast(GameObject *root, Camera *camera, double x, double y)</div><div class="ttdoc">Send a Raycast using the physic system.</div><div class="ttdef"><b>Definition:</b> Physics.hpp:135</div></div>
+<div class="ttc" id="aclass_scene_aquarium_html"><div class="ttname"><a href="class_scene_aquarium.html">SceneAquarium</a></div><div class="ttdoc">The aquarium Scene.</div><div class="ttdef"><b>Definition:</b> SceneAquarium.hpp:29</div></div>
+<div class="ttc" id="astruct_physics_1_1_raycast_hit_html"><div class="ttname"><a href="struct_physics_1_1_raycast_hit.html">Physics::RaycastHit</a></div><div class="ttdoc">Raycast Hit data.</div><div class="ttdef"><b>Definition:</b> Physics.hpp:23</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

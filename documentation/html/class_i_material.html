@@ -27,6 +27,7 @@
   <td id="projectalign">
    <div id="projectname">Aquarium
    </div>
+   <div id="projectbrief">Projet 3D de M2 : https://github.com/Flare00/M2-Projet3D-Aquarium</div>
   </td>
  </tr>
  </tbody>
@@ -121,15 +122,18 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a7a4370310deea44e2e5f5a9b287502a0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_shader.html">Shader</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_i_material.html#a7a4370310deea44e2e5f5a9b287502a0">GetShader</a> ()</td></tr>
 <tr class="memdesc:a7a4370310deea44e2e5f5a9b287502a0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the shader.  <br /></td></tr>
 <tr class="separator:a7a4370310deea44e2e5f5a9b287502a0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2a360bad5891c0993e9b2c0e47815c05"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_i_material.html#a2a360bad5891c0993e9b2c0e47815c05">SetDataGPU</a> (glm::mat4 M, glm::mat4 V, glm::mat4 P, glm::vec3 camPos, bool inWater)</td></tr>
-<tr class="memdesc:a2a360bad5891c0993e9b2c0e47815c05"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set Data to the GPU.  <br /></td></tr>
-<tr class="separator:a2a360bad5891c0993e9b2c0e47815c05"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a422f0ba9eb76e0bef41b0b721623567a"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_i_material.html#a422f0ba9eb76e0bef41b0b721623567a">SetDataGPU</a> (glm::mat4 M, glm::mat4 V, glm::mat4 P, glm::vec3 camPos, bool inWater, bool mainRender, bool causticAffected)</td></tr>
+<tr class="memdesc:a422f0ba9eb76e0bef41b0b721623567a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set Data to the GPU.  <br /></td></tr>
+<tr class="separator:a422f0ba9eb76e0bef41b0b721623567a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae521cbbe99d810831802bc7d6cbac0e8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_i_material.html#ae521cbbe99d810831802bc7d6cbac0e8">SetLightGPU</a> (std::vector&lt; <a class="el" href="class_light.html">Light</a> * &gt; lights)</td></tr>
 <tr class="memdesc:ae521cbbe99d810831802bc7d6cbac0e8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set lights information on GPU.  <br /></td></tr>
 <tr class="separator:ae521cbbe99d810831802bc7d6cbac0e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6045ec257fb767943e2357d265ec1216"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_i_material.html#a6045ec257fb767943e2357d265ec1216">IsTransparent</a> ()</td></tr>
 <tr class="memdesc:a6045ec257fb767943e2357d265ec1216"><td class="mdescLeft">&#160;</td><td class="mdescRight">return if it's transparent.  <br /></td></tr>
 <tr class="separator:a6045ec257fb767943e2357d265ec1216"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5be1d0119ce3e5841bf5253a455b72c1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_i_material.html#a5be1d0119ce3e5841bf5253a455b72c1">SetShader</a> (std::string shadername)</td></tr>
+<tr class="memdesc:a5be1d0119ce3e5841bf5253a455b72c1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Change the current shaderfiles of the material.  <br /></td></tr>
+<tr class="separator:a5be1d0119ce3e5841bf5253a455b72c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_class_component"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_class_component')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="class_component.html">Component</a></td></tr>
 <tr class="memitem:aa1d536baf09af2dbc56aae342e4e5c60 inherit pub_methods_class_component"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_component.html#aa1d536baf09af2dbc56aae342e4e5c60">SetActive</a> (bool active)</td></tr>
 <tr class="memdesc:aa1d536baf09af2dbc56aae342e4e5c60 inherit pub_methods_class_component"><td class="mdescLeft">&#160;</td><td class="mdescRight">Change the active status of the component.  <br /></td></tr>
@@ -278,8 +282,8 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>active</b> = true</td
 
 </div>
 </div>
-<a id="a2a360bad5891c0993e9b2c0e47815c05" name="a2a360bad5891c0993e9b2c0e47815c05"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2a360bad5891c0993e9b2c0e47815c05">&#9670;&#160;</a></span>SetDataGPU()</h2>
+<a id="a422f0ba9eb76e0bef41b0b721623567a" name="a422f0ba9eb76e0bef41b0b721623567a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a422f0ba9eb76e0bef41b0b721623567a">&#9670;&#160;</a></span>SetDataGPU()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -315,7 +319,19 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>active</b> = true</td
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">bool&#160;</td>
-          <td class="paramname"><em>inWater</em>&#160;</td>
+          <td class="paramname"><em>inWater</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>mainRender</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>causticAffected</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -342,7 +358,7 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>active</b> = true</td
   </dd>
 </dl>
 
-<p>Reimplemented in <a class="el" href="class_material.html#a86fa064f8d6589f329dd3f766810e546">Material</a>, and <a class="el" href="class_material_p_b_r.html#a6329408c93661f4d6cb648da739ba7ee">MaterialPBR</a>.</p>
+<p>Reimplemented in <a class="el" href="class_material_p_b_r.html#afcd86a76dbaba0aa00062334f24ca851">MaterialPBR</a>, and <a class="el" href="class_material.html#a687c407f40f371aff8b38e274c09e647">Material</a>.</p>
 
 </div>
 </div>
@@ -374,6 +390,40 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>active</b> = true</td
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">lights</td><td>List of lights.</td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a5be1d0119ce3e5841bf5253a455b72c1" name="a5be1d0119ce3e5841bf5253a455b72c1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5be1d0119ce3e5841bf5253a455b72c1">&#9670;&#160;</a></span>SetShader()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void IMaterial::SetShader </td>
+          <td>(</td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>shadername</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Change the current shaderfiles of the material. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">shadername</td><td>The name of the shader</td></tr>
   </table>
   </dd>
 </dl>

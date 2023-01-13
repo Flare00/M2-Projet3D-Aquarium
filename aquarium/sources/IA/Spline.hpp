@@ -5,7 +5,7 @@
 #include <glm/glm.hpp>
 
 /// <summary>
-/// Spline system using Catmull-Rom (to implement)
+/// Spline system using Catmull-Rom 
 /// </summary>
 class Spline {
 private:

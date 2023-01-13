@@ -213,7 +213,9 @@ public:
 				wireframeWait = 0.5;
 			}
 
-			scenes[activeScene].loop(deltaT);
+
+				(& scenes[activeScene])->loop(deltaT);
+			
 
 			GameObject* root = scenes[activeScene].GetRoot();
 			physics.Compute(deltaT, root);

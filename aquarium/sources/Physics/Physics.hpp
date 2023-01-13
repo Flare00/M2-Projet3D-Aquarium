@@ -229,7 +229,7 @@ public:
 					//glm::vec2 uv((hit.hitPosition.x + (size.x / 2.0)) / size.x, 1.0 -(hit.hitPosition.z + (size.y / 2.0)) / size.y);
 
 					wp->AddDrop(uv, 0.02f, 1.0f);
-					addDropCooldown = 0.5;
+					addDropCooldown = 0.1;
 				}
 			}
 		}

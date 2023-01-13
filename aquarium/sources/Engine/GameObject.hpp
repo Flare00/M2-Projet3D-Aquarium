@@ -477,6 +477,14 @@ public:
 	}
 
 	/// <summary>
+	/// Return if the Gameobject is active.
+	/// </summary>
+	/// <returns>If is active</returns>
+	bool IsActive() {
+		return this->active;
+	}
+
+	/// <summary>
 	/// Return the layer information.
 	/// </summary>
 	/// <returns>The layer information</returns>
@@ -491,6 +499,8 @@ public:
 	int_fast8_t GetTag() {
 		return this->tag;
 	}
+
+
 };
 
 #endif

@@ -11,6 +11,8 @@ var hierarchy =
       ] ],
       [ "Camera", "class_camera.html", null ],
       [ "Displayable", "class_displayable.html", null ],
+      [ "FishBank", "class_fish_bank.html", null ],
+      [ "FishRandom", "class_fish_random.html", null ],
       [ "ICollider", "class_i_collider.html", [
         [ "BoundingBoxCollider", "class_bounding_box_collider.html", null ],
         [ "SphereCollider", "class_sphere_collider.html", null ]
@@ -23,7 +25,11 @@ var hierarchy =
         [ "WaterPhysicsMaterial", "class_water_physics_material.html", null ]
       ] ],
       [ "Light", "class_light.html", null ],
-      [ "Model", "class_model.html", null ],
+      [ "Model", "class_model.html", [
+        [ "ModelInstanced", "class_model_instanced.html", null ]
+      ] ],
+      [ "RaycastObject", "class_raycast_object.html", null ],
+      [ "ReceiveCaustics", "class_receive_caustics.html", null ],
       [ "Script", "class_script.html", [
         [ "ColorScript", "class_color_script.html", null ],
         [ "MovementScript", "class_movement_script.html", null ]
@@ -37,10 +43,13 @@ var hierarchy =
     [ "Material::Data", "struct_material_1_1_data.html", null ],
     [ "MaterialPBR::Data", "struct_material_p_b_r_1_1_data.html", null ],
     [ "Model::Data", "struct_model_1_1_data.html", null ],
+    [ "ModelInstanced::DataInstanced", "struct_model_instanced_1_1_data_instanced.html", null ],
     [ "Shader::DataOverride", "struct_shader_1_1_data_override.html", null ],
     [ "WaterPhysics::Drop", "struct_water_physics_1_1_drop.html", null ],
     [ "Engine", "class_engine.html", null ],
     [ "EngineBehavior", "class_engine_behavior.html", [
+      [ "FishBank", "class_fish_bank.html", null ],
+      [ "FishRandom", "class_fish_random.html", null ],
       [ "Scene", "class_scene.html", [
         [ "SceneAquarium", "class_scene_aquarium.html", null ]
       ] ],
@@ -59,12 +68,14 @@ var hierarchy =
     [ "Octree", "class_octree.html", null ],
     [ "Octree::OctreeCollisionPossibility", "struct_octree_1_1_octree_collision_possibility.html", null ],
     [ "Physics", "class_physics.html", null ],
+    [ "CollisionDetection::Plane", "struct_collision_detection_1_1_plane.html", null ],
     [ "Tools::PointFaceData", "struct_tools_1_1_point_face_data.html", null ],
     [ "Physics::RaycastHit", "struct_physics_1_1_raycast_hit.html", null ],
     [ "SettedShaders::SettedShader", "struct_setted_shaders_1_1_setted_shader.html", null ],
     [ "SettedShaders", "class_setted_shaders.html", null ],
     [ "Camera::Settings", "struct_camera_1_1_settings.html", null ],
     [ "Shader", "class_shader.html", null ],
+    [ "Spline", "class_spline.html", null ],
     [ "Texture", "class_texture.html", null ],
     [ "TextureFloatingPoint", "class_texture_floating_point.html", null ],
     [ "Tools", "class_tools.html", null ],

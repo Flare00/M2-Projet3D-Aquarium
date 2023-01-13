@@ -27,6 +27,7 @@
   <td id="projectalign">
    <div id="projectname">Aquarium
    </div>
+   <div id="projectbrief">Projet 3D de M2 : https://github.com/Flare00/M2-Projet3D-Aquarium</div>
   </td>
  </tr>
  </tbody>
@@ -170,9 +171,9 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>Compile</b> ()</td></
 <tr class="memitem:a74e6f1cc5ada4f89d699f9d5a69b2410"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_shader.html#a74e6f1cc5ada4f89d699f9d5a69b2410">CheckIfCompiled</a> (GLuint shader, std::string name, std::string filename=&quot;&quot;)</td></tr>
 <tr class="memdesc:a74e6f1cc5ada4f89d699f9d5a69b2410"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if the program is properly compiled.  <br /></td></tr>
 <tr class="separator:a74e6f1cc5ada4f89d699f9d5a69b2410"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad7924fa80c01c01f2f91ee7ee96574d4"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_shader.html#ad7924fa80c01c01f2f91ee7ee96574d4">CheckIfLinked</a> ()</td></tr>
-<tr class="memdesc:ad7924fa80c01c01f2f91ee7ee96574d4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if the program is properly linked.  <br /></td></tr>
-<tr class="separator:ad7924fa80c01c01f2f91ee7ee96574d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae32a4ef64534df969c7c6b87762650b1"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_shader.html#ae32a4ef64534df969c7c6b87762650b1">CheckIfLinked</a> (std::string name)</td></tr>
+<tr class="memdesc:ae32a4ef64534df969c7c6b87762650b1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if the program is properly linked.  <br /></td></tr>
+<tr class="separator:ae32a4ef64534df969c7c6b87762650b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a15619e9f935bad5b0fdec3ca564d37c4"><td class="memItemLeft" align="right" valign="top"><a id="a15619e9f935bad5b0fdec3ca564d37c4" name="a15619e9f935bad5b0fdec3ca564d37c4"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>CleanAfterLink</b> ()</td></tr>
 <tr class="memdesc:a15619e9f935bad5b0fdec3ca564d37c4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clean the program after linkage. <br /></td></tr>
@@ -183,6 +184,9 @@ Protected Attributes</h2></td></tr>
 <tr class="memitem:a927af9a22660370085d34731d0994aef"><td class="memItemLeft" align="right" valign="top"><a id="a927af9a22660370085d34731d0994aef" name="a927af9a22660370085d34731d0994aef"></a>
 std::string&#160;</td><td class="memItemRight" valign="bottom"><b>shaderFolder</b> = &quot;assets/Shaders/&quot;</td></tr>
 <tr class="separator:a927af9a22660370085d34731d0994aef"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8c8fba8311ca3a7cfeac5afeb346e51b"><td class="memItemLeft" align="right" valign="top"><a id="a8c8fba8311ca3a7cfeac5afeb346e51b" name="a8c8fba8311ca3a7cfeac5afeb346e51b"></a>
+std::string&#160;</td><td class="memItemRight" valign="bottom"><b>name</b></td></tr>
+<tr class="separator:a8c8fba8311ca3a7cfeac5afeb346e51b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab921477f6d19a6e890f8c2bd54ed3f64"><td class="memItemLeft" align="right" valign="top"><a id="ab921477f6d19a6e890f8c2bd54ed3f64" name="ab921477f6d19a6e890f8c2bd54ed3f64"></a>
 std::string&#160;</td><td class="memItemRight" valign="bottom"><b>vertexFilename</b></td></tr>
 <tr class="separator:ab921477f6d19a6e890f8c2bd54ed3f64"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -392,8 +396,8 @@ GLuint&#160;</td><td class="memItemRight" valign="bottom"><b>program</b></td></t
 
 </div>
 </div>
-<a id="ad7924fa80c01c01f2f91ee7ee96574d4" name="ad7924fa80c01c01f2f91ee7ee96574d4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad7924fa80c01c01f2f91ee7ee96574d4">&#9670;&#160;</a></span>CheckIfLinked()</h2>
+<a id="ae32a4ef64534df969c7c6b87762650b1" name="ae32a4ef64534df969c7c6b87762650b1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae32a4ef64534df969c7c6b87762650b1">&#9670;&#160;</a></span>CheckIfLinked()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -404,7 +408,8 @@ GLuint&#160;</td><td class="memItemRight" valign="bottom"><b>program</b></td></t
         <tr>
           <td class="memname">bool Shader::CheckIfLinked </td>
           <td>(</td>
-          <td class="paramname"></td><td>)</td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>name</em></td><td>)</td>
           <td></td>
         </tr>
       </table>

@@ -27,6 +27,7 @@
   <td id="projectalign">
    <div id="projectname">Aquarium
    </div>
+   <div id="projectbrief">Projet 3D de M2 : https://github.com/Flare00/M2-Projet3D-Aquarium</div>
   </td>
  </tr>
  </tbody>
@@ -122,9 +123,9 @@ Classes</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:aa5ec0fcce3cbec219781865515baaf9c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_water_physics.html#aa5ec0fcce3cbec219781865515baaf9c">WaterPhysics</a> (int resolutionX=1024, int resolutionY=1024)</td></tr>
-<tr class="memdesc:aa5ec0fcce3cbec219781865515baaf9c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create the water physics elements.  <br /></td></tr>
-<tr class="separator:aa5ec0fcce3cbec219781865515baaf9c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afc6b5eb15c2472c81a1d465756a45aa9"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_water_physics.html#afc6b5eb15c2472c81a1d465756a45aa9">WaterPhysics</a> (int resolutionX=1024, int resolutionY=1024, glm::vec2 containerSize=glm::vec2(1, 1))</td></tr>
+<tr class="memdesc:afc6b5eb15c2472c81a1d465756a45aa9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create the water physics elements.  <br /></td></tr>
+<tr class="separator:afc6b5eb15c2472c81a1d465756a45aa9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6f8f2ceb563a0f78e63fed2930423bd9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_water_physics.html#a6f8f2ceb563a0f78e63fed2930423bd9">PostAttachment</a> () override</td></tr>
 <tr class="memdesc:a6f8f2ceb563a0f78e63fed2930423bd9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wait the attachement of the gameobject to generate the framebuffer.  <br /></td></tr>
 <tr class="separator:a6f8f2ceb563a0f78e63fed2930423bd9"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -137,6 +138,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ac12b57bb2cc4a899136d7d85eff9356d"><td class="memItemLeft" align="right" valign="top">GLuint&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_water_physics.html#ac12b57bb2cc4a899136d7d85eff9356d">GetHeightmap</a> ()</td></tr>
 <tr class="memdesc:ac12b57bb2cc4a899136d7d85eff9356d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the heightmap (aka Color texture)  <br /></td></tr>
 <tr class="separator:ac12b57bb2cc4a899136d7d85eff9356d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7097e9f898602ed3f68ce7b0863e8526"><td class="memItemLeft" align="right" valign="top">glm::vec2&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_water_physics.html#a7097e9f898602ed3f68ce7b0863e8526">GetContainerSize</a> ()</td></tr>
+<tr class="memdesc:a7097e9f898602ed3f68ce7b0863e8526"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the container size.  <br /></td></tr>
+<tr class="separator:a7097e9f898602ed3f68ce7b0863e8526"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a302c7f3420550e48298b5bf8bb24cf40"><td class="memItemLeft" align="right" valign="top">GLuint&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_water_physics.html#a302c7f3420550e48298b5bf8bb24cf40">GetCaustics</a> ()</td></tr>
+<tr class="memdesc:a302c7f3420550e48298b5bf8bb24cf40"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the caustics color texture.  <br /></td></tr>
+<tr class="separator:a302c7f3420550e48298b5bf8bb24cf40"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_class_g_l_physic"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_class_g_l_physic')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="class_g_l_physic.html">GLPhysic</a></td></tr>
 <tr class="memitem:a69f378d5ae34382645546c7c69a0792e inherit pub_methods_class_g_l_physic"><td class="memItemLeft" align="right" valign="top"><a id="a69f378d5ae34382645546c7c69a0792e" name="a69f378d5ae34382645546c7c69a0792e"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>GLPhysic</b> ()</td></tr>
@@ -171,9 +178,18 @@ Protected Attributes</h2></td></tr>
 <tr class="memitem:ab7640551bf799c82d09369e995ed4fbd"><td class="memItemLeft" align="right" valign="top"><a id="ab7640551bf799c82d09369e995ed4fbd" name="ab7640551bf799c82d09369e995ed4fbd"></a>
 <a class="el" href="class_shader.html">Shader</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>physicShader</b></td></tr>
 <tr class="separator:ab7640551bf799c82d09369e995ed4fbd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6e24aa89d3dfa093cd27bd10991b693d"><td class="memItemLeft" align="right" valign="top"><a id="a6e24aa89d3dfa093cd27bd10991b693d" name="a6e24aa89d3dfa093cd27bd10991b693d"></a>
+<a class="el" href="class_shader.html">Shader</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>dropShader</b></td></tr>
+<tr class="separator:a6e24aa89d3dfa093cd27bd10991b693d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9508992bfe935d3983b620b7cea8b467"><td class="memItemLeft" align="right" valign="top"><a id="a9508992bfe935d3983b620b7cea8b467" name="a9508992bfe935d3983b620b7cea8b467"></a>
+<a class="el" href="class_shader.html">Shader</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>causticShader</b></td></tr>
+<tr class="separator:a9508992bfe935d3983b620b7cea8b467"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a800249fcd6fbb63e90f98b0e846372b9"><td class="memItemLeft" align="right" valign="top"><a id="a800249fcd6fbb63e90f98b0e846372b9" name="a800249fcd6fbb63e90f98b0e846372b9"></a>
 <a class="el" href="class_framebuffer.html">Framebuffer</a>&#160;</td><td class="memItemRight" valign="bottom"><b>framebuffer</b></td></tr>
 <tr class="separator:a800249fcd6fbb63e90f98b0e846372b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8026f1c22340d93c198b8d38d25ca7de"><td class="memItemLeft" align="right" valign="top"><a id="a8026f1c22340d93c198b8d38d25ca7de" name="a8026f1c22340d93c198b8d38d25ca7de"></a>
+<a class="el" href="class_framebuffer.html">Framebuffer</a>&#160;</td><td class="memItemRight" valign="bottom"><b>causticFramebuffer</b></td></tr>
+<tr class="separator:a8026f1c22340d93c198b8d38d25ca7de"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a39bccb3626a1319191387d325c5a3f03"><td class="memItemLeft" align="right" valign="top"><a id="a39bccb3626a1319191387d325c5a3f03" name="a39bccb3626a1319191387d325c5a3f03"></a>
 std::vector&lt; <a class="el" href="struct_water_physics_1_1_drop.html">Drop</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>drops</b></td></tr>
 <tr class="separator:a39bccb3626a1319191387d325c5a3f03"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -189,6 +205,9 @@ float&#160;</td><td class="memItemRight" valign="bottom"><b>invResX</b></td></tr
 <tr class="memitem:a31f23b671261dbd80e082bafc5e31ea4"><td class="memItemLeft" align="right" valign="top"><a id="a31f23b671261dbd80e082bafc5e31ea4" name="a31f23b671261dbd80e082bafc5e31ea4"></a>
 float&#160;</td><td class="memItemRight" valign="bottom"><b>invResY</b></td></tr>
 <tr class="separator:a31f23b671261dbd80e082bafc5e31ea4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a280f5a105b0cd50ce846c52db8a96636"><td class="memItemLeft" align="right" valign="top"><a id="a280f5a105b0cd50ce846c52db8a96636" name="a280f5a105b0cd50ce846c52db8a96636"></a>
+glm::vec2&#160;</td><td class="memItemRight" valign="bottom"><b>containerSize</b></td></tr>
+<tr class="separator:a280f5a105b0cd50ce846c52db8a96636"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a64ddea0cb42aac33bdd01d41a2002475"><td class="memItemLeft" align="right" valign="top"><a id="a64ddea0cb42aac33bdd01d41a2002475" name="a64ddea0cb42aac33bdd01d41a2002475"></a>
 int&#160;</td><td class="memItemRight" valign="bottom"><b>frameForCapture</b> = 5</td></tr>
 <tr class="separator:a64ddea0cb42aac33bdd01d41a2002475"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -220,8 +239,8 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>active</b> = true</td
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>The water physics Inherit <a class="el" href="class_g_l_physic.html" title="Physic using GPU, inherit CPhysic.">GLPhysic</a>. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="aa5ec0fcce3cbec219781865515baaf9c" name="aa5ec0fcce3cbec219781865515baaf9c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa5ec0fcce3cbec219781865515baaf9c">&#9670;&#160;</a></span>WaterPhysics()</h2>
+<a id="afc6b5eb15c2472c81a1d465756a45aa9" name="afc6b5eb15c2472c81a1d465756a45aa9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afc6b5eb15c2472c81a1d465756a45aa9">&#9670;&#160;</a></span>WaterPhysics()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -239,7 +258,13 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>active</b> = true</td
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>resolutionY</em> = <code>1024</code>&#160;</td>
+          <td class="paramname"><em>resolutionY</em> = <code>1024</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">glm::vec2&#160;</td>
+          <td class="paramname"><em>containerSize</em> = <code>glm::vec2(1,&#160;1)</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -259,6 +284,7 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>active</b> = true</td
   <table class="params">
     <tr><td class="paramname">resolutionX</td><td>The width of the texture</td></tr>
     <tr><td class="paramname">resolutionY</td><td>The height of the texture</td></tr>
+    <tr><td class="paramname">containerSize</td><td>The size of the container, for computation.</td></tr>
   </table>
   </dd>
 </dl>
@@ -351,6 +377,62 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>active</b> = true</td
 </dl>
 
 <p>Reimplemented from <a class="el" href="class_c_physic.html#aaa8ab02eb49d7c2e74a79cd519560dc3">CPhysic</a>.</p>
+
+</div>
+</div>
+<a id="a302c7f3420550e48298b5bf8bb24cf40" name="a302c7f3420550e48298b5bf8bb24cf40"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a302c7f3420550e48298b5bf8bb24cf40">&#9670;&#160;</a></span>GetCaustics()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">GLuint WaterPhysics::GetCaustics </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Return the caustics color texture. </p>
+<dl class="section return"><dt>Returns</dt><dd>The caustics color texture</dd></dl>
+
+</div>
+</div>
+<a id="a7097e9f898602ed3f68ce7b0863e8526" name="a7097e9f898602ed3f68ce7b0863e8526"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7097e9f898602ed3f68ce7b0863e8526">&#9670;&#160;</a></span>GetContainerSize()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">glm::vec2 WaterPhysics::GetContainerSize </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Return the container size. </p>
+<dl class="section return"><dt>Returns</dt><dd>the container size</dd></dl>
 
 </div>
 </div>

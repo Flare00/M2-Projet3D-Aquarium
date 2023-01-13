@@ -3,6 +3,14 @@
 Réalisation d'un aquarium simplifié avec graphisme poussé.
 Nous nous concentrerons ici sur l'aspect graphique avec une simulation simplifié de l'eau.
 
+## Documentation : 
+
+https://www.flareden.fr/Aquarium3D/index.html
+
+OR 
+
+https://github.com/Flare00/M2-Projet3D-Aquarium/tree/main/documentation/html
+
 ## Build and Execution
 ```bash
 # Build

@@ -34,11 +34,16 @@ private:
 
 	GameObject* lastHittedGO = nullptr;
 
+	double hideWait = 0.0;
+
+	std::vector<GameObject*> hideList;
+
 public:
 	/// <summary>
 	/// Script to move elements with keyboard and mouse.
 	/// </summary>
-	MovementScript() {
+	MovementScript(std::vector<GameObject*> hideList = std::vector<GameObject*>()) {
+		this->hideList = hideList;
 	}
 
 	/// <summary>
@@ -58,6 +63,8 @@ public:
 	/// </summary>
 	/// <param name="deltaTime">Time since last frame.</param>
 	void keyboard(double deltaTime) {
+		hideWait -= deltaTime;
+
 		//Translation X
 		if (glfwGetKey(global.global_window, keyUp) == GLFW_PRESS) {
 			this->attachment->GetTransform()->Translate(glm::vec3(0, tSpeed * deltaTime, 0));
@@ -87,6 +94,20 @@ public:
 		if (glfwGetKey(global.global_window, keyRZpos) == GLFW_PRESS) {
 			this->attachment->GetTransform()->Rotate(glm::vec3(0, 0, rSpeed * deltaTime));
 		}
+
+		//Hide objects
+
+		if (glfwGetKey(global.global_window, GLFW_KEY_H) == GLFW_PRESS && hideWait < 0.0) {
+			if (hideList.size() > 0) {
+				bool state = !this->hideList[0]->IsActive();
+				for (int i = 0, max = this->hideList.size(); i < max; i++) {
+					this->hideList[i]->SetActive(state);
+				}
+				hideWait = 0.5;
+			}
+		}
+
+
 		//Enable camera rotation
 		if (glfwGetMouseButton(global.global_window, GLFW_MOUSE_BUTTON_RIGHT) == GLFW_PRESS && !rightClick) {
 			// Hide the mouse
