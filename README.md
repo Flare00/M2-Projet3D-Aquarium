@@ -39,7 +39,7 @@ Qwerty -- Azerty
 - [ ] Faire une sphère capable d'interagir avec l'eau et flotter / subir la gravité
 - [X] Faire un système pour interagir avec l'environnement avec la souris
 
-#### Étape 2 - Effet lumineux : --- Minimum à implémenter ---
+#### Étape 2 - Effet lumineux :
 - [X] faire un système de lampe projeter (soleil / spot).
 - [X] Caustics et/ou God Rays.
 - [ ] Ombre projeté.
@@ -64,7 +64,7 @@ Qwerty -- Azerty
 Réalisation d'un Moteur ECS / Semi-ECS afin de permettre une meilleure fléxibilité.
 
 #### Module IA :
-- [ ] Poissons Boids (utilisé un nuage de points pour limiter le nombre de mesh 3D ? / utilisation d'un geometry shader pour appliquer le mesh3D).
+- [X] Poissons Boids (utilisé un nuage de points pour limiter le nombre de mesh 3D ? / utilisation d'un geometry shader pour appliquer le mesh3D).
 - [ ] Déplacement par suivi de courbe / courants / aléatoire .
 - [ ] Autre IA.
 
@@ -73,7 +73,7 @@ Réalisation d'un Moteur ECS / Semi-ECS afin de permettre une meilleure fléxibi
 - [ ] Collision surface / objet.
 - [ ] Application de force autre sur la surface.
 - [ ] Collision entre deux objets.
-- [ ] Différents types d'objets.
+- [X] Différents types d'objets.
 - [ ] Déplacement d'une algue.
 - [ ] Déplacement du sable / particules.
 
@@ -85,9 +85,9 @@ Réalisation d'un Moteur ECS / Semi-ECS afin de permettre une meilleure fléxibi
 - [ ] Lecture d'animations.
 - [ ] Systeme de particules.
 - [ ] Calcul d'ombre portée / Shadow Mapping.
-- [ ] Calcul de Caustics et God Rays.
+- [X] Calcul de Caustics (et/ou God Rays).
 - [ ] Tesselation Shader.
-- [ ] Geometry Shader pour le particules system.
+- [ ] Geometry Shader pour le particules system. (Not working)
 
 #### Module Sons : 
 - [ ] Faire des sons pour les poissons / eau / environnement
