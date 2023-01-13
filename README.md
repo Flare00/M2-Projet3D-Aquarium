@@ -3,6 +3,10 @@
 Réalisation d'un aquarium simplifié avec graphisme poussé.
 Nous nous concentrerons ici sur l'aspect graphique avec une simulation simplifié de l'eau.
 
+## Video : 
+
+https://youtu.be/XKmOvE0UewY
+
 ## Documentation : 
 
 https://www.flareden.fr/Aquarium3D/index.html
