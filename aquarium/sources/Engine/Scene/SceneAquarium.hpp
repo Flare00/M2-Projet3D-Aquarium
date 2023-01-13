@@ -40,7 +40,7 @@ public:
 
 		IMaterial* waterMaterial = new MaterialPBR(glm::vec4(0.0, 0.66, 0.8, 0.7), 0.5f, 0.0f, 1.33f, true);
 		IMaterial* glassMaterial = new MaterialPBR(glm::vec4(1, 1, 1, 0.1), 0.0f, 0.0f, 1.5f, true);
-		IMaterial* baseAquariumMaterial = new MaterialPBR(glm::vec4(1, 1, 1, 1.0));
+		IMaterial* baseAquariumMaterial = new MaterialPBR(glm::vec4(1, 0, 1, 1.0));
 		IMaterial* ballMaterial = new MaterialPBR(glm::vec4(0.0, 1.0, 0.0, 1.0));
 
 		IMaterial* fishBankMaterial = new MaterialPBR(glm::vec4(1), 0.0f, 0.0f, 1.0f, true, textureFolder + "Fish/color.png");
@@ -57,8 +57,8 @@ public:
 
 		//Add a point light to the scene.
 		GameObject* light = new GameObject("Light1", this->root);
-		light->addComponent(new Light(Light::POINT, glm::vec3(1, 1, 1), 10.0, 1.0));
-		light->GetTransform()->SetPosition(glm::vec3(0, 0, 0));
+		light->addComponent(new Light(Light::POINT, glm::vec3(1, 1, 1), 1000.0, 1.0));
+		light->GetTransform()->SetPosition(glm::vec3(0, 0, 2));
 
 		//Create Moving Sphere with a rigidbody
 		/*GameObject* sphere1 = new GameObject("Sphere", this->root);
