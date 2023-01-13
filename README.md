@@ -39,10 +39,10 @@ Qwerty -- Azerty
 - [ ] Faire une sphère capable d'interagir avec l'eau et flotter / subir la gravité
 - [X] Faire un système pour interagir avec l'environnement avec la souris
 
-#### Étape 2 - Effet lumineux :
-- [X] faire un système de lampe projeter (soleil / spot).
+#### Étape 2 - Effets lumineux :
+- [X] faire un système de lampe projetée (soleil / spot).
 - [X] Caustics et/ou God Rays.
-- [ ] Ombre projeté.
+- [ ] Ombre projetée.
 - [X] Réfraction/Réflexion GPU
 
 #### Étape 3 - Ajout de vie :
@@ -56,7 +56,7 @@ Qwerty -- Azerty
 - [ ] Rajouter des particules de sable réagissant à l'environnement / créant des particules.
 
 #### Étape 5 - Ajout de décor et de sons : 
-- [ ] Ajout des décors extérieur à l'environnement, pour plus de réalisme.
+- [ ] Ajout des décors extérieurs à l'environnement, pour plus de réalisme.
 - [ ] Ajout de sons.
 
 ## Moteur de l'Aquarium - Pistes d'implémentation des modules
